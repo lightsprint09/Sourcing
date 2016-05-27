@@ -14,11 +14,12 @@
 		9432D26C1CF5ACC800B72986 /* ConfigurableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */; };
 		9432D2701CF5ACE700B72986 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26D1CF5ACE700B72986 /* CollectionViewDataSource.swift */; };
 		9432D2711CF5ACE700B72986 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26E1CF5ACE700B72986 /* DataProvider.swift */; };
-		9432D2721CF5ACE700B72986 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26F1CF5ACE700B72986 /* DataSource.swift */; };
 		9432D2741CF5ACFC00B72986 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D2731CF5ACFC00B72986 /* TableViewDataSource.swift */; };
-		9432D2771CF5ADA600B72986 /* DataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D2761CF5ADA600B72986 /* DataSourceDelegate.swift */; };
 		9432D2791CF5AE2000B72986 /* CellDequeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D2781CF5AE2000B72986 /* CellDequeable.swift */; };
 		9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */; };
+		948E51BF1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */; };
+		948E51C11CF8B0A200FFFD62 /* DataSourcing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51C01CF8B0A200FFFD62 /* DataSourcing.swift */; };
+		948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,11 +43,12 @@
 		9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableCell.swift; sourceTree = "<group>"; };
 		9432D26D1CF5ACE700B72986 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
 		9432D26E1CF5ACE700B72986 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
-		9432D26F1CF5ACE700B72986 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		9432D2731CF5ACFC00B72986 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
-		9432D2761CF5ADA600B72986 /* DataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceDelegate.swift; sourceTree = "<group>"; };
 		9432D2781CF5AE2000B72986 /* CellDequeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDequeable.swift; sourceTree = "<group>"; };
 		9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfiguration.swift; sourceTree = "<group>"; };
+		948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiCellTableViewDataSource.swift; sourceTree = "<group>"; };
+		948E51C01CF8B0A200FFFD62 /* DataSourcing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourcing.swift; sourceTree = "<group>"; };
+		948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,9 +93,11 @@
 			children = (
 				9432D2751CF5AD5B00B72986 /* protocols */,
 				9432D2731CF5ACFC00B72986 /* TableViewDataSource.swift */,
+				948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */,
 				9432D26D1CF5ACE700B72986 /* CollectionViewDataSource.swift */,
 				9432D2691CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift */,
 				9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */,
+				948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */,
 				9432D2521CF5ABC300B72986 /* Sourcing.h */,
 				9432D2541CF5ABC300B72986 /* Info.plist */,
 			);
@@ -114,9 +118,8 @@
 			children = (
 				9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */,
 				9432D26E1CF5ACE700B72986 /* DataProvider.swift */,
-				9432D26F1CF5ACE700B72986 /* DataSource.swift */,
-				9432D2761CF5ADA600B72986 /* DataSourceDelegate.swift */,
 				9432D2781CF5AE2000B72986 /* CellDequeable.swift */,
+				948E51C01CF8B0A200FFFD62 /* DataSourcing.swift */,
 			);
 			name = protocols;
 			sourceTree = "<group>";
@@ -232,11 +235,12 @@
 				9432D2741CF5ACFC00B72986 /* TableViewDataSource.swift in Sources */,
 				9432D26C1CF5ACC800B72986 /* ConfigurableCell.swift in Sources */,
 				9432D2701CF5ACE700B72986 /* CollectionViewDataSource.swift in Sources */,
-				9432D2771CF5ADA600B72986 /* DataSourceDelegate.swift in Sources */,
 				9432D2711CF5ACE700B72986 /* DataProvider.swift in Sources */,
 				9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */,
-				9432D2721CF5ACE700B72986 /* DataSource.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellDequeable.swift in Sources */,
+				948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */,
+				948E51BF1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift in Sources */,
+				948E51C11CF8B0A200FFFD62 /* DataSourcing.swift in Sources */,
 				9432D26A1CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,6 +429,7 @@
 				9432D2651CF5ABC300B72986 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9432D2661CF5ABC300B72986 /* Build configuration list for PBXNativeTarget "SourcingTests" */ = {
 			isa = XCConfigurationList;
@@ -433,6 +438,7 @@
 				9432D2681CF5ABC300B72986 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

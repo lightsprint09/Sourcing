@@ -31,7 +31,7 @@ struct CellConfiguration<Object, Cell: UICollectionViewCell where Cell: Configur
         return object is Object
     }
     
-    func configureCell(cell: UICollectionViewCell, object: Any) -> UICollectionViewCell {
+    func configureCell(cell: AnyObject, object: Any) -> AnyObject {
         if let object = object as? Object, cell = cell as? Cell {
             cell.configureForObject(object)
             additionalConfiguartion?(object, cell)

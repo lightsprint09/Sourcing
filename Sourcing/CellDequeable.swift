@@ -12,13 +12,12 @@ import UIKit
 public protocol CellDequeable {
     var cellIdentifier: String { get }
     var nib: UINib? { get }
-    
-    func dequeueReusableCell(collectionView: UICollectionView, indexPath: NSIndexPath, object: Any) ->  UICollectionViewCell?
+        
     func canConfigurecellForItem(object: Any) -> Bool
-    func configureCell(cell: UICollectionViewCell, object: Any) -> UICollectionViewCell
+    func configureCell(cell: AnyObject, object: Any) -> AnyObject
 }
 
 public protocol StaticCellDequeable: CellDequeable {
     associatedtype Object
-    associatedtype Cell: UICollectionViewCell
+    associatedtype Cell
 }

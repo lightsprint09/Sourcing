@@ -18,7 +18,7 @@ public protocol DataProvider: class {
 }
 
 
-public  protocol DataProviderDelegate: class {
+public protocol DataProviderDelegate: class {
     associatedtype Object
     func dataProviderDidUpdate(updates: [DataProviderUpdate<Object>]?)
 }

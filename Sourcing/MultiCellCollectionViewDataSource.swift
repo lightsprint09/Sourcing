@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 public class MultiCellCollectionViewDataSource<Data: DataProvider>: NSObject, UICollectionViewDataSource {
-    
     public required init(collectionView: UICollectionView, dataProvider: Data, cellDequeables: Array<CellDequeable>) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
@@ -62,7 +61,7 @@ public class MultiCellCollectionViewDataSource<Data: DataProvider>: NSObject, UI
     
     private let collectionView: UICollectionView
     let dataProvider: Data
-    private let cellDequeables: Array<CellDequeable>
+    let cellDequeables: Array<CellDequeable>
     
     private func registerCells(cellDequeables: Array<CellDequeable>) {
         for (_, cellDequeable) in cellDequeables.enumerate()  {
@@ -91,9 +90,11 @@ public class MultiCellCollectionViewDataSource<Data: DataProvider>: NSObject, UI
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
-        guard let cellDequeable = cellDequeableForIndexPath(object), cell = cellDequeable.dequeueReusableCell(collectionView, indexPath: indexPath, object: object) else {
+        
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
         cellDequeable.configureCell(cell, object: object)
         
         return cell
