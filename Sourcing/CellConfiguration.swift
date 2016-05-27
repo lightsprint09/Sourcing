@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
-public struct CellConfiguration<Object, Cell where Cell: ConfigurableCell, Cell.DataSource == Object>: CellDequeable {
+public struct CellConfiguration<DisplayObject, CCell where CCell: ConfigurableCell, CCell.DataSource == DisplayObject>: CellDequeable, StaticCellDequeable {
+    public typealias Object = DisplayObject
+    public typealias Cell = CCell
     public let cellIdentifier: String
     public let nib: UINib?
     let additionalConfiguartion: ((Object, Cell) -> Void)?
