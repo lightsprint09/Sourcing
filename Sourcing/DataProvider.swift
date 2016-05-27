@@ -18,12 +18,6 @@ public protocol DataProvider: class {
 }
 
 
-public protocol DataProviderDelegate: class {
-    associatedtype Object
-    func dataProviderDidUpdate(updates: [DataProviderUpdate<Object>]?)
-}
-
-
 public  enum DataProviderUpdate<Object> {
     case Insert(NSIndexPath)
     case Update(NSIndexPath, Object)

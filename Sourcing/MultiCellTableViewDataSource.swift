@@ -55,8 +55,8 @@ public class MultiCellTableViewDataSource<Data: DataProvider>: NSObject, UITable
     // MARK: Private
     
     private let tableView: UITableView
-    let dataProvider: Data
-    let cellDequeables: Array<CellDequeable>
+    private let dataProvider: Data
+    private let cellDequeables: Array<CellDequeable>
     
     private func registerCells(cellDequeables: Array<CellDequeable>) {
         for (_, cellDequeable) in cellDequeables.enumerate()  {

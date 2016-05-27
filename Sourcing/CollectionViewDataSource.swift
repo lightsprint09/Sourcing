@@ -27,11 +27,11 @@ public class CollectionViewDataSource<Data: DataProvider, Cell: UICollectionView
     // MARK: UICollectionViewDataSource
     
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return dynamicDataSoruce.dataProvider.numberOfSections()
+        return dynamicDataSoruce.numberOfSectionsInCollectionView(collectionView)
     }
 
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dynamicDataSoruce.dataProvider.numberOfItemsInSection(section)
+        return dynamicDataSoruce.collectionView(collectionView, numberOfItemsInSection: section)
     }
 
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

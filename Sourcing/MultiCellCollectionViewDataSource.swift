@@ -60,8 +60,8 @@ public class MultiCellCollectionViewDataSource<Data: DataProvider>: NSObject, UI
     // MARK: Private
     
     private let collectionView: UICollectionView
-    let dataProvider: Data
-    let cellDequeables: Array<CellDequeable>
+    private let dataProvider: Data
+    private let cellDequeables: Array<CellDequeable>
     
     private func registerCells(cellDequeables: Array<CellDequeable>) {
         for (_, cellDequeable) in cellDequeables.enumerate()  {

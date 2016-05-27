@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/// Generic DataSoruce providing data to a tableview.
 public class TableViewDataSource<Data: DataProvider, Cell: UITableViewCell, CellDequeable: StaticCellDequeable where Cell: ConfigurableCell, Cell.DataSource == Data.Object, CellDequeable.Object == Data.Object, CellDequeable.Cell == Cell>: NSObject, UITableViewDataSource {
     private let dynamicDataSource: MultiCellTableViewDataSource<Data>
     public required init(tableView: UITableView, dataProvider: Data, cellDequable: CellDequeable) {
@@ -15,7 +15,7 @@ public class TableViewDataSource<Data: DataProvider, Cell: UITableViewCell, Cell
         super.init()
         
     }
-
+    /// The object which represents the selection in the TableView
     public var selectedObject: Data.Object? {
        return dynamicDataSource.selectedObject
     }
