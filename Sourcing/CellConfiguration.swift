@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public struct CellConfiguration<Object, Cell: UICollectionViewCell where Cell: ConfigurableCell, Cell.DataSource == Object>: CellDequeable {
+public struct CellConfiguration<Object, Cell where Cell: ConfigurableCell, Cell.DataSource == Object>: CellDequeable {
     public let cellIdentifier: String
     public let nib: UINib?
     let additionalConfiguartion: ((Object, Cell) -> Void)?
