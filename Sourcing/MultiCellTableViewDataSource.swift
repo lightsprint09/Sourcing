@@ -59,7 +59,7 @@ public class MultiCellTableViewDataSource<Data: DataProvider>: NSObject, UITable
     private let cellDequeables: Array<CellDequeable>
     
     private func registerCells(cellDequeables: Array<CellDequeable>) {
-        for (_, cellDequeable) in cellDequeables.enumerate()  {
+        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.nib != nil {
             tableView.registerNib(cellDequeable.nib, forCellReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }
