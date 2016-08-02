@@ -25,8 +25,6 @@
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
-
-import Foundation
 import UIKit
 
 public struct CellConfiguration<CCell: ConfigurableCell>: CellDequeable, StaticCellDequeable {

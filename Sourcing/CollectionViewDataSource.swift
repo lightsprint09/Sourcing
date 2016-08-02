@@ -25,8 +25,6 @@
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
-
-
 import UIKit
 
 
@@ -69,7 +67,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
-        if let typedCell = cell as? CellConfig.Cell{
+        if let typedCell = cell as? CellConfig.Cell {
             cellConfiguration.configureTypeSafe(typedCell, object: object)
         } else {
             fatalError()

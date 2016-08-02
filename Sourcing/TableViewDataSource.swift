@@ -77,15 +77,15 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         return cell
     }
     
-    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return dataProvider.deleteObjectAtIndexPath != nil
-    }
-    
-    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if let delete = dataProvider.deleteObjectAtIndexPath where editingStyle == .Delete {
-            
-        }
-    }
+//    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        return dataProvider.deleteObjectAtIndexPath != nil
+//    }
+//    
+//    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        if let delete = dataProvider.deleteObjectAtIndexPath where editingStyle == .Delete {
+//            
+//        }
+//    }
 }
 
 

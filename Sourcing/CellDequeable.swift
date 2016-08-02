@@ -25,9 +25,6 @@
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
-
-
-import Foundation
 import UIKit
 
 /**

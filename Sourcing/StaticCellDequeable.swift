@@ -26,8 +26,6 @@
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-import Foundation
-
 /**
  `StaticCellDequeable` provides a more static typed cell abstraction. See `CellDequeable` for basic information
  */
