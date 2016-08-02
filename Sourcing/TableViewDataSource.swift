@@ -40,8 +40,8 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         self.tableView = tableView
         self.dataProvider = dataProvider
         self.cellConfiguration = cellDequable
-        
         super.init()
+        registerNib()
         tableView.dataSource = self
         tableView.reloadData()
     }
@@ -49,6 +49,11 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     public func updateTableView(cell: UITableViewCell, object: DataProvider.Object) {
         guard let cell = cell as? CellConfig.Cell else { return }
         cell.configureForObject(object)
+    }
+    
+    func registerNib() {
+        guard let nib = cellConfiguration.nib else { return }
+        tableView.registerNib(nib, forCellReuseIdentifier: cellConfiguration.cellIdentifier)
     }
     
     // MARK: UITableViewDataSource

@@ -26,8 +26,15 @@
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-
+/**
+ By implementing `ConfigurableCell` the cell provides the functionality to display the specified object.
+ */
 public protocol ConfigurableCell {
     associatedtype DataSource
+    /**
+     Configure the cells view with the given object
+     
+     - parameter object: The object to configure the cell with.
+     */
     func configureForObject(object: DataSource)
 }

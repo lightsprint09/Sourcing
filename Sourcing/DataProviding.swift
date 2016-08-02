@@ -28,6 +28,9 @@
 
 import Foundation
 
+/**
+ `DataProviding` provides the data to in in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`
+ */
 public protocol DataProviding: class {
     associatedtype Object
     func objectAtIndexPath(indexPath: NSIndexPath) -> Object

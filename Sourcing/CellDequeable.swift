@@ -30,10 +30,32 @@
 import Foundation
 import UIKit
 
+/**
+`CellDequeable` provides functionality to register the a nib to the TableView or Collection with a given cellIdentifier. 
+ When no nib is provided the default storyboard cell implementation is used.
+ 
+ `CellDequeable` is loosly typed, for useage in dynamic Collection/TableViews. Use `StaticCellDequeable` when possible for more compiler support
+*/
 public protocol CellDequeable {
     var cellIdentifier: String { get }
     var nib: UINib? { get }
-        
+    
+    /**
+     Check if the cell can be used to display this specific object.
+     
+     - parameter object: The object which to check for.
+     
+     - return If the cell can be used for given object
+     */
     func canConfigurecellForItem(object: Any) -> Bool
+    
+    /**
+     Configures a given cell with an object.
+     
+     - parameter cell: The cell one want to configure.
+     - parameter object: The object which to configure the cell with.
+     
+     - return The configured cell
+     */
     func configureCell(cell: AnyObject, object: Any) -> AnyObject
 }

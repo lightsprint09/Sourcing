@@ -96,13 +96,12 @@
 			isa = PBXGroup;
 			children = (
 				9432D2751CF5AD5B00B72986 /* protocols */,
+				C6F9131D1D5072B400B0535C /* provider */,
+				9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */,
 				9432D2731CF5ACFC00B72986 /* TableViewDataSource.swift */,
-				C6F913171D506BC800B0535C /* DataProviderUpdate.swift */,
 				948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */,
 				9432D26D1CF5ACE700B72986 /* CollectionViewDataSource.swift */,
 				9432D2691CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift */,
-				9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */,
-				948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */,
 				9432D2521CF5ABC300B72986 /* Sourcing.h */,
 				9432D2541CF5ABC300B72986 /* Info.plist */,
 			);
@@ -121,13 +120,22 @@
 		9432D2751CF5AD5B00B72986 /* protocols */ = {
 			isa = PBXGroup;
 			children = (
-				9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */,
 				9432D26E1CF5ACE700B72986 /* DataProviding.swift */,
+				9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */,
 				9432D2781CF5AE2000B72986 /* CellDequeable.swift */,
-				C6C4B71B1D506A1600DED64E /* TableViewDataSourcing.swift */,
 				C6F913191D506C1200B0535C /* StaticCellDequeable.swift */,
+				C6C4B71B1D506A1600DED64E /* TableViewDataSourcing.swift */,
 			);
 			name = protocols;
+			sourceTree = "<group>";
+		};
+		C6F9131D1D5072B400B0535C /* provider */ = {
+			isa = PBXGroup;
+			children = (
+				C6F913171D506BC800B0535C /* DataProviderUpdate.swift */,
+				948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */,
+			);
+			name = provider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
