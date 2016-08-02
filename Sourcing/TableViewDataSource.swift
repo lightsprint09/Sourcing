@@ -30,7 +30,6 @@ import UIKit
 
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object>: NSObject, UITableViewDataSource, TableViewDataSourcing {
-    public typealias DataProviderr = DataProvider
     
     public let dataProvider: DataProvider
     public let tableView: UITableView
@@ -46,9 +45,9 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         tableView.reloadData()
     }
     
-    public func updateTableView(cell: UITableViewCell, object: DataProvider.Object) {
+    public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
         guard let cell = cell as? CellConfig.Cell else { return }
-        cell.configureForObject(object)
+        cellConfiguration.configureTypeSafe(cell, object: object)
     }
     
     func registerNib() {
@@ -76,6 +75,16 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         }
         
         return cell
+    }
+    
+    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return dataProvider.deleteObjectAtIndexPath != nil
+    }
+    
+    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if let delete = dataProvider.deleteObjectAtIndexPath where editingStyle == .Delete {
+            
+        }
     }
 }
 

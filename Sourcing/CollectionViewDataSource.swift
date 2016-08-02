@@ -30,33 +30,52 @@
 import UIKit
 
 
-final public class CollectionViewDataSource<DataProvider: DataProviding, Cell: UICollectionViewCell, CellDequeable: StaticCellDequeable where Cell: ConfigurableCell, Cell.DataSource == DataProvider.Object, CellDequeable.Object == DataProvider.Object, CellDequeable.Cell == Cell>: NSObject, UICollectionViewDataSource {
-    private let dynamicDataSoruce: MultiCellCollectionViewDataSource<DataProvider>
-    public required init(collectionView: UICollectionView, dataProvider: DataProvider, cell: CellDequeable) {
-        dynamicDataSoruce = MultiCellCollectionViewDataSource(collectionView: collectionView, dataProvider: dataProvider, cellDequeables: [cell])
+final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object>: NSObject, UICollectionViewDataSource, CollectionViewDataSourcing {
+    
+    public let collectionView: UICollectionView
+    public let dataProvider: DataProvider
+    let cellConfiguration: CellConfig
+    
+    public required init(collectionView: UICollectionView, dataProvider: DataProvider, cell: CellConfig) {
+        self.collectionView = collectionView
+        self.dataProvider = dataProvider
+        self.cellConfiguration = cell
         super.init()
+        registerNib()
+        collectionView.dataSource = self
+        collectionView.reloadData()
+    }
+   
+    public func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object) {
+        guard let cell = cell as? CellConfig.Cell else { return }
+        cellConfiguration.configureTypeSafe(cell, object: object)
     }
     
-    public var selectedObject: DataProvider.Object? {
-        return dynamicDataSoruce.selectedObject
-    }
-    
-    public func processUpdates(updates: [DataProviderUpdate<DataProvider.Object>]?) {
-        dynamicDataSoruce.processUpdates(updates)
+    func registerNib() {
+        guard let nib = cellConfiguration.nib else { return }
+        collectionView.registerNib(nib, forCellWithReuseIdentifier: cellConfiguration.cellIdentifier)
     }
     
     // MARK: UICollectionViewDataSource
     
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return dynamicDataSoruce.numberOfSectionsInCollectionView(collectionView)
+        return dataProvider.numberOfSections()
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dynamicDataSoruce.collectionView(collectionView, numberOfItemsInSection: section)
+        return dataProvider.numberOfItemsInSection(section)
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return dynamicDataSoruce.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
+        let object = dataProvider.objectAtIndexPath(indexPath)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
+        if let typedCell = cell as? CellConfig.Cell{
+            cellConfiguration.configureTypeSafe(typedCell, object: object)
+        } else {
+            fatalError()
+        }
+        
+        return cell
     }
     
     //    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {

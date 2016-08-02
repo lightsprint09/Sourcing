@@ -29,18 +29,18 @@
 import Foundation
 
 final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NSObject, UITableViewDataSource, TableViewDataSourcing {
-    public typealias DataProviderr = DataProvider
     
     public required init(tableView: UITableView, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.tableView = tableView
         self.dataProvider = dataProvider
         self.cellDequeables = cellDequeables
         super.init()
+        registerCells(cellDequeables)
         tableView.dataSource = self
         tableView.reloadData()
     }
     
-    public func updateTableView(cell: UITableViewCell, object: DataProviderr.Object) {
+    public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
         guard let cellDequeable = self.cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }

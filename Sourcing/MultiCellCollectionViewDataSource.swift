@@ -28,8 +28,7 @@
 import Foundation
 import UIKit
 
-final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding>: NSObject, UICollectionViewDataSource {
-    
+final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding>: NSObject, UICollectionViewDataSource, CollectionViewDataSourcing {
     public required init(collectionView: UICollectionView, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
@@ -40,47 +39,17 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         collectionView.reloadData()
     }
     
-    public var selectedObject: DataProvider.Object? {
-        guard let indexPath = collectionView.indexPathsForSelectedItems()?.first else { return nil }
-        return dataProvider.objectAtIndexPath(indexPath)
-    }
-    
-    public func processUpdates(updates: [DataProviderUpdate<DataProvider.Object>]?) {
-        guard let updates = updates else { return collectionView.reloadData() }
-        var shouldUpdate = false
-        collectionView.performBatchUpdates({
-            for update in updates {
-                switch update {
-                case .Insert(let indexPath):
-                    self.collectionView.insertItemsAtIndexPaths([indexPath])
-                case .Update(let indexPath, let object):
-                    guard let cell = self.collectionView.cellForItemAtIndexPath(indexPath), let cellDequeable = self.cellDequeableForIndexPath(object) else {
-                        shouldUpdate = true
-                        continue
-                    }
-                    cellDequeable.configureCell(cell, object: object)
-                case .Move(let indexPath, let newIndexPath):
-                    self.collectionView.deleteItemsAtIndexPaths([indexPath])
-                    self.collectionView.insertItemsAtIndexPaths([newIndexPath])
-                case .Delete(let indexPath):
-                    self.collectionView.deleteItemsAtIndexPaths([indexPath])
-                case .InsertSection(let sectionIndex):
-                    self.collectionView.insertSections(NSIndexSet(index: sectionIndex))
-                case .DeleteSection(let sectionIndex):
-                    self.collectionView.deleteSections(NSIndexSet(index: sectionIndex))
-                }
-            }
-            }, completion: nil)
-        if shouldUpdate {
-            self.collectionView.reloadData()
+    public func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object) {
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
+            fatalError("Could not find a cell to deuqe")
         }
+        cellDequeable.configureCell(cell, object: object)
     }
-    
     
     // MARK: Private
     
-    private let collectionView: UICollectionView
-    private let dataProvider: DataProvider
+    public let collectionView: UICollectionView
+    public let dataProvider: DataProvider
     private let cellDequeables: Array<CellDequeable>
     
     private func registerCells(cellDequeables: Array<CellDequeable>) {
@@ -96,7 +65,6 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         
         return nil
     }
-    
     
     // MARK: UICollectionViewDataSource
     

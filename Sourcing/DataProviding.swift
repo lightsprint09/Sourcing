@@ -38,5 +38,15 @@ public protocol DataProviding: class {
     func numberOfSections() -> Int
     
     func indexPathForObject(object: Object) -> NSIndexPath?
+    
+    //var deleteObjectAtIndexPath: ((indexPath: NSIndexPath, didDelecte: () -> ()) -> Void)? { get }
 }
+
+//extension DataProviding {
+//    func deleteRowAtIndexPath(indexPath: NSIndexPath) {
+//        deleteObjectAtIndexPath?(indexPath: indexPath) {
+//            
+//        }
+//    }
+//}
 

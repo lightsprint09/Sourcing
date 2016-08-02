@@ -31,17 +31,17 @@ import UIKit
  `TableViewDataSourcing`
  */
 public protocol TableViewDataSourcing {
-    associatedtype DataProviderr: DataProviding
+    associatedtype DataProvider: DataProviding
     
-    var dataProvider: DataProviderr { get }
+    var dataProvider: DataProvider { get }
     var tableView: UITableView { get }
     
-    func updateTableView(cell: UITableViewCell, object: DataProviderr.Object)
+    func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object)
     
 }
 
 public extension TableViewDataSourcing {
-    func processUpdates(updates: [DataProviderUpdate<DataProviderr.Object>]?) {
+    func processUpdates(updates: [DataProviderUpdate<DataProvider.Object>]?) {
         guard let updates = updates else { return tableView.reloadData() }
         tableView.beginUpdates()
         for update in updates {
@@ -53,7 +53,7 @@ public extension TableViewDataSourcing {
                 guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
                     fatalError("Could not update Cell")
                 }
-                self.updateTableView(cell, object: object)
+                self.updateTableViewCell(cell, object: object)
             case .Move(let indexPath, let newIndexPath):
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
@@ -68,7 +68,7 @@ public extension TableViewDataSourcing {
         tableView.endUpdates()
     }
     
-    var selectedObject: DataProviderr.Object? {
+    var selectedObject: DataProvider.Object? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         return dataProvider.objectAtIndexPath(indexPath)
     }
