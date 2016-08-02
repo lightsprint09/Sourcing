@@ -13,12 +13,15 @@
 		9432D26A1CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D2691CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift */; };
 		9432D26C1CF5ACC800B72986 /* ConfigurableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */; };
 		9432D2701CF5ACE700B72986 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26D1CF5ACE700B72986 /* CollectionViewDataSource.swift */; };
-		9432D2711CF5ACE700B72986 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26E1CF5ACE700B72986 /* DataProvider.swift */; };
+		9432D2711CF5ACE700B72986 /* DataProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D26E1CF5ACE700B72986 /* DataProviding.swift */; };
 		9432D2741CF5ACFC00B72986 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D2731CF5ACFC00B72986 /* TableViewDataSource.swift */; };
 		9432D2791CF5AE2000B72986 /* CellDequeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D2781CF5AE2000B72986 /* CellDequeable.swift */; };
 		9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */; };
 		948E51BF1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */; };
 		948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */; };
+		C6C4B71C1D506A1600DED64E /* TableViewDataSourcing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C4B71B1D506A1600DED64E /* TableViewDataSourcing.swift */; };
+		C6F913181D506BC800B0535C /* DataProviderUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913171D506BC800B0535C /* DataProviderUpdate.swift */; };
+		C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913191D506C1200B0535C /* StaticCellDequeable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,12 +44,15 @@
 		9432D2691CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiCellCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableCell.swift; sourceTree = "<group>"; };
 		9432D26D1CF5ACE700B72986 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
-		9432D26E1CF5ACE700B72986 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		9432D26E1CF5ACE700B72986 /* DataProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviding.swift; sourceTree = "<group>"; };
 		9432D2731CF5ACFC00B72986 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		9432D2781CF5AE2000B72986 /* CellDequeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDequeable.swift; sourceTree = "<group>"; };
 		9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfiguration.swift; sourceTree = "<group>"; };
 		948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiCellTableViewDataSource.swift; sourceTree = "<group>"; };
 		948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
+		C6C4B71B1D506A1600DED64E /* TableViewDataSourcing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSourcing.swift; sourceTree = "<group>"; };
+		C6F913171D506BC800B0535C /* DataProviderUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderUpdate.swift; sourceTree = "<group>"; };
+		C6F913191D506C1200B0535C /* StaticCellDequeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticCellDequeable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +97,7 @@
 			children = (
 				9432D2751CF5AD5B00B72986 /* protocols */,
 				9432D2731CF5ACFC00B72986 /* TableViewDataSource.swift */,
+				C6F913171D506BC800B0535C /* DataProviderUpdate.swift */,
 				948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */,
 				9432D26D1CF5ACE700B72986 /* CollectionViewDataSource.swift */,
 				9432D2691CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift */,
@@ -115,8 +122,10 @@
 			isa = PBXGroup;
 			children = (
 				9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */,
-				9432D26E1CF5ACE700B72986 /* DataProvider.swift */,
+				9432D26E1CF5ACE700B72986 /* DataProviding.swift */,
 				9432D2781CF5AE2000B72986 /* CellDequeable.swift */,
+				C6C4B71B1D506A1600DED64E /* TableViewDataSourcing.swift */,
+				C6F913191D506C1200B0535C /* StaticCellDequeable.swift */,
 			);
 			name = protocols;
 			sourceTree = "<group>";
@@ -229,12 +238,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6F913181D506BC800B0535C /* DataProviderUpdate.swift in Sources */,
 				9432D2741CF5ACFC00B72986 /* TableViewDataSource.swift in Sources */,
 				9432D26C1CF5ACC800B72986 /* ConfigurableCell.swift in Sources */,
 				9432D2701CF5ACE700B72986 /* CollectionViewDataSource.swift in Sources */,
-				9432D2711CF5ACE700B72986 /* DataProvider.swift in Sources */,
+				C6C4B71C1D506A1600DED64E /* TableViewDataSourcing.swift in Sources */,
+				9432D2711CF5ACE700B72986 /* DataProviding.swift in Sources */,
 				9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellDequeable.swift in Sources */,
+				C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */,
 				948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */,
 				948E51BF1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift in Sources */,
 				9432D26A1CF5AC7C00B72986 /* MultiCellCollectionViewDataSource.swift in Sources */,

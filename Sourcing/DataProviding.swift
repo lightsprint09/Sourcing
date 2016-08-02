@@ -20,20 +20,20 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  CellDequeable.swift
+//  DataProviding.swift
 //  Sourcing
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-
 import Foundation
-import UIKit
 
-public protocol CellDequeable {
-    var cellIdentifier: String { get }
-    var nib: UINib? { get }
-        
-    func canConfigurecellForItem(object: Any) -> Bool
-    func configureCell(cell: AnyObject, object: Any) -> AnyObject
+public protocol DataProviding: class {
+    associatedtype Object
+    func objectAtIndexPath(indexPath: NSIndexPath) -> Object
+    func numberOfItemsInSection(section: Int) -> Int
+    func numberOfSections() -> Int
+    
+    func indexPathForObject(object: Object) -> NSIndexPath?
 }
+
