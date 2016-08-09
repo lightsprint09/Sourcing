@@ -34,7 +34,7 @@ public protocol TableViewDataSourcing {
     associatedtype DataProvider: DataProviding
     
     var dataProvider: DataProvider { get }
-    var tableView: UITableView { get }
+    var tableView: TableViewRepresenting { get }
     
     func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object)
     

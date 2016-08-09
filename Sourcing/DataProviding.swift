@@ -33,20 +33,28 @@ import Foundation
  */
 public protocol DataProviding: class {
     associatedtype Object
+    
     func objectAtIndexPath(indexPath: NSIndexPath) -> Object
+    
     func numberOfItemsInSection(section: Int) -> Int
+    
     func numberOfSections() -> Int
-    
-    func indexPathForObject(object: Object) -> NSIndexPath?
-    
-    //var deleteObjectAtIndexPath: ((indexPath: NSIndexPath, didDelecte: () -> ()) -> Void)? { get }
 }
 
-//extension DataProviding {
-//    func deleteRowAtIndexPath(indexPath: NSIndexPath) {
-//        deleteObjectAtIndexPath?(indexPath: indexPath) {
-//            
-//        }
-//    }
-//}
+extension DataProviding where Object: Equatable {
+    
+    public func indexPathForObject(object: Object) -> NSIndexPath? {
+        for section in  0..<numberOfSections() {
+            for item in 0..<numberOfItemsInSection(section) {
+                let indexPath = NSIndexPath(forItem: item, inSection: section)
+                let o = objectAtIndexPath(indexPath)
+                if o == object {
+                    return indexPath
+                }
+            }
+        }
+        
+        return nil
+    }
+}
 

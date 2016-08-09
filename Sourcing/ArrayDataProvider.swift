@@ -46,8 +46,7 @@ public class ArrayDataProvider<Object>: NSObject, DataProviding {
     }
     
     public func reconfigureData(array: Array<Object>) {
-        self.data = [array]
-        dataProviderDidUpdate?(nil)
+        reconfigureData([array])
     }
     
     public func reconfigureData(array: Array<Array<Object>>) {
@@ -65,9 +64,5 @@ public class ArrayDataProvider<Object>: NSObject, DataProviding {
     
     public func numberOfSections() -> Int {
         return  data.count
-    }
-    
-    public func indexPathForObject(object: Object) -> NSIndexPath? {
-        return nil
     }
 }

@@ -30,7 +30,7 @@ import Foundation
 
 final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NSObject, UITableViewDataSource, TableViewDataSourcing {
     
-    public required init(tableView: UITableView, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
+    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.tableView = tableView
         self.dataProvider = dataProvider
         self.cellDequeables = cellDequeables
@@ -50,7 +50,7 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
     
     // MARK: Private
     
-    public let tableView: UITableView
+    public let tableView: TableViewRepresenting
     public let dataProvider: DataProvider
     private let cellDequeables: Array<CellDequeable>
     
