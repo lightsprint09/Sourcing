@@ -27,9 +27,8 @@
 //
 import UIKit
 
-public struct CellConfiguration<CCell: ConfigurableCell>: CellDequeable, StaticCellDequeable {
-    public typealias Object = CCell.DataSource
-    public typealias Cell = CCell
+public struct CellConfiguration<Cell: ConfigurableCell>: CellDequeable, StaticCellDequeable {
+    public typealias Object = Cell.DataSource
     public let cellIdentifier: String
     public let nib: UINib?
     let additionalConfiguartion: ((Object, Cell) -> Void)?
@@ -40,6 +39,7 @@ public struct CellConfiguration<CCell: ConfigurableCell>: CellDequeable, StaticC
         self.additionalConfiguartion = additionalConfiguartion
     }
     
+    //TODO: May use optional Typesave closure forn config
     public  func canConfigurecellForItem(object: Any) -> Bool {
         return object is Object
     }

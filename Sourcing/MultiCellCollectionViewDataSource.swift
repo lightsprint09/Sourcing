@@ -53,7 +53,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     private let cellDequeables: Array<CellDequeable>
     
     private func registerCells(cellDequeables: Array<CellDequeable>) {
-        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.nib != nil {
+        for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }

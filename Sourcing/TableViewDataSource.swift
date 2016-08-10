@@ -48,7 +48,9 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     }
     
     public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
-        guard let cell = cell as? CellConfig.Cell else { return }
+        guard let cell = cell as? CellConfig.Cell else {
+            fatalError()
+        }
         cellConfiguration.configureTypeSafe(cell, object: object)
     }
     
@@ -69,7 +71,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
         if let typedCell = cell as? CellConfig.Cell{
             cellConfiguration.configureTypeSafe(typedCell, object: object)
         } else {
