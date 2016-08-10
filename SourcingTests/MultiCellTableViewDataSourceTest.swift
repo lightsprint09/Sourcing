@@ -52,14 +52,15 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         let dataProvider = ArrayDataProvider(rows: [1])
         let tableView = UITableViewMock()
         let nib = UINib(data: NSData(), bundle: nil)
-        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell>(cellIdentifier: "testIdentifier", nib: nib, additionalConfiguartion: nil)]
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell>(cellIdentifier: "testIdentifier", nib: nib, additionalConfiguartion: nil), CellConfiguration<MockCell>(cellIdentifier: "testIdentifier2", nib: nib, additionalConfiguartion: nil)]
         
         //When
         let _ = MultiCellTableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: cellConfig)
         
         //Then
-        XCTAssertEqual(tableView.registerdNibs.count, 1)
+        XCTAssertEqual(tableView.registerdNibs.count, 2)
         XCTAssertNotNil(tableView.registerdNibs["testIdentifier"])
+        XCTAssertNotNil(tableView.registerdNibs["testIdentifier2"])
     }
 //
 //    func testNumberOfSections() {
