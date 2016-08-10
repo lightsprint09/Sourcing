@@ -97,7 +97,10 @@ class TableViewDataSourceTest: XCTestCase {
         //Given
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let tableViewMock = UITableViewMock()
-        let cellConfig = CellConfiguration<MockCell>(cellIdentifier: "testIdentifier")
+        var didCallAdditionalConfiguartion = false
+        let cellConfig = CellConfiguration<MockCell>(cellIdentifier: "testIdentifier", nib: nil, additionalConfiguartion:  { cell, object in
+            didCallAdditionalConfiguartion = true
+        })
         let realTableView = UITableView()
         
         //When
@@ -109,6 +112,7 @@ class TableViewDataSourceTest: XCTestCase {
         XCTAssertEqual(tableViewMock.mockCell.configuredObject, 10)
         XCTAssertEqual(tableViewMock.lastUedReuseIdetifier, "testIdentifier")
         XCTAssertTrue(cell is MockCell)
+        XCTAssertTrue(didCallAdditionalConfiguartion)
     }
     
     func testUpdateDataSource() {
@@ -139,6 +143,4 @@ class TableViewDataSourceTest: XCTestCase {
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 2)
     }
-    
-    
 }

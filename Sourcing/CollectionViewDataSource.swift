@@ -74,23 +74,6 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         }
         
         return cell
-    }
-    
-    //    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-    //        switch(kind) {
-    //        case UICollectionElementKindSectionHeader:
-    //            let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: delegate.headerIdentifierForIndexPath(indexPath), forIndexPath: indexPath) as! Delegate.Header
-    //            delegate.configureHeader(headerView, indexPath: indexPath)
-    //            return headerView
-    //
-    //        case UICollectionElementKindSectionFooter:
-    //            let footerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: delegate.footerIdentifierForIndexPath(indexPath), forIndexPath: indexPath) as! Delegate.Footer
-    //            delegate.configureFooter(footerView, indexPath: indexPath)
-    //            return footerView
-    //        default:
-    //            return UICollectionReusableView()
-    //        }
-    //    }
-    
+    }    
 }
 

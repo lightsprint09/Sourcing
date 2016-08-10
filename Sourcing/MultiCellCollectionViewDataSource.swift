@@ -46,10 +46,12 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         cellDequeable.configureCell(cell, object: object)
     }
     
-    // MARK: Private
+    
     
     public let collectionView: UICollectionView
     public let dataProvider: DataProvider
+    
+    // MARK: Private
     private let cellDequeables: Array<CellDequeable>
     
     private func registerCells(cellDequeables: Array<CellDequeable>) {
@@ -87,21 +89,4 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         
         return cell
     }
-    
-    //    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-    //        switch(kind) {
-    //        case UICollectionElementKindSectionHeader:
-    //            let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: delegate.headerIdentifierForIndexPath(indexPath), forIndexPath: indexPath) as! Delegate.Header
-    //            delegate.configureHeader(headerView, indexPath: indexPath)
-    //            return headerView
-    //
-    //        case UICollectionElementKindSectionFooter:
-    //            let footerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: delegate.footerIdentifierForIndexPath(indexPath), forIndexPath: indexPath) as! Delegate.Footer
-    //            delegate.configureFooter(footerView, indexPath: indexPath)
-    //            return footerView
-    //        default:
-    //            return UICollectionReusableView()
-    //        }
-    //    }
-    
 }

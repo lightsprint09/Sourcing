@@ -30,7 +30,7 @@ import UIKit
 /**
  `TableViewDataSourcing`
  */
-public protocol TableViewDataSourcing {
+public protocol TableViewDataSourcing: UITableViewDataSource {
     associatedtype DataProvider: DataProviding
     
     var dataProvider: DataProvider { get }
