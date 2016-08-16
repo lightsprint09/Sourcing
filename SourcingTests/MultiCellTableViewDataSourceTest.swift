@@ -30,8 +30,8 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
+
 class MultiCellTableViewDataSourceTest: XCTestCase {
-    
     let cellIdentifier = "cellIdentifier"
     let secondCellIdentifier = "cellIdentifier2"
     
@@ -120,8 +120,6 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockStringCell.configuredObject, "String")
         XCTAssertTrue(stringCell is MockCell<String>)
-       
-        
     }
 
     func testUpdateDataSource() {

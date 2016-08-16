@@ -32,7 +32,7 @@ import UIKit
 /**
  `TableViewDataSourcing`
  */
-public protocol CollectionViewDataSourcing {
+public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
     associatedtype DataProvider: DataProviding
     
     var dataProvider: DataProvider { get }

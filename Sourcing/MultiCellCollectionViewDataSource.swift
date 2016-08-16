@@ -28,7 +28,7 @@
 import Foundation
 import UIKit
 
-final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding>: NSObject, UICollectionViewDataSource, CollectionViewDataSourcing {
+final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding>: NSObject, CollectionViewDataSourcing {
     public required init(collectionView: UICollectionView, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
@@ -45,8 +45,6 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         }
         cellDequeable.configureCell(cell, object: object)
     }
-    
-    
     
     public let collectionView: UICollectionView
     public let dataProvider: DataProvider

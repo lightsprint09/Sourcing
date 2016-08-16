@@ -28,7 +28,7 @@
 
 import Foundation
 
-final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NSObject, UITableViewDataSource, TableViewDataSourcing {
+final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NSObject, TableViewDataSourcing {
     
     public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.tableView = tableView
