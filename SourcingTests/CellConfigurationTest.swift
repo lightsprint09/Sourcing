@@ -35,10 +35,10 @@ class CellConfigurationTest: XCTestCase {
         //Given
         let identifier = "cellIdentifier"
         let nib = UINib(data: NSData(), bundle: nil)
-        let additionalConfiguartion = { (obj: Int, cell: MockCell) in }
+        let additionalConfiguartion = { (obj: Int, cell: MockCell<Int>) in }
         
         //When
-        let configuration = CellConfiguration<MockCell>(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
+        let configuration = CellConfiguration<MockCell<Int>>(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
         
         //Then
         XCTAssertNotNil(configuration.additionalConfiguartion)
@@ -50,11 +50,11 @@ class CellConfigurationTest: XCTestCase {
         let identifier = "cellIdentifier"
         let nib = UINib(data: NSData(), bundle: nil)
         var didCallAdditionalConfiguartion = false
-        let additionalConfiguartion = { (obj: Int, cell: MockCell) in
+        let additionalConfiguartion = { (obj: Int, cell: MockCell<Int>) in
             didCallAdditionalConfiguartion = true
         }
-        let configuration = CellConfiguration<MockCell>(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
-        let cell = MockCell()
+        let configuration = CellConfiguration<MockCell<Int>>(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
+        let cell = MockCell<Int>()
         
         //When
         configuration.configureCell(cell, object: 100)
@@ -70,10 +70,10 @@ class CellConfigurationTest: XCTestCase {
         let identifier = "cellIdentifier"
         
         //When
-        let configuration = CellConfiguration<MockCell>(cellIdentifier: identifier)
+        let configuration = CellConfiguration<MockCell<Int>>(cellIdentifier: identifier)
         
         //Then
-        XCTAssertNotNil(configuration.canConfigurecellForItem(MockCell()))
+        XCTAssertNotNil(configuration.canConfigurecellForItem(MockCell<Int>()))
     }
 
 

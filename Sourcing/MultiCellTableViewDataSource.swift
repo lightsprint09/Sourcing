@@ -41,7 +41,7 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
     }
     
     public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
-        guard let cellDequeable = self.cellDequeableForIndexPath(object) else {
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }
         cellDequeable.configureCell(cell, object: object)
@@ -83,7 +83,7 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
         cellDequeable.configureCell(cell, object: object)
         
         return cell

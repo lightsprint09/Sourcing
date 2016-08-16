@@ -30,12 +30,15 @@ import UIKit
 import XCTest
 import Sourcing
 
-class MockCell: UITableViewCell, ConfigurableCell {
+class MockCell<T>: UITableViewCell, ConfigurableCell {
     var configurationCount = 0
+    var configuredObject: T?
     
-    var configuredObject: Int?
+    init() {
+        super.init(style: .Default, reuseIdentifier: nil)
+    }
     
-    func configureForObject(object: Int) {
+    func configureForObject(object: T) {
         configurationCount += 1
         configuredObject = object
     }
@@ -53,16 +56,21 @@ class UITableViewMock: TableViewRepresenting {
         self.reloadedCount += 1
     }
     
+    let cellMocks: Dictionary<String, UITableViewCell>
+    init(mockCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": MockCell<Int>()]) {
+        cellMocks = mockCells
+    }
+    
     var registerdNibs = Dictionary<String, UINib?>()
     func registerNib(nib: UINib?, forCellReuseIdentifier identifier: String) {
         registerdNibs[identifier] = nib
     }
     
-    var mockCell = MockCell()
     var lastUedReuseIdetifier: String?
     func dequeueReusableCellWithIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         lastUedReuseIdetifier = identifier
-        return mockCell
+        
+        return cellMocks[identifier]!
     }
     
     func beginUpdates() {
@@ -90,6 +98,7 @@ class UITableViewMock: TableViewRepresenting {
     }
     
     func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
-        return mockCell
+        let cell = cellMocks.first
+        return cell?.1
     }
 }
