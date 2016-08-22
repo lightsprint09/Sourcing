@@ -28,7 +28,7 @@
 import UIKit
 
 
-final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object>: NSObject, CollectionViewDataSourcing {
+final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell>: NSObject, CollectionViewDataSourcing {
     
     public let collectionView: CollectionViewRepresenting
     public let dataProvider: DataProvider
@@ -66,7 +66,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
         if let typedCell = cell as? CellConfig.Cell {
             cellConfiguration.configureTypeSafe(typedCell, object: object)
         } else {

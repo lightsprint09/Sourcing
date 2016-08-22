@@ -58,7 +58,7 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
     }
     
     func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
-        
+        updates?()
     }
     
     func insertSections(sections: NSIndexSet) {

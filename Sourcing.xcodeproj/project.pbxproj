@@ -18,6 +18,7 @@
 		9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */; };
 		948E51BF1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */; };
 		948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */; };
+		C60BE64E1D6B21DC006B0364 /* CollectionViewDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE64D1D6B21DC006B0364 /* CollectionViewDataSourceTest.swift */; };
 		C657EA8B1D6B15B30048B8E7 /* CollectionViewRepresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8A1D6B15B30048B8E7 /* CollectionViewRepresenting.swift */; };
 		C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */; };
 		C657EA8F1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8E1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift */; };
@@ -59,6 +60,7 @@
 		9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfiguration.swift; sourceTree = "<group>"; };
 		948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiCellTableViewDataSource.swift; sourceTree = "<group>"; };
 		948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
+		C60BE64D1D6B21DC006B0364 /* CollectionViewDataSourceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSourceTest.swift; sourceTree = "<group>"; };
 		C657EA8A1D6B15B30048B8E7 /* CollectionViewRepresenting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewRepresenting.swift; sourceTree = "<group>"; };
 		C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewMock.swift; sourceTree = "<group>"; };
 		C657EA8E1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableCollectionViewBaseMock.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				C68BCBBE1D59DD1200C5E720 /* DataProvidingTester.swift */,
 				C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */,
 				C68BCBC71D5AF68A00C5E720 /* TableViewDataSourceTest.swift */,
+				C60BE64D1D6B21DC006B0364 /* CollectionViewDataSourceTest.swift */,
 				C68BCBC91D5B021B00C5E720 /* MultiCellTableViewDataSourceTest.swift */,
 				C68BCBCB1D5B048200C5E720 /* CellConfigurationTest.swift */,
 			);
@@ -310,6 +313,7 @@
 				C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */,
 				C68BCBCA1D5B021B00C5E720 /* MultiCellTableViewDataSourceTest.swift in Sources */,
 				C68BCBCC1D5B048200C5E720 /* CellConfigurationTest.swift in Sources */,
+				C60BE64E1D6B21DC006B0364 /* CollectionViewDataSourceTest.swift in Sources */,
 				C68BCBBF1D59DD1200C5E720 /* DataProvidingTester.swift in Sources */,
 				C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */,
 				C68BCBC81D5AF68A00C5E720 /* TableViewDataSourceTest.swift in Sources */,
