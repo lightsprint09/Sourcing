@@ -35,40 +35,44 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
     let cellIdentifier = "cellIdentifier"
     let secondCellIdentifier = "cellIdentifier2"
     
+    var dataProvider: ArrayDataProvider<AnyObject>!
+    var tableViewMock: UITableViewMock!
+    
+    override func setUp() {
+        super.setUp()
+        dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
+        tableViewMock = UITableViewMock()
+    }
+    
     func testSetDataSource() {
         //Given
-        let dataProvider = ArrayDataProvider(rows: [1])
-        let tableView = UITableViewMock()
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)]
         
         //When
-        let _ = MultiCellTableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: cellConfig)
+        let _ = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
         
         //Then
-        XCTAssertEqual(tableView.reloadedCount, 1)
-        XCTAssertNotNil(tableView.dataSource)
-        XCTAssertEqual(tableView.registerdNibs.count, 0)
+        XCTAssertEqual(tableViewMock.reloadedCount, 1)
+        XCTAssertNotNil(tableViewMock.dataSource)
+        XCTAssertEqual(tableViewMock.registerdNibs.count, 0)
     }
     
     func testRegisterNib() {
         //Given
-        let dataProvider = ArrayDataProvider(rows: [1])
-        let tableView = UITableViewMock()
         let nib = UINib(data: NSData(), bundle: nil)
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil), CellConfiguration<MockCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
         
         //When
-        let _ = MultiCellTableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: cellConfig)
+        let _ = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
         
         //Then
-        XCTAssertEqual(tableView.registerdNibs.count, 2)
-        XCTAssertNotNil(tableView.registerdNibs[cellIdentifier])
-        XCTAssertNotNil(tableView.registerdNibs[secondCellIdentifier])
+        XCTAssertEqual(tableViewMock.registerdNibs.count, 2)
+        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier])
+        XCTAssertNotNil(tableViewMock.registerdNibs[secondCellIdentifier])
     }
 
     func testNumberOfSections() {
         //Given
-        let dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier), CellConfiguration<MockCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realTableView = UITableView()
         
@@ -82,7 +86,6 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
-        let dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier), CellConfiguration<MockCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realTableView = UITableView()
         
@@ -96,13 +99,12 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
 
     func testDequCells() {
         //Given
-        let dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
         var didCallAdditionalConfiguartion = false
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion: { _, _ in
             didCallAdditionalConfiguartion = true
         } ), CellConfiguration<MockCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realTableView = UITableView()
-        let tableViewMock = UITableViewMock(mockCells: [cellIdentifier: MockCell<Int>(), secondCellIdentifier: MockCell<String>()])
+        let tableViewMock = UITableViewMock(mockTableViewCells: [cellIdentifier: MockCell<Int>(), secondCellIdentifier: MockCell<String>()])
         
         //When
         let dataSource = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
@@ -124,8 +126,6 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
 
     func testUpdateDataSource() {
         //Given
-        let dataProvider = ArrayDataProvider(rows: [1])
-        let tableViewMock = UITableViewMock()
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)]
         
         //When
@@ -140,8 +140,6 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
 
     func testUpdateDataSourceWithNoData() {
         //Given
-        let dataProvider = ArrayDataProvider(rows: [1])
-        let tableViewMock = UITableViewMock()
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)]
         
         //When

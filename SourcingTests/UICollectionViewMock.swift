@@ -20,21 +20,21 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  UITableViewMock.swift
+//  UICollectionViewMock.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 09.08.16.
+//  Created by Lukas Schmidt on 22.08.16.
 //
 
 import UIKit
 import Sourcing
 
-class MockCell<T>: UITableViewCell, ConfigurableCell {
+class MockCollectionCell<T>: UICollectionViewCell, ConfigurableCell {
     var configurationCount = 0
     var configuredObject: T?
     
     init() {
-        super.init(style: .Default, reuseIdentifier: nil)
+        super.init(frame: CGRect.zero)
     }
     
     func configureForObject(object: T) {
@@ -42,50 +42,53 @@ class MockCell<T>: UITableViewCell, ConfigurableCell {
         configuredObject = object
     }
 }
-
-class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
-    var dataSource: UITableViewDataSource?
-    var indexPathForSelectedRow: NSIndexPath?
+class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
+    var dataSource: UICollectionViewDataSource?
     
-   
-    init(mockTableViewCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": MockCell<Int>()]) {
-        super.init(mockCells: mockTableViewCells)
+    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": MockCollectionCell<Int>()]) {
+        super.init(mockCells: mockCollectionViewCells)
     }
     
-    func registerNib(nib: UINib?, forCellReuseIdentifier identifier: String) {
-        registerdNibs[identifier] = nib
-    }
-    
-    func dequeueReusableCellWithIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func dequeueReusableCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }
     
-    func beginUpdates() {
+    func indexPathsForSelectedItems() -> [NSIndexPath]? {
+        return nil
+    }
+    
+    func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
         
     }
     
-    func endUpdates() {
+    func insertSections(sections: NSIndexSet) {
     
     }
-    
-    func insertRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation) {
+    func deleteSections(sections: NSIndexSet) {
         
     }
+    func reloadSections(sections: NSIndexSet) {
     
-    func deleteRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation) {
-        
     }
-    
-    func insertSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation) {
-        
-    }
-    
-    func deleteSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation) {
+    func moveSection(section: Int, toSection newSection: Int) {
     
     }
     
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
+    func insertItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
+    
+    }
+    func deleteItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
+    
+    }
+    func reloadItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
+    
+    }
+    func moveItemAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath) {
+    
+    }
+    
+    func cellForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewCell? {
         let cell = cellMocks.first
-        return cell?.1 as? UITableViewCell
+        return cell?.1 as? UICollectionViewCell
     }
 }

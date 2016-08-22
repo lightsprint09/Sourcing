@@ -20,39 +20,37 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  TableViewRepresenting.swift
+//  UITableCollectionViewBaseMock.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 09.08.16.
+//  Created by Lukas Schmidt on 22.08.16.
 //
 
-import Foundation
+import UIKit
 
-/**
- Protocol abstraction for UITableView
- */
-public protocol TableViewRepresenting: class {
-    var dataSource: UITableViewDataSource? { get set }
-    var indexPathForSelectedRow: NSIndexPath? { get }
+class UITableCollectionViewBaseMock {
+    var reloadedCount = 0
+    var lastUsedReuseIdetifiers = Array<String>()
+    let cellMocks: Dictionary<String, AnyObject>
+    var registerdNibs = Dictionary<String, UINib?>()
+
     
-    func reloadData()
+    func reloadData() {
+        self.reloadedCount += 1
+    }
     
-    func registerNib(nib: UINib?, forCellReuseIdentifier identifier: String)
+    init(mockCells: Dictionary<String, AnyObject>) {
+        cellMocks = mockCells
+    }
     
-    func dequeueReusableCellWithIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func registerNib(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+        registerdNibs[identifier] = nib
+    }
     
-    func beginUpdates()
-    func endUpdates()
-    
-    func insertRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation)
-    func deleteRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation)
-    
-    func deleteSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation)
-    func insertSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation)
-    
-    
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell?
+    func dequeueWithIdentifier<Cell>(identifier: String, forIndexPath indexPath: NSIndexPath) -> Cell {
+        lastUsedReuseIdetifiers.append(identifier)
+        
+        return cellMocks[identifier]! as! Cell
+    }
     
 }
-
-extension UITableView: TableViewRepresenting { }

@@ -20,39 +20,39 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  TableViewRepresenting.swift
+//  CollectionViewRepresenting.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 09.08.16.
+//  Created by Lukas Schmidt on 22.08.16.
 //
 
-import Foundation
+import UIKit
 
-/**
- Protocol abstraction for UITableView
- */
-public protocol TableViewRepresenting: class {
-    var dataSource: UITableViewDataSource? { get set }
-    var indexPathForSelectedRow: NSIndexPath? { get }
+public protocol CollectionViewRepresenting: class {
+    var dataSource: UICollectionViewDataSource? { get set }
+    
+    func indexPathsForSelectedItems() -> [NSIndexPath]?
     
     func reloadData()
     
-    func registerNib(nib: UINib?, forCellReuseIdentifier identifier: String)
+    func registerNib(nib: UINib?, forCellWithReuseIdentifier identifier: String)
+
+    func dequeueReusableCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     
-    func dequeueReusableCellWithIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?)
+
+    func insertSections(sections: NSIndexSet)
+    func deleteSections(sections: NSIndexSet)
+    func reloadSections(sections: NSIndexSet)
+    func moveSection(section: Int, toSection newSection: Int)
     
-    func beginUpdates()
-    func endUpdates()
+    func insertItemsAtIndexPaths(indexPaths: [NSIndexPath])
+    func deleteItemsAtIndexPaths(indexPaths: [NSIndexPath])
+    func reloadItemsAtIndexPaths(indexPaths: [NSIndexPath])
+    func moveItemAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath)
     
-    func insertRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation)
-    func deleteRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation)
-    
-    func deleteSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation)
-    func insertSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation)
-    
-    
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell?
+    func cellForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewCell?
     
 }
 
-extension UITableView: TableViewRepresenting { }
+extension UICollectionView: CollectionViewRepresenting { }

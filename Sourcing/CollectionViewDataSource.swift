@@ -30,11 +30,11 @@ import UIKit
 
 final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object>: NSObject, CollectionViewDataSourcing {
     
-    public let collectionView: UICollectionView
+    public let collectionView: CollectionViewRepresenting
     public let dataProvider: DataProvider
     let cellConfiguration: CellConfig
     
-    public required init(collectionView: UICollectionView, dataProvider: DataProvider, cell: CellConfig) {
+    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cell: CellConfig) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
         self.cellConfiguration = cell

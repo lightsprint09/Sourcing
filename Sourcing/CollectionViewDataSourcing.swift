@@ -36,7 +36,7 @@ public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
     associatedtype DataProvider: DataProviding
     
     var dataProvider: DataProvider { get }
-    var collectionView: UICollectionView { get }
+    var collectionView: CollectionViewRepresenting { get }
     
     func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object)
 }
