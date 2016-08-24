@@ -53,8 +53,9 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
         return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }
     
+    var selectedIndexPaths: [NSIndexPath]?
     func indexPathsForSelectedItems() -> [NSIndexPath]? {
-        return nil
+        return selectedIndexPaths
     }
     
     func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?) {

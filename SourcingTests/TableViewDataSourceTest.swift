@@ -142,4 +142,29 @@ class TableViewDataSourceTest: XCTestCase {
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 2)
     }
+    
+    func testSelectedObject() {
+        //Given
+        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        
+        //When
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        tableViewMock.indexPathForSelectedRow = NSIndexPath(forRow: 0, inSection: 0)
+        let selectedObject = dataSource.selectedObject
+        
+        //Then
+        XCTAssertEqual(selectedObject, 2)
+    }
+    
+    func testNoSelectedObject() {
+        //Given
+        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        
+        //When
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let selectedObject = dataSource.selectedObject
+        
+        //Then
+        XCTAssertNil(selectedObject)
+    }
 }

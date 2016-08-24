@@ -141,5 +141,30 @@ class CollectionViewDataSourceTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 2)
     }
+    
+    func testSelectedObject() {
+        //Given
+        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
+        
+        //When
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        collectionViewMock.selectedIndexPaths = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 1)]
+        let selectedObjects = dataSource.selectedObjects()
+        
+        //Then
+        XCTAssertEqual(selectedObjects!, [2, 10])
+    }
+    
+    func testNoSelectedObject() {
+        //Given
+        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
+        
+        //When
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let selectedObject = dataSource.selectedObjects()
+        
+        //Then
+        XCTAssertNil(selectedObject)
+    }
 
 }

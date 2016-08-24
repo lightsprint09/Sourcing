@@ -74,6 +74,6 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         }
         
         return cell
-    }    
+    }
 }
 
