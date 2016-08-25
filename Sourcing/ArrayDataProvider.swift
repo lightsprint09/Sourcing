@@ -33,10 +33,8 @@ public class ArrayDataProvider<Object>: NSObject, DataProviding {
     private(set) var data: Array<Array<Object>>
     private let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
     
-    public init(rows: Array<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
-        self.data = [rows]
-        self.dataProviderDidUpdate = dataProviderDidUpdate
-        super.init()
+    public convenience init(rows: Array<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
+        self.init(sections: [rows], dataProviderDidUpdate: dataProviderDidUpdate)
     }
     
     public init(sections: Array<Array<Object>>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {

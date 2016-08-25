@@ -83,7 +83,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
         cellDequeable.configureCell(cell, object: object)
         
         return cell
