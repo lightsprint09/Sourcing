@@ -75,21 +75,11 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         if let typedCell = cell as? CellConfig.Cell {
             cellConfiguration.configureTypeSafe(typedCell, object: object)
         } else {
-            fatalError()
+            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
         }
         
         return cell
     }
-    
-//    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        return dataProvider.deleteObjectAtIndexPath != nil
-//    }
-//    
-//    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if let delete = dataProvider.deleteObjectAtIndexPath where editingStyle == .Delete {
-//            
-//        }
-//    }
 }
 
 
