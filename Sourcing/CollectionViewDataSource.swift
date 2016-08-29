@@ -27,7 +27,6 @@
 //
 import UIKit
 
-
 final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell>: NSObject, CollectionViewDataSourcing {
     
     public let collectionView: CollectionViewRepresenting
@@ -45,8 +44,10 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     }
    
     public func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object) {
-        guard let cell = cell as? CellConfig.Cell else { return }
-        cellConfiguration.configureTypeSafe(cell, object: object)
+        guard let realCell = cell as? CellConfig.Cell else {
+            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
+        }
+        cellConfiguration.configureTypeSafe(realCell, object: object)
     }
     
     func registerNib() {
@@ -67,11 +68,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
-        if let typedCell = cell as? CellConfig.Cell {
-            cellConfiguration.configureTypeSafe(typedCell, object: object)
-        } else {
-            fatalError()
-        }
+        updateCollectionViewCell(cell, object: object)
         
         return cell
     }

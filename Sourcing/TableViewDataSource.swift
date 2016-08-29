@@ -48,10 +48,10 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     }
     
     public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
-        guard let cell = cell as? CellConfig.Cell else {
-            fatalError()
+        guard let realCell = cell as? CellConfig.Cell else {
+            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
         }
-        cellConfiguration.configureTypeSafe(cell, object: object)
+        cellConfiguration.configureTypeSafe(realCell, object: object)
     }
     
     func registerNib() {
@@ -72,11 +72,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
         let cell = self.tableView.dequeueReusableCellWithIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
-        if let typedCell = cell as? CellConfig.Cell {
-            cellConfiguration.configureTypeSafe(typedCell, object: object)
-        } else {
-            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
-        }
+        updateTableViewCell(cell, object: object)
         
         return cell
     }

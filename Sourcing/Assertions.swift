@@ -40,19 +40,19 @@ import Foundation
 
 /// drop-in replacements
 
-public func assert(@autoclosure condition: () -> Bool, @autoclosure _ message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+func assert(@autoclosure condition: () -> Bool, @autoclosure _ message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
     Assertions.assertClosure(condition(), message(), file, line)
 }
 
-public func assertionFailure(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+func assertionFailure(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
     Assertions.assertionFailureClosure(message(), file, line)
 }
 
-public func precondition(@autoclosure condition: () -> Bool, @autoclosure _ message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+func precondition(@autoclosure condition: () -> Bool, @autoclosure _ message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
     Assertions.preconditionClosure(condition(), message(), file, line)
 }
 
-@noreturn public func preconditionFailure(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+@noreturn func preconditionFailure(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
     Assertions.preconditionFailureClosure(message(), file, line)
     runForever()
 }

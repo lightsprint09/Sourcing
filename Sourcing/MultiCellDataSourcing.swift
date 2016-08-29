@@ -20,7 +20,7 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  AssertionsDeclaration.swift
+//  MultiCellDataSourcing.swift
 //  Sourcing
 //
 //  Created by Lukas Schmidt on 25.08.16.
@@ -28,18 +28,17 @@
 
 import Foundation
 
-/// Stores custom assertions closures, by default it points to Swift functions. But test target can override them.
-class Assertions {
-    
-    static var assertClosure = swiftAssertClosure
-    static var assertionFailureClosure = swiftAssertionFailureClosure
-    static var preconditionClosure = swiftPreconditionClosure
-    static var preconditionFailureClosure = swiftPreconditionFailureClosure
-    static var fatalErrorClosure = Swift.fatalError
-    
-    static let swiftAssertClosure              = { Swift.assert($0, $1, file: $2, line: $3) }
-    static let swiftAssertionFailureClosure    = { Swift.assertionFailure($0, file: $1, line: $2) }
-    static let swiftPreconditionClosure        = { Swift.precondition($0, $1, file: $2, line: $3) }
-    static let swiftPreconditionFailureClosure = { Swift.preconditionFailure($0, file: $1, line: $2) }
-    static let swiftFatalErrorClosure          = { Swift.fatalError($0, file: $1, line: $2) }
+protocol MultiCellDataSourcing {
+    associatedtype DataProvider: DataProviding
+    var cellDequeables: Array<CellDequeable> { get }
+}
+
+extension MultiCellDataSourcing {
+    func cellDequeableForIndexPath(object: DataProvider.Object) -> CellDequeable? {
+        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.canConfigurecellForItem(object) {
+            return cellDequeable
+        }
+        
+        return nil
+    }
 }

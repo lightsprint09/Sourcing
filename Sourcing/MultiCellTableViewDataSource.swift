@@ -84,7 +84,7 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
             fatalError("Unexpected cell type at \(indexPath)")
         }
         let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        cellDequeable.configureCell(cell, object: object)
+        updateTableViewCell(cell, object: object)
         
         return cell
     }

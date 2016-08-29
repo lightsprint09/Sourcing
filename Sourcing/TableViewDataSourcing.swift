@@ -28,7 +28,7 @@
 
 import UIKit
 /**
- `TableViewDataSourcing`
+ `TableViewDataSourcing` descripes a tableViewDataSource. It is generic over an DataProvider
  */
 public protocol TableViewDataSourcing: UITableViewDataSource {
     associatedtype DataProvider: DataProviding
