@@ -28,41 +28,56 @@
 
 import Foundation
 
-public class ArrayDataProvider<Object>: NSObject, DataProviding {
+/**
+ `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
+ */
+public class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
     
-    private(set) var data: Array<Array<Object>>
+    private(set) public var data: Array<Array<Object>>
     private let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
     public let sectionIndexTitles: Array<String>?
     
-    public convenience init(rows: Array<Object>, sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
-        self.init(sections: [rows], sectionIndexTitles: sectionIndexTitles, dataProviderDidUpdate: dataProviderDidUpdate)
+    /**
+     Creates an instance of`ArrayDataProvider` with an flat array which results in a single section.
+     
+     - parameter rows: single section of data.
+     - parameter sectionTitle: title for the section. nil by default.
+     - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
+     */
+    public convenience init(rows: Array<Object>, sectionTitle: String? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
+        let titles: Array<String>? = sectionTitle == nil ? nil : [sectionTitle!]
+        self.init(sections: [rows], sectionIndexTitles: titles, dataProviderDidUpdate: dataProviderDidUpdate)
     }
     
+    /**
+     Creates an instance of`ArrayDataProvider` with an 2D array which results in a multiple sections.
+     
+     - parameter sections: 2D array.
+     - parameter sectionTitles: titles for the sections. nil by default.
+     - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
+     */
     public init(sections: Array<Array<Object>>, sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
         self.data = sections
         self.dataProviderDidUpdate = dataProviderDidUpdate
         self.sectionIndexTitles = sectionIndexTitles
         super.init()
     }
-    
+    /**
+     Reconfigures the dataSource with new data.
+     
+     - paramether array: flat array.
+    */
     public func reconfigureData(array: Array<Object>) {
         reconfigureData([array])
     }
     
+    /**
+     Reconfigures the dataSource with new data.
+     
+     - paramether array: 2D array.
+     */
     public func reconfigureData(array: Array<Array<Object>>) {
         self.data = array
         dataProviderDidUpdate?(nil)
-    }
-    
-    public func objectAtIndexPath(indexPath: NSIndexPath) -> Object {
-        return data[indexPath.section][indexPath.item]
-    }
-    
-    public func numberOfItemsInSection(section: Int) -> Int {
-        return data[section].count
-    }
-    
-    public func numberOfSections() -> Int {
-        return  data.count
     }
 }
