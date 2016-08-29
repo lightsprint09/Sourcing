@@ -29,20 +29,49 @@
 import Foundation
 
 /**
- `DataProviding` provides the data to in in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`
+ `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`. It is generic over Object, which is the kind of data it provides.
  */
 public protocol DataProviding: class {
+    /**
+     Object is the kind of data `DataProviding` provides.
+     */
     associatedtype Object
     
+    /**
+     Returns the object for a given indexPath.
+     
+     - parameter indexPath: the indexPath
+     */
     func objectAtIndexPath(indexPath: NSIndexPath) -> Object
     
+    /**
+     Returns number of items for a given section.
+     
+     - return: number of items
+     */
     func numberOfItemsInSection(section: Int) -> Int
     
+    /**
+     Returns number of sections
+     
+     - return: number of sections
+     */
     func numberOfSections() -> Int
+    
+    /**
+     Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
+     */
+    var sectionIndexTitles: Array<String>? { get }
 }
 
 extension DataProviding where Object: Equatable {
     
+    /**
+     Returns the indexPath for a given object.
+     
+     - parameter object: the object you want the indexPath for.
+     - return: the indexPath of the object, if available.
+     */
     public func indexPathForObject(object: Object) -> NSIndexPath? {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItemsInSection(section) {

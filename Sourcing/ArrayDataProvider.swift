@@ -32,14 +32,16 @@ public class ArrayDataProvider<Object>: NSObject, DataProviding {
     
     private(set) var data: Array<Array<Object>>
     private let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
+    public let sectionIndexTitles: Array<String>?
     
-    public convenience init(rows: Array<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
-        self.init(sections: [rows], dataProviderDidUpdate: dataProviderDidUpdate)
+    public convenience init(rows: Array<Object>, sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
+        self.init(sections: [rows], sectionIndexTitles: sectionIndexTitles, dataProviderDidUpdate: dataProviderDidUpdate)
     }
     
-    public init(sections: Array<Array<Object>>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
+    public init(sections: Array<Array<Object>>, sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
         self.data = sections
         self.dataProviderDidUpdate = dataProviderDidUpdate
+        self.sectionIndexTitles = sectionIndexTitles
         super.init()
     }
     

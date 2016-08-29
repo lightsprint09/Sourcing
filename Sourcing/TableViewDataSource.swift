@@ -76,6 +76,10 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         
         return cell
     }
+    
+    public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        return dataProvider.sectionIndexTitles
+    }
 }
 
 
