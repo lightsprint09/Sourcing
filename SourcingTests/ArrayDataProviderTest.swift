@@ -57,4 +57,27 @@ class ArrayDataProviderTest: XCTestCase {
         let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
         dataProviderTest.test()
     }
+    
+    func testNilSectionIndexTitles() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]])
+        
+        //When
+        let sectionIndexTitles = dataProvider.sectionIndexTitles
+        
+        //Then
+        XCTAssertNil(sectionIndexTitles)
+    }
+    
+    func testNonNilSectionIndexTitles() {
+        //Given
+        let sectionIndexTitles = ["hallo", "bye"]
+        dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]], sectionIndexTitles: sectionIndexTitles)
+        
+        //When
+        let titles = dataProvider.sectionIndexTitles
+        
+        //Then
+        XCTAssertEqual(sectionIndexTitles, titles!)
+    }
 }
