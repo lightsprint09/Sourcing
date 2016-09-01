@@ -1,0 +1,6 @@
+language: objective-c
+xcode_project: Sourcing.xcodeproj # path to your xcodeproj folder
+xcode_scheme: JSONParser
+osx_image: xcode7.3
+script: 
+- xctool -project Sourcing.xcodeproj -scheme 'Sourcing iOS' -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean build test
