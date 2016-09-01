@@ -40,7 +40,7 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
+        dataProvider = ArrayDataProvider(sections: [[2], ["String"]], sectionIndexTitles: ["foo", "bar"])
         tableViewMock = UITableViewMock()
     }
     
@@ -148,5 +148,18 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 2)
+    }
+    
+    func testSectionIndexTitles() {
+        //Given
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)]
+        
+        //When
+        let dataSource = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
+        let realTableView = UITableView()
+        let sectionTitles = dataSource.sectionIndexTitlesForTableView(realTableView)
+        
+        //Then
+        XCTAssertEqual(["foo", "bar"], sectionTitles!)
     }
 }

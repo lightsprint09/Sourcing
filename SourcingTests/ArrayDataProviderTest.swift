@@ -80,4 +80,16 @@ class ArrayDataProviderTest: XCTestCase {
         //Then
         XCTAssertEqual(sectionIndexTitles, titles!)
     }
+    
+    func testNonNilSectionIndexTitle() {
+        //Given
+        let sectionIndexTitle = "hello"
+        dataProvider = ArrayDataProvider(rows: [1,2], sectionTitle: sectionIndexTitle)
+        
+        //When
+        let titles = dataProvider.sectionIndexTitles
+        
+        //Then
+        XCTAssertEqual([sectionIndexTitle], titles!)
+    }
 }

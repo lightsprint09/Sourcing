@@ -89,4 +89,8 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
         return cell
     }
     
+    public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        return dataProvider.sectionIndexTitles
+    }
+    
 }

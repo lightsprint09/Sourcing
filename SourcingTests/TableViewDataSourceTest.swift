@@ -39,7 +39,7 @@ class TableViewDataSourceTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]], sectionIndexTitles: ["foo", "bar"])
         tableViewMock = UITableViewMock()
     }
     
@@ -181,20 +181,16 @@ class TableViewDataSourceTest: XCTestCase {
         XCTAssertNil(selectedObject)
     }
     
-    func testTableViewDequesWrongCellType() {
-//        //Given
-//        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
-//        let realTableView = UITableView()
-//        tableViewMock = UITableViewMock(mockTableViewCells: [cellIdentifier: UITableViewCell()])
-//        
-//        //When
-//        var fatalError = false
-//        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
-//        
-//        let _ = dataSource.tableView(realTableView, cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 1))
-//        
-//        
-//        //Then
-//        XCTAssert(fatalError)
+    func testSectionIndexTitles() {
+        //Given
+        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        let realTableView = UITableView()
+        
+        //When
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let sectionTitles = dataSource.sectionIndexTitlesForTableView(realTableView)
+        
+        //Then
+        XCTAssertEqual(["foo", "bar"], sectionTitles!)
     }
 }
