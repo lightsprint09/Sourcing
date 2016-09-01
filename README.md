@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/lightsprint09/Sourcing.svg?branch=master)](https://travis-ci.org/lightsprint09/Sourcing)
 
 # Sourcing
-Typesafe and flexible abstraction for TableView &amp; CollectionView DataSoruces written in Swift.
+Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift.
 
 ## Usage
 
