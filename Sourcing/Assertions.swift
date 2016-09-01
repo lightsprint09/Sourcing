@@ -58,8 +58,8 @@ func precondition(@autoclosure condition: () -> Bool, @autoclosure _ message: ()
 }
 
 @noreturn public func fatalError(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
-    Assertions.fatalErrorClosure(message(), file: file, line: line)
-    
+    Assertions.fatalErrorClosure(message(), file, line)
+    runForever()
 }
 
 /// This is a `noreturn` function that runs forever and doesn't return.

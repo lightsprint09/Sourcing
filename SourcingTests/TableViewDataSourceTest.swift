@@ -117,6 +117,19 @@ class TableViewDataSourceTest: XCTestCase {
         XCTAssertTrue(didCallAdditionalConfiguartion)
     }
     
+    func testDequInvalidCells() {
+        //Given
+        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        tableViewMock = UITableViewMock(mockTableViewCells: [cellIdentifier: UITableViewCell()])
+        let realTableView = UITableView()
+        
+        //When
+        expectFatalError("Wrong Cell type. Expectes MockCell<Int> but got UITableViewCell") {
+            let dataSource = TableViewDataSource(tableView: self.tableViewMock, dataProvider: self.dataProvider, cellDequable: cellConfig)
+            let _ = dataSource.tableView(realTableView, cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 1))
+        }
+    }
+    
     func testUpdateDataSource() {
         //Given
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)

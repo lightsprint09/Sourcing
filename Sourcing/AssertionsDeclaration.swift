@@ -35,7 +35,7 @@ class Assertions {
     static var assertionFailureClosure = swiftAssertionFailureClosure
     static var preconditionClosure = swiftPreconditionClosure
     static var preconditionFailureClosure = swiftPreconditionFailureClosure
-    static var fatalErrorClosure = Swift.fatalError
+    static var fatalErrorClosure = swiftFatalErrorClosure
     
     static let swiftAssertClosure              = { Swift.assert($0, $1, file: $2, line: $3) }
     static let swiftAssertionFailureClosure    = { Swift.assertionFailure($0, file: $1, line: $2) }

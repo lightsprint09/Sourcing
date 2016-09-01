@@ -49,7 +49,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     
     public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
-            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
+            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.dynamicType)")
         }
         cellConfiguration.configureTypeSafe(realCell, object: object)
     }
