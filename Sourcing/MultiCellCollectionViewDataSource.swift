@@ -40,7 +40,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         collectionView.reloadData()
     }
     
-    public func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object) {
+    public func updateCollectionViewCell(_ cell: UICollectionViewCell, object: DataProvider.Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
@@ -51,16 +51,16 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     public let dataProvider: DataProvider
     
     // MARK: Private
-    private let cellDequeables: Array<CellDequeable>
+    fileprivate let cellDequeables: Array<CellDequeable>
     
-    private func registerCells(cellDequeables: Array<CellDequeable>) {
+    fileprivate func registerCells(_ cellDequeables: Array<CellDequeable>) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }
     
-    private func cellDequeableForIndexPath(object: DataProvider.Object) -> CellDequeable? {
-        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.canConfigurecellForItem(object) {
+    fileprivate func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigurecellForItem(object) {
             return cellDequeable
         }
         
@@ -69,15 +69,15 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     
     // MARK: UICollectionViewDataSource
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataProvider.numberOfSections()
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataProvider.numberOfItemsInSection(section)
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
         
         guard let cellDequeable = cellDequeableForIndexPath(object) else {

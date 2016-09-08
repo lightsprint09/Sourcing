@@ -31,7 +31,7 @@ import UIKit
 
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell>: NSObject, TableViewDataSourcing {
+final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, TableViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
     
     public let dataProvider: DataProvider
     public let tableView: TableViewRepresenting
@@ -47,11 +47,11 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         tableView.reloadData()
     }
     
-    public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
+    public func updateTableViewCell(_ cell: UITableViewCell, object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
-            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.dynamicType)")
+            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(type(of: cell))")
         }
-        cellConfiguration.configureTypeSafe(realCell, object: object)
+        let _ = cellConfiguration.configureTypeSafe(realCell, object: object)
     }
     
     func registerNib() {
@@ -61,15 +61,15 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     
     // MARK: UITableViewDataSource
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return dataProvider.numberOfSections()
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataProvider.numberOfItemsInSection(section)
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
         let cell = self.tableView.dequeueReusableCellWithIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
         updateTableViewCell(cell, object: object)
@@ -77,8 +77,8 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         return cell
     }
     
-    public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
-        return dataProvider.sectionIndexTitles
+    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+         return dataProvider.sectionIndexTitles
     }
 }
 

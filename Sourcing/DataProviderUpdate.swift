@@ -29,11 +29,11 @@
 import Foundation
 
 public  enum DataProviderUpdate<Object> {
-    case Insert(NSIndexPath)
-    case Update(NSIndexPath, Object)
-    case Move(NSIndexPath, NSIndexPath)
-    case Delete(NSIndexPath)
+    case insert(IndexPath)
+    case update(IndexPath, Object)
+    case move(IndexPath, IndexPath)
+    case delete(IndexPath)
     
-    case InsertSection(Int)
-    case DeleteSection(Int)
+    case insertSection(Int)
+    case deleteSection(Int)
 }

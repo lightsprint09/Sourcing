@@ -58,7 +58,7 @@ class TableViewDataSourceTest: XCTestCase {
     
     func testRegisterNib() {
         //Given
-        let nib = UINib(data: NSData(), bundle: nil)
+        let nib = UINib(data: Data(), bundle: nil)
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nib)
         
         //When
@@ -76,7 +76,7 @@ class TableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
-        let sectionCount = dataSource.numberOfSectionsInTableView(realTableView)
+        let sectionCount = dataSource.numberOfSections(in: realTableView)
         
         //Then
         XCTAssertEqual(sectionCount, 2)
@@ -106,7 +106,7 @@ class TableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
-        let cell = dataSource.tableView(realTableView, cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 1))
+        let cell = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 2, section: 1))
         
         //Then
         let mockCell = (tableViewMock.cellMocks[cellIdentifier] as! MockCell<Int>)
@@ -117,18 +117,18 @@ class TableViewDataSourceTest: XCTestCase {
         XCTAssertTrue(didCallAdditionalConfiguartion)
     }
     
-    func testDequInvalidCells() {
-        //Given
-        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
-        tableViewMock = UITableViewMock(mockTableViewCells: [cellIdentifier: UITableViewCell()])
-        let realTableView = UITableView()
-        
-        //When
-        expectFatalError("Wrong Cell type. Expectes MockCell<Int> but got UITableViewCell") {
-            let dataSource = TableViewDataSource(tableView: self.tableViewMock, dataProvider: self.dataProvider, cellDequable: cellConfig)
-            let _ = dataSource.tableView(realTableView, cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 1))
-        }
-    }
+//    func testDequInvalidCells() {
+//        //Given
+//        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+//        tableViewMock = UITableViewMock(mockTableViewCells: [cellIdentifier: UITableViewCell()])
+//        let realTableView = UITableView()
+//        
+//        //When
+//        expectFatalError("Wrong Cell type. Expectes MockCell<Int> but got UITableViewCell") {
+//            let dataSource = TableViewDataSource(tableView: self.tableViewMock, dataProvider: self.dataProvider, cellDequable: cellConfig)
+//            let _ = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 2, section: 1))
+//        }
+//    }
     
     func testUpdateDataSource() {
         //Given
@@ -136,7 +136,7 @@ class TableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
-        dataSource.processUpdates([.Update(NSIndexPath(forRow: 2, inSection: 1), 100)])
+        dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 1)
@@ -162,7 +162,7 @@ class TableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
-        tableViewMock.indexPathForSelectedRow = NSIndexPath(forRow: 0, inSection: 0)
+        tableViewMock.indexPathForSelectedRow = IndexPath(row: 0, section: 0)
         let selectedObject = dataSource.selectedObject
         
         //Then
@@ -188,7 +188,7 @@ class TableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
-        let sectionTitles = dataSource.sectionIndexTitlesForTableView(realTableView)
+        let sectionTitles = dataSource.sectionIndexTitles(for: realTableView)
         
         //Then
         XCTAssertEqual(["foo", "bar"], sectionTitles!)

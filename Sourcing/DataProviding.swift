@@ -42,14 +42,14 @@ public protocol DataProviding: class {
      
      - parameter indexPath: the indexPath
      */
-    func objectAtIndexPath(indexPath: NSIndexPath) -> Object
+    func objectAtIndexPath(_ indexPath: IndexPath) -> Object
     
     /**
      Returns number of items for a given section.
      
      - return: number of items
      */
-    func numberOfItemsInSection(section: Int) -> Int
+    func numberOfItemsInSection(_ section: Int) -> Int
     
     /**
      Returns number of sections
@@ -72,10 +72,10 @@ extension DataProviding where Object: Equatable {
      - parameter object: the object you want the indexPath for.
      - return: the indexPath of the object, if available.
      */
-    public func indexPathForObject(object: Object) -> NSIndexPath? {
+    public func indexPathForObject(_ object: Object) -> IndexPath? {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItemsInSection(section) {
-                let indexPath = NSIndexPath(forItem: item, inSection: section)
+                let indexPath = IndexPath(item: item, section: section)
                 let o = objectAtIndexPath(indexPath)
                 if o == object {
                     return indexPath

@@ -31,11 +31,11 @@ import Foundation
 /**
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
-public class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
+open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
     
-    private(set) public var data: Array<Array<Object>>
-    private let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
-    public let sectionIndexTitles: Array<String>?
+    fileprivate(set) open var data: Array<Array<Object>>
+    fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
+    open let sectionIndexTitles: Array<String>?
     
     /**
      Creates an instance of`ArrayDataProvider` with an flat array which results in a single section.
@@ -67,7 +67,7 @@ public class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
      
      - paramether array: flat array.
     */
-    public func reconfigureData(array: Array<Object>) {
+    open func reconfigureData(_ array: Array<Object>) {
         reconfigureData([array])
     }
     
@@ -76,7 +76,7 @@ public class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
      
      - paramether array: 2D array.
      */
-    public func reconfigureData(array: Array<Array<Object>>) {
+    open func reconfigureData(_ array: Array<Array<Object>>) {
         self.data = array
         dataProviderDidUpdate?(nil)
     }

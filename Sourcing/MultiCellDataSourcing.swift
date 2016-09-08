@@ -34,8 +34,8 @@ protocol MultiCellDataSourcing {
 }
 
 extension MultiCellDataSourcing {
-    func cellDequeableForIndexPath(object: DataProvider.Object) -> CellDequeable? {
-        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.canConfigurecellForItem(object) {
+    func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigurecellForItem(object) {
             return cellDequeable
         }
         

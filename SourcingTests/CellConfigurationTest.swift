@@ -34,7 +34,7 @@ class CellConfigurationTest: XCTestCase {
     func testCellConfigurationInit() {
         //Given
         let identifier = "cellIdentifier"
-        let nib = UINib(data: NSData(), bundle: nil)
+        let nib = UINib(data: Data(), bundle: nil)
         let additionalConfiguartion = { (obj: Int, cell: MockCell<Int>) in }
         
         //When
@@ -48,7 +48,7 @@ class CellConfigurationTest: XCTestCase {
     func testConfigureCell() {
         //Given
         let identifier = "cellIdentifier"
-        let nib = UINib(data: NSData(), bundle: nil)
+        let nib = UINib(data: Data(), bundle: nil)
         var didCallAdditionalConfiguartion = false
         let additionalConfiguartion = { (obj: Int, cell: MockCell<Int>) in
             didCallAdditionalConfiguartion = true

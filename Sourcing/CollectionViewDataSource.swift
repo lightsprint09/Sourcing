@@ -27,7 +27,7 @@
 //
 import UIKit
 
-final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell>: NSObject, CollectionViewDataSourcing {
+final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, CollectionViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
     
     public let collectionView: CollectionViewRepresenting
     public let dataProvider: DataProvider
@@ -43,11 +43,11 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         collectionView.reloadData()
     }
    
-    public func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object) {
+    public func updateCollectionViewCell(_ cell: UICollectionViewCell, object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
         }
-        cellConfiguration.configureTypeSafe(realCell, object: object)
+        let _ = cellConfiguration.configureTypeSafe(realCell, object: object)
     }
     
     func registerNib() {
@@ -57,15 +57,15 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     
     // MARK: UICollectionViewDataSource
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataProvider.numberOfSections()
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataProvider.numberOfItemsInSection(section)
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let object = dataProvider.objectAtIndexPath(indexPath)
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
         updateCollectionViewCell(cell, object: object)

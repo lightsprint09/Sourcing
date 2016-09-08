@@ -58,7 +58,7 @@ class CollectionViewDataSourceTest: XCTestCase {
     
     func testRegisterNib() {
         //Given
-        let nib = UINib(data: NSData(), bundle: nil)
+        let nib = UINib(data: Data(), bundle: nil)
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib)
         
         //When
@@ -76,7 +76,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
-        let sectionCount = dataSource.numberOfSectionsInCollectionView(realCollectionView)
+        let sectionCount = dataSource.numberOfSections(in: realCollectionView)
         
         //Then
         XCTAssertEqual(sectionCount, 2)
@@ -105,7 +105,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
-        let cell = dataSource.collectionView(realCollectionView, cellForItemAtIndexPath: NSIndexPath(forRow: 2, inSection: 1))
+        let cell = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 2, section: 1))
         
         //Then
         let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! MockCollectionCell<Int>)
@@ -122,7 +122,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
-        dataSource.processUpdates([.Update(NSIndexPath(forRow: 2, inSection: 1), 100)])
+        dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 1)
@@ -148,7 +148,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
-        collectionViewMock.selectedIndexPaths = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 1)]
+        collectionViewMock.selectedIndexPaths = [IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 1)]
         let selectedObjects = dataSource.selectedObjects()
         
         //Then
