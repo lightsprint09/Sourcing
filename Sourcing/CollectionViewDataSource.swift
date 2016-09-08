@@ -50,7 +50,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         let _ = cellConfiguration.configureCellTypeSafe(realCell, with: object)
     }
     
-    func registerNib() {
+    private func registerNib() {
         guard let nib = cellConfiguration.nib else { return }
         collectionView.registerNib(nib, forCellWithReuseIdentifier: cellConfiguration.cellIdentifier)
     }

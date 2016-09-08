@@ -54,7 +54,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         let _ = cellConfiguration.configureCellTypeSafe(realCell, with: object)
     }
     
-    func registerNib() {
+    private func registerNib() {
         guard let nib = cellConfiguration.nib else { return }
         tableView.registerNib(nib, forCellReuseIdentifier: cellConfiguration.cellIdentifier)
     }

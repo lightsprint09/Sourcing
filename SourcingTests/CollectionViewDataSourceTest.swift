@@ -149,7 +149,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
         collectionViewMock.selectedIndexPaths = [IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 1)]
-        let selectedObjects = dataSource.selectedObjects()
+        let selectedObjects = dataSource.selectedObjects
         
         //Then
         XCTAssertEqual(selectedObjects!, [2, 10])
@@ -161,7 +161,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
-        let selectedObject = dataSource.selectedObjects()
+        let selectedObject = dataSource.selectedObjects
         
         //Then
         XCTAssertNil(selectedObject)

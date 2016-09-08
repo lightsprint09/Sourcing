@@ -41,7 +41,7 @@ class MockCell<T>: UITableViewCell, ConfigurableCell {
         Swift.fatalError("init(coder:) has not been implemented")
     }
     
-    func configureForObject(_ object: T) {
+    func configure(with object: T) {
         configurationCount += 1
         configuredObject = object
     }

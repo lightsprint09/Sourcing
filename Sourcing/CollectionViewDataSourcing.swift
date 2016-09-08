@@ -73,10 +73,11 @@ public extension CollectionViewDataSourcing {
         }
     }
     
-    public func selectedObjects() -> Array<DataProvider.Object>? {
+    var selectedObjects: Array<DataProvider.Object>? {
         guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
             return nil
         }
+        
         return selectedIndexPaths.map { dataProvider.object(at: $0) }
     }
 }

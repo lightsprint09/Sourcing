@@ -52,7 +52,7 @@ public struct CellConfiguration<Cell: ConfigurableCell>: CellDequeable, StaticCe
     }
     
     public func configureCellTypeSafe(_ cell: Cell, with object: Object) -> Cell {
-        cell.configureForObject(object)
+        cell.configure(with: object)
         additionalConfiguartion?(object, cell)
         
         return cell
