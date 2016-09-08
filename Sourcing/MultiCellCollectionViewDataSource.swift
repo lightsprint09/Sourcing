@@ -44,7 +44,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
-        cellDequeable.configureCell(cell, object: object)
+        let _ = cellDequeable.configure(cell, with: object)
     }
     
     public let collectionView: CollectionViewRepresenting
@@ -60,7 +60,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     }
     
     fileprivate func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
-        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigurecellForItem(object) {
+        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigureCell(with: object) {
             return cellDequeable
         }
         
@@ -84,7 +84,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
             fatalError("Unexpected cell type at \(indexPath)")
         }
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        cellDequeable.configureCell(cell, object: object)
+        let _ = cellDequeable.configure(cell, with: object)
         
         return cell
     }

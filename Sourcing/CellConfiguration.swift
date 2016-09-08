@@ -40,18 +40,18 @@ public struct CellConfiguration<Cell: ConfigurableCell>: CellDequeable, StaticCe
     }
     
     //TODO: May use optional Typesave closure forn config
-    public  func canConfigurecellForItem(_ object: Any) -> Bool {
+    public func canConfigureCell(with object: Any) -> Bool {
         return object is Object
     }
     
-    public func configureCell(_ cell: AnyObject, object: Any) -> AnyObject {
+    public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
         if let object = object as? Object, let cell = cell as? Cell {
-            configureTypeSafe(cell, object: object)
+            let _ = configureCellTypeSafe(cell, with: object)
         }
         return cell
     }
     
-    public func configureTypeSafe(_ cell: Cell, object: Object) -> Cell {
+    public func configureCellTypeSafe(_ cell: Cell, with object: Object) -> Cell {
         cell.configureForObject(object)
         additionalConfiguartion?(object, cell)
         

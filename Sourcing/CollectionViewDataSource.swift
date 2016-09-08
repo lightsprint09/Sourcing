@@ -47,7 +47,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
         }
-        let _ = cellConfiguration.configureTypeSafe(realCell, object: object)
+        let _ = cellConfiguration.configureCellTypeSafe(realCell, with: object)
     }
     
     func registerNib() {

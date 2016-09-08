@@ -44,7 +44,7 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }
-        let _ = cellDequeable.configureCell(cell, object: object)
+        let _ = cellDequeable.configure(cell, with: object)
     }
     
     
@@ -61,7 +61,7 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
     }
     
     fileprivate func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
-        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigurecellForItem(object) {
+        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigureCell(with: object) {
             return cellDequeable
         }
         

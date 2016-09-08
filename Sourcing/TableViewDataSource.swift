@@ -51,7 +51,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(type(of: cell))")
         }
-        let _ = cellConfiguration.configureTypeSafe(realCell, object: object)
+        let _ = cellConfiguration.configureCellTypeSafe(realCell, with: object)
     }
     
     func registerNib() {
