@@ -43,7 +43,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         collectionView.reloadData()
     }
    
-    public func updateCollectionViewCell(_ cell: UICollectionViewCell, object: DataProvider.Object) {
+    public func update(_ cell: UICollectionViewCell, with object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
         }
@@ -62,13 +62,13 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataProvider.numberOfItemsInSection(section)
+        return dataProvider.numberOfItems(inSection: section)
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let object = dataProvider.objectAtIndexPath(indexPath)
+        let object = dataProvider.object(at: indexPath)
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
-        updateCollectionViewCell(cell, object: object)
+        update(cell, with: object)
         
         return cell
     }

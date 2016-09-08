@@ -42,14 +42,14 @@ public protocol DataProviding: class {
      
      - parameter indexPath: the indexPath
      */
-    func objectAtIndexPath(_ indexPath: IndexPath) -> Object
+    func object(at indexPath: IndexPath) -> Object
     
     /**
      Returns number of items for a given section.
      
      - return: number of items
      */
-    func numberOfItemsInSection(_ section: Int) -> Int
+    func numberOfItems(inSection section: Int) -> Int
     
     /**
      Returns number of sections
@@ -74,9 +74,9 @@ extension DataProviding where Object: Equatable {
      */
     public func indexPathForObject(_ object: Object) -> IndexPath? {
         for section in  0..<numberOfSections() {
-            for item in 0..<numberOfItemsInSection(section) {
+            for item in 0..<numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
-                let o = objectAtIndexPath(indexPath)
+                let o = self.object(at: indexPath)
                 if o == object {
                     return indexPath
                 }

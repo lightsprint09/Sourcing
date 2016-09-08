@@ -47,8 +47,8 @@ class DataProvidingTester<Provider: DataProviding> where Provider.Object: Equata
     
     func test() {
         XCTAssertEqual(dataProvider.numberOfSections(), providerConfiguration.sections)
-        XCTAssertEqual(dataProvider.numberOfItemsInSection(providerConfiguration.rowsAtSection.atSection), providerConfiguration.rowsAtSection.numberOfItems)
-        XCTAssertEqual(dataProvider.objectAtIndexPath(providerConfiguration.objectIndexPath.atIndexPath), providerConfiguration.objectIndexPath.object)
+        XCTAssertEqual(dataProvider.numberOfItems(inSection: providerConfiguration.rowsAtSection.atSection), providerConfiguration.rowsAtSection.numberOfItems)
+        XCTAssertEqual(dataProvider.object(at: providerConfiguration.objectIndexPath.atIndexPath), providerConfiguration.objectIndexPath.object)
         XCTAssertEqual(dataProvider.indexPathForObject(providerConfiguration.objectIndexPath.object), providerConfiguration.objectIndexPath.atIndexPath)
         
         XCTAssertEqual(dataProvider.indexPathForObject(providerConfiguration.notContainingObject), nil)

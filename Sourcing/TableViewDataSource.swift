@@ -47,7 +47,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         tableView.reloadData()
     }
     
-    public func updateTableViewCell(_ cell: UITableViewCell, object: DataProvider.Object) {
+    public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(type(of: cell))")
         }
@@ -66,13 +66,13 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataProvider.numberOfItemsInSection(section)
+        return dataProvider.numberOfItems(inSection: section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let object = dataProvider.objectAtIndexPath(indexPath)
+        let object = dataProvider.object(at: indexPath)
         let cell = self.tableView.dequeueReusableCellWithIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
-        updateTableViewCell(cell, object: object)
+        update(cell, with: object)
         
         return cell
     }

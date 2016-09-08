@@ -26,7 +26,7 @@
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-import Foundation
+import UIKit
 
 final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NSObject, TableViewDataSourcing {
     
@@ -40,7 +40,7 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
         tableView.reloadData()
     }
     
-    public func updateTableViewCell(_ cell: UITableViewCell, object: DataProvider.Object) {
+    public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }
@@ -75,16 +75,16 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataProvider.numberOfItemsInSection(section)
+        return dataProvider.numberOfItems(inSection: section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let object = dataProvider.objectAtIndexPath(indexPath)
+        let object = dataProvider.object(at: indexPath)
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
         let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        updateTableViewCell(cell, object: object)
+        update(cell, with: object)
         
         return cell
     }

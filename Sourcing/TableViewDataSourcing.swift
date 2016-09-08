@@ -36,7 +36,7 @@ public protocol TableViewDataSourcing: UITableViewDataSource {
     var dataProvider: DataProvider { get }
     var tableView: TableViewRepresenting { get }
     
-    func updateTableViewCell(_ cell: UITableViewCell, object: DataProvider.Object)
+    func update(_ cell: UITableViewCell, with: DataProvider.Object)
     
 }
 
@@ -53,7 +53,7 @@ public extension TableViewDataSourcing {
                 guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
                     fatalError("Could not update Cell")
                 }
-                self.updateTableViewCell(cell, object: object)
+                self.update(cell, with: object)
             case .move(let indexPath, let newIndexPath):
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .fade)
@@ -70,6 +70,6 @@ public extension TableViewDataSourcing {
     
     var selectedObject: DataProvider.Object? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
-        return dataProvider.objectAtIndexPath(indexPath)
+        return dataProvider.object(at: indexPath)
     }
 }

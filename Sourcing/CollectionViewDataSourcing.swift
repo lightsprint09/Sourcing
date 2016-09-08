@@ -38,7 +38,7 @@ public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
     var dataProvider: DataProvider { get }
     var collectionView: CollectionViewRepresenting { get }
     
-    func updateCollectionViewCell(_ cell: UICollectionViewCell, object: DataProvider.Object)
+    func update(_ cell: UICollectionViewCell, with object: DataProvider.Object)
 }
 
 public extension CollectionViewDataSourcing {
@@ -55,7 +55,7 @@ public extension CollectionViewDataSourcing {
                         shouldUpdate = true
                         continue
                     }
-                    self.updateCollectionViewCell(cell, object: object)
+                    self.update(cell, with: object)
                 case .move(let indexPath, let newIndexPath):
                     self.collectionView.deleteItemsAtIndexPaths([indexPath])
                     self.collectionView.insertItemsAtIndexPaths([newIndexPath])
@@ -77,6 +77,6 @@ public extension CollectionViewDataSourcing {
         guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
             return nil
         }
-        return selectedIndexPaths.map { dataProvider.objectAtIndexPath($0) }
+        return selectedIndexPaths.map { dataProvider.object(at: $0) }
     }
 }

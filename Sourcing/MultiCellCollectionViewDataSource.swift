@@ -40,7 +40,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         collectionView.reloadData()
     }
     
-    public func updateCollectionViewCell(_ cell: UICollectionViewCell, object: DataProvider.Object) {
+    public func update(_ cell: UICollectionViewCell, with object: DataProvider.Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
@@ -74,11 +74,11 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataProvider.numberOfItemsInSection(section)
+        return dataProvider.numberOfItems(inSection: section)
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let object = dataProvider.objectAtIndexPath(indexPath)
+        let object = dataProvider.object(at: indexPath)
         
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
