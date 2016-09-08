@@ -2,5 +2,8 @@ language: objective-c
 xcode_project: Sourcing.xcodeproj # path to your xcodeproj folder
 xcode_scheme: Sourcing
 osx_image: xcode8
+before_install:
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
 script: 
 - xctool -project Sourcing.xcodeproj -scheme 'Sourcing' -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean build test
