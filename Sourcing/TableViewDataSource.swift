@@ -34,7 +34,12 @@ import UIKit
 final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell>: NSObject, TableViewDataSourcing {
     
     public let dataProvider: DataProvider
-    public let tableView: TableViewRepresenting
+    public var tableView: TableViewRepresenting {
+        didSet {
+            tableView.dataSource = self
+            tableView.reloadData()
+        }
+    }
     let cellConfiguration: CellConfig
     
     public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig) {

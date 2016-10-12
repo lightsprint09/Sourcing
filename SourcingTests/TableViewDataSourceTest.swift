@@ -193,4 +193,18 @@ class TableViewDataSourceTest: XCTestCase {
         //Then
         XCTAssertEqual(["foo", "bar"], sectionTitles!)
     }
+    
+    func testSetNewTableView() {
+        //Given
+        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        let secondTableview = UITableViewMock()
+        
+        //When
+        XCTAssertNil(secondTableview.dataSource)
+        let dataSource = TableViewDataSource(tableView:  UITableView(), dataProvider: dataProvider, cellDequable: cellConfig)
+        dataSource.tableView = secondTableview
+        //Then
+        XCTAssertNotNil(secondTableview.dataSource)
+        XCTAssertEqual(secondTableview.reloadedCount, 1)
+    }
 }
