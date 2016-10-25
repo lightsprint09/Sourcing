@@ -30,6 +30,15 @@ import UIKit
 
 final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NSObject, TableViewDataSourcing {
     
+    public var tableView: TableViewRepresenting {
+        didSet {
+            tableView.dataSource = self
+            tableView.reloadData()
+        }
+    }
+    public let dataProvider: DataProvider
+    private let cellDequeables: Array<CellDequeable>
+    
     public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.tableView = tableView
         self.dataProvider = dataProvider
@@ -49,10 +58,6 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
     
     
     // MARK: Private
-    
-    public let tableView: TableViewRepresenting
-    public let dataProvider: DataProvider
-    fileprivate let cellDequeables: Array<CellDequeable>
     
     fileprivate func registerCells(_ cellDequeables: Array<CellDequeable>) {
         for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.nib != nil {

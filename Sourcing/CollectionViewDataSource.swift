@@ -36,12 +36,12 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         }
     }
     public let dataProvider: DataProvider
-    let cellConfiguration: CellConfig
+    private let cellDequeable: CellConfig
     
-    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cell: CellConfig) {
+    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cellDequeable: CellConfig) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
-        self.cellConfiguration = cell
+        self.cellDequeable = cellDequeable
         super.init()
         registerNib()
         collectionView.dataSource = self
@@ -52,12 +52,12 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
         }
-        let _ = cellConfiguration.configureCellTypeSafe(realCell, with: object)
+        let _ = cellDequeable.configureCellTypeSafe(realCell, with: object)
     }
     
     private func registerNib() {
-        guard let nib = cellConfiguration.nib else { return }
-        collectionView.registerNib(nib, forCellWithReuseIdentifier: cellConfiguration.cellIdentifier)
+        guard let nib = cellDequeable.nib else { return }
+        collectionView.registerNib(nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
     }
     
     // MARK: UICollectionViewDataSource
@@ -72,7 +72,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let object = dataProvider.object(at: indexPath)
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
         update(cell, with: object)
         
         return cell

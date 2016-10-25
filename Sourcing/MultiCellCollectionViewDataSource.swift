@@ -30,6 +30,15 @@ import UIKit
 
 final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding>: NSObject, CollectionViewDataSourcing {
     
+    public let dataProvider: DataProvider
+    public var collectionView: CollectionViewRepresenting {
+        didSet {
+            collectionView.dataSource = self
+            collectionView.reloadData()
+        }
+    }
+    private let cellDequeables: Array<CellDequeable>
+    
     public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
@@ -47,11 +56,9 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         let _ = cellDequeable.configure(cell, with: object)
     }
     
-    public let collectionView: CollectionViewRepresenting
-    public let dataProvider: DataProvider
     
     // MARK: Private
-    fileprivate let cellDequeables: Array<CellDequeable>
+    
     
     fileprivate func registerCells(_ cellDequeables: Array<CellDequeable>) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {

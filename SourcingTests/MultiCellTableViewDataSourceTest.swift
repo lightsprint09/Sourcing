@@ -163,4 +163,18 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         //Then
         XCTAssertEqual(["foo", "bar"], sectionTitles!)
     }
+    
+    func testSetNewTableView() {
+        //Given
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)]
+        let secondTableview = UITableViewMock()
+        
+        //When
+        XCTAssertNil(secondTableview.dataSource)
+        let dataSource = MultiCellTableViewDataSource(tableView: UITableView(), dataProvider: dataProvider, cellDequeables: cellConfig)
+        dataSource.tableView = secondTableview
+        //Then
+        XCTAssertNotNil(secondTableview.dataSource)
+        XCTAssertEqual(secondTableview.reloadedCount, 1)
+    }
 }

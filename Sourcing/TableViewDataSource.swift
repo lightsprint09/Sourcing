@@ -40,12 +40,12 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
             tableView.reloadData()
         }
     }
-    let cellConfiguration: CellConfig
+    private let cellDequable: CellConfig
     
     public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig) {
         self.tableView = tableView
         self.dataProvider = dataProvider
-        self.cellConfiguration = cellDequable
+        self.cellDequable = cellDequable
         super.init()
         registerNib()
         tableView.dataSource = self
@@ -56,12 +56,12 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(type(of: cell))")
         }
-        let _ = cellConfiguration.configureCellTypeSafe(realCell, with: object)
+        let _ = cellDequable.configureCellTypeSafe(realCell, with: object)
     }
     
     private func registerNib() {
-        guard let nib = cellConfiguration.nib else { return }
-        tableView.registerNib(nib, forCellReuseIdentifier: cellConfiguration.cellIdentifier)
+        guard let nib = cellDequable.nib else { return }
+        tableView.registerNib(nib, forCellReuseIdentifier: cellDequable.cellIdentifier)
     }
     
     // MARK: UITableViewDataSource
@@ -76,7 +76,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = dataProvider.object(at: indexPath)
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequable.cellIdentifier, forIndexPath: indexPath)
         update(cell, with: object)
         
         return cell

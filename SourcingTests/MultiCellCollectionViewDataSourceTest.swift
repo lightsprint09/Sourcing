@@ -148,4 +148,19 @@ class MultiCellCollectionViewDataSourceTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 2)
     }
+    
+    func testSetNewCollectionView() {
+        //Given
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)]
+        let collectionViewMock = UICollectionViewMock()
+        let secondCollectionViewMock = UICollectionViewMock()
+        
+        //When
+        XCTAssertNil(secondCollectionViewMock.dataSource)
+        let dataSource = MultiCellCollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
+        dataSource.collectionView = secondCollectionViewMock
+        //Then
+        XCTAssertNotNil(secondCollectionViewMock.dataSource)
+        XCTAssertEqual(secondCollectionViewMock.reloadedCount, 1)
+    }
 }

@@ -33,14 +33,29 @@ import UIKit
 public protocol TableViewDataSourcing: UITableViewDataSource {
     associatedtype DataProvider: DataProviding
     
+    /// The dataProvider which works as the dataSource of the tableView by providing specific data.
     var dataProvider: DataProvider { get }
-    var tableView: TableViewRepresenting { get }
     
+    /// The tableView which should present the data.
+    var tableView: TableViewRepresenting { get set }
+    
+    
+    /// Updates a given cell with a given Object
+    ///
+    /// - parameter cell: the cell to configure.
+    /// - parameter with: the object/data for the cell.
     func update(_ cell: UITableViewCell, with: DataProvider.Object)
+    
+    /// Processe data changes into the table view ui. If there is no specific information on the updates
+    /// (e.g. update equals nil) it only reloads the tableView.
+    ///
+    /// - parameter updates: the updates to change the table view
+    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?)
     
 }
 
 public extension TableViewDataSourcing {
+    
     func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?) {
         guard let updates = updates else { return tableView.reloadData() }
         tableView.beginUpdates()

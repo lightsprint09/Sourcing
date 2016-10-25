@@ -48,7 +48,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 1)
@@ -62,7 +62,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib)
         
         //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
@@ -75,7 +75,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         let sectionCount = dataSource.numberOfSections(in: realCollectionView)
         
         //Then
@@ -88,7 +88,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         let rowCount = dataSource.collectionView(realCollectionView, numberOfItemsInSection: 1)
         
         //Then
@@ -104,7 +104,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         let cell = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 2, section: 1))
         
         //Then
@@ -121,7 +121,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
@@ -135,7 +135,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         dataSource.processUpdates(nil)
         
         //Then
@@ -147,7 +147,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         collectionViewMock.selectedIndexPaths = [IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 1)]
         let selectedObjects = dataSource.selectedObjects
         
@@ -160,14 +160,14 @@ class CollectionViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         let selectedObject = dataSource.selectedObjects
         
         //Then
         XCTAssertNil(selectedObject)
     }
     
-    func testSetNewTableView() {
+    func testSetNewCollectionView() {
         //Given
         let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
         let collectionViewMock = UICollectionViewMock()
@@ -175,7 +175,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         
         //When
         XCTAssertNil(secondCollectionViewMock.dataSource)
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         dataSource.collectionView = secondCollectionViewMock
         //Then
         XCTAssertNotNil(secondCollectionViewMock.dataSource)
