@@ -166,5 +166,21 @@ class CollectionViewDataSourceTest: XCTestCase {
         //Then
         XCTAssertNil(selectedObject)
     }
+    
+    func testSetNewTableView() {
+        //Given
+        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
+        let collectionViewMock = UICollectionViewMock()
+        let secondCollectionViewMock = UICollectionViewMock()
+        
+        //When
+        XCTAssertNil(secondCollectionViewMock.dataSource)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        dataSource.collectionView = secondCollectionViewMock
+        //Then
+        XCTAssertNotNil(secondCollectionViewMock.dataSource)
+        XCTAssertEqual(secondCollectionViewMock.reloadedCount, 1)
+    }
+
 
 }

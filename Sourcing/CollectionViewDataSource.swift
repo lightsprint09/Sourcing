@@ -29,7 +29,12 @@ import UIKit
 
 final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, CollectionViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
     
-    public let collectionView: CollectionViewRepresenting
+    public var collectionView: CollectionViewRepresenting {
+        didSet {
+            collectionView.dataSource = self
+            collectionView.reloadData()
+        }
+    }
     public let dataProvider: DataProvider
     let cellConfiguration: CellConfig
     
