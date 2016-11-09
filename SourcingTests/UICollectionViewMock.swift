@@ -36,59 +36,64 @@ class MockCollectionCell<T>: UICollectionViewCell, ConfigurableCell {
     init() {
         super.init(frame: CGRect.zero)
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        Swift.fatalError("init(coder:) has not been implemented")
+    }
     
-    func configureForObject(object: T) {
+    func configure(with object: T) {
         configurationCount += 1
         configuredObject = object
     }
 }
 class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
+
     var dataSource: UICollectionViewDataSource?
     
     init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": MockCollectionCell<Int>()]) {
         super.init(mockCells: mockCollectionViewCells)
     }
     
-    func dequeueReusableCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func dequeueReusableCellWithReuseIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> UICollectionViewCell {
         return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }
     
-    var selectedIndexPaths: [NSIndexPath]?
-    func indexPathsForSelectedItems() -> [NSIndexPath]? {
+    var selectedIndexPaths: [IndexPath]?
+    var indexPathsForSelectedItems: [IndexPath]? {
         return selectedIndexPaths
     }
     
-    func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
+    func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
         updates?()
     }
     
-    func insertSections(sections: NSIndexSet) {
+    func insertSections(_ sections: IndexSet) {
     
     }
-    func deleteSections(sections: NSIndexSet) {
+    func deleteSections(_ sections: IndexSet) {
         
     }
-    func reloadSections(sections: NSIndexSet) {
+    func reloadSections(_ sections: IndexSet) {
     
     }
-    func moveSection(section: Int, toSection newSection: Int) {
-    
-    }
-    
-    func insertItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
-    
-    }
-    func deleteItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
-    
-    }
-    func reloadItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
-    
-    }
-    func moveItemAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath) {
+    func moveSection(_ section: Int, toSection newSection: Int) {
     
     }
     
-    func cellForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewCell? {
+    func insertItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    
+    }
+    func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    
+    }
+    func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    
+    }
+    func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath) {
+    
+    }
+    
+    func cellForItemAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {
         let cell = cellMocks.first
         return cell?.1 as? UICollectionViewCell
     }

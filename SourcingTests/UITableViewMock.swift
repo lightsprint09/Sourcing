@@ -34,10 +34,14 @@ class MockCell<T>: UITableViewCell, ConfigurableCell {
     var configuredObject: T?
     
     init() {
-        super.init(style: .Default, reuseIdentifier: nil)
+        super.init(style: .default, reuseIdentifier: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        Swift.fatalError("init(coder:) has not been implemented")
     }
     
-    func configureForObject(object: T) {
+    func configure(with object: T) {
         configurationCount += 1
         configuredObject = object
     }
@@ -45,18 +49,18 @@ class MockCell<T>: UITableViewCell, ConfigurableCell {
 
 class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     var dataSource: UITableViewDataSource?
-    var indexPathForSelectedRow: NSIndexPath?
+    var indexPathForSelectedRow: IndexPath?
     
    
     init(mockTableViewCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": MockCell<Int>()]) {
         super.init(mockCells: mockTableViewCells)
     }
     
-    func registerNib(nib: UINib?, forCellReuseIdentifier identifier: String) {
+    func registerNib(_ nib: UINib?, forCellReuseIdentifier identifier: String) {
         registerdNibs[identifier] = nib
     }
     
-    func dequeueReusableCellWithIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func dequeueReusableCellWithIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> UITableViewCell {
         return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }
     
@@ -68,23 +72,23 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     
     }
     
-    func insertRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation) {
+    func insertRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
         
     }
     
-    func deleteRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation) {
+    func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
         
     }
     
-    func insertSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation) {
+    func insertSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
         
     }
     
-    func deleteSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation) {
+    func deleteSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
     
     }
     
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
+    func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell? {
         let cell = cellMocks.first
         return cell?.1 as? UITableViewCell
     }

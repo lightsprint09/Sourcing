@@ -43,11 +43,11 @@ class UITableCollectionViewBaseMock {
         cellMocks = mockCells
     }
     
-    func registerNib(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+    func registerNib(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
         registerdNibs[identifier] = nib
     }
     
-    func dequeueWithIdentifier<Cell>(identifier: String, forIndexPath indexPath: NSIndexPath) -> Cell {
+    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
         lastUsedReuseIdetifiers.append(identifier)
         
         return cellMocks[identifier]! as! Cell

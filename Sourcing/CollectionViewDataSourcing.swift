@@ -36,35 +36,35 @@ public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
     associatedtype DataProvider: DataProviding
     
     var dataProvider: DataProvider { get }
-    var collectionView: CollectionViewRepresenting { get }
+    var collectionView: CollectionViewRepresenting { get set }
     
-    func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object)
+    func update(_ cell: UICollectionViewCell, with object: DataProvider.Object)
 }
 
 public extension CollectionViewDataSourcing {
-    func processUpdates(updates: [DataProviderUpdate<DataProvider.Object>]?) {
+    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?) {
         guard let updates = updates else { return collectionView.reloadData() }
         var shouldUpdate = false
         collectionView.performBatchUpdates({
             for update in updates {
                 switch update {
-                case .Insert(let indexPath):
+                case .insert(let indexPath):
                     self.collectionView.insertItemsAtIndexPaths([indexPath])
-                case .Update(let indexPath, let object):
+                case .update(let indexPath, let object):
                     guard let cell = self.collectionView.cellForItemAtIndexPath(indexPath) else {
                         shouldUpdate = true
                         continue
                     }
-                    self.updateCollectionViewCell(cell, object: object)
-                case .Move(let indexPath, let newIndexPath):
+                    self.update(cell, with: object)
+                case .move(let indexPath, let newIndexPath):
                     self.collectionView.deleteItemsAtIndexPaths([indexPath])
                     self.collectionView.insertItemsAtIndexPaths([newIndexPath])
-                case .Delete(let indexPath):
+                case .delete(let indexPath):
                     self.collectionView.deleteItemsAtIndexPaths([indexPath])
-                case .InsertSection(let sectionIndex):
-                    self.collectionView.insertSections(NSIndexSet(index: sectionIndex))
-                case .DeleteSection(let sectionIndex):
-                    self.collectionView.deleteSections(NSIndexSet(index: sectionIndex))
+                case .insertSection(let sectionIndex):
+                    self.collectionView.insertSections(IndexSet(integer: sectionIndex))
+                case .deleteSection(let sectionIndex):
+                    self.collectionView.deleteSections(IndexSet(integer: sectionIndex))
                 }
             }
             }, completion: nil)
@@ -73,10 +73,11 @@ public extension CollectionViewDataSourcing {
         }
     }
     
-    public func selectedObjects() -> Array<DataProvider.Object>? {
-        guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems() else {
+    var selectedObjects: Array<DataProvider.Object>? {
+        guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
             return nil
         }
-        return selectedIndexPaths.map { dataProvider.objectAtIndexPath($0) }
+        
+        return selectedIndexPaths.map { dataProvider.object(at: $0) }
     }
 }

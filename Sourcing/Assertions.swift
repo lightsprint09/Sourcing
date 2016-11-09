@@ -40,32 +40,30 @@ import Foundation
 
 /// drop-in replacements
 
-func assert(@autoclosure condition: () -> Bool, @autoclosure _ message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
     Assertions.assertClosure(condition(), message(), file, line)
 }
 
-func assertionFailure(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+func assertionFailure(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
     Assertions.assertionFailureClosure(message(), file, line)
 }
 
-func precondition(@autoclosure condition: () -> Bool, @autoclosure _ message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+func precondition(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
     Assertions.preconditionClosure(condition(), message(), file, line)
 }
 
-@noreturn func preconditionFailure(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+func preconditionFailure(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) -> Never  {
     Assertions.preconditionFailureClosure(message(), file, line)
-    runForever()
 }
 
-@noreturn public func fatalError(@autoclosure message: () -> String = "", file: StaticString = #file, line: UInt = #line) {
+public func fatalError(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) -> Never  {
     Assertions.fatalErrorClosure(message(), file, line)
-    runForever()
 }
 
 /// This is a `noreturn` function that runs forever and doesn't return.
 /// Used by assertions with `@noreturn`.
-@noreturn private func runForever() {
+private func runForever() -> Never  {
     repeat {
-        NSRunLoop.currentRunLoop().run()
+        RunLoop.current.run()
     } while (true)
 }

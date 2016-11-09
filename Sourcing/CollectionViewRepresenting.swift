@@ -31,27 +31,27 @@ import UIKit
 public protocol CollectionViewRepresenting: class {
     var dataSource: UICollectionViewDataSource? { get set }
     
-    func indexPathsForSelectedItems() -> [NSIndexPath]?
+    var indexPathsForSelectedItems: [IndexPath]? { get }
     
     func reloadData()
     
-    func registerNib(nib: UINib?, forCellWithReuseIdentifier identifier: String)
+    func registerNib(_ nib: UINib?, forCellWithReuseIdentifier identifier: String)
 
-    func dequeueReusableCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
+    func dequeueReusableCellWithReuseIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> UICollectionViewCell
     
-    func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?)
+    func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?)
 
-    func insertSections(sections: NSIndexSet)
-    func deleteSections(sections: NSIndexSet)
-    func reloadSections(sections: NSIndexSet)
-    func moveSection(section: Int, toSection newSection: Int)
+    func insertSections(_ sections: IndexSet)
+    func deleteSections(_ sections: IndexSet)
+    func reloadSections(_ sections: IndexSet)
+    func moveSection(_ section: Int, toSection newSection: Int)
     
-    func insertItemsAtIndexPaths(indexPaths: [NSIndexPath])
-    func deleteItemsAtIndexPaths(indexPaths: [NSIndexPath])
-    func reloadItemsAtIndexPaths(indexPaths: [NSIndexPath])
-    func moveItemAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath)
+    func insertItemsAtIndexPaths(_ indexPaths: [IndexPath])
+    func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath])
+    func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath])
+    func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath)
     
-    func cellForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewCell?
+    func cellForItemAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell?
     
 }
 

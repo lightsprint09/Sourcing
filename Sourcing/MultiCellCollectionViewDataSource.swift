@@ -30,6 +30,15 @@ import UIKit
 
 final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding>: NSObject, CollectionViewDataSourcing {
     
+    public let dataProvider: DataProvider
+    public var collectionView: CollectionViewRepresenting {
+        didSet {
+            collectionView.dataSource = self
+            collectionView.reloadData()
+        }
+    }
+    private let cellDequeables: Array<CellDequeable>
+    
     public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
@@ -40,27 +49,25 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         collectionView.reloadData()
     }
     
-    public func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object) {
+    public func update(_ cell: UICollectionViewCell, with object: DataProvider.Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
-        cellDequeable.configureCell(cell, object: object)
+        let _ = cellDequeable.configure(cell, with: object)
     }
     
-    public let collectionView: CollectionViewRepresenting
-    public let dataProvider: DataProvider
     
     // MARK: Private
-    private let cellDequeables: Array<CellDequeable>
     
-    private func registerCells(cellDequeables: Array<CellDequeable>) {
+    
+    fileprivate func registerCells(_ cellDequeables: Array<CellDequeable>) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }
     
-    private func cellDequeableForIndexPath(object: DataProvider.Object) -> CellDequeable? {
-        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.canConfigurecellForItem(object) {
+    fileprivate func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigureCell(with: object) {
             return cellDequeable
         }
         
@@ -69,22 +76,22 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     
     // MARK: UICollectionViewDataSource
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataProvider.numberOfSections()
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataProvider.numberOfItemsInSection(section)
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataProvider.numberOfItems(inSection: section)
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let object = dataProvider.objectAtIndexPath(indexPath)
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let object = dataProvider.object(at: indexPath)
         
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        cellDequeable.configureCell(cell, object: object)
+        let _ = cellDequeable.configure(cell, with: object)
         
         return cell
     }

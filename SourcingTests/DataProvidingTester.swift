@@ -32,11 +32,11 @@ import Sourcing
 struct DataProviderExpection<Object: Equatable> {
     let rowsAtSection: (numberOfItems: Int, atSection: Int)
     let sections: Int
-    let objectIndexPath: (object: Object, atIndexPath: NSIndexPath)
+    let objectIndexPath: (object: Object, atIndexPath: IndexPath)
     let notContainingObject: Object
 }
 
-class DataProvidingTester<Provider: DataProviding where Provider.Object: Equatable>{
+class DataProvidingTester<Provider: DataProviding> where Provider.Object: Equatable{
     let dataProvider: Provider
     let providerConfiguration: DataProviderExpection<Provider.Object>
     
@@ -47,8 +47,8 @@ class DataProvidingTester<Provider: DataProviding where Provider.Object: Equatab
     
     func test() {
         XCTAssertEqual(dataProvider.numberOfSections(), providerConfiguration.sections)
-        XCTAssertEqual(dataProvider.numberOfItemsInSection(providerConfiguration.rowsAtSection.atSection), providerConfiguration.rowsAtSection.numberOfItems)
-        XCTAssertEqual(dataProvider.objectAtIndexPath(providerConfiguration.objectIndexPath.atIndexPath), providerConfiguration.objectIndexPath.object)
+        XCTAssertEqual(dataProvider.numberOfItems(inSection: providerConfiguration.rowsAtSection.atSection), providerConfiguration.rowsAtSection.numberOfItems)
+        XCTAssertEqual(dataProvider.object(at: providerConfiguration.objectIndexPath.atIndexPath), providerConfiguration.objectIndexPath.object)
         XCTAssertEqual(dataProvider.indexPathForObject(providerConfiguration.objectIndexPath.object), providerConfiguration.objectIndexPath.atIndexPath)
         
         XCTAssertEqual(dataProvider.indexPathForObject(providerConfiguration.notContainingObject), nil)

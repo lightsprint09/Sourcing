@@ -44,7 +44,7 @@ public protocol CellDequeable {
      
      - return If the cell can be used for given object
      */
-    func canConfigurecellForItem(object: Any) -> Bool
+    func canConfigureCell(with object: Any) -> Bool
     
     /**
      Configures a given cell with an object.
@@ -54,5 +54,5 @@ public protocol CellDequeable {
      
      - return The configured cell
      */
-    func configureCell(cell: AnyObject, object: Any) -> AnyObject
+    func configure(_ cell: AnyObject, with object: Any) -> AnyObject
 }

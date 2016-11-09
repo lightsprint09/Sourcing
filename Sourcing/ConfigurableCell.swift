@@ -36,5 +36,5 @@ public protocol ConfigurableCell {
      
      - parameter object: The object to configure the cell with.
      */
-    func configureForObject(object: DataSource)
+    func configure(with object: DataSource)
 }

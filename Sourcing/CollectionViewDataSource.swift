@@ -27,7 +27,7 @@
 //
 import UIKit
 
-final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell>: NSObject, CollectionViewDataSourcing {
+final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, CollectionViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
     
     public var collectionView: CollectionViewRepresenting {
         didSet {
@@ -36,44 +36,44 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         }
     }
     public let dataProvider: DataProvider
-    let cellConfiguration: CellConfig
+    private let cellDequeable: CellConfig
     
-    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cell: CellConfig) {
+    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cellDequeable: CellConfig) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
-        self.cellConfiguration = cell
+        self.cellDequeable = cellDequeable
         super.init()
         registerNib()
         collectionView.dataSource = self
         collectionView.reloadData()
     }
    
-    public func updateCollectionViewCell(cell: UICollectionViewCell, object: DataProvider.Object) {
+    public func update(_ cell: UICollectionViewCell, with object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
             fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
         }
-        cellConfiguration.configureTypeSafe(realCell, object: object)
+        let _ = cellDequeable.configureCellTypeSafe(realCell, with: object)
     }
     
-    func registerNib() {
-        guard let nib = cellConfiguration.nib else { return }
-        collectionView.registerNib(nib, forCellWithReuseIdentifier: cellConfiguration.cellIdentifier)
+    private func registerNib() {
+        guard let nib = cellDequeable.nib else { return }
+        collectionView.registerNib(nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
     }
     
     // MARK: UICollectionViewDataSource
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataProvider.numberOfSections()
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataProvider.numberOfItemsInSection(section)
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataProvider.numberOfItems(inSection: section)
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let object = dataProvider.objectAtIndexPath(indexPath)
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellConfiguration.cellIdentifier, forIndexPath: indexPath)
-        updateCollectionViewCell(cell, object: object)
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let object = dataProvider.object(at: indexPath)
+        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        update(cell, with: object)
         
         return cell
     }

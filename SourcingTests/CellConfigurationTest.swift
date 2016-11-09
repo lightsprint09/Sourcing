@@ -34,7 +34,7 @@ class CellConfigurationTest: XCTestCase {
     func testCellConfigurationInit() {
         //Given
         let identifier = "cellIdentifier"
-        let nib = UINib(data: NSData(), bundle: nil)
+        let nib = UINib(data: Data(), bundle: nil)
         let additionalConfiguartion = { (obj: Int, cell: MockCell<Int>) in }
         
         //When
@@ -48,7 +48,7 @@ class CellConfigurationTest: XCTestCase {
     func testConfigureCell() {
         //Given
         let identifier = "cellIdentifier"
-        let nib = UINib(data: NSData(), bundle: nil)
+        let nib = UINib(data: Data(), bundle: nil)
         var didCallAdditionalConfiguartion = false
         let additionalConfiguartion = { (obj: Int, cell: MockCell<Int>) in
             didCallAdditionalConfiguartion = true
@@ -57,7 +57,7 @@ class CellConfigurationTest: XCTestCase {
         let cell = MockCell<Int>()
         
         //When
-        configuration.configureCell(cell, object: 100)
+        let _ = configuration.configure(cell, with: 100)
         
         //Then
         XCTAssertTrue(didCallAdditionalConfiguartion)
@@ -73,7 +73,7 @@ class CellConfigurationTest: XCTestCase {
         let configuration = CellConfiguration<MockCell<Int>>(cellIdentifier: identifier)
         
         //Then
-        XCTAssertNotNil(configuration.canConfigurecellForItem(MockCell<Int>()))
+        XCTAssert(configuration.canConfigureCell(with: 1))
     }
 
 

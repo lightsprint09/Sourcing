@@ -33,25 +33,25 @@ import Foundation
  */
 public protocol TableViewRepresenting: class {
     var dataSource: UITableViewDataSource? { get set }
-    var indexPathForSelectedRow: NSIndexPath? { get }
+    var indexPathForSelectedRow: IndexPath? { get }
     
     func reloadData()
     
-    func registerNib(nib: UINib?, forCellReuseIdentifier identifier: String)
+    func registerNib(_ nib: UINib?, forCellReuseIdentifier identifier: String)
     
-    func dequeueReusableCellWithIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func dequeueReusableCellWithIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> UITableViewCell
     
     func beginUpdates()
     func endUpdates()
     
-    func insertRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation)
-    func deleteRowsAtIndexPaths(indexPaths: Array<NSIndexPath>, withRowAnimation: UITableViewRowAnimation)
+    func insertRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation)
+    func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation)
     
-    func deleteSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation)
-    func insertSections(sections: NSIndexSet, withRowAnimation: UITableViewRowAnimation)
+    func deleteSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation)
+    func insertSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation)
     
     
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell?
+    func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell?
     
 }
 

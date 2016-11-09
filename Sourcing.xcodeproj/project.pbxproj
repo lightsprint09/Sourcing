@@ -35,7 +35,6 @@
 		C6C4B71C1D506A1600DED64E /* TableViewDataSourcing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C4B71B1D506A1600DED64E /* TableViewDataSourcing.swift */; };
 		C6D7AF331D6EC6DC0087749C /* Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D7AF321D6EC6DC0087749C /* Assertions.swift */; };
 		C6D7AF351D6EC70D0087749C /* AssertionsDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D7AF341D6EC70D0087749C /* AssertionsDeclaration.swift */; };
-		C6D7AF441D6EED7A0087749C /* MultiCellDataSourcing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D7AF431D6EED7A0087749C /* MultiCellDataSourcing.swift */; };
 		C6F913181D506BC800B0535C /* DataProviderUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913171D506BC800B0535C /* DataProviderUpdate.swift */; };
 		C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913191D506C1200B0535C /* StaticCellDequeable.swift */; };
 		C6F9131F1D5073D000B0535C /* CollectionViewDataSourcing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F9131E1D5073D000B0535C /* CollectionViewDataSourcing.swift */; };
@@ -83,7 +82,6 @@
 		C6C4B71B1D506A1600DED64E /* TableViewDataSourcing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSourcing.swift; sourceTree = "<group>"; };
 		C6D7AF321D6EC6DC0087749C /* Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assertions.swift; sourceTree = "<group>"; };
 		C6D7AF341D6EC70D0087749C /* AssertionsDeclaration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssertionsDeclaration.swift; sourceTree = "<group>"; };
-		C6D7AF431D6EED7A0087749C /* MultiCellDataSourcing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiCellDataSourcing.swift; sourceTree = "<group>"; };
 		C6F913171D506BC800B0535C /* DataProviderUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderUpdate.swift; sourceTree = "<group>"; };
 		C6F913191D506C1200B0535C /* StaticCellDequeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticCellDequeable.swift; sourceTree = "<group>"; };
 		C6F9131E1D5073D000B0535C /* CollectionViewDataSourcing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSourcing.swift; sourceTree = "<group>"; };
@@ -172,7 +170,6 @@
 				C6F9131E1D5073D000B0535C /* CollectionViewDataSourcing.swift */,
 				C68BCBC21D5A1AEC00C5E720 /* TableViewRepresenting.swift */,
 				C657EA8A1D6B15B30048B8E7 /* CollectionViewRepresenting.swift */,
-				C6D7AF431D6EED7A0087749C /* MultiCellDataSourcing.swift */,
 			);
 			name = protocols;
 			sourceTree = "<group>";
@@ -267,9 +264,11 @@
 				TargetAttributes = {
 					9432D24E1CF5ABC300B72986 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					9432D2581CF5ABC300B72986 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -325,7 +324,6 @@
 				9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellDequeable.swift in Sources */,
 				C657EA8B1D6B15B30048B8E7 /* CollectionViewRepresenting.swift in Sources */,
-				C6D7AF441D6EED7A0087749C /* MultiCellDataSourcing.swift in Sources */,
 				C6F9131F1D5073D000B0535C /* CollectionViewDataSourcing.swift in Sources */,
 				C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */,
 				948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */,
@@ -480,6 +478,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = 2UNP9S73JZ;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -500,6 +499,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = 2UNP9S73JZ;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -510,6 +510,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.SourcingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -520,6 +521,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.SourcingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

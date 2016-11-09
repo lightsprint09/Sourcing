@@ -26,9 +26,18 @@
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-import Foundation
+import UIKit
 
 final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NSObject, TableViewDataSourcing {
+    
+    public var tableView: TableViewRepresenting {
+        didSet {
+            tableView.dataSource = self
+            tableView.reloadData()
+        }
+    }
+    public let dataProvider: DataProvider
+    private let cellDequeables: Array<CellDequeable>
     
     public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
         self.tableView = tableView
@@ -40,28 +49,24 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
         tableView.reloadData()
     }
     
-    public func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object) {
+    public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }
-        cellDequeable.configureCell(cell, object: object)
+        let _ = cellDequeable.configure(cell, with: object)
     }
     
     
     // MARK: Private
     
-    public let tableView: TableViewRepresenting
-    public let dataProvider: DataProvider
-    private let cellDequeables: Array<CellDequeable>
-    
-    private func registerCells(cellDequeables: Array<CellDequeable>) {
-        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.nib != nil {
+    fileprivate func registerCells(_ cellDequeables: Array<CellDequeable>) {
+        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.nib != nil {
             tableView.registerNib(cellDequeable.nib, forCellReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }
     
-    private func cellDequeableForIndexPath(object: DataProvider.Object) -> CellDequeable? {
-        for (_, cellDequeable) in cellDequeables.enumerate() where cellDequeable.canConfigurecellForItem(object) {
+    fileprivate func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigureCell(with: object) {
             return cellDequeable
         }
         
@@ -70,26 +75,26 @@ final public class MultiCellTableViewDataSource<DataProvider: DataProviding>: NS
     
     // MARK: UITableViewDataSource
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return dataProvider.numberOfSections()
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataProvider.numberOfItemsInSection(section)
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataProvider.numberOfItems(inSection: section)
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let object = dataProvider.objectAtIndexPath(indexPath)
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let object = dataProvider.object(at: indexPath)
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
         let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        updateTableViewCell(cell, object: object)
+        update(cell, with: object)
         
         return cell
     }
     
-    public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return dataProvider.sectionIndexTitles
     }
     

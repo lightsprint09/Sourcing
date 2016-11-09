@@ -35,12 +35,12 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
     let cellIdentifier = "cellIdentifier"
     let secondCellIdentifier = "cellIdentifier2"
     
-    var dataProvider: ArrayDataProvider<AnyObject>!
+    var dataProvider: ArrayDataProvider<Any>!
     var tableViewMock: UITableViewMock!
     
     override func setUp() {
         super.setUp()
-        dataProvider = ArrayDataProvider(sections: [[2], ["String"]], sectionIndexTitles: ["foo", "bar"])
+        dataProvider = ArrayDataProvider<Any>(sections: [[2], ["String"]], sectionIndexTitles: ["foo", "bar"])
         tableViewMock = UITableViewMock()
     }
     
@@ -59,7 +59,7 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
     
     func testRegisterNib() {
         //Given
-        let nib = UINib(data: NSData(), bundle: nil)
+        let nib = UINib(data: Data(), bundle: nil)
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil), CellConfiguration<MockCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
         
         //When
@@ -78,7 +78,7 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = MultiCellTableViewDataSource(tableView: realTableView, dataProvider: dataProvider, cellDequeables: cellConfig)
-        let sectionCount = dataSource.numberOfSectionsInTableView(realTableView)
+        let sectionCount = dataSource.numberOfSections(in: realTableView)
         
         //Then
         XCTAssertEqual(sectionCount, 2)
@@ -108,8 +108,9 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
-        let intCell = dataSource.tableView(realTableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
-        let stringCell = dataSource.tableView(realTableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 1))
+        
+        let intCell = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 0, section: 0))
+        let stringCell = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 0, section: 1))
         
         //Then
         let mockIntCell = tableViewMock.cellMocks[cellIdentifier] as! MockCell<Int>
@@ -130,7 +131,7 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         
         //When
         let dataSource = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
-        dataSource.processUpdates([.Update(NSIndexPath(forRow: 2, inSection: 1), 100)])
+        dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
         let mockIntCell = tableViewMock.cellMocks[cellIdentifier] as! MockCell<Int>
@@ -157,9 +158,23 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
         //When
         let dataSource = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
         let realTableView = UITableView()
-        let sectionTitles = dataSource.sectionIndexTitlesForTableView(realTableView)
+        let sectionTitles = dataSource.sectionIndexTitles(for: realTableView)
         
         //Then
         XCTAssertEqual(["foo", "bar"], sectionTitles!)
+    }
+    
+    func testSetNewTableView() {
+        //Given
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)]
+        let secondTableview = UITableViewMock()
+        
+        //When
+        XCTAssertNil(secondTableview.dataSource)
+        let dataSource = MultiCellTableViewDataSource(tableView: UITableView(), dataProvider: dataProvider, cellDequeables: cellConfig)
+        dataSource.tableView = secondTableview
+        //Then
+        XCTAssertNotNil(secondTableview.dataSource)
+        XCTAssertEqual(secondTableview.reloadedCount, 1)
     }
 }

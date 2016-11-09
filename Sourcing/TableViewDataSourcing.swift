@@ -33,36 +33,51 @@ import UIKit
 public protocol TableViewDataSourcing: UITableViewDataSource {
     associatedtype DataProvider: DataProviding
     
+    /// The dataProvider which works as the dataSource of the tableView by providing specific data.
     var dataProvider: DataProvider { get }
-    var tableView: TableViewRepresenting { get }
     
-    func updateTableViewCell(cell: UITableViewCell, object: DataProvider.Object)
+    /// The tableView which should present the data.
+    var tableView: TableViewRepresenting { get set }
+    
+    
+    /// Updates a given cell with a given Object
+    ///
+    /// - parameter cell: the cell to configure.
+    /// - parameter with: the object/data for the cell.
+    func update(_ cell: UITableViewCell, with: DataProvider.Object)
+    
+    /// Processe data changes into the table view ui. If there is no specific information on the updates
+    /// (e.g. update equals nil) it only reloads the tableView.
+    ///
+    /// - parameter updates: the updates to change the table view
+    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?)
     
 }
 
 public extension TableViewDataSourcing {
-    func processUpdates(updates: [DataProviderUpdate<DataProvider.Object>]?) {
+    
+    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?) {
         guard let updates = updates else { return tableView.reloadData() }
         tableView.beginUpdates()
         for update in updates {
             switch update {
-            case .Insert(let indexPath):
-                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            case .insert(let indexPath):
+                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
                 
-            case .Update(let indexPath, let object):
+            case .update(let indexPath, let object):
                 guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
                     fatalError("Could not update Cell")
                 }
-                self.updateTableViewCell(cell, object: object)
-            case .Move(let indexPath, let newIndexPath):
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
-            case .Delete(let indexPath):
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            case .InsertSection(let sectionIndex):
-                self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            case .DeleteSection(let sectionIndex):
-                self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+                self.update(cell, with: object)
+            case .move(let indexPath, let newIndexPath):
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .fade)
+            case .delete(let indexPath):
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+            case .insertSection(let sectionIndex):
+                self.tableView.insertSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+            case .deleteSection(let sectionIndex):
+                self.tableView.deleteSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
             }
         }
         tableView.endUpdates()
@@ -70,6 +85,6 @@ public extension TableViewDataSourcing {
     
     var selectedObject: DataProvider.Object? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
-        return dataProvider.objectAtIndexPath(indexPath)
+        return dataProvider.object(at: indexPath)
     }
 }

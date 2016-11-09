@@ -40,11 +40,11 @@ public protocol ArrayDataProviding: DataProviding {
 }
 
 public extension ArrayDataProviding {
-    public func objectAtIndexPath(indexPath: NSIndexPath) -> Object {
-        return data[indexPath.section][indexPath.item]
+    public func object(at indexPath: IndexPath) -> Object {
+        return data[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).item]
     }
     
-    public func numberOfItemsInSection(section: Int) -> Int {
+    public func numberOfItems(inSection section: Int) -> Int {
         return data[section].count
     }
     
