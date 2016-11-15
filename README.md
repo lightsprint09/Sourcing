@@ -58,6 +58,9 @@ let tableView: UITableView = //...
 let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: [trainCellConfiguration, stationCellConfiguration])
 ```
 
+### Extending Sourcing by creating your own DataProvider.
+TBD
+
 ## Requirements
 
 - iOS 9.3+
