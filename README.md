@@ -27,19 +27,17 @@ class TrainCell: UITableViewCell, ConfigurableCell {
 }
 
 let cellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
-// Alternative
-let cellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID", nib: nib, additionalConfiguartion: { train, cell in 
-   //do you additional setup here like adding actions, etc.
-})
 
 ```
 
+Create an data provider. Use the default `ArrayDataProvider`or implement you own custom dataprovider, eg with network capabilities.
 ```swift
-
-
-let dataProvider: ArrayDataProvider<Int> = ArrayDataProvider(sections: [[2], [1, 3]])
-
+let trains: Array<Train> = //
+let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains)
+```
+Bring your data and your cell configuration together by creating a `TableViewDataSource` object.
+```swift
 let tableView: UITableView = //...
-let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: cellConfig)
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: cellConfiguration)
 ```
 
