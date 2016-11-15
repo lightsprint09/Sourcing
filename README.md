@@ -14,7 +14,7 @@ Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources
 
 ## Usage
 
-Setting up your TableViewCell by implementing `ConfigurableCell`. This works for CollectionViewCells as well. Creating a typed configuartion `CellConfiguration` object for your cell with a given resue identifier or with a nib. You can do additional configuration by providing a configuration closure to to some setup.
+Setting up your TableViewCell by implementing `ConfigurableCell`. This works for CollectionViewCells as well. Creating a typed configuartion `CellConfiguration` object for your cell with a given resue identifier or with a nib.
 ```swift
 import Sourcing
 
@@ -40,4 +40,30 @@ Bring your data and your cell configuration together by creating a `TableViewDat
 let tableView: UITableView = //...
 let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: cellConfiguration)
 ```
+
+## Requirements
+
+- iOS 9.3+
+- Xcode 8.0+
+- Swift 3.0
+
+## Installation
+
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+Specify the following in your `Cartfile`:
+
+```ogdl
+github "lightsprint09/sourcing" ~> 1.0
+```
+## Contributing
+Feel free to submit a pull request with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
+
+## Contact
+Lukas Schmidt ([Mail](mailto:lukas.la.schmidt@deutschebahn.com), [@lightsprint09](https://twitter.com/lightsprint09))
+
+## License
+Sourcing is released under the MIT license. See LICENSE for details.
 
