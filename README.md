@@ -5,15 +5,15 @@
 
 |           | Main Features                  |
 | --------- | ------------------------------ |
-| 🛡        | Typesave when using a single data type       |
-| 🐍 | Less typesafe, but flexible when displaying different data types |
+| 🛡        | Typesave when using a homogeneous data type       |
+| 🐍 | Less typesafe, but flexible when displaying heterogeneous data types |
 | 🚄        | Extendable API                 |
 | &#9989;   | Fully unit tested              |
 
 Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift.
 
 ## Usage
-
+### Homogeneous data types
 Setting up your TableViewCell by implementing `ConfigurableCell`. This works for CollectionViewCells as well. Creating a typed configuartion `CellConfiguration` object for your cell with a given resue identifier or with a nib.
 ```swift
 import Sourcing
@@ -26,7 +26,7 @@ class TrainCell: UITableViewCell, ConfigurableCell {
    }
 }
 
-let cellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
+let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
 
 ```
 
@@ -38,7 +38,24 @@ let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains)
 Bring your data and your cell configuration together by creating a `TableViewDataSource` object.
 ```swift
 let tableView: UITableView = //...
-let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: cellConfiguration)
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: trainCellConfiguration)
+```
+
+### Heterogeneous data types
+Create multiple `CellConfiguration`s with diffrent types
+```swift
+let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
+let stationCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseSecondID")
+```
+Create an loosly typed data provider. Keep in mind that you loos all your compiler support. 
+```swift
+let data: Array<Any> = //
+let dataProvider: ArrayDataProvider<Any> = ArrayDataProvider(rows: data)
+```
+Again bring your data and your cell configurations together by creating a `MultiCellTableViewDataSource` object.
+```swift
+let tableView: UITableView = //...
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: [trainCellConfiguration, stationCellConfiguration])
 ```
 
 ## Requirements
