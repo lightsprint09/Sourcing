@@ -45,7 +45,7 @@ let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataPro
 Create multiple `CellConfiguration`s with diffrent types
 ```swift
 let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
-let stationCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseSecondID")
+let stationCellConfiguration = CellConfiguration<StationCell>(cellIdentifier: "YourReuseSecondID")
 ```
 Create an loosly typed data provider. Keep in mind that you loos all your compiler support. 
 ```swift
