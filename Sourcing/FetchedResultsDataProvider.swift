@@ -53,7 +53,6 @@ final class FetchedResultsDataProvider<Object: NSManagedObject>: NSObject, NSFet
     fileprivate let fetchedResultsController: NSFetchedResultsController<Object>
     fileprivate var updates: [DataProviderUpdate<Object>] = []
     
-    
     // MARK: NSFetchedResultsControllerDelegate
     
     public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
