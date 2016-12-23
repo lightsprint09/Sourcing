@@ -3,4 +3,4 @@ xcode_project: Sourcing.xcodeproj # path to your xcodeproj folder
 xcode_scheme: Sourcing
 osx_image: xcode8.2
 script: 
-- xcodebuild -scheme Sourcing -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' clean build test
+- xcodebuild -scheme Sourcing -destination 'platform=iOS Simulator,name=iPhone SE,OS=10.2' clean build test
