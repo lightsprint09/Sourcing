@@ -12,6 +12,8 @@ import CoreData
 final class FetchedResultsDataProvider<Object: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
 
     fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
+    fileprivate let fetchedResultsController: NSFetchedResultsController<Object>
+    fileprivate var updates: [DataProviderUpdate<Object>] = []
     
     var sectionIndexTitles: Array<String>? {
         return fetchedResultsController.sectionIndexTitles
@@ -47,11 +49,6 @@ final class FetchedResultsDataProvider<Object: NSManagedObject>: NSObject, NSFet
     public func indexPath(for object: Object) -> IndexPath? {
         return fetchedResultsController.indexPath(forObject: object)
     }
-    
-    // MARK: Private
-    
-    fileprivate let fetchedResultsController: NSFetchedResultsController<Object>
-    fileprivate var updates: [DataProviderUpdate<Object>] = []
     
     // MARK: NSFetchedResultsControllerDelegate
     
