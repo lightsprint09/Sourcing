@@ -33,5 +33,4 @@ public protocol StaticCellDequeable: CellDequeable {
     associatedtype Object
     associatedtype Cell: ConfigurableCell
     
-    func configureCellTypeSafe(_ cell: Cell, with object: Object) -> Cell
 }

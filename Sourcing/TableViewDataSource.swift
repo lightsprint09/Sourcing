@@ -30,23 +30,12 @@ final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, T
         tableView.dataSource = self
         tableView.reloadData()
     }
-
-    
-    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, cell: CellConfig)
-        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
-        self.init(tableView: tableView, dataProvider: dataProvider, cells: [cell])
-    }
-    
-    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, typedCells: Array<CellConfig>)
-        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
-            self.init(tableView: tableView, dataProvider: dataProvider, cells: typedCells)
-    }
     
     public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }
-        let _ = cellDequeable.configure(cell, with: object)
+        cellDequeable.configure(cell, with: object)
     }
     
     fileprivate func register(cells: Array<CellDequeable>) {
@@ -87,5 +76,16 @@ final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, T
         
         return nil
     }
+}
+
+extension TableViewDataSource {
+    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, cell: CellConfig)
+        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+            self.init(tableView: tableView, dataProvider: dataProvider, cells: [cell])
+    }
     
+    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, typedCells: Array<CellConfig>)
+        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+            self.init(tableView: tableView, dataProvider: dataProvider, cells: typedCells)
+    }
 }

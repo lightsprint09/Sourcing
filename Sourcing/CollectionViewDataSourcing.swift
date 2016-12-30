@@ -27,10 +27,10 @@
 //
 
 import Foundation
-
 import UIKit
+
 /**
- `TableViewDataSourcing`
+ `CollectionViewDataSourcing`
  */
 public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
     associatedtype DataProvider: DataProviding
@@ -39,6 +39,8 @@ public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
     var collectionView: CollectionViewRepresenting { get set }
     
     func update(_ cell: UICollectionViewCell, with object: DataProvider.Object)
+    
+    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?)
 }
 
 public extension CollectionViewDataSourcing {

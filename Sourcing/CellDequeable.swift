@@ -54,5 +54,6 @@ public protocol CellDequeable {
      
      - return The configured cell
      */
+    @discardableResult
     func configure(_ cell: AnyObject, with object: Any) -> AnyObject
 }

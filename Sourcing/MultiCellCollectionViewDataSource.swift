@@ -37,14 +37,14 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
             collectionView.reloadData()
         }
     }
-    private let cellDequeables: Array<CellDequeable>
+    private let cells: Array<CellDequeable>
     
-    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cellDequeables: Array<CellDequeable>) {
+    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cells: Array<CellDequeable>) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
-        self.cellDequeables = cellDequeables
+        self.cells = cells
         super.init()
-        registerCells(cellDequeables)
+        registerCells(cells)
         collectionView.dataSource = self
         collectionView.reloadData()
     }
@@ -53,13 +53,11 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
-        let _ = cellDequeable.configure(cell, with: object)
+        cellDequeable.configure(cell, with: object)
     }
     
-    
     // MARK: Private
-    
-    
+
     fileprivate func registerCells(_ cellDequeables: Array<CellDequeable>) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
@@ -67,8 +65,8 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     }
     
     fileprivate func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
-        for (_, cellDequeable) in cellDequeables.enumerated() where cellDequeable.canConfigureCell(with: object) {
-            return cellDequeable
+        for cell in cells where cell.canConfigureCell(with: object) {
+            return cell
         }
         
         return nil
@@ -94,5 +92,17 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
         let _ = cellDequeable.configure(cell, with: object)
         
         return cell
+    }
+}
+
+extension MultiCellCollectionViewDataSource {
+    convenience init<CellConfig: StaticCellDequeable>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cell: CellConfig)
+        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
+            self.init(collectionView: collectionView, dataProvider: dataProvider, cells: [cell])
+    }
+    
+    convenience init<CellConfig: StaticCellDequeable>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, typedCells: Array<CellConfig>)
+        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
+            self.init(collectionView: collectionView, dataProvider: dataProvider, cells: typedCells)
     }
 }
