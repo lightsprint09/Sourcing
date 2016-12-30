@@ -1,37 +1,16 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a
-//  copy of this software and associated documentation files (the "Software"),
-//  to deal in the Software without restriction, including without limitation
-//  the rights to use, copy, modify, merge, publish, distribute, sublicense,
-//  and/or sell copies of the Software, and to permit persons to whom the
-//  Software is furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-//  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-//  DEALINGS IN THE SOFTWARE.
-//
-//
-//  TableViewDataSource.swift
+//  ExperimentalTableCollectionViewDataSource.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 23.12.16.
+//  Copyright © 2016 Lukas Schmidt. All rights reserved.
 //
 
-import UIKit
-
+import Foundation
 
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, TableViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, TableViewDataSourcing  {
     
     public let dataProvider: DataProvider
     public var tableView: TableViewRepresenting {
@@ -40,28 +19,40 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
             tableView.reloadData()
         }
     }
-    private let cellDequable: CellConfig
+    private let cells: Array<CellDequeable>
     
-    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig) {
+    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cells: Array<CellDequeable>) {
         self.tableView = tableView
         self.dataProvider = dataProvider
-        self.cellDequable = cellDequable
+        self.cells = cells
         super.init()
-        registerNib()
+        register(cells: cells)
         tableView.dataSource = self
         tableView.reloadData()
     }
+
     
-    public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
-        guard let realCell = cell as? CellConfig.Cell else {
-            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(type(of: cell))")
-        }
-        let _ = cellDequable.configureCellTypeSafe(realCell, with: object)
+    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, cell: CellConfig)
+        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+        self.init(tableView: tableView, dataProvider: dataProvider, cells: [cell])
     }
     
-    private func registerNib() {
-        guard let nib = cellDequable.nib else { return }
-        tableView.registerNib(nib, forCellReuseIdentifier: cellDequable.cellIdentifier)
+    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, typedCells: Array<CellConfig>)
+        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+            self.init(tableView: tableView, dataProvider: dataProvider, cells: typedCells)
+    }
+    
+    public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
+            fatalError("Could not update Cell")
+        }
+        let _ = cellDequeable.configure(cell, with: object)
+    }
+    
+    fileprivate func register(cells: Array<CellDequeable>) {
+        for cell in cells where cell.nib != nil {
+            tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+        }
     }
     
     // MARK: UITableViewDataSource
@@ -76,15 +67,25 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = dataProvider.object(at: indexPath)
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequable.cellIdentifier, forIndexPath: indexPath)
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
+            fatalError("Unexpected cell type at \(indexPath)")
+        }
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
         update(cell, with: object)
         
         return cell
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-         return dataProvider.sectionIndexTitles
+        return dataProvider.sectionIndexTitles
     }
+    
+    func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+        for cell in cells where cell.canConfigureCell(with: object) {
+            return cell
+        }
+        
+        return nil
+    }
+    
 }
-
-

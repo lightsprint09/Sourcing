@@ -14,7 +14,7 @@
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
 //  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
 //  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-//  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+//  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
@@ -30,7 +30,7 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
-class TableViewDataSourceTest: XCTestCase {
+class TableViewDataSource_SingleCellTest: XCTestCase {
     
     let cellIdentifier = "cellIdentifier"
     
@@ -48,7 +48,7 @@ class TableViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 1)
@@ -62,7 +62,7 @@ class TableViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nib)
         
         //When
-        let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         
         //Then
         XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
@@ -75,7 +75,7 @@ class TableViewDataSourceTest: XCTestCase {
         let realTableView = UITableView()
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         let sectionCount = dataSource.numberOfSections(in: realTableView)
         
         //Then
@@ -88,7 +88,7 @@ class TableViewDataSourceTest: XCTestCase {
         let realTableView = UITableView()
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         let rowCount = dataSource.tableView(realTableView, numberOfRowsInSection: 1)
         
         //Then
@@ -105,7 +105,7 @@ class TableViewDataSourceTest: XCTestCase {
         let realTableView = UITableView()
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         let cell = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 2, section: 1))
         
         //Then
@@ -135,7 +135,7 @@ class TableViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
@@ -149,7 +149,7 @@ class TableViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         dataSource.processUpdates(nil)
         
         //Then
@@ -161,7 +161,7 @@ class TableViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         tableViewMock.indexPathForSelectedRow = IndexPath(row: 0, section: 0)
         let selectedObject = dataSource.selectedObject
         
@@ -174,7 +174,7 @@ class TableViewDataSourceTest: XCTestCase {
         let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         let selectedObject = dataSource.selectedObject
         
         //Then
@@ -187,7 +187,7 @@ class TableViewDataSourceTest: XCTestCase {
         let realTableView = UITableView()
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cellConfig)
         let sectionTitles = dataSource.sectionIndexTitles(for: realTableView)
         
         //Then
@@ -196,12 +196,12 @@ class TableViewDataSourceTest: XCTestCase {
     
     func testSetNewTableView() {
         //Given
-        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        let cell = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
         let secondTableview = UITableViewMock()
         
         //When
         XCTAssertNil(secondTableview.dataSource)
-        let dataSource = TableViewDataSource(tableView:  UITableView(), dataProvider: dataProvider, cellDequable: cellConfig)
+        let dataSource = TableViewDataSource(tableView: UITableView(), dataProvider: dataProvider, cell: cell)
         dataSource.tableView = secondTableview
         //Then
         XCTAssertNotNil(secondTableview.dataSource)
