@@ -38,12 +38,6 @@ final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, T
         cellDequeable.configure(cell, with: object)
     }
     
-    fileprivate func register(cells: Array<CellDequeable>) {
-        for cell in cells where cell.nib != nil {
-            tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
-        }
-    }
-    
     // MARK: UITableViewDataSource
     
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -69,7 +63,13 @@ final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, T
         return dataProvider.sectionIndexTitles
     }
     
-    func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+    private func register(cells: Array<CellDequeable>) {
+        for cell in cells where cell.nib != nil {
+            tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+        }
+    }
+    
+    private func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
         for cell in cells where cell.canConfigureCell(with: object) {
             return cell
         }

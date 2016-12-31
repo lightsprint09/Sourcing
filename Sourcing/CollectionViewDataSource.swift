@@ -28,7 +28,7 @@
 import Foundation
 import UIKit
 
-final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding>: NSObject, CollectionViewDataSourcing {
+final public class CollectionViewDataSource<DataProvider: DataProviding>: NSObject, CollectionViewDataSourcing {
     
     public let dataProvider: DataProvider
     public var collectionView: CollectionViewRepresenting {
@@ -58,13 +58,13 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     
     // MARK: Private
 
-    fileprivate func registerCells(_ cellDequeables: Array<CellDequeable>) {
+    private func registerCells(_ cellDequeables: Array<CellDequeable>) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }
     
-    fileprivate func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+    private func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
         for cell in cells where cell.canConfigureCell(with: object) {
             return cell
         }
@@ -95,7 +95,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     }
 }
 
-extension MultiCellCollectionViewDataSource {
+extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellDequeable>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cell: CellConfig)
         where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
             self.init(collectionView: collectionView, dataProvider: dataProvider, cells: [cell])
