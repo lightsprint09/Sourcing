@@ -23,7 +23,9 @@ public class DataProvider<Object>: DataProviding {
         numberOfItems = { section in
             return dataProvider.numberOfItems(inSection: section)
         }
-        numberOfSectionsCallback = dataProvider.numberOfSections
+        numberOfSectionsCallback = {
+            return dataProvider.numberOfSections()
+        }
         sectionIndexTitles = dataProvider.sectionIndexTitles
     }
     

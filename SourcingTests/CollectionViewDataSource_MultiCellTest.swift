@@ -48,7 +48,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)]
         
         //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cellConfig)
+        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 1)
@@ -62,7 +62,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil), CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
         
         //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cellConfig)
+        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 2)
@@ -76,7 +76,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: realCollectionView, dataProvider: dataProvider, cells: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: realCollectionView, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         let sectionCount = dataSource.numberOfSections(in: realCollectionView)
         
         //Then
@@ -89,7 +89,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: realCollectionView, dataProvider: dataProvider, cells: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: realCollectionView, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         let rowCount = dataSource.collectionView(realCollectionView, numberOfItemsInSection: 0)
         
         //Then
@@ -106,7 +106,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [cellIdentifier: MockCollectionCell<Int>(), secondCellIdentifier: MockCollectionCell<String>()])
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         let intCell = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 0, section: 0))
         let stringCell = dataSource.collectionView(realCollectionView, cellForItemAt:  IndexPath(row: 0, section: 1))
         
@@ -128,7 +128,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)]
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
@@ -142,7 +142,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)]
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         dataSource.processUpdates(nil)
         
         //Then
@@ -157,7 +157,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         
         //When
         XCTAssertNil(secondCollectionViewMock.dataSource)
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
         dataSource.collectionView = secondCollectionViewMock
         //Then
         XCTAssertNotNil(secondCollectionViewMock.dataSource)

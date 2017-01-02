@@ -31,10 +31,10 @@ import UIKit
  `TableViewDataSourcing` descripes a tableViewDataSource. It is generic over an DataProvider
  */
 public protocol TableViewDataSourcing: UITableViewDataSource {
-    associatedtype DataProvider: DataProviding
+    associatedtype Object
     
     /// The dataProvider which works as the dataSource of the tableView by providing specific data.
-    var dataProvider: DataProvider { get }
+    var dataProvider: DataProvider<Object> { get }
     
     /// The tableView which should present the data.
     var tableView: TableViewRepresenting { get set }
@@ -44,19 +44,19 @@ public protocol TableViewDataSourcing: UITableViewDataSource {
     ///
     /// - parameter cell: the cell to configure.
     /// - parameter with: the object/data for the cell.
-    func update(_ cell: UITableViewCell, with: DataProvider.Object)
+    func update(_ cell: UITableViewCell, with: Object)
     
     /// Processe data changes into the table view ui. If there is no specific information on the updates
     /// (e.g. update equals nil) it only reloads the tableView.
     ///
     /// - parameter updates: the updates to change the table view
-    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?)
+    func processUpdates(_ updates: [DataProviderUpdate<Object>]?)
     
 }
 
 public extension TableViewDataSourcing {
     
-    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?) {
+    func processUpdates(_ updates: [DataProviderUpdate<Object>]?) {
         guard let updates = updates else { return tableView.reloadData() }
         tableView.beginUpdates()
         for update in updates {
@@ -83,7 +83,7 @@ public extension TableViewDataSourcing {
         tableView.endUpdates()
     }
     
-    var selectedObject: DataProvider.Object? {
+    var selectedObject: Object? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         return dataProvider.object(at: indexPath)
     }

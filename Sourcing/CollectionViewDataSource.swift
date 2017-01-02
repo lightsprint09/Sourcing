@@ -28,9 +28,9 @@
 import Foundation
 import UIKit
 
-final public class CollectionViewDataSource<DataProvider: DataProviding>: NSObject, CollectionViewDataSourcing {
+final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDataSourcing {
     
-    public let dataProvider: DataProvider
+    public let dataProvider: DataProvider<Object>
     public var collectionView: CollectionViewRepresenting {
         didSet {
             collectionView.dataSource = self
@@ -39,17 +39,17 @@ final public class CollectionViewDataSource<DataProvider: DataProviding>: NSObje
     }
     private let cells: Array<CellDequeable>
     
-    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cells: Array<CellDequeable>) {
+    public init<TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, loosylTypedCells: Array<CellDequeable>) where TypedDataProvider.Object == Object {
         self.collectionView = collectionView
-        self.dataProvider = dataProvider
-        self.cells = cells
+        self.dataProvider = DataProvider(dataProvider: dataProvider)
+        self.cells = loosylTypedCells
         super.init()
         registerCells(cells)
         collectionView.dataSource = self
         collectionView.reloadData()
     }
     
-    public func update(_ cell: UICollectionViewCell, with object: DataProvider.Object) {
+    public func update(_ cell: UICollectionViewCell, with object: Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
@@ -64,7 +64,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding>: NSObje
         }
     }
     
-    private func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+    private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
         for cell in cells where cell.canConfigureCell(with: object) {
             return cell
         }
@@ -96,13 +96,15 @@ final public class CollectionViewDataSource<DataProvider: DataProviding>: NSObje
 }
 
 extension CollectionViewDataSource {
-    convenience init<CellConfig: StaticCellDequeable>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cell: CellConfig)
-        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
-            self.init(collectionView: collectionView, dataProvider: dataProvider, cells: [cell])
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)
+        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UICollectionViewCell {
+            let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, loosylTypedCells: [cell])
     }
     
-    convenience init<CellConfig: StaticCellDequeable>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, typedCells: Array<CellConfig>)
-        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
-            self.init(collectionView: collectionView, dataProvider: dataProvider, cells: typedCells)
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, cells: Array<CellConfig>)
+        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UICollectionViewCell {
+            let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, loosylTypedCells: cells)
     }
 }

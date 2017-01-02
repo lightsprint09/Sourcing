@@ -10,9 +10,9 @@ import Foundation
 
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, TableViewDataSourcing  {
+final public class TableViewDataSource<Object>: NSObject, TableViewDataSourcing  {
     
-    public let dataProvider: DataProvider
+    public let dataProvider: DataProvider<Object>
     public var tableView: TableViewRepresenting {
         didSet {
             tableView.dataSource = self
@@ -21,17 +21,17 @@ final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, T
     }
     private let cells: Array<CellDequeable>
     
-    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cells: Array<CellDequeable>) {
+    public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider, loosylTypedCells: Array<CellDequeable>) where TypedDataProvider.Object == Object {
         self.tableView = tableView
-        self.dataProvider = dataProvider
-        self.cells = cells
+        self.dataProvider = DataProvider(dataProvider: dataProvider)
+        self.cells = loosylTypedCells
         super.init()
         register(cells: cells)
         tableView.dataSource = self
         tableView.reloadData()
     }
     
-    public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
+    public func update(_ cell: UITableViewCell, with object: Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }
@@ -69,7 +69,7 @@ final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, T
         }
     }
     
-    private func cellDequeableForIndexPath(_ object: DataProvider.Object) -> CellDequeable? {
+    private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
         for cell in cells where cell.canConfigureCell(with: object) {
             return cell
         }
@@ -79,13 +79,15 @@ final public class TableViewDataSource<DataProvider: DataProviding>: NSObject, T
 }
 
 extension TableViewDataSource {
-    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, cell: CellConfig)
-        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
-            self.init(tableView: tableView, dataProvider: dataProvider, cells: [cell])
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)
+        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UITableViewCell {
+            let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, loosylTypedCells: [cell])
     }
     
-    convenience init<CellConfig: StaticCellDequeable>(tableView: TableViewRepresenting, dataProvider: DataProvider, typedCells: Array<CellConfig>)
-        where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
-            self.init(tableView: tableView, dataProvider: dataProvider, cells: typedCells)
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider, cells: Array<CellConfig>)
+        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UITableViewCell {
+            let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, loosylTypedCells: cells)
     }
 }

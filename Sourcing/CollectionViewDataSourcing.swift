@@ -33,18 +33,18 @@ import UIKit
  `CollectionViewDataSourcing`
  */
 public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
-    associatedtype DataProvider: DataProviding
+    associatedtype Object
     
-    var dataProvider: DataProvider { get }
+    var dataProvider: DataProvider<Object> { get }
     var collectionView: CollectionViewRepresenting { get set }
     
-    func update(_ cell: UICollectionViewCell, with object: DataProvider.Object)
+    func update(_ cell: UICollectionViewCell, with object: Object)
     
-    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?)
+    func processUpdates(_ updates: [DataProviderUpdate<Object>]?)
 }
 
 public extension CollectionViewDataSourcing {
-    func processUpdates(_ updates: [DataProviderUpdate<DataProvider.Object>]?) {
+    func processUpdates(_ updates: [DataProviderUpdate<Object>]?) {
         guard let updates = updates else { return collectionView.reloadData() }
         var shouldUpdate = false
         collectionView.performBatchUpdates({
@@ -75,7 +75,7 @@ public extension CollectionViewDataSourcing {
         }
     }
     
-    var selectedObjects: Array<DataProvider.Object>? {
+    var selectedObjects: Array<Object>? {
         guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
             return nil
         }
