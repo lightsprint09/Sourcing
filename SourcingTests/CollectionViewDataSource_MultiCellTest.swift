@@ -66,8 +66,8 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 2)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier])
-        XCTAssertNotNil(collectionViewMock.registerdNibs[secondCellIdentifier])
+        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
+        XCTAssertNotNil(collectionViewMock.registerdNibs[secondCellIdentifier] as Any)
     }
     
     func testNumberOfSections() {

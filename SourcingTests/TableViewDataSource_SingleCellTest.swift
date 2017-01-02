@@ -66,7 +66,7 @@ class TableViewDataSource_SingleCellTest: XCTestCase {
         
         //Then
         XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier])
+        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
     }
     
     func testNumberOfSections() {
