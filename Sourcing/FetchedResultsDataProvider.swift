@@ -9,13 +9,13 @@
 import Foundation
 import CoreData
  
-final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
+public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
 
     let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
     let fetchedResultsController: NSFetchedResultsController<Object>
     var updates: [DataProviderUpdate<Object>] = []
     
-    var sectionIndexTitles: Array<String>? {
+    public var sectionIndexTitles: Array<String>? {
         return fetchedResultsController.sectionIndexTitles
     }
     
