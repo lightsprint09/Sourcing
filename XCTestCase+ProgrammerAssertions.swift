@@ -157,9 +157,9 @@ public extension XCTestCase {
         
         expectAssertionNoReturnFunction("fatalError", file: file, line: line, function: { (caller) -> () in
             
-            Assertions.fatalErrorClosure = { message, _, _ in
-                caller(message)
-            }
+//            Assertions.fatalErrorClosure = { message, _, _ in
+//                caller(message)
+//            }
             
         }, expectedMessage: expectedMessage, testCase: testCase) { () -> () in
             Assertions.fatalErrorClosure = Assertions.swiftFatalErrorClosure
