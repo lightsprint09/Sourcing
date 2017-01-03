@@ -27,9 +27,10 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         try fetchedResultsController.performFetch()
     }
     
-    public func reconfigure(with fetchRequest: (NSFetchRequest<Object>) -> ()) throws {
+    public func reconfigure(with fetchRequest: (NSFetchedResultsController<Object>) -> ()) throws {
         NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
-        fetchRequest(fetchedResultsController.fetchRequest)
+        fetchRequest(fetchedResultsController)
+        
         try fetchedResultsController.performFetch()
         dataProviderDidUpdate?(nil)
     }
