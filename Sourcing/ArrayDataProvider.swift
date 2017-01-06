@@ -67,8 +67,8 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
      
      - paramether array: flat array.
     */
-    open func reconfigureData(_ array: Array<Object>) {
-        reconfigureData([array])
+    open func reconfigureData(_ array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil) {
+        reconfigureData([array], updates: updates)
     }
     
     /**
@@ -76,8 +76,8 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
      
      - paramether array: 2D array.
      */
-    open func reconfigureData(_ array: Array<Array<Object>>) {
+    open func reconfigureData(_ array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil) {
         self.data = array
-        dataProviderDidUpdate?(nil)
+        dataProviderDidUpdate?(updates)
     }
 }
