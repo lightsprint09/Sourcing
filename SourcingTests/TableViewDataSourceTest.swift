@@ -124,7 +124,7 @@ class TableViewDataSourceTest: XCTestCase {
 //        let realTableView = UITableView()
 //        
 //        //When
-//        expectFatalError("Wrong Cell type. Expectes MockCell<Int> but got UITableViewCell") {
+//        expectFatalError("Wrong Cell type. Expects MockCell<Int> but got UITableViewCell") {
 //            let dataSource = TableViewDataSource(tableView: self.tableViewMock, dataProvider: self.dataProvider, cellDequable: cellConfig)
 //            let _ = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 2, section: 1))
 //        }
