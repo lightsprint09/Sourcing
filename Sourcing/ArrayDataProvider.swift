@@ -92,5 +92,6 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
+        dataProviderDidUpdate?([update])
     }
 }
