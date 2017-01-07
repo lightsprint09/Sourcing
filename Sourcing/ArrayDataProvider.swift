@@ -90,8 +90,8 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
     open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let soureElement = object(at: sourceIndexPath)
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
-        data[destinationIndexPath.section][destinationIndexPath.item] = soureElement
-        let update = DataProviderUpdate.move(sourceIndexPath, destinationIndexPath)
+        data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
+        let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
         dataProviderDidUpdate?([update])
     }
 }
