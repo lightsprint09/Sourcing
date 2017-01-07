@@ -88,6 +88,8 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
     }
     
     open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
+        let soureElement = object(at: sourceIndexPath)
+        data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        data[destinationIndexPath.section][destinationIndexPath.item] = soureElement
     }
 }
