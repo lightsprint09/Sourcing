@@ -91,5 +91,7 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
         let soureElement = object(at: sourceIndexPath)
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         data[destinationIndexPath.section][destinationIndexPath.item] = soureElement
+        let update = DataProviderUpdate.move(sourceIndexPath, destinationIndexPath)
+        dataProviderDidUpdate?([update])
     }
 }
