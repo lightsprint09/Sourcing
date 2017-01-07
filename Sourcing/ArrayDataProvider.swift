@@ -65,19 +65,26 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: flat array.
+     - parameter array: flat array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user
     */
-    open func reconfigureData(_ array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil) {
-        reconfigureData([array], updates: updates)
+    open func reconfigureData(_ array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+        reconfigureData([array], updates: updates, causedByUserInteraction: causedByUserInteraction)
     }
     
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: 2D array.
+     - parameter array: 2D array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user.
      */
-    open func reconfigureData(_ array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil) {
+    open func reconfigureData(_ array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
-        dataProviderDidUpdate?(updates)
+        if !causedByUserInteraction {
+           dataProviderDidUpdate?(updates)
+        }
     }
+    
 }
