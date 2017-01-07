@@ -37,11 +37,13 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
     }
     public let dataProvider: DataProvider
     private let cellDequeable: CellConfig
+    private let canMoveItems: Bool
     
-    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cellDequeable: CellConfig) {
+    public required init(collectionView: CollectionViewRepresenting, dataProvider: DataProvider, cellDequeable: CellConfig, canMoveItems: Bool = false) {
         self.collectionView = collectionView
         self.dataProvider = dataProvider
         self.cellDequeable = cellDequeable
+        self.canMoveItems = canMoveItems
         super.init()
         registerNib()
         collectionView.dataSource = self
@@ -76,6 +78,14 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
         update(cell, with: object)
         
         return cell
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return canMoveItems
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
     }
 }
 

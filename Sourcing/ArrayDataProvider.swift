@@ -87,4 +87,7 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
         }
     }
     
+    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+    }
 }
