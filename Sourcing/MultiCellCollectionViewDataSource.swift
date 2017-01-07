@@ -51,7 +51,7 @@ final public class MultiCellCollectionViewDataSource<DataProvider: DataProviding
     
     public func update(_ cell: UICollectionViewCell, with object: DataProvider.Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Could not find a cell to deuqe")
+            fatalError("Could not find a cell to dequeue")
         }
         let _ = cellDequeable.configure(cell, with: object)
     }
