@@ -46,7 +46,7 @@ public protocol TableViewDataSourcing: UITableViewDataSource {
     /// - parameter with: the object/data for the cell.
     func update(_ cell: UITableViewCell, with: DataProvider.Object)
     
-    /// Processe data changes into the table view ui. If there is no specific information on the updates
+    /// Process data changes into the table view ui. If there is no specific information on the updates
     /// (e.g. update equals nil) it only reloads the tableView.
     ///
     /// - parameter updates: the updates to change the table view

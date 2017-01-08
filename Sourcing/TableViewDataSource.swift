@@ -54,7 +54,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     
     public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
-            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(type(of: cell))")
+            fatalError("Wrong Cell type. Expects \(CellConfig.Cell.self) but got \(type(of: cell))")
         }
         let _ = cellDequable.configureCellTypeSafe(realCell, with: object)
     }

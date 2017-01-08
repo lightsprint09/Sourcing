@@ -87,10 +87,17 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
         }
     }
     
+    /**
+     Update item position in dataSource.
+     
+     - parameter sourceIndexPath: original indexPath.
+     - parameter destinationIndexPath: destination indexPath.
+     */
     open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let soureElement = object(at: sourceIndexPath)
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
+        dataProviderDidUpdate?([update])
     }
 }
