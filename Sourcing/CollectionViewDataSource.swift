@@ -52,7 +52,7 @@ final public class CollectionViewDataSource<DataProvider: DataProviding, CellCon
    
     public func update(_ cell: UICollectionViewCell, with object: DataProvider.Object) {
         guard let realCell = cell as? CellConfig.Cell else {
-            fatalError("Wrong Cell type. Expectes \(CellConfig.Cell.self) but got \(cell.self)")
+            fatalError("Wrong Cell type. Expects \(CellConfig.Cell.self) but got \(cell.self)")
         }
         let _ = cellDequeable.configureCellTypeSafe(realCell, with: object)
     }
