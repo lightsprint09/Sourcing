@@ -92,7 +92,7 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         return canMoveItems
     }
     
-    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
     }
 }
