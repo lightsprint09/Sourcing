@@ -85,7 +85,8 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
-        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier), CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
+                                                CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When

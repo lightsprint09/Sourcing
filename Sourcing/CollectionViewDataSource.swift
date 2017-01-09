@@ -29,7 +29,7 @@ import Foundation
 import UIKit
 
 final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDataSourcing {
-    
+
     public let dataProvider: DataProvider<Object>
     public var collectionView: CollectionViewRepresenting {
         didSet {
@@ -37,9 +37,11 @@ final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDat
             collectionView.reloadData()
         }
     }
-    private let cells: Array<CellDequeable>
-    
-    public init<TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, loosylTypedCells: Array<CellDequeable>) where TypedDataProvider.Object == Object {
+    private let cells: [CellDequeable]
+
+    public init<TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
+                dataProvider: TypedDataProvider, loosylTypedCells: [CellDequeable])
+        where TypedDataProvider.Object == Object {
         self.collectionView = collectionView
         self.dataProvider = DataProvider(dataProvider: dataProvider)
         self.cells = loosylTypedCells
@@ -48,22 +50,22 @@ final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDat
         collectionView.dataSource = self
         collectionView.reloadData()
     }
-    
+
     public func update(_ cell: UICollectionViewCell, with object: Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
         cellDequeable.configure(cell, with: object)
     }
-    
+
     // MARK: Private
 
-    private func registerCells(_ cellDequeables: Array<CellDequeable>) {
+    private func registerCells(_ cellDequeables: [CellDequeable]) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }
-    
+
     private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
         for cell in cells where cell.canConfigureCell(with: object) {
             return cell
@@ -71,17 +73,17 @@ final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDat
         
         return nil
     }
-    
+
     // MARK: UICollectionViewDataSource
-    
+
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataProvider.numberOfSections()
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataProvider.numberOfItems(inSection: section)
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let object = dataProvider.object(at: indexPath)
         
@@ -89,23 +91,25 @@ final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDat
             fatalError("Unexpected cell type at \(indexPath)")
         }
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        let _ = cellDequeable.configure(cell, with: object)
+        cellDequeable.configure(cell, with: object)
         
         return cell
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         dataProvider.prefetchItems(at: indexPaths)
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         dataProvider.cancelPrefetchingForItems(at: indexPaths)
     }
 }
 
 extension CollectionViewDataSource {
-    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)
-        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UICollectionViewCell {
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>
+        (collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)
+        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object,
+        CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, loosylTypedCells: [cell])
     }
