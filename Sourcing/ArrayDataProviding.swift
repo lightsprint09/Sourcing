@@ -36,7 +36,7 @@ public protocol ArrayDataProviding: DataProviding {
      Object is the kind of data `DataProviding` provides.
      */
     associatedtype Object
-    var data: Array<Array<Object>> { get }
+    var data: Array<Array<Object>> { get set }
 }
 
 public extension ArrayDataProviding {

@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<Object>: NSObject, TableViewDataSourcing  {
+final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource {
     
     public let dataProvider: DataProvider<Object>
     public var tableView: TableViewRepresenting {
@@ -84,6 +84,39 @@ final public class TableViewDataSource<Object>: NSObject, TableViewDataSourcing 
     public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
         dataProvider.cancelPrefetchingForItems(at: indexPaths)
     }
+    
+    public func process(updates: [DataProviderUpdate<Object>]?) {
+        guard let updates = updates else { return tableView.reloadData() }
+        tableView.beginUpdates()
+        for update in updates {
+            switch update {
+            case .insert(let indexPath):
+                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+                
+            case .update(let indexPath, let object):
+                guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
+                    fatalError("Could not update Cell")
+                }
+                self.update(cell, with: object)
+            case .move(let indexPath, let newIndexPath):
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .fade)
+            case .delete(let indexPath):
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+            case .insertSection(let sectionIndex):
+                tableView.insertSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+            case .deleteSection(let sectionIndex):
+                tableView.deleteSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+            }
+        }
+        tableView.endUpdates()
+    }
+    
+    public var selectedObject: Object? {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+        return dataProvider.object(at: indexPath)
+    }
+
 }
 
 extension TableViewDataSource {

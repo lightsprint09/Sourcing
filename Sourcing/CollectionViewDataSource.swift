@@ -28,7 +28,7 @@
 import Foundation
 import UIKit
 
-final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDataSourcing {
+final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource {
     
     public let dataProvider: DataProvider<Object>
     public var collectionView: CollectionViewRepresenting {
@@ -100,6 +100,45 @@ final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDat
     
     public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         dataProvider.cancelPrefetchingForItems(at: indexPaths)
+    }
+    
+    func processUpdates(updates: [DataProviderUpdate<Object>]?) {
+        guard let updates = updates else { return collectionView.reloadData() }
+        var shouldUpdate = false
+        collectionView.performBatchUpdates({
+            for update in updates {
+                switch update {
+                case .insert(let indexPath):
+                    self.collectionView.insertItemsAtIndexPaths([indexPath])
+                case .update(let indexPath, let object):
+                    guard let cell = self.collectionView.cellForItemAtIndexPath(indexPath) else {
+                        shouldUpdate = true
+                        continue
+                    }
+                    self.update(cell, with: object)
+                case .move(let indexPath, let newIndexPath):
+                    self.collectionView.deleteItemsAtIndexPaths([indexPath])
+                    self.collectionView.insertItemsAtIndexPaths([newIndexPath])
+                case .delete(let indexPath):
+                    self.collectionView.deleteItemsAtIndexPaths([indexPath])
+                case .insertSection(let sectionIndex):
+                    self.collectionView.insertSections(IndexSet(integer: sectionIndex))
+                case .deleteSection(let sectionIndex):
+                    self.collectionView.deleteSections(IndexSet(integer: sectionIndex))
+                }
+            }
+        }, completion: nil)
+        if shouldUpdate {
+            collectionView.reloadData()
+        }
+    }
+    
+    public var selectedObjects: Array<Object>? {
+        guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
+            return nil
+        }
+        
+        return selectedIndexPaths.map { dataProvider.object(at: $0) }
     }
 }
 
