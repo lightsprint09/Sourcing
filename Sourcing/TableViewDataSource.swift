@@ -41,11 +41,13 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         }
     }
     private let cellDequable: CellConfig
+    private let canMoveItems: Bool
     
-    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig) {
+    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig, canMoveItems: Bool = false) {
         self.tableView = tableView
         self.dataProvider = dataProvider
         self.cellDequable = cellDequable
+        self.canMoveItems = canMoveItems
         super.init()
         registerNib()
         tableView.dataSource = self
@@ -86,6 +88,13 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
          return dataProvider.sectionIndexTitles
     }
     
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return canMoveItems
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+    }
 }
 
 
