@@ -62,6 +62,16 @@ public protocol DataProviding: class {
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
     var sectionIndexTitles: Array<String>? { get }
+    
+    func prefetchItems(at indexPaths: [IndexPath])
+    
+    func cancelPrefetchingForItems(at indexPaths: [IndexPath])
+}
+
+public extension DataProviding {
+    func prefetchItems(at indexPaths: [IndexPath]) { }
+    
+    func cancelPrefetchingForItems(at indexPaths: [IndexPath]) { }
 }
 
 extension DataProviding where Object: Equatable {

@@ -30,7 +30,7 @@ import UIKit
 /**
  `TableViewDataSourcing` descripes a tableViewDataSource. It is generic over an DataProvider
  */
-public protocol TableViewDataSourcing: UITableViewDataSource {
+public protocol TableViewDataSourcing: UITableViewDataSource, UITableViewDataSourcePrefetching {
     associatedtype Object
     
     /// The dataProvider which works as the dataSource of the tableView by providing specific data.

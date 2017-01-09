@@ -93,6 +93,14 @@ final public class CollectionViewDataSource<Object>: NSObject, CollectionViewDat
         
         return cell
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        dataProvider.prefetchItems(at: indexPaths)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        dataProvider.cancelPrefetchingForItems(at: indexPaths)
+    }
 }
 
 extension CollectionViewDataSource {

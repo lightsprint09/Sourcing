@@ -76,6 +76,14 @@ final public class TableViewDataSource<Object>: NSObject, TableViewDataSourcing 
         
         return nil
     }
+    
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        dataProvider.prefetchItems(at: indexPaths)
+    }
+    
+    public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        dataProvider.cancelPrefetchingForItems(at: indexPaths)
+    }
 }
 
 extension TableViewDataSource {

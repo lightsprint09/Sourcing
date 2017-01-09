@@ -13,6 +13,8 @@ public class DataProvider<Object>: DataProviding {
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Object
     private let numberOfItems: (_ inSextion: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
+    private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
+    private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
     
     public let sectionIndexTitles: Array<String>?
     
@@ -25,6 +27,12 @@ public class DataProvider<Object>: DataProviding {
         }
         numberOfSectionsCallback = {
             return dataProvider.numberOfSections()
+        }
+        prefetchItemsAtIndexPaths = { indexPaths in
+            dataProvider.prefetchItems(at: indexPaths)
+        }
+        cancelPrefetchingForItemsAtIndexPaths = { indexPaths in
+            dataProvider.cancelPrefetchingForItems(at: indexPaths)
         }
         sectionIndexTitles = dataProvider.sectionIndexTitles
     }
@@ -39,5 +47,13 @@ public class DataProvider<Object>: DataProviding {
     
     public func numberOfSections() -> Int {
         return numberOfSectionsCallback()
+    }
+    
+    public func prefetchItems(at indexPaths: [IndexPath]) {
+        prefetchItemsAtIndexPaths(indexPaths)
+    }
+    
+    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
+        cancelPrefetchingForItemsAtIndexPaths(indexPaths)
     }
 }

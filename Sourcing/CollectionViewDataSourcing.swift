@@ -32,7 +32,7 @@ import UIKit
 /**
  `CollectionViewDataSourcing`
  */
-public protocol CollectionViewDataSourcing: UICollectionViewDataSource {
+public protocol CollectionViewDataSourcing: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     associatedtype Object
     
     var dataProvider: DataProvider<Object> { get }
