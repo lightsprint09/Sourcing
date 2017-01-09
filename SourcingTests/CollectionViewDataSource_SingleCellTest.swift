@@ -125,11 +125,8 @@ class CollectionViewDataSource_SingleCellTest: XCTestCase {
     }
 
     func testUpdateDataSourceWithNoData() {
-        //Given
-        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
-        
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
         dataSource.process(updates: nil)
         
         //Then
@@ -137,11 +134,8 @@ class CollectionViewDataSource_SingleCellTest: XCTestCase {
     }
     
     func testSelectedObject() {
-        //Given
-        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
-        
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
         collectionViewMock.selectedIndexPaths = [IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 1)]
         let selectedObjects = dataSource.selectedObjects
         
