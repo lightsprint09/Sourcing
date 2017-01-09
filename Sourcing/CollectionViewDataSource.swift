@@ -102,7 +102,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         dataProvider.cancelPrefetchingForItems(at: indexPaths)
     }
     
-    func processUpdates(updates: [DataProviderUpdate<Object>]?) {
+    func process(updates: [DataProviderUpdate<Object>]?) {
         guard let updates = updates else { return collectionView.reloadData() }
         var shouldUpdate = false
         collectionView.performBatchUpdates({

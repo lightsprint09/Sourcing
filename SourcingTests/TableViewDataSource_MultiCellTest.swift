@@ -131,7 +131,7 @@ class TableViewDataSource_MultiCellTest: XCTestCase {
         
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
-        dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
+        dataSource.process(updates: [.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
         let mockIntCell = tableViewMock.cellMocks[cellIdentifier] as! MockCell<Int>
@@ -145,7 +145,7 @@ class TableViewDataSource_MultiCellTest: XCTestCase {
         
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
-        dataSource.processUpdates(nil)
+        dataSource.process(updates: nil)
         
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 2)

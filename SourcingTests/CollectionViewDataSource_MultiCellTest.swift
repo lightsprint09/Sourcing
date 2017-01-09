@@ -129,7 +129,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
-        dataSource.processUpdates([.update(IndexPath(row: 2, section: 1), 100)])
+        dataSource.process(updates: [.update(IndexPath(row: 2, section: 1), 100)])
         
         //Then
         let mockIntCell = collectionViewMock.cellMocks[cellIdentifier] as! MockCollectionCell<Int>
@@ -143,7 +143,7 @@ class CollectionViewDataSource_MultiCellTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, loosylTypedCells: cellConfig)
-        dataSource.processUpdates(nil)
+        dataSource.process(updates: nil)
         
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 2)
