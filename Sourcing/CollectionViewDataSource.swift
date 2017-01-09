@@ -28,7 +28,7 @@
 import Foundation
 import UIKit
 
-final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource {
+final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
     public let dataProvider: DataProvider<Object>
     public var collectionView: CollectionViewRepresenting {
@@ -72,36 +72,6 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         return nil
     }
     
-    // MARK: UICollectionViewDataSource
-    
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataProvider.numberOfSections()
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataProvider.numberOfItems(inSection: section)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let object = dataProvider.object(at: indexPath)
-        
-        guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Unexpected cell type at \(indexPath)")
-        }
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        let _ = cellDequeable.configure(cell, with: object)
-        
-        return cell
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        dataProvider.prefetchItems(at: indexPaths)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        dataProvider.cancelPrefetchingForItems(at: indexPaths)
-    }
-    
     func process(updates: [DataProviderUpdate<Object>]?) {
         guard let updates = updates else { return collectionView.reloadData() }
         var shouldUpdate = false
@@ -138,9 +108,43 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
             return nil
         }
         
-        return selectedIndexPaths.map { dataProvider.object(at: $0) }
+        return selectedIndexPaths.map(dataProvider.object)
+    }
+    
+    // MARK: UICollectionViewDataSource
+    
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return dataProvider.numberOfSections()
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataProvider.numberOfItems(inSection: section)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let object = dataProvider.object(at: indexPath)
+        
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
+            fatalError("Unexpected cell type at \(indexPath)")
+        }
+        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        let _ = cellDequeable.configure(cell, with: object)
+        
+        return cell
+    }
+    
+    // MARK: UICollectionViewDataSourcePrefetching
+    
+    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        dataProvider.prefetchItems(at: indexPaths)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        dataProvider.cancelPrefetchingForItems(at: indexPaths)
     }
 }
+
+// MARK: Typesafe initializers
 
 extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)

@@ -31,7 +31,7 @@ import Foundation
 /**
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
-open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
+open class ArrayDataProvider<Object>: ArrayDataProviding {
     
     open var data: Array<Array<Object>>
     fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
@@ -60,7 +60,6 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
         self.data = sections
         self.dataProviderDidUpdate = dataProviderDidUpdate
         self.sectionIndexTitles = sectionIndexTitles
-        super.init()
     }
     /**
      Reconfigures the dataSource with new data.

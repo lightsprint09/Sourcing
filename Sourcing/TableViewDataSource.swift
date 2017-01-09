@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource {
+final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
     public let dataProvider: DataProvider<Object>
     public var tableView: TableViewRepresenting {
@@ -38,6 +38,20 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
         cellDequeable.configure(cell, with: object)
     }
     
+    private func register(cells: Array<CellDequeable>) {
+        for cell in cells where cell.nib != nil {
+            tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+        }
+    }
+    
+    private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
+        for cell in cells where cell.canConfigureCell(with: object) {
+            return cell
+        }
+        
+        return nil
+    }
+    
     // MARK: UITableViewDataSource
     
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -63,28 +77,6 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
         return dataProvider.sectionIndexTitles
     }
     
-    private func register(cells: Array<CellDequeable>) {
-        for cell in cells where cell.nib != nil {
-            tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
-        }
-    }
-    
-    private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
-        for cell in cells where cell.canConfigureCell(with: object) {
-            return cell
-        }
-        
-        return nil
-    }
-    
-    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        dataProvider.prefetchItems(at: indexPaths)
-    }
-    
-    public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        dataProvider.cancelPrefetchingForItems(at: indexPaths)
-    }
-    
     public func process(updates: [DataProviderUpdate<Object>]?) {
         guard let updates = updates else { return tableView.reloadData() }
         tableView.beginUpdates()
@@ -92,7 +84,6 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
             switch update {
             case .insert(let indexPath):
                 tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
-                
             case .update(let indexPath, let object):
                 guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
                     fatalError("Could not update Cell")
@@ -116,8 +107,20 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         return dataProvider.object(at: indexPath)
     }
+    
+    // MARK: UITableViewDataSourcePrefetching
+    
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        dataProvider.prefetchItems(at: indexPaths)
+    }
+    
+    public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        dataProvider.cancelPrefetchingForItems(at: indexPaths)
+    }
 
 }
+
+// MARK: Typesafe initializers
 
 extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)
