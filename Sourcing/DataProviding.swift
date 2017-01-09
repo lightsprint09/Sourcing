@@ -72,7 +72,7 @@ extension DataProviding where Object: Equatable {
      - parameter object: the object you want the indexPath for.
      - return: the indexPath of the object, if available.
      */
-    public func indexPathForObject(_ object: Object) -> IndexPath? {
+    public func indexPath(for object: Object) -> IndexPath? {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
