@@ -30,6 +30,7 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
+// swiftlint:disable force_cast
 class CollectionViewDataSourceTest: XCTestCase {
 
     let cellIdentifier = "cellIdentifier"

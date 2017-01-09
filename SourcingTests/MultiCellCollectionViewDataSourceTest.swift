@@ -28,6 +28,7 @@
 
 import XCTest
 @testable import Sourcing
+// swiftlint:disable force_cast
 
 class MultiCellCollectionViewDataSourceTest: XCTestCase {
 
@@ -59,7 +60,8 @@ class MultiCellCollectionViewDataSourceTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil), CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
+        let cellConfig = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil),
+                          CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
         
         //When
         let _ = MultiCellCollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)
@@ -72,7 +74,8 @@ class MultiCellCollectionViewDataSourceTest: XCTestCase {
     
     func testNumberOfSections() {
         //Given
-        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier), CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
+        let cellConfig = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
+                          CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
@@ -85,7 +88,8 @@ class MultiCellCollectionViewDataSourceTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
-        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier), CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
+        let cellConfig = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
+                          CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When

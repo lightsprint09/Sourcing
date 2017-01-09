@@ -37,7 +37,8 @@ class ArrayDataProviderTest: XCTestCase {
         dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]])
         
         //Then
-        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2, objectIndexPath: (object: 4, atIndexPath: IndexPath(row: 1, section: 1)), notContainingObject: 100)
+        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2,
+                                                  objectIndexPath: (object: 4, atIndexPath: IndexPath(row: 1, section: 1)), notContainingObject: 100)
         let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
         dataProviderTest.test()
     }
@@ -53,7 +54,8 @@ class ArrayDataProviderTest: XCTestCase {
         
         //Then
         XCTAssertTrue(didUpdate)
-        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 3, atSection: 0), sections: 1, objectIndexPath: (object: 9, atIndexPath: IndexPath(row: 1, section: 0)), notContainingObject: 100)
+        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 3, atSection: 0), sections: 1,
+                                                  objectIndexPath: (object: 9, atIndexPath: IndexPath(row: 1, section: 0)), notContainingObject: 100)
         let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
         dataProviderTest.test()
     }

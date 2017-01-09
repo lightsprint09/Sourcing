@@ -27,7 +27,8 @@
 //
 import UIKit
 
-final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, CollectionViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
+final public class CollectionViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, CollectionViewDataSourcing
+where CellConfig.Object == DataProvider.Object, CellConfig.Cell: UICollectionViewCell {
     
     public var collectionView: CollectionViewRepresenting {
         didSet {

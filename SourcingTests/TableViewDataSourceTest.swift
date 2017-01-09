@@ -29,6 +29,7 @@
 import XCTest
 import UIKit
 @testable import Sourcing
+// swiftlint:disable force_cast
 
 class TableViewDataSourceTest: XCTestCase {
     

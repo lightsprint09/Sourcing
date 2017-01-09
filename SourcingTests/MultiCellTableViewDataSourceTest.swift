@@ -29,8 +29,7 @@
 import XCTest
 import UIKit
 @testable import Sourcing
-
-
+// swiftlint:disable force_cast
 class MultiCellTableViewDataSourceTest: XCTestCase {
     let cellIdentifier = "cellIdentifier"
     let secondCellIdentifier = "cellIdentifier2"
@@ -60,7 +59,8 @@ class MultiCellTableViewDataSourceTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil), CellConfiguration<MockCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
+        let cellConfig = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil),
+                                                CellConfiguration<MockCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
         
         //When
         let _ = MultiCellTableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cellDequeables: cellConfig)

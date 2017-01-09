@@ -27,6 +27,7 @@
 //
 
 import UIKit
+// swiftlint:disable force_cast
 
 class UITableCollectionViewBaseMock {
     var reloadedCount = 0
