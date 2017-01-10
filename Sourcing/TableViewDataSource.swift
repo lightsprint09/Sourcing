@@ -31,7 +31,8 @@ import UIKit
 
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, TableViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, TableViewDataSourcing
+    where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
     
     public let dataProvider: DataProvider
     public var tableView: TableViewRepresenting {

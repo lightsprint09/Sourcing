@@ -32,7 +32,7 @@ import Foundation
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
 open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
-    
+
     fileprivate(set) open var data: Array<Array<Object>>
     fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
     open let sectionIndexTitles: Array<String>?
