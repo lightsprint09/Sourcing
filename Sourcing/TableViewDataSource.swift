@@ -31,7 +31,8 @@ import UIKit
 
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, TableViewDataSourcing where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, TableViewDataSourcing
+    where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
     
     public let dataProvider: DataProvider
     public var tableView: TableViewRepresenting {
@@ -41,11 +42,13 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
         }
     }
     private let cellDequable: CellConfig
+    private let canMoveItems: Bool
     
-    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig) {
+    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig, canMoveItems: Bool = false) {
         self.tableView = tableView
         self.dataProvider = dataProvider
         self.cellDequable = cellDequable
+        self.canMoveItems = canMoveItems
         super.init()
         registerNib()
         tableView.dataSource = self
@@ -86,6 +89,13 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
          return dataProvider.sectionIndexTitles
     }
     
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return canMoveItems
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+    }
 }
 
 
