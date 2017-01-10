@@ -34,7 +34,7 @@ class ArrayDataProviderTest: XCTestCase {
     
     func testDataSource() {
         //Given
-        dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]])
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
         //Then
         let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2,
@@ -46,7 +46,7 @@ class ArrayDataProviderTest: XCTestCase {
     func testCallUpdate() {
         var didUpdate = false
         //Given
-        dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]], dataProviderDidUpdate: { update in
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], dataProviderDidUpdate: { update in
             didUpdate = true
         })
         //When
@@ -62,7 +62,7 @@ class ArrayDataProviderTest: XCTestCase {
     
     func testNilSectionIndexTitles() {
         //Given
-        dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]])
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
         //When
         let sectionIndexTitles = dataProvider.sectionIndexTitles
@@ -74,7 +74,7 @@ class ArrayDataProviderTest: XCTestCase {
     func testNonNilSectionIndexTitles() {
         //Given
         let sectionIndexTitles = ["hallo", "bye"]
-        dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]], sectionIndexTitles: sectionIndexTitles)
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], sectionIndexTitles: sectionIndexTitles)
         
         //When
         let titles = dataProvider.sectionIndexTitles
@@ -93,5 +93,20 @@ class ArrayDataProviderTest: XCTestCase {
         
         //Then
         XCTAssertEqual([sectionIndexTitle], titles!)
+    }
+    
+    func testMoveItemFromTo() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let sourceIndexPath = IndexPath(item: 0, section: 0)
+        let destinationIndexPath = IndexPath(item: 1, section: 0)
+        
+        //When
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        
+        //Then
+        let destinationObject = dataProvider.object(at: destinationIndexPath)
+        XCTAssertEqual(destinationObject, 1)
+        
     }
 }
