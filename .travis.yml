@@ -1,6 +1,9 @@
 language: objective-c
 xcode_project: Sourcing.xcodeproj # path to your xcodeproj folder
 xcode_scheme: Sourcing
-osx_image: xcode8
+osx_image: xcode8.2
+before_install:
+  - export SNAPSHOT_FORCE_DELETE=1
+  - fastlane snapshot reset_simulators
 script: 
-- xcodebuild -scheme Sourcing -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0' -enableCodeCoverage NO clean build test
+- set -o pipefail && xcodebuild -scheme Sourcing -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' ONLY_ACTIVE_ARCH=NO -enableCodeCoverage NO clean build test | xcpretty
