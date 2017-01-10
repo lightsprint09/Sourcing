@@ -208,4 +208,21 @@ class TableViewDataSourceTest: XCTestCase {
         XCTAssertNotNil(secondTableview.dataSource)
         XCTAssertEqual(secondTableview.reloadedCount, 1)
     }
+    
+    func testMoveIndexPaths() {
+        //Given
+        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        let dataProviderMock = DataProviderMock<Int>()
+        
+        //When
+        let dataSource = TableViewDataSource(tableView: UITableView(), dataProvider: dataProviderMock, cellDequable: cellConfig)
+        let fromIndexPath = IndexPath(row: 0, section: 1)
+        let toIndexPath = IndexPath(row: 1, section: 0)
+        dataSource.tableView(UITableView(), moveRowAt: fromIndexPath, to: toIndexPath)
+        
+        
+        //Then
+        XCTAssertEqual(dataProviderMock.sourceIndexPath, fromIndexPath)
+        XCTAssertEqual(dataProviderMock.destinationIndexPath, toIndexPath)
+    }
 }
