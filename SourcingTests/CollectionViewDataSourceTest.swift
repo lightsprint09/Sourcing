@@ -191,7 +191,7 @@ class CollectionViewDataSourceTest: XCTestCase {
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cellDequeable: cellConfig)
         let fromIndexPath = IndexPath(row: 0, section: 1)
         let toIndexPath = IndexPath(row: 1, section: 0)
-        dataProvider.moveItemAt(sourceIndexPath: fromIndexPath, to: toIndexPath)
+        dataSource.collectionView(realCollectionView, moveItemAt: fromIndexPath, to: toIndexPath)
         let rowCountFirstSection = dataSource.collectionView(realCollectionView, numberOfItemsInSection: 0)
         let rowCountSecondSection = dataSource.collectionView(realCollectionView, numberOfItemsInSection: 1)
         
