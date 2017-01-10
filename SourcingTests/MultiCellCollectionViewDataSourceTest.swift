@@ -60,7 +60,7 @@ class MultiCellCollectionViewDataSourceTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil),
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil),
                           CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
         
         //When
@@ -74,7 +74,7 @@ class MultiCellCollectionViewDataSourceTest: XCTestCase {
     
     func testNumberOfSections() {
         //Given
-        let cellConfig = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
                           CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
@@ -88,7 +88,7 @@ class MultiCellCollectionViewDataSourceTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
-        let cellConfig = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
+        let cellConfig: Array<CellDequeable> = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
                           CellConfiguration<MockCollectionCell<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
