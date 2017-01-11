@@ -19,9 +19,12 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         return fetchedResultsController.sectionIndexTitles
     }
     
-    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) throws {
+    private let moveItemAtIdexPath: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)?
+    
+    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil, moveItemAt: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate
+        self.moveItemAtIdexPath = moveItemAt
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
@@ -49,6 +52,10 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     public func indexPath(for object: Object) -> IndexPath? {
         return fetchedResultsController.indexPath(forObject: object)
+    }
+    
+    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        moveItemAtIdexPath?(sourceIndexPath, destinationIndexPath)
     }
     
     // MARK: NSFetchedResultsControllerDelegate
