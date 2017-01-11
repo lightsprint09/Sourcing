@@ -84,5 +84,24 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
     }
 
-    
+    func testMoveItemFromTo() {
+        //Given
+        var sourceIndexPathCaptured: IndexPath?
+        var destinationIndexPathCaptured: IndexPath?
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { updates in },
+                                                       moveItemAt: { sourceIndexPath,  destinationIndexPath in
+            sourceIndexPathCaptured = sourceIndexPath
+            destinationIndexPathCaptured = destinationIndexPath
+        })
+        let sourceIndexPath = IndexPath(item: 0, section: 0)
+        let destinationIndexPath = IndexPath(item: 1, section: 0)
+        
+        //When
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        
+        //Then
+        XCTAssertEqual(sourceIndexPathCaptured, sourceIndexPath)
+        XCTAssertEqual(destinationIndexPathCaptured, destinationIndexPath)
+        
+    }
 }

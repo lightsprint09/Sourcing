@@ -32,13 +32,16 @@ let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourR
 
 Create an data provider. Use the default `ArrayDataProvider`or implement you own custom dataprovider, eg with network capabilities.
 ```swift
+var dataSource: TableViewDataSource<ArrayDataProvider<Train>, CellConfiguration<TrainCell>>?
 let trains: Array<Train> = //
-let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains)
+let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains, { [ weak self] updates in
+                dataSource?.processUpdates(updates)
+          })
 ```
 Bring your data and your cell configuration together by creating a `TableViewDataSource` object.
 ```swift
 let tableView: UITableView = //...
-let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: trainCellConfiguration)
+dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: trainCellConfiguration)
 ```
 
 ### Heterogeneous data types
@@ -76,7 +79,7 @@ TBD
 Specify the following in your `Cartfile`:
 
 ```ogdl
-github "lightsprint09/sourcing" ~> 1.0
+github "lightsprint09/sourcing" ~> 1.1
 ```
 ## Contributing
 Feel free to submit a pull request with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
