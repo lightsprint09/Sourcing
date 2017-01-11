@@ -30,6 +30,7 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
+// swiftlint:disable force_cast
 class CollectionViewDataSourceTest: XCTestCase {
 
     let cellIdentifier = "cellIdentifier"
@@ -182,5 +183,21 @@ class CollectionViewDataSourceTest: XCTestCase {
         XCTAssertEqual(secondCollectionViewMock.reloadedCount, 1)
     }
 
+    func testMoveIndexPaths() {
+        //Given
+        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
+        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let dataProviderMock = DataProviderMock<Int>()
+        
+        //When
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProviderMock, cellDequeable: cellConfig)
+        let fromIndexPath = IndexPath(row: 0, section: 1)
+        let toIndexPath = IndexPath(row: 1, section: 0)
+        dataSource.collectionView(realCollectionView, moveItemAt: fromIndexPath, to: toIndexPath)
+        
 
+        //Then
+        XCTAssertEqual(dataProviderMock.sourceIndexPath, fromIndexPath)
+        XCTAssertEqual(dataProviderMock.destinationIndexPath, toIndexPath)
+    }
 }

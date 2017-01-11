@@ -62,6 +62,20 @@ public protocol DataProviding: class {
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
     var sectionIndexTitles: Array<String>? { get }
+    
+    
+    /// Moves item from sourceIndexPath to the destinationIndexPath
+    ///
+    /// - Parameters:
+    ///   - sourceIndexPath: the sourceIndexPath
+    ///   - destinationIndexPath: the destinationIndexPath
+    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+}
+
+extension DataProviding {
+    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+    }
 }
 
 extension DataProviding where Object: Equatable {

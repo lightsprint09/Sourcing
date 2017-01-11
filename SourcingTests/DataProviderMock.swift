@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,38 +20,28 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  UITableCollectionViewBaseMock.swift
+//  DataProviderMock.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 22.08.16.
+//  Created by Lukas Schmidt on 10.01.17.
 //
 
-import UIKit
-// swiftlint:disable force_cast
+import Foundation
+import Sourcing
 
-class UITableCollectionViewBaseMock {
-    var reloadedCount = 0
-    var lastUsedReuseIdetifiers = Array<String>()
-    let cellMocks: Dictionary<String, AnyObject>
-    var registerdNibs = Dictionary<String, UINib?>()
+/**
+ `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
+ */
+open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
+    
+    fileprivate(set) open var data: [[Object]] = [[]]
+    public let sectionIndexTitles: [String]? = []
 
+    var sourceIndexPath: IndexPath?
+    var destinationIndexPath: IndexPath?
     
-    func reloadData() {
-        self.reloadedCount += 1
+    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        self.sourceIndexPath = sourceIndexPath
+        self.destinationIndexPath = destinationIndexPath
     }
-    
-    init(mockCells: Dictionary<String, AnyObject>) {
-        cellMocks = mockCells
-    }
-    
-    func registerNib(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
-        registerdNibs[identifier] = nib
-    }
-    
-    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
-        lastUsedReuseIdetifiers.append(identifier)
-        
-        return cellMocks[identifier]! as! Cell
-    }
-    
 }

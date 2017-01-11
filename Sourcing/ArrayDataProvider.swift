@@ -32,7 +32,7 @@ import Foundation
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
 open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
-    
+
     fileprivate(set) open var data: Array<Array<Object>>
     fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
     open let sectionIndexTitles: Array<String>?
@@ -65,19 +65,39 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: flat array.
+     - parameter array: flat array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user
     */
-    open func reconfigureData(_ array: Array<Object>) {
-        reconfigureData([array])
+    open func reconfigureData(_ array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+        reconfigureData([array], updates: updates, causedByUserInteraction: causedByUserInteraction)
     }
     
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: 2D array.
+     - parameter array: 2D array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user.
      */
-    open func reconfigureData(_ array: Array<Array<Object>>) {
+    open func reconfigureData(_ array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
-        dataProviderDidUpdate?(nil)
+        if !causedByUserInteraction {
+           dataProviderDidUpdate?(updates)
+        }
+    }
+    
+    /**
+     Update item position in dataSource.
+     
+     - parameter sourceIndexPath: original indexPath.
+     - parameter destinationIndexPath: destination indexPath.
+     */
+    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let soureElement = object(at: sourceIndexPath)
+        data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
+        let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
+        dataProviderDidUpdate?([update])
     }
 }

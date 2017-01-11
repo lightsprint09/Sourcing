@@ -1,6 +1,7 @@
 disabled_rules: # rule identifiers to exclude from running
     - trailing_whitespace
     - missing_docs
+    - syntactic_sugar
 opt_in_rules: # some rules are only opt-in
     - conditional_returns_on_newline
     - force_unwrapping
@@ -41,4 +42,5 @@ variable_name:
         - id
         - URL
         - url
+        - nib
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit)

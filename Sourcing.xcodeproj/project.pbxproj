@@ -19,6 +19,7 @@
 		943D00EA1E01AE040066328E /* FetchedResultsDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943D00E91E01AE040066328E /* FetchedResultsDataProvider.swift */; };
 		948E51BF1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */; };
 		948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */; };
+		C6029EC31E252D0D00F29DA6 /* DataProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6029EC21E252D0D00F29DA6 /* DataProviderMock.swift */; };
 		94C903271E1D206200C0C56A /* FetchedResultsDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C903261E1D206200C0C56A /* FetchedResultsDataProviderTests.swift */; };
 		94C903291E1D20D300C0C56A /* DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 94C903281E1D20D300C0C56A /* DataModel.xcdatamodel */; };
 		94C9032C1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C9032A1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift */; };
@@ -71,6 +72,7 @@
 		943D00E91E01AE040066328E /* FetchedResultsDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsDataProvider.swift; sourceTree = "<group>"; };
 		948E51BE1CF8AFB700FFFD62 /* MultiCellTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiCellTableViewDataSource.swift; sourceTree = "<group>"; };
 		948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
+		C6029EC21E252D0D00F29DA6 /* DataProviderMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderMock.swift; sourceTree = "<group>"; };
 		94C903261E1D206200C0C56A /* FetchedResultsDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsDataProviderTests.swift; sourceTree = "<group>"; };
 		94C903281E1D20D300C0C56A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		94C9032A1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDTrain+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */,
 				C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */,
 				C657EA8E1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift */,
+				C6029EC21E252D0D00F29DA6 /* DataProviderMock.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -239,7 +242,8 @@
 				9432D24B1CF5ABC300B72986 /* Frameworks */,
 				9432D24C1CF5ABC300B72986 /* Headers */,
 				9432D24D1CF5ABC300B72986 /* Resources */,
-				943D00EC1E01B5A40066328E /* 🚧 Swift Lint */,
+				94120D551E2375D0002F5CB5 /* 🚧SwiftLint */,
+
 			);
 			buildRules = (
 			);
@@ -324,19 +328,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		943D00EC1E01B5A40066328E /* 🚧 Swift Lint */ = {
+		94120D551E2375D0002F5CB5 /* 🚧SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "🚧 Swift Lint";
+			name = "🚧SwiftLint";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "##if which swiftlint >/dev/null; then\n##swiftlint\n##else\n##echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n##fi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -382,6 +386,7 @@
 				94C903291E1D20D300C0C56A /* DataModel.xcdatamodel in Sources */,
 				C68BCBBF1D59DD1200C5E720 /* DataProvidingTester.swift in Sources */,
 				C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */,
+				C6029EC31E252D0D00F29DA6 /* DataProviderMock.swift in Sources */,
 				C68BCBC81D5AF68A00C5E720 /* TableViewDataSourceTest.swift in Sources */,
 				94C903271E1D206200C0C56A /* FetchedResultsDataProviderTests.swift in Sources */,
 				C68BCBC61D5A1DE100C5E720 /* UITableViewMock.swift in Sources */,
