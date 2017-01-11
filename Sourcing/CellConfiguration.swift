@@ -42,7 +42,6 @@ public struct CellConfiguration<Cell_: ConfigurableCell>: CellDequeable, StaticC
         self.additionalConfiguartion = additionalConfiguartion
     }
     
-    //TODO: May use optional Typesave closure for config
     public func canConfigureCell(with object: Any) -> Bool {
         return object is Object
     }

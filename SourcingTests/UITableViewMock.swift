@@ -51,7 +51,6 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     var dataSource: UITableViewDataSource?
     var indexPathForSelectedRow: IndexPath?
     
-   
     init(mockTableViewCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": MockCell<Int>()]) {
         super.init(mockCells: mockTableViewCells)
     }

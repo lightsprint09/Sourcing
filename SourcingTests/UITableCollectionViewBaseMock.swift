@@ -27,17 +27,16 @@
 //
 
 import UIKit
-// swiftlint:disable force_cast
 
+// swiftlint:disable force_cast force_try force_unwrapping
 class UITableCollectionViewBaseMock {
     var reloadedCount = 0
     var lastUsedReuseIdetifiers = Array<String>()
     let cellMocks: Dictionary<String, AnyObject>
     var registerdNibs = Dictionary<String, UINib?>()
 
-    
     func reloadData() {
-        self.reloadedCount += 1
+        reloadedCount += 1
     }
     
     init(mockCells: Dictionary<String, AnyObject>) {

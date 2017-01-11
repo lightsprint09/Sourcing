@@ -29,8 +29,8 @@
 import XCTest
 import UIKit
 @testable import Sourcing
-// swiftlint:disable force_cast
 
+// swiftlint:disable force_cast force_try force_unwrapping
 class TableViewDataSourceSingleCellTest: XCTestCase {
     
     let cellIdentifier = "cellIdentifier"
@@ -96,7 +96,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testDequCells() {
         //Given
         var didCallAdditionalConfiguartion = false
-        let cell = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion:  { cell, object in
+        let cell = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion: { _, _ in
             didCallAdditionalConfiguartion = true
         })
         let realTableView = UITableView()
