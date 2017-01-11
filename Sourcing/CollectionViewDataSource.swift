@@ -38,11 +38,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         }
     }
     private let cells: Array<CellDequeable>
+    private let canMoveItems: Bool
     
-    public init<TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, loosylTypedCells: Array<CellDequeable>) where TypedDataProvider.Object == Object {
+    public init<TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider,
+                anyCells: Array<CellDequeable>, canMoveItems: Bool = false) where TypedDataProvider.Object == Object {
         self.collectionView = collectionView
         self.dataProvider = DataProvider(dataProvider: dataProvider)
-        self.cells = loosylTypedCells
+        self.cells = anyCells
+        self.canMoveItems = canMoveItems
         super.init()
         registerCells(cells)
         collectionView.dataSource = self
@@ -73,7 +76,9 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     }
     
     func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else { return collectionView.reloadData() }
+        guard let updates = updates else {
+            return collectionView.reloadData()
+        }
         var shouldUpdate = false
         collectionView.performBatchUpdates({
             for update in updates {
@@ -133,6 +138,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         return cell
     }
     
+    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return canMoveItems
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+    }
+    
     // MARK: UICollectionViewDataSourcePrefetching
     
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
@@ -141,21 +154,24 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         dataProvider.cancelPrefetchingForItems(at: indexPaths)
+
     }
 }
 
 // MARK: Typesafe initializers
 
 extension CollectionViewDataSource {
-    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)
-        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UICollectionViewCell {
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
+                     dataProvider: TypedDataProvider, cell: CellConfig)
+        where TypedDataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, loosylTypedCells: [cell])
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell])
     }
     
-    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: TypedDataProvider, cells: Array<CellConfig>)
-        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UICollectionViewCell {
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
+                     dataProvider: TypedDataProvider, cells: Array<CellConfig>)
+        where TypedDataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, loosylTypedCells: cells)
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells)
     }
 }

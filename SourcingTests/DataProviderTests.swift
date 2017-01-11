@@ -12,11 +12,12 @@ import XCTest
 class DataProvidingTests {
     func testTypeEaresedDataProvider() {
         //Given
-        let dataProvider = ArrayDataProvider(sections: [[1,2], [3, 4]])
+        let dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
         //Then
         let indexPath = IndexPath(row: 1, section: 1)
-        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2, objectIndexPath: (object: 4, atIndexPath: indexPath), notContainingObject: 100)
+        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2,
+                                                  objectIndexPath: (object: 4, atIndexPath: indexPath), notContainingObject: 100)
         let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
         dataProviderTest.test()
         
@@ -24,4 +25,3 @@ class DataProvidingTests {
         typeEarsedDataProviderTest.test()
     }
 }
-

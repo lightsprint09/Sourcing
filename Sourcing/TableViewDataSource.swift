@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
@@ -20,11 +19,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         }
     }
     private let cells: Array<CellDequeable>
+    private let canMoveItems: Bool
     
-    public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider, loosylTypedCells: Array<CellDequeable>) where TypedDataProvider.Object == Object {
+    public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
+                anyCells: Array<CellDequeable>, canMoveItems: Bool = false) where TypedDataProvider.Object == Object {
         self.tableView = tableView
         self.dataProvider = DataProvider(dataProvider: dataProvider)
-        self.cells = loosylTypedCells
+        self.cells = anyCells
+        self.canMoveItems = canMoveItems
         super.init()
         register(cells: cells)
         tableView.dataSource = self
@@ -52,33 +54,10 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         return nil
     }
     
-    // MARK: UITableViewDataSource
-    
-    public func numberOfSections(in tableView: UITableView) -> Int {
-        return dataProvider.numberOfSections()
-    }
-    
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataProvider.numberOfItems(inSection: section)
-    }
-    
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let object = dataProvider.object(at: indexPath)
-        guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Unexpected cell type at \(indexPath)")
-        }
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        update(cell, with: object)
-        
-        return cell
-    }
-    
-    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return dataProvider.sectionIndexTitles
-    }
-    
     public func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else { return tableView.reloadData() }
+        guard let updates = updates else {
+            return tableView.reloadData()
+        }
         tableView.beginUpdates()
         for update in updates {
             switch update {
@@ -104,8 +83,43 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public var selectedObject: Object? {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return nil
+        }
         return dataProvider.object(at: indexPath)
+    }
+    
+    // MARK: UITableViewDataSource
+    
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return dataProvider.numberOfSections()
+    }
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataProvider.numberOfItems(inSection: section)
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let object = dataProvider.object(at: indexPath)
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
+            fatalError("Unexpected cell type at \(indexPath)")
+        }
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        update(cell, with: object)
+        
+        return cell
+    }
+    
+    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return dataProvider.sectionIndexTitles
+    }
+    
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return canMoveItems
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
     }
     
     // MARK: UITableViewDataSourcePrefetching
@@ -123,15 +137,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 // MARK: Typesafe initializers
 
 extension TableViewDataSource {
-    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider, cell: CellConfig)
-        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UITableViewCell {
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
+                     dataProvider: TypedDataProvider, cell: CellConfig)
+        where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, loosylTypedCells: [cell])
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell])
     }
     
-    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider, cells: Array<CellConfig>)
-        where TypedDataProvider.Object == Object, CellConfig.Cell.DataSource == Object, CellConfig.Cell: UITableViewCell {
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
+                     dataProvider: TypedDataProvider, cells: Array<CellConfig>)
+        where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, loosylTypedCells: cells)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells)
     }
 }

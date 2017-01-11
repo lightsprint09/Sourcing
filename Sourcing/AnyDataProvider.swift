@@ -8,13 +8,14 @@
 
 import Foundation
 
-public class DataProvider<Object>: DataProviding {
+final public class DataProvider<Object>: DataProviding {
     
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Object
     private let numberOfItems: (_ inSextion: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
     private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
     private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
+    private let moveItemAtIndexPath: (_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void
     
     public let sectionIndexTitles: Array<String>?
     
@@ -33,6 +34,9 @@ public class DataProvider<Object>: DataProviding {
         }
         cancelPrefetchingForItemsAtIndexPaths = { indexPaths in
             dataProvider.cancelPrefetchingForItems(at: indexPaths)
+        }
+        moveItemAtIndexPath = {
+            dataProvider.moveItemAt(sourceIndexPath: $0, to: $1)
         }
         sectionIndexTitles = dataProvider.sectionIndexTitles
     }
@@ -55,5 +59,9 @@ public class DataProvider<Object>: DataProviding {
     
     public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
         cancelPrefetchingForItemsAtIndexPaths(indexPaths)
+    }
+    
+    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        moveItemAtIndexPath(sourceIndexPath, destinationIndexPath)
     }
 }

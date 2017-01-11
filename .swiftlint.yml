@@ -42,4 +42,5 @@ variable_name:
         - id
         - URL
         - url
+        - nib
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit)

@@ -11,7 +11,7 @@ import CoreData
  
 public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
 
-    let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
+    let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)?
     let fetchedResultsController: NSFetchedResultsController<Object>
     var updates: [DataProviderUpdate<Object>] = []
     
@@ -19,15 +19,19 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         return fetchedResultsController.sectionIndexTitles
     }
     
-    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) throws {
+    private let moveItemAtIndexPath: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)?
+    
+    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)? = nil,
+                moveItemAt: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate
+        self.moveItemAtIndexPath = moveItemAt
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
     }
     
-    public func reconfigure(with fetchRequest: (NSFetchedResultsController<Object>) -> ()) throws {
+    public func reconfigure(with fetchRequest: (NSFetchedResultsController<Object>) -> Void) throws {
         NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
         fetchRequest(fetchedResultsController)
         
@@ -51,13 +55,18 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         return fetchedResultsController.indexPath(forObject: object)
     }
     
+    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        moveItemAtIndexPath?(sourceIndexPath, destinationIndexPath)
+    }
+    
     // MARK: NSFetchedResultsControllerDelegate
     
     public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updates = []
     }
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
+                           for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             guard let indexPath = newIndexPath else { fatalError("Index path should be not nil") }
@@ -76,7 +85,8 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         }
     }
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo,
+                           atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
             updates.append(.insertSection(sectionIndex))

@@ -50,7 +50,6 @@ public protocol TableViewRepresenting: class {
     func deleteSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation)
     func insertSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation)
     
-    
     func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell?
     
 }

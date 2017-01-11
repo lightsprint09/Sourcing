@@ -29,6 +29,7 @@ import XCTest
 import CoreData
 import Sourcing
 
+// swiftlint:disable force_cast force_try force_unwrapping
 class FetchedResultsDataProviderTests: XCTestCase {
     func managedObjectContextForTesting() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -36,7 +37,6 @@ class FetchedResultsDataProviderTests: XCTestCase {
         let model = NSManagedObjectModel.mergedModel(from: Bundle.allBundles)
         context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model!)
         try! context.persistentStoreCoordinator?.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
-        
         
         return context
     }
@@ -57,8 +57,9 @@ class FetchedResultsDataProviderTests: XCTestCase {
         let fetchReuqest = NSFetchRequest<CDTrain>(entityName: "CDTrain")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchReuqest.sortDescriptors = [sortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { updates in })
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
     }
     
     func testNumberOfSections() {
@@ -84,5 +85,25 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
     }
 
-    
+    func testMoveItemFromTo() {
+        //Given
+        var sourceIndexPathCaptured: IndexPath?
+        var destinationIndexPathCaptured: IndexPath?
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController,
+                                                       dataProviderDidUpdate: { _ in },
+                                                       moveItemAt: { sourceIndexPath, destinationIndexPath in
+            sourceIndexPathCaptured = sourceIndexPath
+            destinationIndexPathCaptured = destinationIndexPath
+        })
+        let sourceIndexPath = IndexPath(item: 0, section: 0)
+        let destinationIndexPath = IndexPath(item: 1, section: 0)
+        
+        //When
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        
+        //Then
+        XCTAssertEqual(sourceIndexPathCaptured, sourceIndexPath)
+        XCTAssertEqual(destinationIndexPathCaptured, destinationIndexPath)
+        
+    }
 }

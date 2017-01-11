@@ -29,8 +29,9 @@
 import XCTest
 import UIKit
 @testable import Sourcing
+// swiftlint:disable force_cast
 
-class TableViewDataSource_SingleCellTest: XCTestCase {
+class TableViewDataSourceSingleCellTest: XCTestCase {
     
     let cellIdentifier = "cellIdentifier"
     
@@ -112,20 +113,7 @@ class TableViewDataSource_SingleCellTest: XCTestCase {
         XCTAssertTrue(cellForGivenRow is MockCell<Int>)
         XCTAssertTrue(didCallAdditionalConfiguartion)
     }
-    
-//    func testDequInvalidCells() {
-//        //Given
-//        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
-//        tableViewMock = UITableViewMock(mockTableViewCells: [cellIdentifier: UITableViewCell()])
-//        let realTableView = UITableView()
-//        
-//        //When
-//        expectFatalError("Wrong Cell type. Expectes MockCell<Int> but got UITableViewCell") {
-//            let dataSource = TableViewDataSource(tableView: self.tableViewMock, dataProvider: self.dataProvider, cell: cellConfig)
-//            let _ = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 2, section: 1))
-//        }
-//    }
-    
+        
     func testUpdateDataSource() {
         //When
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell)
@@ -189,5 +177,21 @@ class TableViewDataSource_SingleCellTest: XCTestCase {
         //Then
         XCTAssertNotNil(secondTableview.dataSource)
         XCTAssertEqual(secondTableview.reloadedCount, 1)
+    }
+    
+    func testMoveIndexPaths() {
+        //Given
+        let cellConfig = CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)
+        let dataProviderMock = DataProviderMock<Int>()
+        
+        //When
+        let dataSource = TableViewDataSource(tableView: UITableView(), dataProvider: dataProviderMock, cell: cellConfig)
+        let fromIndexPath = IndexPath(row: 0, section: 1)
+        let toIndexPath = IndexPath(row: 1, section: 0)
+        dataSource.tableView(UITableView(), moveRowAt: fromIndexPath, to: toIndexPath)
+        
+        //Then
+        XCTAssertEqual(dataProviderMock.sourceIndexPath, fromIndexPath)
+        XCTAssertEqual(dataProviderMock.destinationIndexPath, toIndexPath)
     }
 }

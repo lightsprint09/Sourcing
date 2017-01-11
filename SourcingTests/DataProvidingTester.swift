@@ -36,7 +36,7 @@ struct DataProviderExpection<Object: Equatable> {
     let notContainingObject: Object
 }
 
-class DataProvidingTester<Provider: DataProviding> where Provider.Object: Equatable{
+class DataProvidingTester<Provider: DataProviding> where Provider.Object: Equatable {
     let dataProvider: Provider
     let providerConfiguration: DataProviderExpection<Provider.Object>
     

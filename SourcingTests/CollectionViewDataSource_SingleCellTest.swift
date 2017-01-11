@@ -30,7 +30,8 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
-class CollectionViewDataSource_SingleCellTest: XCTestCase {
+// swiftlint:disable force_cast force_try force_unwrapping
+class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     let cellIdentifier = "cellIdentifier"
     
@@ -95,7 +96,7 @@ class CollectionViewDataSource_SingleCellTest: XCTestCase {
     func testDequCells() {
         //Given
         var didCallAdditionalConfiguartion = false
-        let cell = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion:  { cell, object in
+        let cell = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion: { _, _ in
             didCallAdditionalConfiguartion = true
         })
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -166,5 +167,20 @@ class CollectionViewDataSource_SingleCellTest: XCTestCase {
         XCTAssertEqual(secondCollectionViewMock.reloadedCount, 1)
     }
 
-
+    func testMoveIndexPaths() {
+        //Given
+        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
+        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let dataProviderMock = DataProviderMock<Int>()
+        
+        //When
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProviderMock, cell: cellConfig)
+        let fromIndexPath = IndexPath(row: 0, section: 1)
+        let toIndexPath = IndexPath(row: 1, section: 0)
+        dataSource.collectionView(realCollectionView, moveItemAt: fromIndexPath, to: toIndexPath)
+        
+        //Then
+        XCTAssertEqual(dataProviderMock.sourceIndexPath, fromIndexPath)
+        XCTAssertEqual(dataProviderMock.destinationIndexPath, toIndexPath)
+    }
 }

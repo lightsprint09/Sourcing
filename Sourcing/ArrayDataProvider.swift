@@ -34,7 +34,8 @@ import Foundation
 open class ArrayDataProvider<Object>: ArrayDataProviding {
     
     open var data: Array<Array<Object>>
-    fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
+
+    fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)?
     open let sectionIndexTitles: Array<String>?
     
     /**
@@ -44,8 +45,11 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter sectionTitle: title for the section. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public convenience init(rows: Array<Object>, sectionTitle: String? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
-        let titles: Array<String>? = sectionTitle == nil ? nil : [sectionTitle!]
+    public convenience init(rows: Array<Object>, sectionTitle: String? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)? = nil) {
+        var titles: Array<String>?
+        if let sectionTitle = sectionTitle {
+            titles = [sectionTitle]
+        }
         self.init(sections: [rows], sectionIndexTitles: titles, dataProviderDidUpdate: dataProviderDidUpdate)
     }
     
@@ -56,7 +60,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter sectionTitles: titles for the sections. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public init(sections: Array<Array<Object>>, sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
+    public init(sections: [[Object]], sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)? = nil) {
         self.data = sections
         self.dataProviderDidUpdate = dataProviderDidUpdate
         self.sectionIndexTitles = sectionIndexTitles
@@ -64,19 +68,39 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: flat array.
+     - parameter array: flat array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user
     */
-    open func reconfigureData(_ array: Array<Object>) {
-        reconfigureData([array])
+    open func reconfigureData(_ array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+        reconfigureData([array], updates: updates, causedByUserInteraction: causedByUserInteraction)
     }
     
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: 2D array.
+     - parameter array: 2D array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user.
      */
-    open func reconfigureData(_ array: Array<Array<Object>>) {
+    open func reconfigureData(_ array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
-        dataProviderDidUpdate?(nil)
+        if !causedByUserInteraction {
+           dataProviderDidUpdate?(updates)
+        }
+    }
+    
+    /**
+     Update item position in dataSource.
+     
+     - parameter sourceIndexPath: original indexPath.
+     - parameter destinationIndexPath: destination indexPath.
+     */
+    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let soureElement = object(at: sourceIndexPath)
+        data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
+        let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
+        dataProviderDidUpdate?([update])
     }
 }
