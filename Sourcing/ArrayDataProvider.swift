@@ -72,8 +72,8 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter updates: diff of the new data.
      - parameter causedByUserInteraction: flag if the changes are caused by a user
     */
-    open func reconfigureData(_ array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
-        reconfigureData([array], updates: updates, causedByUserInteraction: causedByUserInteraction)
+    open func reconfigure(with array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+        reconfigure(with: [array], updates: updates, causedByUserInteraction: causedByUserInteraction)
     }
     
     /**
@@ -83,7 +83,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter updates: diff of the new data.
      - parameter causedByUserInteraction: flag if the changes are caused by a user.
      */
-    open func reconfigureData(_ array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+    open func reconfigure(with array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
         if !causedByUserInteraction {
            dataProviderDidUpdate?(updates)
