@@ -139,7 +139,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 
 // MARK: Typesafe initializers
 
-extension TableViewDataSource {
+public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cell: CellConfig)
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
