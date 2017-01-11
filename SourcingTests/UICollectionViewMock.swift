@@ -47,7 +47,9 @@ class MockCollectionCell<T>: UICollectionViewCell, ConfigurableCell {
     }
 }
 class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
+    
 
+    public var prefetchDataSource: UICollectionViewDataSourcePrefetching?
     var dataSource: UICollectionViewDataSource?
     
     init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": MockCollectionCell<Int>()]) {

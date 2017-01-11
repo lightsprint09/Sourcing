@@ -44,19 +44,6 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         collectionViewMock = UICollectionViewMock()
     }
     
-    func testSetDataSource() {
-        //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)]
-        
-        //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 1)
-        XCTAssertNotNil(collectionViewMock.dataSource)
-        XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
-    }
-    
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)

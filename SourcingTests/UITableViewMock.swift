@@ -48,6 +48,8 @@ class MockCell<T>: UITableViewCell, ConfigurableCell {
 }
 
 class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
+    public var prefetchDataSource: UITableViewDataSourcePrefetching?
+
     var dataSource: UITableViewDataSource?
     var indexPathForSelectedRow: IndexPath?
     

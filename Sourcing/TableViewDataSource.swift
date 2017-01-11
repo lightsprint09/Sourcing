@@ -30,10 +30,13 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         super.init()
         register(cells: cells)
         tableView.dataSource = self
+        if #available(iOS 10.0, *) {
+            tableView.prefetchDataSource = self
+        }
         tableView.reloadData()
     }
     
-    public func update(_ cell: UITableViewCell, with object: Object) {
+    func update(_ cell: UITableViewCell, with object: Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not update Cell")
         }
@@ -102,10 +105,10 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = dataProvider.object(at: indexPath)
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Unexpected cell type at \(indexPath)")
+            fatalError("Unexpected cell type at \(indexPath) for object of type")
         }
         let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        update(cell, with: object)
+        cellDequeable.configure(cell, with: object)
         
         return cell
     }

@@ -33,6 +33,8 @@ import Foundation
  */
 public protocol TableViewRepresenting: class {
     var dataSource: UITableViewDataSource? { get set }
+    @available(iOS 10.0, *)
+    var prefetchDataSource: UITableViewDataSourcePrefetching? { get set }
     var indexPathForSelectedRow: IndexPath? { get }
     
     func reloadData()

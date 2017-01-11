@@ -53,6 +53,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 1)
         XCTAssertNotNil(collectionViewMock.dataSource)
+        XCTAssertNotNil(collectionViewMock.prefetchDataSource)
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
     }
     

@@ -44,19 +44,6 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         tableViewMock = UITableViewMock()
     }
     
-    func testSetDataSource() {
-        //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier)]
-        
-        //When
-        let _ = TableViewDataSource<Any>(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        
-        //Then
-        XCTAssertEqual(tableViewMock.reloadedCount, 1)
-        XCTAssertNotNil(tableViewMock.dataSource)
-        XCTAssertEqual(tableViewMock.registerdNibs.count, 0)
-    }
-    
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)

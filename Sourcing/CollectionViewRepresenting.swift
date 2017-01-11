@@ -30,6 +30,8 @@ import UIKit
 
 public protocol CollectionViewRepresenting: class {
     var dataSource: UICollectionViewDataSource? { get set }
+    @available(iOS 10.0, *)
+    var prefetchDataSource: UICollectionViewDataSourcePrefetching? { get set }
     
     var indexPathsForSelectedItems: [IndexPath]? { get }
     

@@ -49,10 +49,13 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         super.init()
         registerCells(cells)
         collectionView.dataSource = self
+        if #available(iOS 10.0, *) {
+            collectionView.prefetchDataSource = self
+        }
         collectionView.reloadData()
     }
     
-    public func update(_ cell: UICollectionViewCell, with object: Object) {
+    func update(_ cell: UICollectionViewCell, with object: Object) {
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Could not find a cell to deuqe")
         }
@@ -133,7 +136,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
             fatalError("Unexpected cell type at \(indexPath)")
         }
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
-        let _ = cellDequeable.configure(cell, with: object)
+        cellDequeable.configure(cell, with: object)
         
         return cell
     }
@@ -148,13 +151,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     // MARK: UICollectionViewDataSourcePrefetching
     
+    @available(iOS 10.0, *)
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         dataProvider.prefetchItems(at: indexPaths)
     }
     
+    @available(iOS 10.0, *)
     public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         dataProvider.cancelPrefetchingForItems(at: indexPaths)
-
     }
 }
 

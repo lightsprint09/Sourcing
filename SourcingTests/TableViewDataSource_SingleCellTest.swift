@@ -53,6 +53,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 1)
         XCTAssertNotNil(tableViewMock.dataSource)
+        XCTAssertNotNil(tableViewMock.prefetchDataSource)
         XCTAssertEqual(tableViewMock.registerdNibs.count, 0)
     }
     
