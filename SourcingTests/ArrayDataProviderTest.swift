@@ -51,7 +51,7 @@ class ArrayDataProviderTest: XCTestCase {
             didUpdate = true
         })
         //When
-        dataProvider.reconfigureData([8, 9, 10])
+        dataProvider.reconfigure(with: [8, 9, 10])
         
         //Then
         XCTAssertTrue(didUpdate)
