@@ -27,7 +27,7 @@
 
 import XCTest
 import CoreData
-import Sourcing
+@testable import Sourcing
 
 // swiftlint:disable force_cast force_try force_unwrapping
 class FetchedResultsDataProviderTests: XCTestCase {
@@ -105,5 +105,75 @@ class FetchedResultsDataProviderTests: XCTestCase {
         XCTAssertEqual(sourceIndexPathCaptured, sourceIndexPath)
         XCTAssertEqual(destinationIndexPathCaptured, destinationIndexPath)
         
+    }
+    
+    func testHandleInsert() {
+        //Given
+        let indexPath = IndexPath(row: 0, section: 0)
+        
+        //When
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: nil, for: .insert, newIndexPath: indexPath)
+        
+        //Then
+        XCTAssertEqual(dataProvider.updates.count, 1)
+        if case .insert(let updatedIndexPath) = dataProvider.updates.first! {
+            XCTAssertEqual(indexPath, updatedIndexPath)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testHandleUpdate() {
+        //Given
+        let indexPath = IndexPath(row: 0, section: 0)
+        
+        //When
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: indexPath, for: .update, newIndexPath: nil)
+        
+        //Then
+        XCTAssertEqual(dataProvider.updates.count, 1)
+        if case .update(let updatedIndexPath, _) = dataProvider.updates.first! {
+            XCTAssertEqual(indexPath, updatedIndexPath)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testHandleMove() {
+        //Given
+        let oldIndexPath = IndexPath(row: 0, section: 0)
+        let newIndexPath = IndexPath(row: 1, section: 0)
+        
+        //When
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+        
+        //Then
+        XCTAssertEqual(dataProvider.updates.count, 1)
+        if case .move(let updatedIndexPath, let newMovedIndexPath) = dataProvider.updates.first! {
+            XCTAssertEqual(oldIndexPath, updatedIndexPath)
+            XCTAssertEqual(newIndexPath, newMovedIndexPath)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testHandleDelete() {
+        //Given
+        let deletedIndexPath = IndexPath(row: 0, section: 0)
+        
+        //When
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: deletedIndexPath, for: .delete, newIndexPath: nil)
+        
+        //Then
+        XCTAssertEqual(dataProvider.updates.count, 1)
+        if case .delete(let updatedIndexPath) = dataProvider.updates.first! {
+            XCTAssertEqual(deletedIndexPath, updatedIndexPath)
+        } else {
+            XCTFail()
+        }
     }
 }
