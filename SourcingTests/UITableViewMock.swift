@@ -66,27 +66,27 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     }
     
     func beginUpdates() {
-        
+        beginUpdatesCalledCount += 1
     }
     
     func endUpdates() {
-    
+        endUpdatesCalledCount += 1
     }
     
     func insertRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
-        
+        insertedIndexPaths = indexPaths
     }
     
     func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
-        
+        deleteIndexPaths = indexPaths
     }
     
     func insertSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
-        
+        insertedSections = sections
     }
     
     func deleteSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
-    
+        deleteSections = sections
     }
     
     func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell? {

@@ -65,31 +65,39 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
     }
     
     func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
+        beginUpdatesCalledCount += 1
+        endUpdatesCalledCount += 1
         updates?()
     }
     
     func insertSections(_ sections: IndexSet) {
+        insertedSections = sections
+    }
     
-    }
     func deleteSections(_ sections: IndexSet) {
-        
+        deleteSections = sections
     }
+    
     func reloadSections(_ sections: IndexSet) {
     
     }
+    
     func moveSection(_ section: Int, toSection newSection: Int) {
     
     }
     
     func insertItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
-    
+        insertedIndexPaths = indexPaths
     }
+    
     func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
-    
+        deleteIndexPaths = indexPaths
     }
+    
     func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
     
     }
+    
     func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath) {
     
     }

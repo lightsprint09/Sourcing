@@ -34,6 +34,15 @@ class UITableCollectionViewBaseMock {
     var lastUsedReuseIdetifiers = Array<String>()
     let cellMocks: Dictionary<String, AnyObject>
     var registerdNibs = Dictionary<String, UINib?>()
+    
+    var beginUpdatesCalledCount = 0
+    var endUpdatesCalledCount = 0
+    
+    var insertedIndexPaths: Array<IndexPath>?
+    var deleteIndexPaths: Array<IndexPath>?
+    
+    var insertedSections: IndexSet?
+    var deleteSections: IndexSet?
 
     func reloadData() {
         reloadedCount += 1

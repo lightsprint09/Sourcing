@@ -184,4 +184,80 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(dataProviderMock.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataProviderMock.destinationIndexPath, toIndexPath)
     }
+    
+    func testProcessUpdatesInsert() {
+        //Given
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let insertionIndexPath = IndexPath(row: 0, section: 0)
+        let insertion = DataProviderUpdate<Int>.insert(insertionIndexPath)
+        dataSource.process(updates: [insertion])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.count, 1)
+        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.first, insertionIndexPath)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    func testProcessUpdatesDelete() {
+        //Given
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let deletetionIndexPath = IndexPath(row: 0, section: 0)
+        let deletion = DataProviderUpdate<Int>.delete(deletetionIndexPath)
+        dataSource.process(updates: [deletion])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.count, 1)
+        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.first, deletetionIndexPath)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    func testProcessUpdatesMove() {
+        //Given
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let oldIndexPath = IndexPath(row: 0, section: 0)
+        let newIndexPath = IndexPath(row: 0, section: 0)
+        let move = DataProviderUpdate<Int>.move(oldIndexPath, newIndexPath)
+        dataSource.process(updates: [move])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.count, 1)
+        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.first, oldIndexPath)
+        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.count, 1)
+        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.first, newIndexPath)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    func testProcessUpdatesInsertSection() {
+        //Given
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let insertion = DataProviderUpdate<Int>.insertSection(0)
+        dataSource.process(updates: [insertion])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.insertedSections?.count, 1)
+        XCTAssertEqual(collectionViewMock.insertedSections?.first, 0)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    func testProcessUpdatesSelecteSection() {
+        //Given
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let deletion = DataProviderUpdate<Int>.deleteSection(0)
+        dataSource.process(updates: [deletion])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.deleteSections?.count, 1)
+        XCTAssertEqual(collectionViewMock.deleteSections?.first, 0)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
 }
