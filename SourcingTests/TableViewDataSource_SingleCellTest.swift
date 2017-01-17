@@ -304,4 +304,13 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataProviderMock.canceledPrefetchedIndexPaths!, canceldIndexPaths)
     }
+    
+    func testCanMoveCellAtIndexPath() {
+        //When
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, canMoveItemAtIndexPath: { _ in return true })
+        
+        //Then
+        XCTAssertTrue(dataSource.tableView(UITableView(), canMoveRowAt: IndexPath(row: 0, section: 0)))
+        
+    }
 }

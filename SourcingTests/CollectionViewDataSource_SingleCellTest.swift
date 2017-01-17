@@ -298,4 +298,13 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         }
         XCTAssertEqual(x, canceldIndexPaths)
     }
+    
+    func testCanMoveCellAtIndexPath() {
+        //When
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider,
+                                                  cell: cell, canMoveItemAtIndexPath: { _ in return true })
+        
+        //Then
+        XCTAssertTrue(dataSource.collectionView(realCollectionView, canMoveItemAt: IndexPath(item: 0, section: 0)))
+    }
 }

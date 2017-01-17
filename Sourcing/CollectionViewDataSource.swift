@@ -38,14 +38,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         }
     }
     private let cells: Array<CellDequeable>
-    private let canMoveItems: Bool
+    private let canMoveItemAtIndexPath: (IndexPath) -> Bool
     
     public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
-                anyCells: Array<CellDequeable>, canMoveItems: Bool = false) where DataProvider.Object == Object {
+                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false }) where DataProvider.Object == Object {
         self.collectionView = collectionView
         self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
         self.cells = anyCells
-        self.canMoveItems = canMoveItems
+        self.canMoveItemAtIndexPath = canMoveItemAtIndexPath
         super.init()
         registerCells(cells)
         collectionView.dataSource = self
@@ -142,7 +142,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     }
     
     public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return canMoveItems
+        return canMoveItemAtIndexPath(indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -166,16 +166,16 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 
 extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
-                     dataProvider: DataProvider, cell: CellConfig)
+                     dataProvider: DataProvider, cell: CellConfig, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
         where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell])
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], canMoveItemAtIndexPath: canMoveItemAtIndexPath)
     }
     
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
-                     dataProvider: DataProvider, cells: Array<CellConfig>)
+                     dataProvider: DataProvider, cells: Array<CellConfig>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
         where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells)
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, canMoveItemAtIndexPath: canMoveItemAtIndexPath)
     }
 }

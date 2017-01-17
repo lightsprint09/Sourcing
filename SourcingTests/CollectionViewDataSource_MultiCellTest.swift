@@ -43,6 +43,20 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
         collectionViewMock = UICollectionViewMock()
     }
+    func testSetDataSource() {
+        let cells: [CellConfiguration<MockCollectionCell<Int>>] = [CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier),
+                                                         CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: secondCellIdentifier)]
+        let dataProvider = ArrayDataProvider<Int>(sections: [[2], [1, 3, 10]])
+        
+        //When
+        let _ = CollectionViewDataSource<Int>(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cells)
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.reloadedCount, 1)
+        XCTAssertNotNil(collectionViewMock.dataSource)
+        XCTAssertNotNil(collectionViewMock.prefetchDataSource)
+        XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
+    }
     
     func testRegisterNib() {
         //Given

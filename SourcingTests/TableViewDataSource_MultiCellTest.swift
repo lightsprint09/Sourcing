@@ -44,6 +44,21 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         tableViewMock = UITableViewMock()
     }
     
+    func testSetDataSource() {
+        //Given
+        let cells: [CellConfiguration<MockCell<Int>>] = [CellConfiguration<MockCell<Int>>(cellIdentifier: cellIdentifier),
+                                      CellConfiguration<MockCell<Int>>(cellIdentifier: secondCellIdentifier)]
+
+        //When
+        let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cells: cells)
+        
+        //Then
+        XCTAssertEqual(tableViewMock.reloadedCount, 1)
+        XCTAssertNotNil(tableViewMock.dataSource)
+        XCTAssertNotNil(tableViewMock.prefetchDataSource)
+        XCTAssertEqual(tableViewMock.registerdNibs.count, 0)
+    }
+    
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)

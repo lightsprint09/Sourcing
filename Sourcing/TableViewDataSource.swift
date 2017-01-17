@@ -22,7 +22,8 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     private let canMoveItemAtIndexPath: (IndexPath) -> Bool
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
-                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false }) where TypedDataProvider.Object == Object {
+                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                where TypedDataProvider.Object == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
         self.cells = anyCells
@@ -141,16 +142,16 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 
 public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cell: CellConfig)
+                     dataProvider: TypedDataProvider, cell: CellConfig, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell])
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], canMoveItemAtIndexPath: canMoveItemAtIndexPath)
     }
     
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cells: Array<CellConfig>)
+                     dataProvider: TypedDataProvider, cells: Array<CellConfig>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, canMoveItemAtIndexPath: canMoveItemAtIndexPath)
     }
 }
