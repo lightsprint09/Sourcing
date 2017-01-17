@@ -11,7 +11,7 @@ import Foundation
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
-    public let dataProvider: DataProvider<Object>
+    public let dataProvider: AnyDataProvider<Object>
     public var tableView: TableViewRepresenting {
         didSet {
             tableView.dataSource = self
@@ -19,14 +19,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         }
     }
     private let cells: Array<CellDequeable>
-    private let canMoveItems: Bool
+    private let canMoveItemAtIndexPath: (IndexPath) -> Bool
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
-                anyCells: Array<CellDequeable>, canMoveItems: Bool = false) where TypedDataProvider.Object == Object {
+                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false }) where TypedDataProvider.Object == Object {
         self.tableView = tableView
-        self.dataProvider = DataProvider(dataProvider: dataProvider)
+        self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
         self.cells = anyCells
-        self.canMoveItems = canMoveItems
+        self.canMoveItemAtIndexPath = canMoveItemAtIndexPath
         super.init()
         register(cells: cells)
         tableView.dataSource = self
@@ -118,7 +118,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return canMoveItems
+        return canMoveItemAtIndexPath(indexPath)
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -143,14 +143,14 @@ public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cell: CellConfig)
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
-            let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
+            let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell])
     }
     
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cells: Array<CellConfig>)
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
-            let typeErasedDataProvider = DataProvider(dataProvider: dataProvider)
+            let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells)
     }
 }

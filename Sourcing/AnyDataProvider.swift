@@ -8,13 +8,15 @@
 
 import Foundation
 
-final public class DataProvider<Object>: DataProviding {
+final public class AnyDataProvider<Object>: DataProviding {
     
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Object
     private let numberOfItems: (_ inSextion: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
+    
     private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
     private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
+    
     private let moveItemAtIndexPath: (_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void
     
     public let sectionIndexTitles: Array<String>?

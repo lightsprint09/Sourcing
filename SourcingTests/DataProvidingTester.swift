@@ -45,7 +45,7 @@ class DataProvidingTester<Provider: DataProviding> where Provider.Object: Equata
         self.providerConfiguration = providerConfiguration
     }
     
-    func test() {
+    func validate() {
         XCTAssertEqual(dataProvider.numberOfSections(), providerConfiguration.sections)
         XCTAssertEqual(dataProvider.numberOfItems(inSection: providerConfiguration.rowsAtSection.atSection), providerConfiguration.rowsAtSection.numberOfItems)
         XCTAssertEqual(dataProvider.object(at: providerConfiguration.objectIndexPath.atIndexPath), providerConfiguration.objectIndexPath.object)

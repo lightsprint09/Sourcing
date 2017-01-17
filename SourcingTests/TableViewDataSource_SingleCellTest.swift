@@ -278,4 +278,30 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
+    
+    func testPrefetchItemsAtIndexPaths() {
+        //Given
+        let dataProviderMock = DataProviderMock<Int>()
+        let dataSource: UITableViewDataSourcePrefetching = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProviderMock, cell: cell)
+        
+        //When
+        let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
+        dataSource.tableView(UITableView(), prefetchRowsAt: prefetchedIndexPaths)
+        
+        //Then
+        XCTAssertEqual(dataProviderMock.prefetchedIndexPaths!, prefetchedIndexPaths)
+    }
+    
+    func testCenclePrefetchItemsAtIndexPaths() {
+        //Given
+        let dataProviderMock = DataProviderMock<Int>()
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProviderMock, cell: cell)
+        
+        //When
+        let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
+        dataSource.tableView(UITableView(), cancelPrefetchingForRowsAt: canceldIndexPaths)
+        
+        //Then
+        XCTAssertEqual(dataProviderMock.canceledPrefetchedIndexPaths!, canceldIndexPaths)
+    }
 }

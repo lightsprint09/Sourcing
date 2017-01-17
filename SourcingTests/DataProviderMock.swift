@@ -40,8 +40,19 @@ open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
     var sourceIndexPath: IndexPath?
     var destinationIndexPath: IndexPath?
     
+    var prefetchedIndexPaths: [IndexPath]?
+    var canceledPrefetchedIndexPaths: [IndexPath]?
+    
     public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         self.sourceIndexPath = sourceIndexPath
         self.destinationIndexPath = destinationIndexPath
+    }
+
+    public func prefetchItems(at indexPaths: [IndexPath]) {
+        prefetchedIndexPaths = indexPaths
+    }
+    
+    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
+        canceledPrefetchedIndexPaths = indexPaths
     }
 }

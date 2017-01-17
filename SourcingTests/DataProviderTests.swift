@@ -19,9 +19,9 @@ class DataProvidingTests {
         let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2,
                                                   objectIndexPath: (object: 4, atIndexPath: indexPath), notContainingObject: 100)
         let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
-        dataProviderTest.test()
+        dataProviderTest.validate()
         
-        let typeEarsedDataProviderTest = DataProvidingTester(dataProvider: DataProvider(dataProvider: dataProvider), providerConfiguration: dataExpection)
-        typeEarsedDataProviderTest.test()
+        let typeEarsedDataProviderTest = DataProvidingTester(dataProvider: AnyDataProvider(dataProvider: dataProvider), providerConfiguration: dataExpection)
+        typeEarsedDataProviderTest.validate()
     }
 }

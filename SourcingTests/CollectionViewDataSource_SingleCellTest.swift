@@ -37,6 +37,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     var dataProvider: ArrayDataProvider<Int>!
     var collectionViewMock: UICollectionViewMock!
+    var realCollectionView: UICollectionView!
     var cell: CellConfiguration<MockCollectionCell<Int>>!
     
     override func setUp() {
@@ -44,6 +45,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         collectionViewMock = UICollectionViewMock()
         cell = CellConfiguration(cellIdentifier: cellIdentifier)
+        realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     }
     
     func testSetDataSource() {
@@ -259,5 +261,41 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.deleteSections?.first, 0)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    @available(iOS 10.0, *)
+    func testPrefetchItemsAtIndexPaths() {
+        //Given
+        let dataProviderMock = DataProviderMock<Int>()
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock,
+                                                                                         dataProvider: dataProviderMock, cell: cell)
+        
+        //When
+        let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
+        dataSource.collectionView(realCollectionView, prefetchItemsAt: prefetchedIndexPaths)
+        
+        //Then
+        guard let x = dataProviderMock.prefetchedIndexPaths else {
+            return XCTFail()
+        }
+        XCTAssertEqual(x, prefetchedIndexPaths)
+    }
+    
+    @available(iOS 10.0, *)
+    func testCenclePrefetchItemsAtIndexPaths() {
+        //Given
+        let dataProviderMock = DataProviderMock<Int>()
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock,
+                                                                                    dataProvider: dataProviderMock, cell: cell)
+        
+        //When
+        let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
+        dataSource.collectionView(realCollectionView, cancelPrefetchingForItemsAt: canceldIndexPaths)
+        
+        //Then
+        guard let x = dataProviderMock.canceledPrefetchedIndexPaths else {
+            return XCTFail()
+        }
+        XCTAssertEqual(x, canceldIndexPaths)
     }
 }
