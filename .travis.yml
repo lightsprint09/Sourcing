@@ -6,4 +6,6 @@ before_install:
   - export SNAPSHOT_FORCE_DELETE=1
   - fastlane snapshot reset_simulators
 script: 
-- set -o pipefail && xcodebuild -scheme Sourcing -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' ONLY_ACTIVE_ARCH=NO -enableCodeCoverage NO clean build test | xcpretty
+- set -o pipefail && xcodebuild -scheme Sourcing -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' ONLY_ACTIVE_ARCH=NO -enableCodeCoverage YES clean build test | xcpretty
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
