@@ -61,8 +61,8 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil),
-                          CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier, nib: nib, additionalConfiguartion: nil)]
+        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib),
+                          CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier, nib: nib)]
         
         //When
         let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
