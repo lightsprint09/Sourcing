@@ -216,10 +216,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [move])
         
         //Then
-        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.count, 1)
-        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.first, oldIndexPath)
-        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.count, 1)
-        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.first, newIndexPath)
+        XCTAssertEqual(collectionViewMock.movedIndexPath?.from, oldIndexPath)
+        XCTAssertEqual(collectionViewMock.movedIndexPath?.to, newIndexPath)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
