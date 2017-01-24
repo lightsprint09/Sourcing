@@ -29,29 +29,12 @@
 import UIKit
 import Sourcing
 
-class MockCollectionCell<T>: UICollectionViewCell, ConfigurableCell {
-    var configurationCount = 0
-    var configuredObject: T?
-    
-    init() {
-        super.init(frame: CGRect.zero)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        Swift.fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(with object: T) {
-        configurationCount += 1
-        configuredObject = object
-    }
-}
 class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
     
     public var prefetchDataSource: UICollectionViewDataSourcePrefetching?
     var dataSource: UICollectionViewDataSource?
     
-    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": MockCollectionCell<Int>()]) {
+    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
         super.init(mockCells: mockCollectionViewCells)
     }
     

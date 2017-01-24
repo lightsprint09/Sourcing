@@ -31,6 +31,10 @@
 		C657EA8B1D6B15B30048B8E7 /* CollectionViewRepresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8A1D6B15B30048B8E7 /* CollectionViewRepresenting.swift */; };
 		C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */; };
 		C657EA8F1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8E1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift */; };
+		C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */; };
+		C687C1B91E378E490089F561 /* UITableViewCellMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B81E378E490089F561 /* UITableViewCellMock.swift */; };
+		C687C1BB1E378E940089F561 /* UICollectionViewCellMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1BA1E378E940089F561 /* UICollectionViewCellMock.swift */; };
+		C687C1BD1E378FDC0089F561 /* CellIdentifierProvidingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1BC1E378FDC0089F561 /* CellIdentifierProvidingTest.swift */; };
 		C68BCBBF1D59DD1200C5E720 /* DataProvidingTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBBE1D59DD1200C5E720 /* DataProvidingTester.swift */; };
 		C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */; };
 		C68BCBC31D5A1AEC00C5E720 /* TableViewRepresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC21D5A1AEC00C5E720 /* TableViewRepresenting.swift */; };
@@ -79,6 +83,10 @@
 		C657EA8A1D6B15B30048B8E7 /* CollectionViewRepresenting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewRepresenting.swift; sourceTree = "<group>"; };
 		C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewMock.swift; sourceTree = "<group>"; };
 		C657EA8E1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableCollectionViewBaseMock.swift; sourceTree = "<group>"; };
+		C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellIdentifierProviding.swift; sourceTree = "<group>"; };
+		C687C1B81E378E490089F561 /* UITableViewCellMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCellMock.swift; sourceTree = "<group>"; };
+		C687C1BA1E378E940089F561 /* UICollectionViewCellMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellMock.swift; sourceTree = "<group>"; };
+		C687C1BC1E378FDC0089F561 /* CellIdentifierProvidingTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellIdentifierProvidingTest.swift; sourceTree = "<group>"; };
 		C68BCBBE1D59DD1200C5E720 /* DataProvidingTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvidingTester.swift; sourceTree = "<group>"; };
 		C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderTest.swift; sourceTree = "<group>"; };
 		C68BCBC21D5A1AEC00C5E720 /* TableViewRepresenting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewRepresenting.swift; sourceTree = "<group>"; };
@@ -160,6 +168,7 @@
 				C68BCBCB1D5B048200C5E720 /* CellConfigurationTest.swift */,
 				94EBCFCD1E1A4A4B00184FD5 /* DataProviderTests.swift */,
 				94C903261E1D206200C0C56A /* FetchedResultsDataProviderTests.swift */,
+				C687C1BC1E378FDC0089F561 /* CellIdentifierProvidingTest.swift */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -182,6 +191,8 @@
 				94C903281E1D20D300C0C56A /* DataModel.xcdatamodel */,
 				94C9032A1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift */,
 				94C9032B1E1D20E500C0C56A /* CDTrain.swift */,
+				C687C1B81E378E490089F561 /* UITableViewCellMock.swift */,
+				C687C1BA1E378E940089F561 /* UICollectionViewCellMock.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -217,6 +228,7 @@
 				9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */,
 				9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */,
 				9432D2781CF5AE2000B72986 /* CellDequeable.swift */,
+				C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -360,6 +372,7 @@
 				9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellDequeable.swift in Sources */,
 				C657EA8B1D6B15B30048B8E7 /* CollectionViewRepresenting.swift in Sources */,
+				C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */,
 				C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */,
 				948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */,
 				9432D26A1CF5AC7C00B72986 /* CollectionViewDataSource.swift in Sources */,
@@ -378,8 +391,11 @@
 				C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */,
 				945ABE861E0D720F001B42CE /* TableViewDataSource_SingleCellTest.swift in Sources */,
 				94C9032D1E1D20E500C0C56A /* CDTrain.swift in Sources */,
+				C687C1BB1E378E940089F561 /* UICollectionViewCellMock.swift in Sources */,
+				C687C1BD1E378FDC0089F561 /* CellIdentifierProvidingTest.swift in Sources */,
 				C68BCBCC1D5B048200C5E720 /* CellConfigurationTest.swift in Sources */,
 				94C9032C1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift in Sources */,
+				C687C1B91E378E490089F561 /* UITableViewCellMock.swift in Sources */,
 				94C903291E1D20D300C0C56A /* DataModel.xcdatamodel in Sources */,
 				C68BCBBF1D59DD1200C5E720 /* DataProvidingTester.swift in Sources */,
 				C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */,

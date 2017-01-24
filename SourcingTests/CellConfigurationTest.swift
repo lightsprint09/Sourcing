@@ -33,12 +33,12 @@ import UIKit
 class CellConfigurationTest: XCTestCase {
     
     let nib = UINib(data: Data(), bundle: nil)
-    var configuration: CellConfiguration<MockCell<Int>>!
+    var configuration: CellConfiguration<UITableViewCellMock<Int>>!
     let identifier = "cellIdentifier"
     
     func testCellConfigurationInit() {
         //Given
-        let additionalConfiguartion = { (object: Int, cell: MockCell<Int>) in }
+        let additionalConfiguartion = { (object: Int, cell: UITableViewCellMock<Int>) in }
         
         //When
         configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
@@ -51,11 +51,11 @@ class CellConfigurationTest: XCTestCase {
     func testConfigureCell() {
         //Given
         var didCallAdditionalConfiguartion = false
-        let additionalConfiguartion = { (object: Int, cell: MockCell<Int>) in
+        let additionalConfiguartion = { (object: Int, cell: UITableViewCellMock<Int>) in
             didCallAdditionalConfiguartion = true
         }
         configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
-        let cell = MockCell<Int>()
+        let cell = UITableViewCellMock<Int>()
         
         //When
         let _ = configuration.configure(cell, with: 100)

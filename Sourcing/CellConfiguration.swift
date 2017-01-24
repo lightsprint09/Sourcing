@@ -27,16 +27,16 @@
 //
 import UIKit
 
-public struct CellConfiguration<Cell_: ConfigurableCell>: CellDequeable, StaticCellDequeable {
+public struct CellConfiguration<CellToConfigure: ConfigurableCell>: CellDequeable, StaticCellDequeable {
+    public typealias Cell = CellToConfigure
     public typealias Object = Cell.DataSource
-    public typealias Cell = Cell_
     
     public let cellIdentifier: String
     public let nib: UINib?
     
     let additionalConfiguartion: ((Object, Cell) -> Void)?
     
-    public  init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
+    public init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
         self.cellIdentifier = cellIdentifier
         self.nib = nib
         self.additionalConfiguartion = additionalConfiguartion
@@ -52,5 +52,13 @@ public struct CellConfiguration<Cell_: ConfigurableCell>: CellDequeable, StaticC
             additionalConfiguartion?(object, cell)
         }
         return cell
+    }
+}
+
+extension CellConfiguration where CellToConfigure: CellIdentifierProviding {
+    public init(nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
+        self.cellIdentifier = CellToConfigure.cellIdentifier
+        self.nib = nib
+        self.additionalConfiguartion = additionalConfiguartion
     }
 }

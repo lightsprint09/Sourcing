@@ -38,7 +38,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     var collectionViewMock: UICollectionViewMock!
     var realCollectionView: UICollectionView!
-    var cell: CellConfiguration<MockCollectionCell<Int>>!
+    var cell: CellConfiguration<UICollectionViewCellMock<Int>>!
     
     override func setUp() {
         super.setUp()
@@ -62,7 +62,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nib)
+        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
         
         //When
         let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
@@ -99,7 +99,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testDequCells() {
         //Given
         var didCallAdditionalConfiguartion = false
-        let cell = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion: { _, _ in
+        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion: { _, _ in
             didCallAdditionalConfiguartion = true
         })
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -109,11 +109,11 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let cellAtIdexPath = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 2, section: 1))
         
         //Then
-        let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! MockCollectionCell<Int>)
+        let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>)
         XCTAssertEqual(mockCell.configurationCount, 1)
         XCTAssertEqual(mockCell.configuredObject, 10)
         XCTAssertEqual(collectionViewMock.lastUsedReuseIdetifiers.first, cellIdentifier)
-        XCTAssertTrue(cellAtIdexPath is MockCollectionCell<Int>)
+        XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
         XCTAssertTrue(didCallAdditionalConfiguartion)
     }
 
@@ -124,7 +124,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 1)
-        let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! MockCollectionCell<Int>)
+        let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>)
         XCTAssertEqual(mockCell.configuredObject, 100)
     }
 
@@ -172,7 +172,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = CellConfiguration<MockCollectionCell<Int>>(cellIdentifier: cellIdentifier)
+        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         let dataProviderMock = DataProviderMock<Int>()
         
