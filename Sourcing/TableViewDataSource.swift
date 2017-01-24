@@ -66,27 +66,32 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
             return tableView.reloadData()
         }
         tableView.beginUpdates()
-        for update in updates {
-            switch update {
-            case .insert(let indexPath):
-                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
-            case .update(let indexPath, let object):
-                guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
-                    fatalError("Could not update Cell")
-                }
-                self.update(cell, with: object)
-            case .move(let indexPath, let newIndexPath):
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
-                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .fade)
-            case .delete(let indexPath):
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
-            case .insertSection(let sectionIndex):
-                tableView.insertSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
-            case .deleteSection(let sectionIndex):
-                tableView.deleteSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
-            }
-        }
+        updates.forEach(process)
         tableView.endUpdates()
+    }
+    
+    public func process(update: DataProviderUpdate<Object>) {
+        switch update {
+        case .insert(let indexPath):
+            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+        case .update(let indexPath, let object):
+            guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
+                fatalError("Could not update Cell")
+            }
+            self.update(cell, with: object)
+        case .move(let indexPath, let newIndexPath):
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .fade)
+        case .delete(let indexPath):
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+        case .insertSection(let sectionIndex):
+            tableView.insertSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+        case .deleteSection(let sectionIndex):
+            tableView.deleteSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+        case .moveSection(let from, let to):
+            tableView.deleteSections(IndexSet(integer: from), withRowAnimation: .fade)
+            tableView.insertSections(IndexSet(integer: to), withRowAnimation: .fade)
+        }
     }
     
     public var selectedObject: Object? {

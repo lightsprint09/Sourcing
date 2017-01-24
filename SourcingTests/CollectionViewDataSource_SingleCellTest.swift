@@ -249,7 +249,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
     
-    func testProcessUpdatesSelecteSection() {
+    func testProcessUpdatesDeleteSection() {
         //Given
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
         //When
@@ -259,6 +259,20 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.deleteSections?.count, 1)
         XCTAssertEqual(collectionViewMock.deleteSections?.first, 0)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    func testProcessUpdatesMoveSection() {
+        //Given
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let deletion = DataProviderUpdate<Int>.moveSection(0, 1)
+        dataSource.process(updates: [deletion])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.movedSection?.from, 0)
+        XCTAssertEqual(collectionViewMock.movedSection?.to, 1)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }

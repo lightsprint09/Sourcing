@@ -264,7 +264,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
     
-    func testProcessUpdatesSelecteSection() {
+    func testProcessUpdatesDeleteSection() {
         //Given
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell)
         
@@ -275,6 +275,23 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(tableViewMock.deleteSections?.count, 1)
         XCTAssertEqual(tableViewMock.deleteSections?.first, 0)
+        XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    func testProcessUpdatesMoveSection() {
+        //Given
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell)
+        
+        //When
+        let deletion = DataProviderUpdate<Int>.moveSection(0, 1)
+        dataSource.process(updates: [deletion])
+        
+        //Then
+        XCTAssertEqual(tableViewMock.deleteSections?.count, 1)
+        XCTAssertEqual(tableViewMock.deleteSections?.first, 0)
+        XCTAssertEqual(tableViewMock.insertedSections?.count, 1)
+        XCTAssertEqual(tableViewMock.insertedSections?.first, 1)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }

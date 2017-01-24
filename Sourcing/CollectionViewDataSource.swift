@@ -86,32 +86,32 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         guard let updates = updates else {
             return collectionView.reloadData()
         }
-        var shouldUpdate = false
         collectionView.performBatchUpdates({
-            for update in updates {
-                switch update {
-                case .insert(let indexPath):
-                    self.collectionView.insertItemsAtIndexPaths([indexPath])
-                case .update(let indexPath, let object):
-                    guard let cell = self.collectionView.cellForItemAtIndexPath(indexPath) else {
-                        shouldUpdate = true
-                        continue
-                    }
-                    self.update(cell, with: object)
-                case .move(let indexPath, let newIndexPath):
-                    self.collectionView.deleteItemsAtIndexPaths([indexPath])
-                    self.collectionView.insertItemsAtIndexPaths([newIndexPath])
-                case .delete(let indexPath):
-                    self.collectionView.deleteItemsAtIndexPaths([indexPath])
-                case .insertSection(let sectionIndex):
-                    self.collectionView.insertSections(IndexSet(integer: sectionIndex))
-                case .deleteSection(let sectionIndex):
-                    self.collectionView.deleteSections(IndexSet(integer: sectionIndex))
-                }
-            }
+            updates.forEach(self.process)
         }, completion: nil)
-        if shouldUpdate {
-            collectionView.reloadData()
+    }
+    
+    private func process(update: DataProviderUpdate<Object>) {
+        switch update {
+        case .insert(let indexPath):
+            collectionView.insertItemsAtIndexPaths([indexPath])
+        case .update(let indexPath, let object):
+            guard let cell = self.collectionView.cellForItemAtIndexPath(indexPath) else {
+                fatalError("Could not update Cell. Open an issues on https://github.com/lightsprint09/Sourcing if you experience this")
+            }
+            self.update(cell, with: object)
+        case .move(let indexPath, let newIndexPath):
+            collectionView.moveItemAtIndexPath(indexPath, toIndexPath: newIndexPath)
+            collectionView.deleteItemsAtIndexPaths([indexPath])
+            collectionView.insertItemsAtIndexPaths([newIndexPath])
+        case .delete(let indexPath):
+            collectionView.deleteItemsAtIndexPaths([indexPath])
+        case .insertSection(let sectionIndex):
+            collectionView.insertSections(IndexSet(integer: sectionIndex))
+        case .deleteSection(let sectionIndex):
+            collectionView.deleteSections(IndexSet(integer: sectionIndex))
+        case .moveSection(let section, let newSection):
+            collectionView.moveSection(section, toSection: newSection)
         }
     }
     

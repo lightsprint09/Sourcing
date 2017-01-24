@@ -31,6 +31,8 @@ import Sourcing
 
 class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
     
+    var movedSection: (from: Int, to: Int)?
+    
     public var prefetchDataSource: UICollectionViewDataSourcePrefetching?
     var dataSource: UICollectionViewDataSource?
     
@@ -66,7 +68,7 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
     }
     
     func moveSection(_ section: Int, toSection newSection: Int) {
-    
+        movedSection = (from: section, to: newSection)
     }
     
     func insertItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
