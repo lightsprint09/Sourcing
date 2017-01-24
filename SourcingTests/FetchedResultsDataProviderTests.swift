@@ -82,7 +82,6 @@ class FetchedResultsDataProviderTests: XCTestCase {
         //Then
         let indexPath = IndexPath(item: 0, section: 0)
         XCTAssertEqual(dataProvider.indexPath(for: train), indexPath)
-        
     }
 
     func testMoveItemFromTo() {
@@ -104,7 +103,6 @@ class FetchedResultsDataProviderTests: XCTestCase {
         //Then
         XCTAssertEqual(sourceIndexPathCaptured, sourceIndexPath)
         XCTAssertEqual(destinationIndexPathCaptured, destinationIndexPath)
-        
     }
     
     func testHandleInsert() {
@@ -160,6 +158,24 @@ class FetchedResultsDataProviderTests: XCTestCase {
         }
     }
     
+    func testProcessUpdates() {
+        //Given
+        var didUpdateNotification = false
+        var didUpdateDataSource = false
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController,
+                                                       dataProviderDidUpdate: { _ in
+                                                        didUpdateNotification = true
+        })
+        dataProvider.whenDataSourceProcessUpdates = { _ in didUpdateDataSource = true }
+        
+        //When
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        
+        //Then
+        XCTAssert(didUpdateNotification)
+        XCTAssert(didUpdateDataSource)
+    }
+
     func testHandleDelete() {
         //Given
         let deletedIndexPath = IndexPath(row: 0, section: 0)

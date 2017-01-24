@@ -46,15 +46,20 @@ class ArrayDataProviderTest: XCTestCase {
     
     func testCallUpdate() {
         var didUpdate = false
+        var didUpdateDataSource = false
         //Given
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], dataProviderDidUpdate: { _ in
             didUpdate = true
         })
+        dataProvider.whenDataSourceProcessUpdates = { _ in
+            didUpdateDataSource = true
+        }
         //When
         dataProvider.reconfigure(with: [8, 9, 10])
         
         //Then
         XCTAssertTrue(didUpdate)
+        XCTAssertTrue(didUpdateDataSource)
         let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 3, atSection: 0), sections: 1,
                                                   objectIndexPath: (object: 9, atIndexPath: IndexPath(row: 1, section: 0)), notContainingObject: 100)
         let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)

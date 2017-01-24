@@ -29,6 +29,9 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         self.cells = anyCells
         self.canMoveItemAtIndexPath = canMoveItemAtIndexPath
         super.init()
+        dataProvider.whenDataSourceProcessUpdates = { [weak self] updates in
+            self?.process(updates: updates)
+        }
         register(cells: cells)
         tableView.dataSource = self
         if #available(iOS 10.0, *) {

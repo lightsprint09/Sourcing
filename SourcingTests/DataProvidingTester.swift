@@ -45,12 +45,15 @@ class DataProvidingTester<Provider: DataProviding> where Provider.Object: Equata
         self.providerConfiguration = providerConfiguration
     }
     
-    func validate() {
-        XCTAssertEqual(dataProvider.numberOfSections(), providerConfiguration.sections)
-        XCTAssertEqual(dataProvider.numberOfItems(inSection: providerConfiguration.rowsAtSection.atSection), providerConfiguration.rowsAtSection.numberOfItems)
-        XCTAssertEqual(dataProvider.object(at: providerConfiguration.objectIndexPath.atIndexPath), providerConfiguration.objectIndexPath.object)
-        XCTAssertEqual(dataProvider.indexPath(for: providerConfiguration.objectIndexPath.object), providerConfiguration.objectIndexPath.atIndexPath)
+    func validate(file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(dataProvider.numberOfSections(), providerConfiguration.sections, file: file, line: line)
+        XCTAssertEqual(dataProvider.numberOfItems(inSection: providerConfiguration.rowsAtSection.atSection), providerConfiguration.rowsAtSection.numberOfItems,
+                       file: file, line: line)
+        XCTAssertEqual(dataProvider.object(at: providerConfiguration.objectIndexPath.atIndexPath), providerConfiguration.objectIndexPath.object,
+                       file: file, line: line)
+        XCTAssertEqual(dataProvider.indexPath(for: providerConfiguration.objectIndexPath.object), providerConfiguration.objectIndexPath.atIndexPath,
+                       file: file, line: line)
         
-        XCTAssertEqual(dataProvider.indexPath(for: providerConfiguration.notContainingObject), nil)
+        XCTAssertEqual(dataProvider.indexPath(for: providerConfiguration.notContainingObject), nil, file: file, line: line)
     }
 }

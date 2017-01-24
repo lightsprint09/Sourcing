@@ -263,6 +263,20 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
     
+    func testProcessUpdatesFromDataSource() {
+        //Given
+        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let insertion = DataProviderUpdate<Int>.insertSection(0)
+        dataProvider.reconfigure(with: [[]], updates: [insertion])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.insertedSections?.count, 1)
+        XCTAssertEqual(collectionViewMock.insertedSections?.first, 0)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
     @available(iOS 10.0, *)
     func testPrefetchItemsAtIndexPaths() {
         //Given

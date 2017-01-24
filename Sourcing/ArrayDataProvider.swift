@@ -35,8 +35,10 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
     
     open var data: Array<Array<Object>>
 
-    fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)?
+    let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)?
+    
     open let sectionIndexTitles: Array<String>?
+    public var whenDataSourceProcessUpdates: (([DataProviderUpdate<Object>]?) -> Void)?
     
     /**
      Creates an instance of`ArrayDataProvider` with an flat array which results in a single section.
@@ -86,7 +88,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
     open func reconfigure(with array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
         if !causedByUserInteraction {
-           dataProviderDidUpdate?(updates)
+           dataProviderDidChangeContets(with: updates)
         }
     }
     
@@ -101,6 +103,11 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
-        dataProviderDidUpdate?([update])
+        dataProviderDidChangeContets(with: [update])
+    }
+    
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?) {
+        dataProviderDidUpdate?(updates)
+        whenDataSourceProcessUpdates?(updates)
     }
 }

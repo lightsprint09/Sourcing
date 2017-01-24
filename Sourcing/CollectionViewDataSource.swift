@@ -41,12 +41,16 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     private let canMoveItemAtIndexPath: (IndexPath) -> Bool
     
     public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
-                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false }) where DataProvider.Object == Object {
+                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                where DataProvider.Object == Object {
         self.collectionView = collectionView
         self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
         self.cells = anyCells
         self.canMoveItemAtIndexPath = canMoveItemAtIndexPath
         super.init()
+        dataProvider.whenDataSourceProcessUpdates = { [weak self] updates in
+            self?.process(updates: updates)
+        }
         registerCells(cells)
         collectionView.dataSource = self
         if #available(iOS 10.0, *) {
