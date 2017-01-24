@@ -117,17 +117,6 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertTrue(didCallAdditionalConfiguartion)
     }
 
-    func testUpdateDataSource() {
-        //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
-        dataSource.process(updates: [.update(IndexPath(row: 2, section: 1), 100)])
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 1)
-        let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>)
-        XCTAssertEqual(mockCell.configuredObject, 100)
-    }
-
     func testUpdateDataSourceWithNoData() {
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
@@ -211,8 +200,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [deletion])
         
         //Then
-        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.count, 1)
-        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.first, deletetionIndexPath)
+        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.count, 1)
+        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.first, deletetionIndexPath)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
@@ -227,10 +216,24 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [move])
         
         //Then
-        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.count, 1)
-        XCTAssertEqual(collectionViewMock.deleteIndexPaths?.first, oldIndexPath)
+        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.count, 1)
+        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.first, oldIndexPath)
         XCTAssertEqual(collectionViewMock.insertedIndexPaths?.count, 1)
         XCTAssertEqual(collectionViewMock.insertedIndexPaths?.first, newIndexPath)
+        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+    }
+    
+    func testProcessUpdatesUpdate() {
+        //Given
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        //When
+        let indexPath = IndexPath(row: 0, section: 0)
+        let update = DataProviderUpdate<Int>.update(indexPath, 1)
+        dataSource.process(updates: [update])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.reloadedIndexPaths?.first, indexPath)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }

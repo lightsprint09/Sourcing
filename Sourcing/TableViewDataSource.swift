@@ -40,13 +40,6 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         tableView.reloadData()
     }
     
-    func update(_ cell: UITableViewCell, with object: Object) {
-        guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Could not update Cell")
-        }
-        cellDequeable.configure(cell, with: object)
-    }
-    
     private func register(cells: Array<CellDequeable>) {
         for cell in cells where cell.nib != nil {
             tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
@@ -74,23 +67,18 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         switch update {
         case .insert(let indexPath):
             tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
-        case .update(let indexPath, let object):
-            guard let cell = self.tableView.cellForRowAtIndexPath(indexPath) else {
-                fatalError("Could not update Cell")
-            }
-            self.update(cell, with: object)
+        case .update(let indexPath, _):
+            tableView.reloadRows(at: [indexPath], with: .none)
         case .move(let indexPath, let newIndexPath):
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
-            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .fade)
+            tableView.moveRow(at: indexPath, to: newIndexPath)
         case .delete(let indexPath):
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
         case .insertSection(let sectionIndex):
             tableView.insertSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
         case .deleteSection(let sectionIndex):
             tableView.deleteSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
-        case .moveSection(let from, let to):
-            tableView.deleteSections(IndexSet(integer: from), withRowAnimation: .fade)
-            tableView.insertSections(IndexSet(integer: to), withRowAnimation: .fade)
+        case .moveSection(let indexPath, let newIndexPath):
+            tableView.moveSection(indexPath, toSection: newIndexPath)
         }
     }
     

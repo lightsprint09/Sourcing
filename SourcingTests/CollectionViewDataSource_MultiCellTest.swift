@@ -130,20 +130,6 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         XCTAssertTrue(stringCell is UICollectionViewCellMock<String>)
     }
 
-    func testUpdateDataSource() {
-        //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
-        
-        //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        dataSource.process(updates: [.update(IndexPath(row: 2, section: 1), 100)])
-        
-        //Then
-        let mockIntCell = collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>
-        XCTAssertEqual(collectionViewMock.reloadedCount, 1)
-        XCTAssertEqual(mockIntCell.configuredObject, 100)
-    }
-
     func testUpdateDataSourceWithNoData() {
         //Given
         let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]

@@ -131,20 +131,6 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         XCTAssertTrue(stringCell is UITableViewCellMock<String>)
     }
 
-    func testUpdateDataSource() {
-        //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
-        
-        //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        dataSource.process(updates: [.update(IndexPath(row: 2, section: 1), 100)])
-        
-        //Then
-        let mockIntCell = tableViewMock.cellMocks[cellIdentifier] as! UITableViewCellMock<Int>
-        XCTAssertEqual(tableViewMock.reloadedCount, 1)
-        XCTAssertEqual(mockIntCell.configuredObject, 100)
-    }
-
     func testUpdateDataSourceWithNoData() {
         //Given
         let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)]

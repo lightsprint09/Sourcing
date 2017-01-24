@@ -30,6 +30,7 @@ import UIKit
 import Sourcing
 
 class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
+
     public var prefetchDataSource: UITableViewDataSourcePrefetching?
 
     var dataSource: UITableViewDataSource?
@@ -60,7 +61,11 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     }
     
     func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
-        deleteIndexPaths = indexPaths
+        deletedIndexPaths = indexPaths
+    }
+    
+    public func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+        reloadedIndexPaths = indexPaths
     }
     
     func insertSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
@@ -69,6 +74,14 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     
     func deleteSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
         deleteSections = sections
+    }
+    
+    func moveSection(_ section: Int, toSection newSection: Int) {
+        movedSection = (from: section, to: newSection)
+    }
+    
+    func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {
+        movedIndexPath = (from: indexPath, to: newIndexPath)
     }
     
     func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell? {

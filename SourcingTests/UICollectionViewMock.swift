@@ -31,8 +31,6 @@ import Sourcing
 
 class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
     
-    var movedSection: (from: Int, to: Int)?
-    
     public var prefetchDataSource: UICollectionViewDataSourcePrefetching?
     var dataSource: UICollectionViewDataSource?
     
@@ -76,15 +74,15 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
     }
     
     func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
-        deleteIndexPaths = indexPaths
+        deletedIndexPaths = indexPaths
     }
     
     func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
-    
+        reloadedIndexPaths = indexPaths
     }
     
     func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath) {
-    
+        movedIndexPath = (from: indexPath, to: newIndexPath)
     }
     
     func cellForItemAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {

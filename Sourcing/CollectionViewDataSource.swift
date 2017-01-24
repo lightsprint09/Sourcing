@@ -59,13 +59,6 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         collectionView.reloadData()
     }
     
-    func update(_ cell: UICollectionViewCell, with object: Object) {
-        guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Could not find a cell to deuqe")
-        }
-        cellDequeable.configure(cell, with: object)
-    }
-    
     // MARK: Private
 
     private func registerCells(_ cellDequeables: Array<CellDequeable>) {
@@ -95,15 +88,10 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         switch update {
         case .insert(let indexPath):
             collectionView.insertItemsAtIndexPaths([indexPath])
-        case .update(let indexPath, let object):
-            guard let cell = self.collectionView.cellForItemAtIndexPath(indexPath) else {
-                fatalError("Could not update Cell. Open an issues on https://github.com/lightsprint09/Sourcing if you experience this")
-            }
-            self.update(cell, with: object)
+        case .update(let indexPath, _):
+            collectionView.reloadItemsAtIndexPaths([indexPath])
         case .move(let indexPath, let newIndexPath):
             collectionView.moveItemAtIndexPath(indexPath, toIndexPath: newIndexPath)
-            collectionView.deleteItemsAtIndexPaths([indexPath])
-            collectionView.insertItemsAtIndexPaths([newIndexPath])
         case .delete(let indexPath):
             collectionView.deleteItemsAtIndexPaths([indexPath])
         case .insertSection(let sectionIndex):

@@ -39,10 +39,13 @@ class UITableCollectionViewBaseMock {
     var endUpdatesCalledCount = 0
     
     var insertedIndexPaths: Array<IndexPath>?
-    var deleteIndexPaths: Array<IndexPath>?
+    var deletedIndexPaths: Array<IndexPath>?
+    var reloadedIndexPaths: Array<IndexPath>?
+    var movedIndexPath: (from: IndexPath, to: IndexPath)?
     
     var insertedSections: IndexSet?
     var deleteSections: IndexSet?
+    var movedSection: (from: Int, to: Int)?
 
     func reloadData() {
         reloadedCount += 1
