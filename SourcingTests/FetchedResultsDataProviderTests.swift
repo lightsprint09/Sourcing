@@ -139,6 +139,40 @@ class FetchedResultsDataProviderTests: XCTestCase {
         }
     }
     
+    func testHandleInsertSection() {
+        //Given
+        let section = 0
+        
+        //When
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .insert)
+        
+        //Then
+        XCTAssertEqual(dataProvider.updates.count, 1)
+        if case .insertSection(let updatedSection) = dataProvider.updates.first! {
+            XCTAssertEqual(section, updatedSection)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testHandleDeleteSection() {
+        //Given
+        let section = 0
+        
+        //When
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .delete)
+        
+        //Then
+        XCTAssertEqual(dataProvider.updates.count, 1)
+        if case .deleteSection(let updatedSection) = dataProvider.updates.first! {
+            XCTAssertEqual(section, updatedSection)
+        } else {
+            XCTFail()
+        }
+    }
+    
     func testHandleMove() {
         //Given
         let oldIndexPath = IndexPath(row: 0, section: 0)
