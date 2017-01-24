@@ -34,9 +34,7 @@ Create an data provider. Use the default `ArrayDataProvider`or implement you own
 ```swift
 var dataSource: TableViewDataSource<ArrayDataProvider<Train>, CellConfiguration<TrainCell>>?
 let trains: Array<Train> = //
-let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains, { [ weak self] updates in
-                dataSource?.processUpdates(updates)
-          })
+let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains)
 ```
 Bring your data and your cell configuration together by creating a `TableViewDataSource` object.
 ```swift
