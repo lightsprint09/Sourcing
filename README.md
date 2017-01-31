@@ -26,27 +26,28 @@ class TrainCell: UITableViewCell, ConfigurableCell {
    }
 }
 
-let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
+//If your reuse identifier is the same a the class name
+extenion TrainCell: CellIdentifierProviding {}
 
+let trainCell = CellConfiguration<TrainCell>()
 ```
 
-Create an data provider. Use the default `ArrayDataProvider`or implement you own custom dataprovider, eg with network capabilities.
+Create an data provider. Use the default `ArrayDataProvider`or implement you own custom dataprovider
 ```swift
-var dataSource: TableViewDataSource<ArrayDataProvider<Train>, CellConfiguration<TrainCell>>?
 let trains: Array<Train> = //
 let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains)
 ```
 Bring your data and your cell configuration together by creating a `TableViewDataSource` object.
 ```swift
 let tableView: UITableView = //...
-dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: trainCellConfiguration)
+let dataSource = TableViewDataSource<Train>(tableView: tableView, dataProvider: dataProvider, cell: trainCell)
 ```
 
 ### Heterogeneous data types
 Create multiple `CellConfiguration`s with diffrent types
 ```swift
-let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
-let stationCellConfiguration = CellConfiguration<StationCell>(cellIdentifier: "YourReuseSecondID")
+let trainCell = CellConfiguration<TrainCell>()
+let stationCellConfiguration = CellConfiguration<StationCell>(cellIdentifier: "StationCellReuseID")
 ```
 Create an loosly typed data provider. Keep in mind that you loos all your compiler support. 
 ```swift
@@ -56,11 +57,12 @@ let dataProvider: ArrayDataProvider<Any> = ArrayDataProvider(rows: data)
 Again bring your data and your cell configurations together by creating a `MultiCellTableViewDataSource` object.
 ```swift
 let tableView: UITableView = //...
-let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: [trainCellConfiguration, stationCellConfiguration])
+let dataSource = TableViewDataSource<Any>(tableView: tableView, dataProvider: dataProvider, anyCells: [trainCellConfiguration, stationCellConfiguration])
 ```
+The dataSource checks during runtime if objects provides by the dataProvider can be displayed by provided cells. If not, an error occurs.
 
 ### Extending Sourcing by creating your own DataProvider.
-TBD
+
 
 ## Requirements
 
@@ -77,7 +79,7 @@ TBD
 Specify the following in your `Cartfile`:
 
 ```ogdl
-github "lightsprint09/sourcing" ~> 1.1
+github "lightsprint09/sourcing" ~> 2.0
 ```
 ## Contributing
 Feel free to submit a pull request with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
