@@ -138,7 +138,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     }
     
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, causedByUserInteraction: true)
     }
     
     // MARK: UICollectionViewDataSourcePrefetching

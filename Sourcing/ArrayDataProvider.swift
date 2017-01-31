@@ -113,21 +113,26 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModificating {
      - parameter sourceIndexPath: original indexPath.
      - parameter destinationIndexPath: destination indexPath.
      */
-    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, causedByUserInteraction: Bool) {
         let soureElement = object(at: sourceIndexPath)
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
-        dataProviderDidChangeContets(with: [update])
+        if causedByUserInteraction {
+            dataProviderDidChangeContets(with: [update])
+        }
+        
     }
     
     open func canDeleteItem(at indexPath: IndexPath) -> Bool {
         return canDeleteItems
     }
     
-    open func deleteItem(at indexPath: IndexPath) {
+    open func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool) {
         data[indexPath.section].remove(at: indexPath.item)
-        dataProviderDidChangeContets(with: [.delete(indexPath)])
+        if causedByUserInteraction {
+            dataProviderDidChangeContets(with: [.delete(indexPath)])
+        }
     }
     
 }

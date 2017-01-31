@@ -102,6 +102,17 @@ class ArrayDataProviderTest: XCTestCase {
         XCTAssertEqual([sectionIndexTitle], titles!)
     }
     
+    func testCanMoveItemFromTo() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        dataProvider.canMoveItems = true
+        
+        //Then
+        XCTAssert(dataProvider.canMoveItem(at: IndexPath(item: 0, section: 0)))
+    }
+    
     func testMoveItemFromTo() {
         //Given
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
@@ -109,11 +120,34 @@ class ArrayDataProviderTest: XCTestCase {
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
         //When
-        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, causedByUserInteraction: true)
         
         //Then
         let destinationObject = dataProvider.object(at: destinationIndexPath)
         XCTAssertEqual(destinationObject, 1)
+    }
+    
+    func testCanDelteItems() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
+        //When
+        dataProvider.canDeleteItems = true
+        
+        //Then
+        XCTAssert(dataProvider.canDeleteItem(at: IndexPath(item: 0, section: 0)))
+    }
+    
+    func testDelteItemAtIndexPath() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let deleteIndexPath = IndexPath(item: 0, section: 0)
+        
+        //When
+        dataProvider.deleteItem(at: deleteIndexPath, causedByUserInteraction: true)
+        
+        //Then
+        let destinationObject = dataProvider.object(at: deleteIndexPath)
+        XCTAssertEqual(destinationObject, 2)
     }
 }

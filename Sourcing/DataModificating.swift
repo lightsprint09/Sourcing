@@ -34,11 +34,11 @@ public protocol DataModificating {
     /// - Parameters:
     ///   - sourceIndexPath: the sourceIndexPath
     ///   - destinationIndexPath: the destinationIndexPath
-    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, causedByUserInteraction: Bool)
     
     func canMoveItem(at indexPath: IndexPath) -> Bool
     
-    func deleteItem(at indexPath: IndexPath)
+    func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool)
     
     func canDeleteItem(at indexPath: IndexPath) -> Bool
 }

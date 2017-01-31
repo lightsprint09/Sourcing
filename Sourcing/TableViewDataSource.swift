@@ -119,7 +119,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, causedByUserInteraction: true)
+    }
+    
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return dataModificator?.canDeleteItem(at: indexPath) ?? false
+    }
+    
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if let dataModificator = dataModificator, editingStyle == .delete {
+            dataModificator.deleteItem(at: indexPath, causedByUserInteraction: true)
+        }
     }
     
     // MARK: UITableViewDataSourcePrefetching
