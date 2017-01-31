@@ -351,4 +351,30 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertTrue(dataSource.tableView(UITableView(), canMoveRowAt: IndexPath(row: 0, section: 0)))
         
     }
+    
+    func testCanDeleteCell() {
+        //Given
+        dataModificator.canDeleteItemAt = true
+         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+        
+        //When
+        let canDelete = dataSource.tableView(UITableView(), canEditRowAt: IndexPath(row: 0, section: 0))
+        
+        //Then
+        XCTAssert(canDelete)
+    }
+    
+    func testDeleteCell() {
+        //Given
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+        let deletedIndexPath = IndexPath(row: 0, section: 0)
+        
+        //When
+        dataSource.tableView(UITableView(), commit: .delete, forRowAt: deletedIndexPath)
+        
+        //Then
+        XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
+        XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
+    }
+    
 }
