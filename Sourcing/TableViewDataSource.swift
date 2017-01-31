@@ -12,6 +12,7 @@ import Foundation
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
     public let dataProvider: AnyDataProvider<Object>
+    public let dataModificator: DataModificating?
     public var tableView: TableViewRepresenting {
         didSet {
             tableView.dataSource = self
@@ -19,15 +20,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         }
     }
     private let cells: Array<CellDequeable>
-    private let canMoveItemAtIndexPath: (IndexPath) -> Bool
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
-                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                anyCells: Array<CellDequeable>, dataModificator: DataModificating? = nil)
                 where TypedDataProvider.Object == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
+        self.dataModificator = dataModificator
         self.cells = anyCells
-        self.canMoveItemAtIndexPath = canMoveItemAtIndexPath
         super.init()
         dataProvider.whenDataSourceProcessUpdates = { [weak self] updates in
             self?.process(updates: updates)
@@ -115,11 +115,11 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return canMoveItemAtIndexPath(indexPath)
+        return dataModificator?.canMoveItem(at: indexPath) ?? false
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
     }
     
     // MARK: UITableViewDataSourcePrefetching
@@ -138,16 +138,16 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 
 public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cell: CellConfig, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                     dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModificating? = nil)
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], canMoveItemAtIndexPath: canMoveItemAtIndexPath)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cells: Array<CellConfig>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                     dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModificating? = nil)
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, canMoveItemAtIndexPath: canMoveItemAtIndexPath)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }
 }

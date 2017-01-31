@@ -48,9 +48,10 @@ class ArrayDataProviderTest: XCTestCase {
         var didUpdate = false
         var didUpdateDataSource = false
         //Given
-        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], dataProviderDidUpdate: { _ in
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        dataProvider.dataProviderDidUpdate = { _ in
             didUpdate = true
-        })
+        }
         dataProvider.whenDataSourceProcessUpdates = { _ in
             didUpdateDataSource = true
         }

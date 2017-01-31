@@ -31,6 +31,7 @@ import UIKit
 final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
     public let dataProvider: AnyDataProvider<Object>
+    public let dataModificator: DataModificating?
     public var collectionView: CollectionViewRepresenting {
         didSet {
             collectionView.dataSource = self
@@ -38,15 +39,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         }
     }
     private let cells: Array<CellDequeable>
-    private let canMoveItemAtIndexPath: (IndexPath) -> Bool
     
     public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
-                anyCells: Array<CellDequeable>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                anyCells: Array<CellDequeable>, dataModificator: DataModificating? = nil)
                 where DataProvider.Object == Object {
         self.collectionView = collectionView
         self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
         self.cells = anyCells
-        self.canMoveItemAtIndexPath = canMoveItemAtIndexPath
+        self.dataModificator = dataModificator
         super.init()
         dataProvider.whenDataSourceProcessUpdates = { [weak self] updates in
             self?.process(updates: updates)
@@ -134,11 +134,11 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     }
     
     public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return canMoveItemAtIndexPath(indexPath)
+        return dataModificator?.canMoveItem(at: indexPath) ?? false
     }
     
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
     }
     
     // MARK: UICollectionViewDataSourcePrefetching
@@ -158,16 +158,16 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 
 extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
-                     dataProvider: DataProvider, cell: CellConfig, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                     dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModificating? = nil)
         where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], canMoveItemAtIndexPath: canMoveItemAtIndexPath)
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
-                     dataProvider: DataProvider, cells: Array<CellConfig>, canMoveItemAtIndexPath: @escaping (IndexPath) -> Bool = { _ in return false })
+                     dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModificating? = nil)
         where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, canMoveItemAtIndexPath: canMoveItemAtIndexPath)
+            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }
 }

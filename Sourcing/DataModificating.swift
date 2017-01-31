@@ -20,34 +20,25 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderMock.swift
+//  DataModificating.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 10.01.17.
+//  Created by Lukas Schmidt on 31.01.17.
 //
 
 import Foundation
-import Sourcing
 
-/**
- `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
- */
-open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// Only set this when you are updating the datasource.
-    public var whenDataSourceProcessUpdates: (([DataProviderUpdate<Object>]?) -> Void)?
-
-    fileprivate(set) open var data: [[Object]] = [[]]
-    public let sectionIndexTitles: [String]? = []
+public protocol DataModificating {
+    /// Moves item from sourceIndexPath to the destinationIndexPath
+    ///
+    /// - Parameters:
+    ///   - sourceIndexPath: the sourceIndexPath
+    ///   - destinationIndexPath: the destinationIndexPath
+    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
     
-    var prefetchedIndexPaths: [IndexPath]?
-    var canceledPrefetchedIndexPaths: [IndexPath]?
-
-    public func prefetchItems(at indexPaths: [IndexPath]) {
-        prefetchedIndexPaths = indexPaths
-    }
+    func canMoveItem(at indexPath: IndexPath) -> Bool
     
-    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
-        canceledPrefetchedIndexPaths = indexPaths
-    }
+    func deleteItem(at indexPath: IndexPath)
+    
+    func canDeleteItem(at indexPath: IndexPath) -> Bool
 }

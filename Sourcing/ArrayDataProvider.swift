@@ -31,14 +31,19 @@ import Foundation
 /**
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
-open class ArrayDataProvider<Object>: ArrayDataProviding {
+open class ArrayDataProvider<Object>: ArrayDataProviding, DataModificating {
     
     open var data: Array<Array<Object>>
-
-    let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)?
+    
+    public var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
+    public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>?
     
     open let sectionIndexTitles: Array<String>?
-    public var whenDataSourceProcessUpdates: (([DataProviderUpdate<Object>]?) -> Void)?
+   
+    var canMoveItems: Bool = false
+    var canDeleteItems: Bool = false
+    
+    // MARK: Initializers
     
     /**
      Creates an instance of`ArrayDataProvider` with an flat array which results in a single section.
@@ -47,12 +52,12 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter sectionTitle: title for the section. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public convenience init(rows: Array<Object>, sectionTitle: String? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)? = nil) {
+    public convenience init(rows: Array<Object>, sectionTitle: String? = nil) {
         var titles: Array<String>?
         if let sectionTitle = sectionTitle {
             titles = [sectionTitle]
         }
-        self.init(sections: [rows], sectionIndexTitles: titles, dataProviderDidUpdate: dataProviderDidUpdate)
+        self.init(sections: [rows], sectionIndexTitles: titles)
     }
     
     /**
@@ -62,9 +67,8 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter sectionTitles: titles for the sections. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public init(sections: [[Object]], sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)? = nil) {
+    public init(sections: [[Object]], sectionIndexTitles: Array<String>? = nil) {
         self.data = sections
-        self.dataProviderDidUpdate = dataProviderDidUpdate
         self.sectionIndexTitles = sectionIndexTitles
     }
     /**
@@ -74,7 +78,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter updates: diff of the new data.
      - parameter causedByUserInteraction: flag if the changes are caused by a user
     */
-    open func reconfigure(with array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+    public func reconfigure(with array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         reconfigure(with: [array], updates: updates, causedByUserInteraction: causedByUserInteraction)
     }
     
@@ -85,11 +89,22 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
      - parameter updates: diff of the new data.
      - parameter causedByUserInteraction: flag if the changes are caused by a user.
      */
-    open func reconfigure(with array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+    public func reconfigure(with array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
         if !causedByUserInteraction {
            dataProviderDidChangeContets(with: updates)
         }
+    }
+    
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?) {
+        dataProviderDidUpdate?(updates)
+        whenDataSourceProcessUpdates?(updates)
+    }
+    
+    // MARK: Data Modification
+    
+    open func canMoveItem(at indexPath: IndexPath) -> Bool {
+        return canMoveItems
     }
     
     /**
@@ -106,8 +121,13 @@ open class ArrayDataProvider<Object>: ArrayDataProviding {
         dataProviderDidChangeContets(with: [update])
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?) {
-        dataProviderDidUpdate?(updates)
-        whenDataSourceProcessUpdates?(updates)
+    open func canDeleteItem(at indexPath: IndexPath) -> Bool {
+        return canDeleteItems
     }
+    
+    open func deleteItem(at indexPath: IndexPath) {
+        data[indexPath.section].remove(at: indexPath.item)
+        dataProviderDidChangeContets(with: [.delete(indexPath)])
+    }
+    
 }

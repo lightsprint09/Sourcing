@@ -36,6 +36,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     let cellIdentifier = "cellIdentifier"
     
     var dataProvider: ArrayDataProvider<Int>!
+    var dataModificator: DataModificatorMock!
     var collectionViewMock: UICollectionViewMock!
     var realCollectionView: UICollectionView!
     var cell: CellConfiguration<UICollectionViewCellMock<Int>>!
@@ -46,6 +47,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         collectionViewMock = UICollectionViewMock()
         cell = CellConfiguration(cellIdentifier: cellIdentifier)
         realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        dataModificator = DataModificatorMock()
     }
     
     func testSetDataSource() {
@@ -166,14 +168,15 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let dataProviderMock = DataProviderMock<Int>()
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProviderMock, cell: cellConfig)
+        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProviderMock,
+                                                  cell: cellConfig, dataModificator: dataModificator)
         let fromIndexPath = IndexPath(row: 0, section: 1)
         let toIndexPath = IndexPath(row: 1, section: 0)
         dataSource.collectionView(realCollectionView, moveItemAt: fromIndexPath, to: toIndexPath)
         
         //Then
-        XCTAssertEqual(dataProviderMock.sourceIndexPath, fromIndexPath)
-        XCTAssertEqual(dataProviderMock.destinationIndexPath, toIndexPath)
+        XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
+        XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
     }
     
     func testProcessUpdatesInsert() {
@@ -329,9 +332,10 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     }
     
     func testCanMoveCellAtIndexPath() {
+        dataModificator.canMoveItemAt = true
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider,
-                                                  cell: cell, canMoveItemAtIndexPath: { _ in return true })
+                                                  cell: cell, dataModificator: dataModificator)
         
         //Then
         XCTAssertTrue(dataSource.collectionView(realCollectionView, canMoveItemAt: IndexPath(item: 0, section: 0)))

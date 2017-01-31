@@ -12,9 +12,9 @@ import CoreData
 public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// Only set this when you are updating the datasource.
-    public var whenDataSourceProcessUpdates: (([DataProviderUpdate<Object>]?) -> Void)?
+    public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>?
 
-    let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)?
+    let dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     let fetchedResultsController: NSFetchedResultsController<Object>
     var updates: [DataProviderUpdate<Object>] = []
     
@@ -24,7 +24,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     private let moveItemAtIndexPath: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)?
     
-    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) -> Void)? = nil,
+    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil,
                 moveItemAt: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate

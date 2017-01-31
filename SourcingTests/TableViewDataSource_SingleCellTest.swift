@@ -36,6 +36,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     let cellIdentifier = "cellIdentifier"
     
     var dataProvider: ArrayDataProvider<Int>!
+    var dataModificator: DataModificatorMock!
     var tableViewMock: UITableViewMock!
     var cell: CellConfiguration<UITableViewCellMock<Int>>!
     
@@ -44,6 +45,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]], sectionIndexTitles: ["foo", "bar"])
         tableViewMock = UITableViewMock()
         cell = CellConfiguration(cellIdentifier: cellIdentifier)
+        dataModificator = DataModificatorMock()
     }
     
     func testSetDataSource() {
@@ -175,7 +177,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Given
         let cellConfig = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)
         let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = TableViewDataSource(tableView: UITableView(), dataProvider: dataProviderMock, cell: cellConfig)
+        let dataSource = TableViewDataSource(tableView: UITableView(), dataProvider: dataProviderMock,
+                                             cell: cellConfig, dataModificator: dataModificator)
         
         //When
         let fromIndexPath = IndexPath(row: 0, section: 1)
@@ -183,8 +186,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataSource.tableView(UITableView(), moveRowAt: fromIndexPath, to: toIndexPath)
         
         //Then
-        XCTAssertEqual(dataProviderMock.sourceIndexPath, fromIndexPath)
-        XCTAssertEqual(dataProviderMock.destinationIndexPath, toIndexPath)
+        XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
+        XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
     }
     
     func testProcessUpdatesInsert() {
@@ -337,8 +340,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     }
     
     func testCanMoveCellAtIndexPath() {
+        //Given
+        dataModificator.canMoveItemAt = true
+        
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, canMoveItemAtIndexPath: { _ in return true })
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
         
         //Then
         XCTAssertTrue(dataSource.tableView(UITableView(), canMoveRowAt: IndexPath(row: 0, section: 0)))

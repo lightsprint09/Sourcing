@@ -11,7 +11,7 @@ import Foundation
 final public class AnyDataProvider<Object>: DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// Only set this when you are updating the datasource.
-    public var whenDataSourceProcessUpdates: (([DataProviderUpdate<Object>]?) -> Void)? {
+    public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>? {
         didSet {
             setWhenDataSourceProcessUpdates(whenDataSourceProcessUpdates)
         }
@@ -24,9 +24,7 @@ final public class AnyDataProvider<Object>: DataProviding {
     private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
     private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
     
-    private let setWhenDataSourceProcessUpdates: ((([DataProviderUpdate<Object>]?) -> Void)?) -> Void
-    
-    private let moveItemAtIndexPath: (_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void
+    private let setWhenDataSourceProcessUpdates: (ProcessUpdatesCallback<Object>?) -> Void
     
     public let sectionIndexTitles: Array<String>?
     
@@ -45,9 +43,6 @@ final public class AnyDataProvider<Object>: DataProviding {
         }
         cancelPrefetchingForItemsAtIndexPaths = { indexPaths in
             dataProvider.cancelPrefetchingForItems(at: indexPaths)
-        }
-        moveItemAtIndexPath = {
-            dataProvider.moveItemAt(sourceIndexPath: $0, to: $1)
         }
         sectionIndexTitles = dataProvider.sectionIndexTitles
         setWhenDataSourceProcessUpdates = { whenDataSourceProcessUpdates in
@@ -73,9 +68,5 @@ final public class AnyDataProvider<Object>: DataProviding {
     
     public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
         cancelPrefetchingForItemsAtIndexPaths(indexPaths)
-    }
-    
-    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        moveItemAtIndexPath(sourceIndexPath, destinationIndexPath)
     }
 }
