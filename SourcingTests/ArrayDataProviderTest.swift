@@ -115,16 +115,19 @@ class ArrayDataProviderTest: XCTestCase {
     
     func testMoveItemFromTo() {
         //Given
+        var didNotifyTableView = false
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        dataProvider.whenDataSourceProcessUpdates = { _ in didNotifyTableView = true }
         let sourceIndexPath = IndexPath(item: 0, section: 0)
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
         //When
-        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, causedByUserInteraction: true)
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, causedByUserInteraction: false)
         
         //Then
         let destinationObject = dataProvider.object(at: destinationIndexPath)
         XCTAssertEqual(destinationObject, 1)
+        XCTAssert(didNotifyTableView)
     }
     
     func testCanDelteItems() {
@@ -140,14 +143,17 @@ class ArrayDataProviderTest: XCTestCase {
     
     func testDelteItemAtIndexPath() {
         //Given
+        var didNotifyTableView = false
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        dataProvider.whenDataSourceProcessUpdates = { _ in didNotifyTableView = true }
         let deleteIndexPath = IndexPath(item: 0, section: 0)
         
         //When
-        dataProvider.deleteItem(at: deleteIndexPath, causedByUserInteraction: true)
+        dataProvider.deleteItem(at: deleteIndexPath, causedByUserInteraction: false)
         
         //Then
         let destinationObject = dataProvider.object(at: deleteIndexPath)
         XCTAssertEqual(destinationObject, 2)
+        XCTAssert(didNotifyTableView)
     }
 }

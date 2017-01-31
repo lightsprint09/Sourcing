@@ -118,7 +118,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModificating {
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
-        if causedByUserInteraction {
+        if !causedByUserInteraction {
             dataProviderDidChangeContets(with: [update])
         }
         
@@ -130,7 +130,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModificating {
     
     open func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool) {
         data[indexPath.section].remove(at: indexPath.item)
-        if causedByUserInteraction {
+        if !causedByUserInteraction {
             dataProviderDidChangeContets(with: [.delete(indexPath)])
         }
     }

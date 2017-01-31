@@ -47,11 +47,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
-        for cell in cells where cell.canConfigureCell(with: object) {
-            return cell
-        }
-        
-        return nil
+        return cells.first(where: { $0.canConfigureCell(with: object) })
     }
     
     public func process(updates: [DataProviderUpdate<Object>]?) {
@@ -63,7 +59,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         tableView.endUpdates()
     }
     
-    public func process(update: DataProviderUpdate<Object>) {
+    func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
             tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)

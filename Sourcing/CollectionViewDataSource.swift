@@ -68,11 +68,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     }
     
     private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
-        for cell in cells where cell.canConfigureCell(with: object) {
-            return cell
-        }
-        
-        return nil
+        return cells.first(where: { $0.canConfigureCell(with: object) })
     }
     
     func process(updates: [DataProviderUpdate<Object>]?) {
