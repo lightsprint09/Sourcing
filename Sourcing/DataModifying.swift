@@ -20,7 +20,7 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataModificating.swift
+//  DataModifying.swift
 //  Sourcing
 //
 //  Created by Lukas Schmidt on 31.01.17.
@@ -28,7 +28,7 @@
 
 import Foundation
 
-public protocol DataModificating {
+public protocol DataModifying {
     /// Moves item from sourceIndexPath to the destinationIndexPath
     ///
     /// - Parameters:

@@ -31,7 +31,7 @@ import Foundation
 /**
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
-open class ArrayDataProvider<Object>: ArrayDataProviding, DataModificating {
+open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
     
     open var data: Array<Array<Object>>
     

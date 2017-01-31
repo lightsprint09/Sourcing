@@ -29,7 +29,7 @@
 import Foundation
 import Sourcing
 
-class DataModificatorMock: DataModificating {
+class DataModificatorMock: DataModifying {
     var canMoveItemAt: Bool = false
     var canDeleteItemAt: Bool = false
     

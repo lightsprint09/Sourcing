@@ -31,7 +31,7 @@ import UIKit
 final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
     public let dataProvider: AnyDataProvider<Object>
-    public let dataModificator: DataModificating?
+    public let dataModificator: DataModifying?
     public var collectionView: CollectionViewRepresenting {
         didSet {
             collectionView.dataSource = self
@@ -41,7 +41,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     private let cells: Array<CellDequeable>
     
     public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
-                anyCells: Array<CellDequeable>, dataModificator: DataModificating? = nil)
+                anyCells: Array<CellDequeable>, dataModificator: DataModifying? = nil)
                 where DataProvider.Object == Object {
         self.collectionView = collectionView
         self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
@@ -154,14 +154,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 
 extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
-                     dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModificating? = nil)
+                     dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
         where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
-                     dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModificating? = nil)
+                     dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
         where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)

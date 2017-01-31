@@ -12,7 +12,7 @@ import Foundation
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
     public let dataProvider: AnyDataProvider<Object>
-    public let dataModificator: DataModificating?
+    public let dataModificator: DataModifying?
     public var tableView: TableViewRepresenting {
         didSet {
             tableView.dataSource = self
@@ -22,7 +22,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     private let cells: Array<CellDequeable>
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
-                anyCells: Array<CellDequeable>, dataModificator: DataModificating? = nil)
+                anyCells: Array<CellDequeable>, dataModificator: DataModifying? = nil)
                 where TypedDataProvider.Object == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
@@ -144,14 +144,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 
 public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModificating? = nil)
+                     dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModificating? = nil)
+                     dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
         where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
