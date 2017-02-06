@@ -38,7 +38,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
     public var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>?
     
-    open let sectionIndexTitles: Array<String>?
+    open var sectionIndexTitles: Array<String>?
    
     var canMoveItems: Bool = false
     var canDeleteItems: Bool = false
