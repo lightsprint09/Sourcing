@@ -70,7 +70,7 @@ public protocol DataProviding: class {
     
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// Only set this when you are updating the datasource.
-    var whenDataSourceProcessUpdates: (([DataProviderUpdate<Object>]?) -> Void)? { get set }
+    var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>? { get set }
     
 }
 
