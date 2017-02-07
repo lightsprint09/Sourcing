@@ -84,6 +84,18 @@ class FetchedResultsDataProviderTests: XCTestCase {
         XCTAssertEqual(dataProvider.indexPath(for: train), indexPath)
     }
     
+    func testReconfigureFetchRequest() {
+        var didUpdate = false
+        dataProvider.whenDataSourceProcessUpdates = { updates in
+            didUpdate = updates == nil
+        }
+        try? dataProvider.reconfigure(with: { _ in
+            
+        })
+        
+        XCTAssert(didUpdate)
+    }
+    
     func testHandleInsert() {
         //Given
         let indexPath = IndexPath(row: 0, section: 0)

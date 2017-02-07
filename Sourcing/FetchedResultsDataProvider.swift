@@ -13,9 +13,9 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// Only set this when you are updating the datasource.
     public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>?
-
-    let dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     public let fetchedResultsController: NSFetchedResultsController<Object>
+    
+    let dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     var updates: [DataProviderUpdate<Object>] = []
     
     public var sectionIndexTitles: Array<String>? {
@@ -30,12 +30,12 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         try fetchedResultsController.performFetch()
     }
     
-    public func reconfigure(with fetchRequest: (NSFetchedResultsController<Object>) -> Void) throws {
+    public func reconfigure(with configure: (NSFetchedResultsController<Object>) -> Void) throws {
         NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
-        fetchRequest(fetchedResultsController)
+        configure(fetchedResultsController)
         
         try fetchedResultsController.performFetch()
-        dataProviderDidUpdate?(nil)
+        dataProviderDidChangeContets(with: nil)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
@@ -80,7 +80,8 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         }
     }
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo,
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                           didChange sectionInfo: NSFetchedResultsSectionInfo,
                            atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
