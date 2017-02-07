@@ -69,8 +69,8 @@ public protocol DataProviding: class {
     func cancelPrefetchingForItems(at indexPaths: [IndexPath])
     
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// Only set this when you are updating the datasource.
-    var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>? { get set }
+    /// **Warning:** Only set this when you are updating the datasource.
+    var whenDataProviderChanged: ProcessUpdatesCallback<Object>? { get set }
     
 }
 

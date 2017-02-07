@@ -52,7 +52,7 @@ class ArrayDataProviderTest: XCTestCase {
         dataProvider.dataProviderDidUpdate = { _ in
             didUpdate = true
         }
-        dataProvider.whenDataSourceProcessUpdates = { _ in
+        dataProvider.whenDataProviderChanged = { _ in
             didUpdateDataSource = true
         }
         //When
@@ -117,7 +117,7 @@ class ArrayDataProviderTest: XCTestCase {
         //Given
         var didNotifyTableView = false
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
-        dataProvider.whenDataSourceProcessUpdates = { _ in didNotifyTableView = true }
+        dataProvider.whenDataProviderChanged = { _ in didNotifyTableView = true }
         let sourceIndexPath = IndexPath(item: 0, section: 0)
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
@@ -145,7 +145,7 @@ class ArrayDataProviderTest: XCTestCase {
         //Given
         var didNotifyTableView = false
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
-        dataProvider.whenDataSourceProcessUpdates = { _ in didNotifyTableView = true }
+        dataProvider.whenDataProviderChanged = { _ in didNotifyTableView = true }
         let deleteIndexPath = IndexPath(item: 0, section: 0)
         
         //When

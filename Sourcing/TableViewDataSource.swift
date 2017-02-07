@@ -29,7 +29,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         self.dataModificator = dataModificator
         self.cells = anyCells
         super.init()
-        dataProvider.whenDataSourceProcessUpdates = { [weak self] updates in
+        dataProvider.whenDataProviderChanged = { [weak self] updates in
             self?.process(updates: updates)
         }
         register(cells: cells)

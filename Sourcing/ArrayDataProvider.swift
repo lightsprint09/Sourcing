@@ -36,7 +36,9 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
     open var data: Array<Array<Object>>
     
     public var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
-    public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>?
+    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+    /// **Warning:** Only set this when you are updating the datasource.
+    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
     
     open var sectionIndexTitles: Array<String>?
    
@@ -98,7 +100,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
     
     func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?) {
         dataProviderDidUpdate?(updates)
-        whenDataSourceProcessUpdates?(updates)
+        whenDataProviderChanged?(updates)
     }
     
     // MARK: Data Modification

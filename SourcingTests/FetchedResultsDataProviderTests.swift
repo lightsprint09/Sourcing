@@ -86,7 +86,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
     
     func testReconfigureFetchRequest() {
         var didUpdate = false
-        dataProvider.whenDataSourceProcessUpdates = { updates in
+        dataProvider.whenDataProviderChanged = { updates in
             didUpdate = updates == nil
         }
         try? dataProvider.reconfigure(with: { _ in
@@ -191,7 +191,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
                                                        dataProviderDidUpdate: { _ in
                                                         didUpdateNotification = true
         })
-        dataProvider.whenDataSourceProcessUpdates = { _ in didUpdateDataSource = true }
+        dataProvider.whenDataProviderChanged = { _ in didUpdateDataSource = true }
         
         //When
         dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)

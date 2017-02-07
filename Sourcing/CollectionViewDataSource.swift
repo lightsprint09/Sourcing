@@ -48,7 +48,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         self.cells = anyCells
         self.dataModificator = dataModificator
         super.init()
-        dataProvider.whenDataSourceProcessUpdates = { [weak self] updates in
+        dataProvider.whenDataProviderChanged = { [weak self] updates in
             self?.process(updates: updates)
         }
         registerCells(cells)

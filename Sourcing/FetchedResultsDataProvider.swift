@@ -11,8 +11,8 @@ import CoreData
  
 public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// Only set this when you are updating the datasource.
-    public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>?
+    /// **Warning:** Only set this when you are updating the datasource.
+    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
     let dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
@@ -98,7 +98,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?) {
         dataProviderDidUpdate?(updates)
-        whenDataSourceProcessUpdates?(updates)
+        whenDataProviderChanged?(updates)
     }
 
 }
