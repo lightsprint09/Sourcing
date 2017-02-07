@@ -15,20 +15,16 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     public var whenDataSourceProcessUpdates: ProcessUpdatesCallback<Object>?
 
     let dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
-    let fetchedResultsController: NSFetchedResultsController<Object>
+    public let fetchedResultsController: NSFetchedResultsController<Object>
     var updates: [DataProviderUpdate<Object>] = []
     
     public var sectionIndexTitles: Array<String>? {
         return fetchedResultsController.sectionIndexTitles
     }
     
-    private let moveItemAtIndexPath: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)?
-    
-    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil,
-                moveItemAt: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)? = nil) throws {
+    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate
-        self.moveItemAtIndexPath = moveItemAt
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
@@ -56,10 +52,6 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     public func indexPath(for object: Object) -> IndexPath? {
         return fetchedResultsController.indexPath(forObject: object)
-    }
-    
-    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        moveItemAtIndexPath?(sourceIndexPath, destinationIndexPath)
     }
     
     // MARK: NSFetchedResultsControllerDelegate
