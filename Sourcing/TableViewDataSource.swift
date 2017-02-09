@@ -145,14 +145,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
-        where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
+        where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
-        where TypedDataProvider.Object == Object, CellConfig.Cell: UITableViewCell {
+        where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }

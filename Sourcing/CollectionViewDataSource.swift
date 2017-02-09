@@ -155,14 +155,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
                      dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
-        where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
+        where DataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
                      dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
-        where DataProvider.Object == Object, CellConfig.Cell: UICollectionViewCell {
+        where DataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }

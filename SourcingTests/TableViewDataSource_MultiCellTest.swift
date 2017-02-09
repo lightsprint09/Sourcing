@@ -50,7 +50,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
                                       CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
 
         //When
-        let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cells: cells)
+        let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cells)
         
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 1)
