@@ -46,6 +46,7 @@
 		C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */; };
 		C6F913181D506BC800B0535C /* DataProviderUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913171D506BC800B0535C /* DataProviderUpdate.swift */; };
 		C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913191D506C1200B0535C /* StaticCellDequeable.swift */; };
+		C6FE99921E4DEEA800B02B17 /* BasicCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FE99911E4DEEA800B02B17 /* BasicCellConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource_MultiCellTest.swift; sourceTree = "<group>"; };
 		C6F913171D506BC800B0535C /* DataProviderUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderUpdate.swift; sourceTree = "<group>"; };
 		C6F913191D506C1200B0535C /* StaticCellDequeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticCellDequeable.swift; sourceTree = "<group>"; };
+		C6FE99911E4DEEA800B02B17 /* BasicCellConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCellConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				C6F913191D506C1200B0535C /* StaticCellDequeable.swift */,
+				C6FE99911E4DEEA800B02B17 /* BasicCellConfiguration.swift */,
 				9432D27A1CF5AE6200B72986 /* CellConfiguration.swift */,
 				9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */,
 				9432D2781CF5AE2000B72986 /* CellDequeable.swift */,
@@ -379,6 +382,7 @@
 				C64CEDD11D741BF400027CBB /* ArrayDataProviding.swift in Sources */,
 				9432D2711CF5ACE700B72986 /* DataProviding.swift in Sources */,
 				9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */,
+				C6FE99921E4DEEA800B02B17 /* BasicCellConfiguration.swift in Sources */,
 				C63610A51E40714C00417B45 /* DataModifying.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellDequeable.swift in Sources */,
 				C657EA8B1D6B15B30048B8E7 /* CollectionViewRepresenting.swift in Sources */,

@@ -25,40 +25,36 @@
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
+
 import UIKit
 
 public struct CellConfiguration<CellToConfigure: ConfigurableCell>: CellDequeable, StaticCellDequeable {
     public typealias Cell = CellToConfigure
-    public typealias Object = Cell.DataSource
+    public typealias Object = CellToConfigure.DataSource
     
-    public let cellIdentifier: String
-    public let nib: UINib?
-    
-    let additionalConfiguartion: ((Object, Cell) -> Void)?
-    
-    public init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
-        self.cellIdentifier = cellIdentifier
-        self.nib = nib
-        self.additionalConfiguartion = additionalConfiguartion
+    public var cellIdentifier: String {
+        return cellConfiguration.cellIdentifier
+    }
+    public var nib: UINib? {
+        return cellConfiguration.nib
     }
     
-    public func canConfigureCell(with object: Any) -> Bool {
-        return object is Object
+    private let cellConfiguration: BasicCellConfiguration<Cell, Object>
+    
+    public init(cellIdentifier: String, nib: UINib? = nil,
+                additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
+        cellConfiguration = BasicCellConfiguration(cellIdentifier: cellIdentifier, configuration: { object, cell in
+            cell.configure(with: object)
+        }, nib: nib, additionalConfiguartion: additionalConfiguartion)
     }
     
     public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
-        if let object = object as? Object, let cell = cell as? Cell {
-            cell.configure(with: object)
-            additionalConfiguartion?(object, cell)
-        }
-        return cell
+        return cellConfiguration.configure(cell, with: object)
     }
 }
 
 extension CellConfiguration where CellToConfigure: CellIdentifierProviding {
     public init(nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
-        self.cellIdentifier = CellToConfigure.cellIdentifier
-        self.nib = nib
-        self.additionalConfiguartion = additionalConfiguartion
+        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
     }
 }

@@ -32,6 +32,12 @@
 public protocol StaticCellDequeable: CellDequeable {
     
     associatedtype Object
-    associatedtype Cell: ConfigurableCell
+    associatedtype Cell
     
+}
+
+extension StaticCellDequeable {
+    public func canConfigureCell(with object: Any) -> Bool {
+        return object is Object
+    }
 }

@@ -45,7 +45,6 @@ class CellConfigurationTest: XCTestCase {
         
         //Then
         XCTAssertEqual(identifier, configuration.cellIdentifier)
-        XCTAssertNotNil(configuration.additionalConfiguartion)
         XCTAssertNotNil(configuration.nib)
     }
     
@@ -58,7 +57,6 @@ class CellConfigurationTest: XCTestCase {
         
         //Then
         XCTAssertEqual(UITableViewCellMock<Int>.cellIdentifier, configuration.cellIdentifier)
-        XCTAssertNotNil(configuration.additionalConfiguartion)
         XCTAssertNotNil(configuration.nib)
     }
     
