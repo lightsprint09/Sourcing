@@ -29,28 +29,12 @@
 import UIKit
 import Sourcing
 
-class MockCollectionCell<T>: UICollectionViewCell, ConfigurableCell {
-    var configurationCount = 0
-    var configuredObject: T?
-    
-    init() {
-        super.init(frame: CGRect.zero)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        Swift.fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(with object: T) {
-        configurationCount += 1
-        configuredObject = object
-    }
-}
 class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
-
+    
+    public var prefetchDataSource: UICollectionViewDataSourcePrefetching?
     var dataSource: UICollectionViewDataSource?
     
-    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": MockCollectionCell<Int>()]) {
+    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
         super.init(mockCells: mockCollectionViewCells)
     }
     
@@ -64,33 +48,41 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
     }
     
     func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
+        beginUpdatesCalledCount += 1
+        endUpdatesCalledCount += 1
         updates?()
     }
     
     func insertSections(_ sections: IndexSet) {
+        insertedSections = sections
+    }
     
-    }
     func deleteSections(_ sections: IndexSet) {
-        
+        deleteSections = sections
     }
+    
     func reloadSections(_ sections: IndexSet) {
     
     }
-    func moveSection(_ section: Int, toSection newSection: Int) {
     
+    func moveSection(_ section: Int, toSection newSection: Int) {
+        movedSection = (from: section, to: newSection)
     }
     
     func insertItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
-    
+        insertedIndexPaths = indexPaths
     }
+    
     func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
-    
+        deletedIndexPaths = indexPaths
     }
+    
     func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
-    
+        reloadedIndexPaths = indexPaths
     }
-    func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath) {
     
+    func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath) {
+        movedIndexPath = (from: indexPath, to: newIndexPath)
     }
     
     func cellForItemAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {

@@ -31,11 +31,21 @@ import Foundation
 /**
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
-open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
+open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
     
-    fileprivate(set) open var data: Array<Array<Object>>
-    fileprivate let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
-    open let sectionIndexTitles: Array<String>?
+    open var data: Array<Array<Object>>
+    
+    public var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
+    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+    /// **Warning:** Only set this when you are updating the datasource.
+    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
+    
+    open var sectionIndexTitles: Array<String>?
+   
+    var canMoveItems: Bool = false
+    var canDeleteItems: Bool = false
+    
+    // MARK: Initializers
     
     /**
      Creates an instance of`ArrayDataProvider` with an flat array which results in a single section.
@@ -44,9 +54,12 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
      - parameter sectionTitle: title for the section. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public convenience init(rows: Array<Object>, sectionTitle: String? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
-        let titles: Array<String>? = sectionTitle == nil ? nil : [sectionTitle!]
-        self.init(sections: [rows], sectionIndexTitles: titles, dataProviderDidUpdate: dataProviderDidUpdate)
+    public convenience init(rows: Array<Object>, sectionTitle: String? = nil) {
+        var titles: Array<String>?
+        if let sectionTitle = sectionTitle {
+            titles = [sectionTitle]
+        }
+        self.init(sections: [rows], sectionIndexTitles: titles)
     }
     
     /**
@@ -56,28 +69,72 @@ open class ArrayDataProvider<Object>: NSObject, ArrayDataProviding {
      - parameter sectionTitles: titles for the sections. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public init(sections: Array<Array<Object>>, sectionIndexTitles: Array<String>? = nil, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil) {
+    public init(sections: [[Object]], sectionIndexTitles: Array<String>? = nil) {
         self.data = sections
-        self.dataProviderDidUpdate = dataProviderDidUpdate
         self.sectionIndexTitles = sectionIndexTitles
-        super.init()
     }
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: flat array.
+     - parameter array: flat array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user
     */
-    open func reconfigureData(_ array: Array<Object>) {
-        reconfigureData([array])
+    public func reconfigure(with array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+        reconfigure(with: [array], updates: updates, causedByUserInteraction: causedByUserInteraction)
     }
     
     /**
      Reconfigures the dataSource with new data.
      
-     - paramether array: 2D array.
+     - parameter array: 2D array.
+     - parameter updates: diff of the new data.
+     - parameter causedByUserInteraction: flag if the changes are caused by a user.
      */
-    open func reconfigureData(_ array: Array<Array<Object>>) {
+    public func reconfigure(with array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
-        dataProviderDidUpdate?(nil)
+        if !causedByUserInteraction {
+           dataProviderDidChangeContets(with: updates)
+        }
     }
+    
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?) {
+        dataProviderDidUpdate?(updates)
+        whenDataProviderChanged?(updates)
+    }
+    
+    // MARK: Data Modification
+    
+    open func canMoveItem(at indexPath: IndexPath) -> Bool {
+        return canMoveItems
+    }
+    
+    /**
+     Update item position in dataSource.
+     
+     - parameter sourceIndexPath: original indexPath.
+     - parameter destinationIndexPath: destination indexPath.
+     */
+    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, causedByUserInteraction: Bool) {
+        let soureElement = object(at: sourceIndexPath)
+        data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
+        let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
+        if !causedByUserInteraction {
+            dataProviderDidChangeContets(with: [update])
+        }
+        
+    }
+    
+    open func canDeleteItem(at indexPath: IndexPath) -> Bool {
+        return canDeleteItems
+    }
+    
+    open func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool) {
+        data[indexPath.section].remove(at: indexPath.item)
+        if !causedByUserInteraction {
+            dataProviderDidChangeContets(with: [.delete(indexPath)])
+        }
+    }
+    
 }

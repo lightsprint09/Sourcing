@@ -29,30 +29,14 @@
 import UIKit
 import Sourcing
 
-class MockCell<T>: UITableViewCell, ConfigurableCell {
-    var configurationCount = 0
-    var configuredObject: T?
-    
-    init() {
-        super.init(style: .default, reuseIdentifier: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        Swift.fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(with object: T) {
-        configurationCount += 1
-        configuredObject = object
-    }
-}
-
 class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
+
+    public var prefetchDataSource: UITableViewDataSourcePrefetching?
+
     var dataSource: UITableViewDataSource?
     var indexPathForSelectedRow: IndexPath?
     
-   
-    init(mockTableViewCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": MockCell<Int>()]) {
+    init(mockTableViewCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": UITableViewCellMock<Int>()]) {
         super.init(mockCells: mockTableViewCells)
     }
     
@@ -65,27 +49,39 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     }
     
     func beginUpdates() {
-        
+        beginUpdatesCalledCount += 1
     }
     
     func endUpdates() {
-    
+        endUpdatesCalledCount += 1
     }
     
     func insertRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
-        
+        insertedIndexPaths = indexPaths
     }
     
     func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
-        
+        deletedIndexPaths = indexPaths
+    }
+    
+    public func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+        reloadedIndexPaths = indexPaths
     }
     
     func insertSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
-        
+        insertedSections = sections
     }
     
     func deleteSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation) {
+        deleteSections = sections
+    }
     
+    func moveSection(_ section: Int, toSection newSection: Int) {
+        movedSection = (from: section, to: newSection)
+    }
+    
+    func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {
+        movedIndexPath = (from: indexPath, to: newIndexPath)
     }
     
     func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell? {

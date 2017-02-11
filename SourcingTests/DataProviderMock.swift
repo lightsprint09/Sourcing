@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,21 +20,34 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderUpdate.swift
+//  DataProviderMock.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 10.01.17.
 //
 
 import Foundation
+import Sourcing
 
-public enum DataProviderUpdate<Object> {
-    case insert(IndexPath)
-    case update(IndexPath, Object)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
+/**
+ `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
+ */
+open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
+    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+    /// **Warning:** Only set this when you are updating the datasource.
+    public var whenDataProviderChanged: (([DataProviderUpdate<Object>]?) -> Void)?
+
+    fileprivate(set) open var data: [[Object]] = [[]]
+    public let sectionIndexTitles: [String]? = []
     
-    case insertSection(Int)
-    case deleteSection(Int)
-    case moveSection(Int, Int)
+    var prefetchedIndexPaths: [IndexPath]?
+    var canceledPrefetchedIndexPaths: [IndexPath]?
+
+    public func prefetchItems(at indexPaths: [IndexPath]) {
+        prefetchedIndexPaths = indexPaths
+    }
+    
+    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
+        canceledPrefetchedIndexPaths = indexPaths
+    }
 }

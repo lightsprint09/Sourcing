@@ -41,7 +41,7 @@ public protocol ArrayDataProviding: DataProviding {
 
 public extension ArrayDataProviding {
     public func object(at indexPath: IndexPath) -> Object {
-        return data[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).item]
+        return data[indexPath.section][indexPath.item]
     }
     
     public func numberOfItems(inSection section: Int) -> Int {

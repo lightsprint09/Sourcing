@@ -28,15 +28,27 @@
 
 import UIKit
 
+// swiftlint:disable force_cast force_try force_unwrapping
 class UITableCollectionViewBaseMock {
     var reloadedCount = 0
     var lastUsedReuseIdetifiers = Array<String>()
     let cellMocks: Dictionary<String, AnyObject>
     var registerdNibs = Dictionary<String, UINib?>()
-
     
+    var beginUpdatesCalledCount = 0
+    var endUpdatesCalledCount = 0
+    
+    var insertedIndexPaths: Array<IndexPath>?
+    var deletedIndexPaths: Array<IndexPath>?
+    var reloadedIndexPaths: Array<IndexPath>?
+    var movedIndexPath: (from: IndexPath, to: IndexPath)?
+    
+    var insertedSections: IndexSet?
+    var deleteSections: IndexSet?
+    var movedSection: (from: Int, to: Int)?
+
     func reloadData() {
-        self.reloadedCount += 1
+        reloadedCount += 1
     }
     
     init(mockCells: Dictionary<String, AnyObject>) {

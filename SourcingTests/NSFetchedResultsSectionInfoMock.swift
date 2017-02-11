@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,21 +20,29 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderUpdate.swift
+//  x.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 24.01.17.
 //
 
-import Foundation
+import CoreData
 
-public enum DataProviderUpdate<Object> {
-    case insert(IndexPath)
-    case update(IndexPath, Object)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
+public class NSFetchedResultsSectionInfoMock: NSFetchedResultsSectionInfo {
     
-    case insertSection(Int)
-    case deleteSection(Int)
-    case moveSection(Int, Int)
+    /* Name of the section
+     */
+    public var name: String = ""
+    
+    /* Title of the section (used when displaying the index)
+     */
+    public var indexTitle: String? = ""
+    
+    /* Number of objects in section
+     */
+    public var numberOfObjects: Int = 0
+    
+    /* Returns the array of objects in the section.
+     */
+    public var objects: [Any]? = nil
 }

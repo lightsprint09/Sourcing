@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,21 +20,25 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderUpdate.swift
+//  DataModifying.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 31.01.17.
 //
 
 import Foundation
 
-public enum DataProviderUpdate<Object> {
-    case insert(IndexPath)
-    case update(IndexPath, Object)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
+public protocol DataModifying {
+    /// Moves item from sourceIndexPath to the destinationIndexPath
+    ///
+    /// - Parameters:
+    ///   - sourceIndexPath: the sourceIndexPath
+    ///   - destinationIndexPath: the destinationIndexPath
+    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, causedByUserInteraction: Bool)
     
-    case insertSection(Int)
-    case deleteSection(Int)
-    case moveSection(Int, Int)
+    func canMoveItem(at indexPath: IndexPath) -> Bool
+    
+    func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool)
+    
+    func canDeleteItem(at indexPath: IndexPath) -> Bool
 }

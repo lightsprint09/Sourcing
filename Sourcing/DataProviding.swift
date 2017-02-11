@@ -28,9 +28,10 @@
 
 import Foundation
 
-/**
- `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`. It is generic over Object, which is the kind of data it provides.
- */
+public typealias ProcessUpdatesCallback<Object> = ([DataProviderUpdate<Object>]?) -> Void
+
+/// `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
+/// It is generic over Object, which is the kind of data it provides.
 public protocol DataProviding: class {
     /**
      Object is the kind of data `DataProviding` provides.
@@ -66,12 +67,19 @@ public protocol DataProviding: class {
     func prefetchItems(at indexPaths: [IndexPath])
     
     func cancelPrefetchingForItems(at indexPaths: [IndexPath])
+    
+    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+    /// **Warning:** Only set this when you are updating the datasource.
+    var whenDataProviderChanged: ProcessUpdatesCallback<Object>? { get set }
+    
 }
 
 public extension DataProviding {
+    
     func prefetchItems(at indexPaths: [IndexPath]) { }
     
     func cancelPrefetchingForItems(at indexPaths: [IndexPath]) { }
+
 }
 
 extension DataProviding where Object: Equatable {
@@ -82,7 +90,7 @@ extension DataProviding where Object: Equatable {
      - parameter object: the object you want the indexPath for.
      - return: the indexPath of the object, if available.
      */
-    public func indexPathForObject(_ object: Object) -> IndexPath? {
+    public func indexPath(for object: Object) -> IndexPath? {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
@@ -96,4 +104,3 @@ extension DataProviding where Object: Equatable {
         return nil
     }
 }
-

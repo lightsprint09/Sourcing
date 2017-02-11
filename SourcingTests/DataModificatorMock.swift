@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,21 +20,40 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderUpdate.swift
+//  DataModificatorMock.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 31.01.17.
 //
 
 import Foundation
+import Sourcing
 
-public enum DataProviderUpdate<Object> {
-    case insert(IndexPath)
-    case update(IndexPath, Object)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
+class DataModificatorMock: DataModifying {
+    var canMoveItemAt: Bool = false
+    var canDeleteItemAt: Bool = false
     
-    case insertSection(Int)
-    case deleteSection(Int)
-    case moveSection(Int, Int)
+    var sourceIndexPath: IndexPath?
+    var destinationIndexPath: IndexPath?
+    var deletedIndexPath: IndexPath?
+    var triggeredByUserInteraction: Bool?
+    
+    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, causedByUserInteraction: Bool) {
+        self.sourceIndexPath = sourceIndexPath
+        self.destinationIndexPath = destinationIndexPath
+        triggeredByUserInteraction = causedByUserInteraction
+    }
+    
+    func canMoveItem(at indexPath: IndexPath) -> Bool {
+        return canMoveItemAt
+    }
+    
+    func canDeleteItem(at indexPath: IndexPath) -> Bool {
+        return canDeleteItemAt
+    }
+    
+    func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool) {
+        deletedIndexPath = indexPath
+        triggeredByUserInteraction = causedByUserInteraction
+    }
 }
