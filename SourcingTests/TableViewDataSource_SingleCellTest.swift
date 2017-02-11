@@ -152,7 +152,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let realTableView = UITableView()
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, displaySectionIndexTitles: true)
         let sectionTitles = dataSource.sectionIndexTitles(for: realTableView)
         
         //Then
@@ -375,6 +375,17 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
         XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
+    }
+    
+    func testTitleForHeaderInSection() {
+        //Given
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+        
+        //When
+        let sectionTitle = dataSource.tableView(UITableView(), titleForHeaderInSection: 1)
+        
+        //Then
+        XCTAssertEqual(sectionTitle, "bar")
     }
     
 }

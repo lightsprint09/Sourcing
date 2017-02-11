@@ -143,19 +143,6 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         XCTAssertEqual(tableViewMock.reloadedCount, 2)
     }
     
-    func testSectionIndexTitles() {
-        //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
-        
-        //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        let realTableView = UITableView()
-        let sectionTitles = dataSource.sectionIndexTitles(for: realTableView)
-        
-        //Then
-        XCTAssertEqual(["foo", "bar"], sectionTitles!)
-    }
-    
     func testSetNewTableView() {
         //Given
         let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
