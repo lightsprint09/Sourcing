@@ -113,7 +113,12 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return dataProvider.sectionIndexTitles?[section]
+        if section > dataProvider.sectionIndexTitles?.count ?? 0 {
+            return dataProvider.sectionIndexTitles?[section]
+        } else {
+            return nil
+        }
+        
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
