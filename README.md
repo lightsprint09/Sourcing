@@ -8,7 +8,7 @@
    * [ArrayDataProvider](#arraydataprovider)
    * [FetchedresultsDataProvider](#fetchedresultsdataprovider)
    * [AnyDataProvider](#anydataprovider)
-   * [Custom DataProvider]
+   * [Custom DataProvider](#custom-dataprovider)
 * [DataModificator]
 * [DataSource]
    * [TableViewDataSource]
@@ -88,6 +88,7 @@ final public class DictionaryDataProvider<Object>: ArrayDataProviding {
     }
 }
 ```
+If you need full controll of your DataProvider implement `DataProviding`.
 ## Requirements
 
 - iOS 9.3+
