@@ -3,12 +3,13 @@
 
 # Sourcing
 
-* [Quick Demo](#Quick Demo)
-* [DataProvider]
-   * [ArrayDataProvider]
+* [Quick Demo](#quick-demo)
+* [DataProvider](#dataprovider)
+   * [ArrayDataProvider](#arraydataprovider)
    * [FetchedresultsDataProvider]
    * [AnyDataProvider]
    * [Custom DataProvider]
+* [DataModificator]
 * [DataSource]
    * [TableViewDataSource]
    * [CollectionViewDataSource]
@@ -20,8 +21,7 @@
 
 Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift.
 
-## Usage
-### Quick Demo
+## Quick Demo
 Setting up your Cell by implementing `ConfigurableCell` & `CellIdentifierProviding`.
 ```swift
 import Sourcing
@@ -38,12 +38,20 @@ class TrainCell: UITableViewCell, ConfigurableCell {
 extenion TrainCell: CellIdentifierProviding {}
 
 let trainCell = CellConfiguration<TrainCell>()
-let trains: Array<Train> = //
-let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains)
-let dataSource = TableViewDataSource<Train>(tableView: tableView, dataProvider: dataProvider, cell: trainCell)
+let trains: [Train] = //
+let dataProvider = ArrayDataProvider(rows: trains)
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell)
 ```
+## DataProvider
+A DataProvider encaupsulates you data. Use one of the given DataProviders or implement your own by implementing `DataProviding`.
 
+### ArrayDataProvider
+`ArrayDataProvider` can wrap any `Array` to an DataProvider.
 
+```swift
+let trains: [[Train]] = //
+let dataProvider: ArrayDataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["German", "French"])
+```
 ## Requirements
 
 - iOS 9.3+
