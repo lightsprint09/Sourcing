@@ -90,7 +90,8 @@ final public class DictionaryDataProvider<Object>: ArrayDataProviding {
 ```
 If you need full controll of your DataProvider implement `DataProviding`.
 
-Third
+Thirdparty Dataproviders:
+* [DBNetworkStack+Sourcing - NetworkDataProvider](https://github.com/dbsystel/DBNetworkStack-Sourcing)
 ## Requirements
 
 - iOS 9.3+
