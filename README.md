@@ -3,7 +3,7 @@
 
 # Sourcing
 
-* [Quick Demo](#Quick-Demo)
+* [Quick Demo](#Quick Demo)
 * [DataProvider]
    * [ArrayDataProvider]
    * [FetchedresultsDataProvider]
