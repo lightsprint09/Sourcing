@@ -44,7 +44,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
                 anyCells: Array<CellDequeable>, dataModificator: DataModifying? = nil)
         where DataProvider.Object == Object {
             self.collectionView = collectionView
-            self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
+            self.dataProvider = AnyDataProvider(dataProvider)
             self.cells = anyCells
             self.dataModificator = dataModificator
             super.init()
@@ -156,14 +156,14 @@ extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
                      dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
         where DataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
+            let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellDequeable, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
                      dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
         where DataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
+            let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }
 }

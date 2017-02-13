@@ -26,7 +26,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
                 anyCells: Array<CellDequeable>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
                 where TypedDataProvider.Object == Object {
         self.tableView = tableView
-        self.dataProvider = AnyDataProvider(dataProvider: dataProvider)
+        self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
         self.cells = anyCells
         self.displaySectionIndexTitles = displaySectionIndexTitles
@@ -160,14 +160,14 @@ public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
+            let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
     
     convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider: dataProvider)
+            let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
 }

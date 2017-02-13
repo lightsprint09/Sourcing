@@ -15,7 +15,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
-    let dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
+    var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     var updates: [DataProviderUpdate<Object>] = []
     
     public var sectionIndexTitles: Array<String>? {

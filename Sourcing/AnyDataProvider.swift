@@ -28,7 +28,7 @@ final public class AnyDataProvider<Object>: DataProviding {
     
     public let sectionIndexTitles: Array<String>?
     
-    public init<DataProvider: DataProviding>(dataProvider: DataProvider) where Object == DataProvider.Object {
+    public init<DataProvider: DataProviding>(_ dataProvider: DataProvider) where Object == DataProvider.Object {
         objectAtIndexPath = { indexPath in
             return dataProvider.object(at: indexPath)
         }
