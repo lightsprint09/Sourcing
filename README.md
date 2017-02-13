@@ -62,6 +62,15 @@ let fetchedResultsController: NSFetchedResultsController<CDTrain> = //
 let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
 ```
 
+### AnyDataProvider
+`AnyDataProvider<Element>` is a Type Erasers (http://chris.eidhof.nl/post/type-erasers-in-swift/) for DataProvider. This can be usefull if you want to put diffrent DataProvider in a Collection.
+
+```swift
+let fetchedResultsDataProvider = FetchedResultsDataProvider<CDTrain>(fetchedResultsController: fetchedResultsController)
+let arrayDataProvider = ArrayDataProvider<CDTrain>(sections: trains)
+let dataProviders: [AnyDataProvider<CDTrain>] = [AnyDataProvider(fetchedResultsDataProvider), AnyDataProvider(arrayDataProvider)]
+```
+
 ## Requirements
 
 - iOS 9.3+
