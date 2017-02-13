@@ -211,11 +211,11 @@
 			isa = PBXGroup;
 			children = (
 				C63610A41E40714C00417B45 /* DataModifying.swift */,
+				94EBCFCB1E1A481500184FD5 /* AnyDataProvider.swift */,
 				9432D26E1CF5ACE700B72986 /* DataProviding.swift */,
 				C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */,
-				C6F913171D506BC800B0535C /* DataProviderUpdate.swift */,
-				94EBCFCB1E1A481500184FD5 /* AnyDataProvider.swift */,
 				948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */,
+				C6F913171D506BC800B0535C /* DataProviderUpdate.swift */,
 				943D00E91E01AE040066328E /* FetchedResultsDataProvider.swift */,
 			);
 			name = DataProvider;

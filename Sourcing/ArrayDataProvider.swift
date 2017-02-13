@@ -33,14 +33,14 @@ import Foundation
  */
 open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
     
-    open var data: Array<Array<Object>>
+    open var data: [[Object]]
     
     public var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
     public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
     
-    open var sectionIndexTitles: Array<String>?
+    open var sectionIndexTitles: [String]?
    
     var canMoveItems: Bool = false
     var canDeleteItems: Bool = false
@@ -54,8 +54,8 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
      - parameter sectionTitle: title for the section. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public convenience init(rows: Array<Object>, sectionTitle: String? = nil) {
-        var titles: Array<String>?
+    public convenience init(rows: [Object], sectionTitle: String? = nil) {
+        var titles: [String]?
         if let sectionTitle = sectionTitle {
             titles = [sectionTitle]
         }
@@ -69,7 +69,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
      - parameter sectionTitles: titles for the sections. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public init(sections: [[Object]], sectionIndexTitles: Array<String>? = nil) {
+    public init(sections: [[Object]], sectionIndexTitles: [String]? = nil) {
         self.data = sections
         self.sectionIndexTitles = sectionIndexTitles
     }
@@ -80,7 +80,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
      - parameter updates: diff of the new data.
      - parameter causedByUserInteraction: flag if the changes are caused by a user
     */
-    public func reconfigure(with array: Array<Object>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+    public func reconfigure(with array: [Object], updates: [DataProviderUpdate<Object>]? = nil, causedByUserInteraction: Bool = false) {
         reconfigure(with: [array], updates: updates, causedByUserInteraction: causedByUserInteraction)
     }
     
@@ -91,7 +91,7 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
      - parameter updates: diff of the new data.
      - parameter causedByUserInteraction: flag if the changes are caused by a user.
      */
-    public func reconfigure(with array: Array<Array<Object>>, updates: Array<DataProviderUpdate<Object>>? = nil, causedByUserInteraction: Bool = false) {
+    public func reconfigure(with array: [[Object]], updates: [DataProviderUpdate<Object>]? = nil, causedByUserInteraction: Bool = false) {
         self.data = array
         if !causedByUserInteraction {
            dataProviderDidChangeContets(with: updates)
@@ -123,7 +123,6 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
         if !causedByUserInteraction {
             dataProviderDidChangeContets(with: [update])
         }
-        
     }
     
     open func canDeleteItem(at indexPath: IndexPath) -> Bool {

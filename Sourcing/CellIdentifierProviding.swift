@@ -31,6 +31,7 @@ public protocol CellIdentifierProviding {
 }
 
 public extension CellIdentifierProviding {
+    
     static var cellIdentifier: String {
         return String(describing: self)
     }
