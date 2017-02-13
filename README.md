@@ -22,7 +22,7 @@ class TrainCell: UITableViewCell, ConfigurableCell {
 @IBOutlet var nameLabel: UILabel!
 
 func configure(with train: Train) {
-nameLabel.text = train.name
+    nameLabel.text = train.name
 }
 }
 
