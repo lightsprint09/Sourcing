@@ -7,7 +7,7 @@
 * [DataProvider](#dataprovider)
    * [ArrayDataProvider](#arraydataprovider)
    * [FetchedresultsDataProvider](#fetchedresultsdataprovider)
-   * [AnyDataProvider]
+   * [AnyDataProvider](#anydataprovider)
    * [Custom DataProvider]
 * [DataModificator]
 * [DataSource]
@@ -71,6 +71,23 @@ let arrayDataProvider = ArrayDataProvider<CDTrain>(sections: trains)
 let dataProviders: [AnyDataProvider<CDTrain>] = [AnyDataProvider(fetchedResultsDataProvider), AnyDataProvider(arrayDataProvider)]
 ```
 
+### Custom DataProvider
+If you want to implement a simple DataProvider implement the `ArrayDataProviding` like the following example
+```swift
+final public class DictionaryDataProvider<Object>: ArrayDataProviding {
+    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
+
+    public var data: [[Object]]
+    public let sectionIndexTitles: Array<String>?
+    
+    public init(dictionary: [String: [Object]]) {
+        self.sectionIndexTitles = Array(dictionary.keys)
+        self.data = dictionary.reduce([[]], { result, element in
+            return result.append(contentsOf: result)
+        })
+    }
+}
+```
 ## Requirements
 
 - iOS 9.3+
