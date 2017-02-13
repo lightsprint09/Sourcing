@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lightsprint09/Sourcing.svg?branch=master)](https://travis-ci.org/lightsprint09/Sourcing)
+ [![Build Status](https://travis-ci.org/lightsprint09/Sourcing.svg?branch=master)](https://travis-ci.org/lightsprint09/Sourcing)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 # Sourcing
@@ -10,52 +10,52 @@
 | 🚄        | Extendable API                 |
 | &#9989;   | Fully unit tested              |
 
-Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift.
+Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift 3.
 
 ## Usage
 ### Homogeneous data types
-Setting up your TableViewCell by implementing `ConfigurableCell`. This works for CollectionViewCells as well. Creating a typed configuartion `CellConfiguration` object for your cell with a given resue identifier or with a nib.
+Setting up your TableViewCell by implementing `ConfigurableCell`. This works for CollectionViewCell as well. Creating a typed configuartion `CellConfiguration` object for your cell with a given resue identifier or nib.
 ```swift
 import Sourcing
 
 class TrainCell: UITableViewCell, ConfigurableCell {
-   @IBOutlet var nameLabel: UILabel!
-   
-   func configure(with train: Train) {
-      nameLabel.text = train.name
-   }
+@IBOutlet var nameLabel: UILabel!
+
+func configure(with train: Train) {
+    nameLabel.text = train.name
+}
 }
 
 let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
 
 ```
 
-Create an data provider. Use the default `ArrayDataProvider`or implement you own custom dataprovider, eg with network capabilities.
+Set up data provider. Use the default `ArrayDataProvider`or implement you own custom dataprovider (eg with network capabilities).
 ```swift
 var dataSource: TableViewDataSource<ArrayDataProvider<Train>, CellConfiguration<TrainCell>>?
 let trains: Array<Train> = //
 let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains, { [ weak self] updates in
-                dataSource?.processUpdates(updates)
-          })
+dataSource?.processUpdates(updates)
+})
 ```
-Bring your data and your cell configuration together by creating a `TableViewDataSource` object.
+Link your data and your cell together by creating a `TableViewDataSource` object.
 ```swift
 let tableView: UITableView = //...
 dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: trainCellConfiguration)
 ```
 
 ### Heterogeneous data types
-Create multiple `CellConfiguration`s with diffrent types
+Create multiple `CellConfiguration`s with different type
 ```swift
 let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
 let stationCellConfiguration = CellConfiguration<StationCell>(cellIdentifier: "YourReuseSecondID")
 ```
-Create an loosly typed data provider. Keep in mind that you loos all your compiler support. 
+Create an loosely typed data provider. Keep in mind that you will lose all  compiler's support. 
 ```swift
 let data: Array<Any> = //
 let dataProvider: ArrayDataProvider<Any> = ArrayDataProvider(rows: data)
 ```
-Again bring your data and your cell configurations together by creating a `MultiCellTableViewDataSource` object.
+Again link your data and your cell together by creating a `MultiCellTableViewDataSource` object.
 ```swift
 let tableView: UITableView = //...
 let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: [trainCellConfiguration, stationCellConfiguration])
@@ -82,7 +82,7 @@ Specify the following in your `Cartfile`:
 github "lightsprint09/sourcing" ~> 1.1
 ```
 ## Contributing
-Feel free to submit a pull request with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
+Feel free to submit pull requests with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
 
 ## Contact
 Lukas Schmidt ([Mail](mailto:lukas.la.schmidt@deutschebahn.com), [@lightsprint09](https://twitter.com/lightsprint09))
