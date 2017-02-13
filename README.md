@@ -89,6 +89,8 @@ final public class DictionaryDataProvider<Object>: ArrayDataProviding {
 }
 ```
 If you need full controll of your DataProvider implement `DataProviding`.
+
+Third
 ## Requirements
 
 - iOS 9.3+
