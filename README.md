@@ -6,7 +6,7 @@
 * [Quick Demo](#quick-demo)
 * [DataProvider](#dataprovider)
    * [ArrayDataProvider](#arraydataprovider)
-   * [FetchedresultsDataProvider]
+   * [FetchedresultsDataProvider](#fetchedresultsdataprovider)
    * [AnyDataProvider]
    * [Custom DataProvider]
 * [DataModificator]
@@ -46,12 +46,22 @@ let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataPro
 A DataProvider encaupsulates you data. Use one of the given DataProviders or implement your own by implementing `DataProviding`.
 
 ### ArrayDataProvider
-`ArrayDataProvider` can wrap any `Array` to an DataProvider.
+`ArrayDataProvider<Element>` wraps  `Array<Element>` to an DataProvider.
 
 ```swift
 let trains: [[Train]] = //
-let dataProvider: ArrayDataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["German", "French"])
+let dataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["German", "French"])
 ```
+
+### FetchedResultsDataProvider
+`FetchedResultsDataProvider<Element>` takes a FetchedResultsController and provides a DataProvider for it.
+
+```swift
+let trains: NSFetchrequest<CDTrain> = //
+let fetchedResultsController: NSFetchedResultsController<CDTrain> = //
+let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+```
+
 ## Requirements
 
 - iOS 9.3+
