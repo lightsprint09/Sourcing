@@ -9,15 +9,18 @@
    * [FetchedResultsDataProvider](#fetchedresultsdataprovider)
    * [AnyDataProvider](#anydataprovider)
    * [Custom DataProvider](#custom-dataprovider)
-* [DataModificator]
-* [DataSource]
-   * [TableViewDataSource]
-   * [CollectionViewDataSource]
+* [DataModificator](#datamodificator)
+  * [ArrayDataModificator](#arraydatamodificator)
+* [DataSource](#datasource)
+   * [TableViewDataSource](#tableviewdatasource)
+   * [CollectionViewDataSource](#collectionviewdatasource)
+   * [Multi Cell DataSources](#multicelldatasource)
 * [Cells]
    * [ConfigurableCell]
    * [BasicCellConfiguration]
    * [CellConfiguration]
    * [CellIdentifierProviding]
+* [Installation](#installation)
 
 Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift.
 
@@ -90,22 +93,43 @@ final public class DictionaryDataProvider<Object>: ArrayDataProviding {
 ```
 If you need full controll of your DataProvider implement `DataProviding`.
 
+Thirdparty Dataproviders:
+* [DBNetworkStack+Sourcing - NetworkDataProvider](https://github.com/dbsystel/DBNetworkStack-Sourcing)
+
 ## DataModificator
 DataModificator can handle modification caused by the user. If a user deletes a cell in the a TableView, DataModificator needs to handle the changes on the model side. If you do not provider a DataModificator to the DataSource, the views wont be editable. You create a custom DataModificator by implementing `DataModifying`
 
 ### ArrayDataModificator
 An ArrayDataProvider supports modifications out of the box.
-
 ```swift
 let trains: [Train] = //
 let dataProvider = ArrayDataProvider(rows: trains)
 let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider)
 ```
+## DataSource
+DataSources connect either UITablevView (TableViewDataSource) or UICollectionView(CollectionViewDataSource) with any given DataProvider.
 
+### TableViewDataSource
+```swift
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider, displaySectionIndexTitles: true)
+```
 
+### CollectionViewDataSource
+```swift
+let dataSource = CollectionViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider, displaySectionIndexTitles: true)
+```
 
-Thirdparty Dataproviders:
-* [DBNetworkStack+Sourcing - NetworkDataProvider](https://github.com/dbsystel/DBNetworkStack-Sourcing)
+### Multi Cell DataSources
+If you need to display diffrent kind of objects with different kind of cells, you cann do that too. DataSource looks up a matching cell for an object
+
+```swift
+let trainCell = //
+let statationCell = //
+let dataProvider: ArrayDataProvider<Any> = ArrayDataProvider(rows: [train, station])
+let dataSource = CollectionViewDataSource(tableView: tableView, dataProvider: dataProvider, anyCells: [trainCell, stationCell], dataModificator: dataProvider, displaySectionIndexTitles: true)
+```
+This works for CollectionViewDataSource as well.
+
 ## Requirements
 
 - iOS 9.3+
