@@ -46,7 +46,7 @@ let dataProvider = ArrayDataProvider(rows: trains)
 let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell)
 ```
 ## DataProvider
-A DataProvider encaupsulates you data. Use one of the given DataProviders or implement your own by implementing `DataProviding`.
+A DataProvider encaupsulates you data. Use one of the given DataProviders or implement `DataProviding` to create your own DataProvider.
 
 ### ArrayDataProvider
 `ArrayDataProvider<Element>` wraps  `Array<Element>` to an DataProvider.
@@ -66,7 +66,7 @@ let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchedR
 ```
 
 ### AnyDataProvider
-`AnyDataProvider<Element>` is a Type Erasers (http://chris.eidhof.nl/post/type-erasers-in-swift/) for DataProvider. This can be usefull if you want to put diffrent DataProvider in a Collection.
+`AnyDataProvider<Element>` is a Type Eraser (http://chris.eidhof.nl/post/type-erasers-in-swift/) for DataProvider. This can be usefull if you want to put diffrent DataProviders in a Container.
 
 ```swift
 let fetchedResultsDataProvider = FetchedResultsDataProvider<CDTrain>(fetchedResultsController: fetchedResultsController)
@@ -75,7 +75,7 @@ let dataProviders: [AnyDataProvider<CDTrain>] = [AnyDataProvider(fetchedResultsD
 ```
 
 ### Custom DataProvider
-If you want to implement a simple DataProvider implement the `ArrayDataProviding` like the following example
+If you want to create a simple DataProvider, implement the `ArrayDataProviding` like the following example
 ```swift
 final public class DictionaryDataProvider<Object>: ArrayDataProviding {
     public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
