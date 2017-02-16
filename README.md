@@ -6,7 +6,7 @@
 * [Quick Demo](#quick-demo)
 * [DataProvider](#dataprovider)
    * [ArrayDataProvider](#arraydataprovider)
-   * [FetchedresultsDataProvider](#fetchedresultsdataprovider)
+   * [FetchedResultsDataProvider](#fetchedresultsdataprovider)
    * [AnyDataProvider](#anydataprovider)
    * [Custom DataProvider](#custom-dataprovider)
 * [DataModificator]
@@ -89,6 +89,20 @@ final public class DictionaryDataProvider<Object>: ArrayDataProviding {
 }
 ```
 If you need full controll of your DataProvider implement `DataProviding`.
+
+## DataModificator
+DataModificator can handle modification caused by the user. If a user deletes a cell in the a TableView, DataModificator needs to handle the changes on the model side. If you do not provider a DataModificator to the DataSource, the views wont be editable. You create a custom DataModificator by implementing `DataModifying`
+
+### ArrayDataModificator
+An ArrayDataProvider supports modifications out of the box.
+
+```swift
+let trains: [Train] = //
+let dataProvider = ArrayDataProvider(rows: trains)
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider)
+```
+
+
 
 Thirdparty Dataproviders:
 * [DBNetworkStack+Sourcing - NetworkDataProvider](https://github.com/dbsystel/DBNetworkStack-Sourcing)
