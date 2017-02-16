@@ -21,7 +21,7 @@ class DataProvidingTests {
         let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
         dataProviderTest.validate()
         
-        let typeEarsedDataProviderTest = DataProvidingTester(dataProvider: AnyDataProvider(dataProvider: dataProvider), providerConfiguration: dataExpection)
+        let typeEarsedDataProviderTest = DataProvidingTester(dataProvider: AnyDataProvider(dataProvider), providerConfiguration: dataExpection)
         typeEarsedDataProviderTest.validate()
     }
 }
