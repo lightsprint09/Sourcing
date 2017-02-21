@@ -62,8 +62,8 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguartion: nil),
-                                           CellConfiguration<UITableViewCellMock<String>>(nib: nib, additionalConfiguartion: nil)]
+        let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguration: nil),
+                                           CellConfiguration<UITableViewCellMock<String>>(nib: nib, additionalConfiguration: nil)]
         
         //When
         let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cellConfig)
@@ -104,9 +104,9 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
 
     func testDequCells() {
         //Given
-        var didCallAdditionalConfiguartion = false
-        let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, additionalConfiguartion: { _, _ in
-            didCallAdditionalConfiguartion = true
+        var didCallAdditionalConfiguration = false
+        let cellConfig: [CellDequeable] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, additionalConfiguration: { _, _ in
+            didCallAdditionalConfiguration = true
         }), CellConfiguration<UITableViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let realTableView = UITableView()
         let mockCells = [cellIdentifier: UITableViewCellMock<Int>(), secondCellIdentifier: UITableViewCellMock<String>()]
@@ -121,7 +121,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         //Then
         let mockIntCell = tableViewMock.cellMocks[cellIdentifier] as! UITableViewCellMock<Int>
         let mockStringCell = tableViewMock.cellMocks[secondCellIdentifier] as! UITableViewCellMock<String>
-        XCTAssert(didCallAdditionalConfiguartion)
+        XCTAssert(didCallAdditionalConfiguration)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
         XCTAssertTrue(intCell is UITableViewCellMock<Int>)

@@ -42,10 +42,10 @@ public struct CellConfiguration<CellToConfigure: ConfigurableCell>: CellDequeabl
     private let cellConfiguration: BasicCellConfiguration<Cell, Object>
     
     public init(cellIdentifier: String, nib: UINib? = nil,
-                additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
+                additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
         cellConfiguration = BasicCellConfiguration(cellIdentifier: cellIdentifier, configuration: { object, cell in
             cell.configure(with: object)
-        }, nib: nib, additionalConfiguartion: additionalConfiguartion)
+        }, nib: nib, additionalConfiguration: additionalConfiguration)
     }
     
     public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
@@ -54,7 +54,7 @@ public struct CellConfiguration<CellToConfigure: ConfigurableCell>: CellDequeabl
 }
 
 extension CellConfiguration where CellToConfigure: CellIdentifierProviding {
-    public init(nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
+    public init(nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
     }
 }

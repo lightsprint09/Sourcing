@@ -32,20 +32,20 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellDequeab
     public let cellIdentifier: String
     public let nib: UINib?
     let configuration: (Object, Cell) -> Void
-    let additionalConfiguartion: ((Object, Cell) -> Void)?
+    let additionalConfiguration: ((Object, Cell) -> Void)?
     
     public init(cellIdentifier: String, configuration: @escaping (Object, Cell) -> Void,
-                nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
+                nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
         self.cellIdentifier = cellIdentifier
         self.configuration = configuration
         self.nib = nib
-        self.additionalConfiguartion = additionalConfiguartion
+        self.additionalConfiguration = additionalConfiguration
     }
     
     public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
         if let object = object as? Object, let cell = cell as? Cell {
             configuration(object, cell)
-            additionalConfiguartion?(object, cell)
+            additionalConfiguration?(object, cell)
         }
         return cell
     }
