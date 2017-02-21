@@ -28,9 +28,10 @@
 
 import Foundation
 
-/**
- `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`. It is generic over Object, which is the kind of data it provides.
- */
+public typealias ProcessUpdatesCallback<Object> = ([DataProviderUpdate<Object>]?) -> Void
+
+/// `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
+/// It is generic over Object, which is the kind of data it provides.
 public protocol DataProviding: class {
     /**
      Object is the kind of data `DataProviding` provides.
@@ -63,19 +64,22 @@ public protocol DataProviding: class {
      */
     var sectionIndexTitles: Array<String>? { get }
     
+    func prefetchItems(at indexPaths: [IndexPath])
     
-    /// Moves item from sourceIndexPath to the destinationIndexPath
-    ///
-    /// - Parameters:
-    ///   - sourceIndexPath: the sourceIndexPath
-    ///   - destinationIndexPath: the destinationIndexPath
-    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+    func cancelPrefetchingForItems(at indexPaths: [IndexPath])
+    
+    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+    /// **Warning:** Only set this when you are updating the datasource.
+    var whenDataProviderChanged: ProcessUpdatesCallback<Object>? { get set }
+    
 }
 
-extension DataProviding {
-    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-    }
+public extension DataProviding {
+    
+    func prefetchItems(at indexPaths: [IndexPath]) { }
+    
+    func cancelPrefetchingForItems(at indexPaths: [IndexPath]) { }
+
 }
 
 extension DataProviding where Object: Equatable {
@@ -100,4 +104,3 @@ extension DataProviding where Object: Equatable {
         return nil
     }
 }
-

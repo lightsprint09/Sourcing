@@ -30,8 +30,14 @@
  `StaticCellDequeable` provides a more static typed cell abstraction. See `CellDequeable` for basic information
  */
 public protocol StaticCellDequeable: CellDequeable {
-    associatedtype Object
-    associatedtype Cell: ConfigurableCell
     
-    func configureCellTypeSafe(_ cell: Cell, with object: Object) -> Cell
+    associatedtype Object
+    associatedtype Cell
+    
+}
+
+extension StaticCellDequeable {
+    public func canConfigureCell(with object: Any) -> Bool {
+        return object is Object
+    }
 }

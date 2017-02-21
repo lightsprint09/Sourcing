@@ -1,70 +1,90 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a
-//  copy of this software and associated documentation files (the "Software"),
-//  to deal in the Software without restriction, including without limitation
-//  the rights to use, copy, modify, merge, publish, distribute, sublicense,
-//  and/or sell copies of the Software, and to permit persons to whom the
-//  Software is furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-//  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-//  DEALINGS IN THE SOFTWARE.
-//
-//
-//  TableViewDataSource.swift
+//  ExperimentalTableCollectionViewDataSource.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 23.12.16.
+//  Copyright © 2016 Lukas Schmidt. All rights reserved.
 //
 
-import UIKit
-
-
+import Foundation
 
 /// Generic DataSoruce providing data to a tableview.
-final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: StaticCellDequeable>: NSObject, TableViewDataSourcing
-    where CellConfig.Object == DataProvider.Object, CellConfig.Cell.DataSource == DataProvider.Object, CellConfig.Cell: UITableViewCell {
+final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
-    public let dataProvider: DataProvider
+    public let dataProvider: AnyDataProvider<Object>
+    public let dataModificator: DataModifying?
     public var tableView: TableViewRepresenting {
         didSet {
             tableView.dataSource = self
             tableView.reloadData()
         }
     }
-    private let cellDequable: CellConfig
-    private let canMoveItems: Bool
+    private let cells: Array<CellDequeable>
+    public var displaySectionIndexTitles: Bool
     
-    public required init(tableView: TableViewRepresenting, dataProvider: DataProvider, cellDequable: CellConfig, canMoveItems: Bool = false) {
+    public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
+                anyCells: Array<CellDequeable>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                where TypedDataProvider.Object == Object {
         self.tableView = tableView
-        self.dataProvider = dataProvider
-        self.cellDequable = cellDequable
-        self.canMoveItems = canMoveItems
+        self.dataProvider = AnyDataProvider(dataProvider)
+        self.dataModificator = dataModificator
+        self.cells = anyCells
+        self.displaySectionIndexTitles = displaySectionIndexTitles
         super.init()
-        registerNib()
+        dataProvider.whenDataProviderChanged = { [weak self] updates in
+            self?.process(updates: updates)
+        }
+        register(cells: cells)
         tableView.dataSource = self
+        if #available(iOS 10.0, *) {
+            tableView.prefetchDataSource = self
+        }
         tableView.reloadData()
     }
     
-    public func update(_ cell: UITableViewCell, with object: DataProvider.Object) {
-        guard let realCell = cell as? CellConfig.Cell else {
-            fatalError("Wrong Cell type. Expects \(CellConfig.Cell.self) but got \(type(of: cell))")
+    private func register(cells: Array<CellDequeable>) {
+        for cell in cells where cell.nib != nil {
+            tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
         }
-        let _ = cellDequable.configureCellTypeSafe(realCell, with: object)
     }
     
-    private func registerNib() {
-        guard let nib = cellDequable.nib else { return }
-        tableView.registerNib(nib, forCellReuseIdentifier: cellDequable.cellIdentifier)
+    private func cellDequeableForIndexPath(_ object: Object) -> CellDequeable? {
+        return cells.first(where: { $0.canConfigureCell(with: object) })
+    }
+    
+    public func process(updates: [DataProviderUpdate<Object>]?) {
+        guard let updates = updates else {
+            return tableView.reloadData()
+        }
+        tableView.beginUpdates()
+        updates.forEach(process)
+        tableView.endUpdates()
+    }
+    
+    func process(update: DataProviderUpdate<Object>) {
+        switch update {
+        case .insert(let indexPath):
+            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+        case .update(let indexPath, _):
+            tableView.reloadRows(at: [indexPath], with: .none)
+        case .move(let indexPath, let newIndexPath):
+            tableView.moveRow(at: indexPath, to: newIndexPath)
+        case .delete(let indexPath):
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+        case .insertSection(let sectionIndex):
+            tableView.insertSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+        case .deleteSection(let sectionIndex):
+            tableView.deleteSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+        case .moveSection(let indexPath, let newIndexPath):
+            tableView.moveSection(indexPath, toSection: newIndexPath)
+        }
+    }
+    
+    public var selectedObject: Object? {
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return nil
+        }
+        return dataProvider.object(at: indexPath)
     }
     
     // MARK: UITableViewDataSource
@@ -79,23 +99,75 @@ final public class TableViewDataSource<DataProvider: DataProviding, CellConfig: 
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = dataProvider.object(at: indexPath)
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequable.cellIdentifier, forIndexPath: indexPath)
-        update(cell, with: object)
+        guard let cellDequeable = cellDequeableForIndexPath(object) else {
+            fatalError("Unexpected cell type at \(indexPath) for object of type")
+        }
+        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        cellDequeable.configure(cell, with: object)
         
         return cell
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-         return dataProvider.sectionIndexTitles
+        return displaySectionIndexTitles ? dataProvider.sectionIndexTitles : nil
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let count = dataProvider.sectionIndexTitles?.count ?? -1
+        if section == 0 && count == 0 {
+            return nil
+        }
+        if section > count {
+            return nil
+        } else {
+            return dataProvider.sectionIndexTitles?[section]
+        }
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return canMoveItems
+        return dataModificator?.canMoveItem(at: indexPath) ?? false
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, causedByUserInteraction: true)
     }
+    
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return dataModificator?.canDeleteItem(at: indexPath) ?? false
+    }
+    
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if let dataModificator = dataModificator, editingStyle == .delete {
+            dataModificator.deleteItem(at: indexPath, causedByUserInteraction: true)
+        }
+    }
+    
+    // MARK: UITableViewDataSourcePrefetching
+    
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        dataProvider.prefetchItems(at: indexPaths)
+    }
+    
+    public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        dataProvider.cancelPrefetchingForItems(at: indexPaths)
+    }
+
 }
 
+// MARK: Typesafe initializers
 
+public extension TableViewDataSource {
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
+                     dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+        where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
+            let typeErasedDataProvider = AnyDataProvider(dataProvider)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+    }
+    
+    convenience init<CellConfig: StaticCellDequeable, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
+                     dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+        where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
+            let typeErasedDataProvider = AnyDataProvider(dataProvider)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+    }
+}

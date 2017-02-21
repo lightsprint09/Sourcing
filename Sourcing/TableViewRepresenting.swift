@@ -33,6 +33,8 @@ import Foundation
  */
 public protocol TableViewRepresenting: class {
     var dataSource: UITableViewDataSource? { get set }
+    @available(iOS 10.0, *)
+    var prefetchDataSource: UITableViewDataSourcePrefetching? { get set }
     var indexPathForSelectedRow: IndexPath? { get }
     
     func reloadData()
@@ -46,10 +48,12 @@ public protocol TableViewRepresenting: class {
     
     func insertRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation)
     func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation)
+    func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath)
+    func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation)
     
     func deleteSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation)
     func insertSections(_ sections: IndexSet, withRowAnimation: UITableViewRowAnimation)
-    
+    func moveSection(_ section: Int, toSection newSection: Int)
     
     func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell?
     

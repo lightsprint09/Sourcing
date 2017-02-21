@@ -20,34 +20,29 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderMock.swift
+//  x.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 10.01.17.
+//  Created by Lukas Schmidt on 24.01.17.
 //
 
-import Foundation
-import Sourcing
+import CoreData
 
-/**
- `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
- */
-open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: (([DataProviderUpdate<Object>]?) -> Void)?
-
-    fileprivate(set) open var data: [[Object]] = [[]]
-    public let sectionIndexTitles: [String]? = []
+public class NSFetchedResultsSectionInfoMock: NSFetchedResultsSectionInfo {
     
-    var prefetchedIndexPaths: [IndexPath]?
-    var canceledPrefetchedIndexPaths: [IndexPath]?
-
-    public func prefetchItems(at indexPaths: [IndexPath]) {
-        prefetchedIndexPaths = indexPaths
-    }
+    /* Name of the section
+     */
+    public var name: String = ""
     
-    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
-        canceledPrefetchedIndexPaths = indexPaths
-    }
+    /* Title of the section (used when displaying the index)
+     */
+    public var indexTitle: String? = ""
+    
+    /* Number of objects in section
+     */
+    public var numberOfObjects: Int = 0
+    
+    /* Returns the array of objects in the section.
+     */
+    public var objects: [Any]? = nil
 }

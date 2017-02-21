@@ -36,4 +36,5 @@ public enum DataProviderUpdate<Object> {
     
     case insertSection(Int)
     case deleteSection(Int)
+    case moveSection(Int, Int)
 }
