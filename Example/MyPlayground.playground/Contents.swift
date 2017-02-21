@@ -11,30 +11,25 @@ struct Train {
 
 class TrainCell: UITableViewCell, ConfigurableCell {
     typealias DataSource = Train
-    
-    func configure(with noteBook: DataSource) {
-        self.textLabel?.text = noteBook.title
+    func configure(with train: DataSource) {
+        self.textLabel?.text = train.title
     }
 }
 
 class TableViewController: UITableViewController {
-    typealias DataProvider = ArrayDataProvider<Train>
-    typealias CellConfig = CellConfiguration<TrainCell>
-    let trainCellConfiguration = CellConfig(cellIdentifier: "TrainCell")
-    var dataProvider: DataProvider!
-    var dataSource: TableViewDataSource<DataProvider, CellConfig>!
+    let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "TrainCell")
+    var dataProvider: ArrayDataProvider<Train>!
+    var dataSource: TableViewDataSource<Train>!
     var trains: Array<Train> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       tableView.register(TrainCell.self, forCellReuseIdentifier: "TrainCell")
-        for i in 0..<6 {
+        tableView.register(TrainCell.self, forCellReuseIdentifier: "TrainCell")
+        for i in 0..<20 {
             trains.append(Train(id: "ID\(i)", title: "Train \(i)"))
         }
-        dataProvider = ArrayDataProvider(rows: trains, dataProviderDidUpdate: { [weak self] updates in
-            self?.dataSource.processUpdates(updates)
-        })
-        dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: trainCellConfiguration)
+        dataProvider = ArrayDataProvider(rows: trains)
+        dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCellConfiguration)
     }
 }
 
