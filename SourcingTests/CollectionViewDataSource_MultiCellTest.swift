@@ -103,10 +103,10 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
 
     func testDequCells() {
         //Given
-        var didCallAdditionalConfiguartion = false
+        var didCallAdditionalConfiguration = false
         let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil,
-                                                                                           additionalConfiguartion: { _, _ in
-            didCallAdditionalConfiguartion = true
+                                                                                           additionalConfiguration: { _, _ in
+            didCallAdditionalConfiguration = true
         }), CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [cellIdentifier: UICollectionViewCellMock<Int>(),
@@ -120,7 +120,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         //Then
         let mockIntCell = collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>
         let mockStringCell = collectionViewMock.cellMocks[secondCellIdentifier] as! UICollectionViewCellMock<String>
-        XCTAssert(didCallAdditionalConfiguartion)
+        XCTAssert(didCallAdditionalConfiguration)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
         XCTAssertTrue(intCell is UICollectionViewCellMock<Int>)
