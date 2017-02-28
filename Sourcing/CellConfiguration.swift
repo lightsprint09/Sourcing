@@ -28,33 +28,4 @@
 
 import UIKit
 
-public struct CellConfiguration<CellToConfigure: ConfigurableCell>: CellDequeable, StaticCellDequeable {
-    public typealias Cell = CellToConfigure
-    public typealias Object = CellToConfigure.DataSource
-    
-    public var cellIdentifier: String {
-        return cellConfiguration.cellIdentifier
-    }
-    public var nib: UINib? {
-        return cellConfiguration.nib
-    }
-    
-    private let cellConfiguration: BasicCellConfiguration<Cell, Object>
-    
-    public init(cellIdentifier: String, nib: UINib? = nil,
-                additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
-        cellConfiguration = BasicCellConfiguration(cellIdentifier: cellIdentifier, configuration: { object, cell in
-            cell.configure(with: object)
-        }, nib: nib, additionalConfiguartion: additionalConfiguartion)
-    }
-    
-    public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
-        return cellConfiguration.configure(cell, with: object)
-    }
-}
-
-extension CellConfiguration where CellToConfigure: CellIdentifierProviding {
-    public init(nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
-    }
-}
+public typealias CellConfiguration<Cell: ConfigurableCell> = BasicCellConfiguration<Cell, Cell.DataSource>

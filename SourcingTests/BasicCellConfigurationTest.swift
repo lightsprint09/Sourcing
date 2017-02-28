@@ -30,7 +30,7 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
-class CellConfigurationTest: XCTestCase {
+class BasicCellConfigurationTest: XCTestCase {
     
     let nib = UINib(data: Data(), bundle: nil)
     var configuration: CellConfiguration<UITableViewCellMock<Int>>!
@@ -84,6 +84,19 @@ class CellConfigurationTest: XCTestCase {
         
         //Then
         XCTAssert(configuration.canConfigureCell(with: 1))
+    }
+    
+    
+    
+    func testBasicCanConfigureInit() {
+        //Given
+        class BasicCell: CellIdentifierProviding {
+            static var cellIdentifier = "cellIdentifier"
+        }
+        let configuration = BasicCellConfiguration<BasicCell, String>(configuration: { _, _ in })
+        
+        //Then
+        XCTAssertEqual(configuration.cellIdentifier, "cellIdentifier")
     }
 
 }

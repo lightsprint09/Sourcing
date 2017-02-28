@@ -42,7 +42,7 @@
 		C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */; };
 		C68BCBC31D5A1AEC00C5E720 /* TableViewRepresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC21D5A1AEC00C5E720 /* TableViewRepresenting.swift */; };
 		C68BCBC61D5A1DE100C5E720 /* UITableViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */; };
-		C68BCBCC1D5B048200C5E720 /* CellConfigurationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBCB1D5B048200C5E720 /* CellConfigurationTest.swift */; };
+		C68BCBCC1D5B048200C5E720 /* BasicCellConfigurationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */; };
 		C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */; };
 		C6F913181D506BC800B0535C /* DataProviderUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913171D506BC800B0535C /* DataProviderUpdate.swift */; };
 		C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913191D506C1200B0535C /* StaticCellDequeable.swift */; };
@@ -98,7 +98,7 @@
 		C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderTest.swift; sourceTree = "<group>"; };
 		C68BCBC21D5A1AEC00C5E720 /* TableViewRepresenting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewRepresenting.swift; sourceTree = "<group>"; };
 		C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewMock.swift; sourceTree = "<group>"; };
-		C68BCBCB1D5B048200C5E720 /* CellConfigurationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfigurationTest.swift; sourceTree = "<group>"; };
+		C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCellConfigurationTest.swift; sourceTree = "<group>"; };
 		C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource_MultiCellTest.swift; sourceTree = "<group>"; };
 		C6F913171D506BC800B0535C /* DataProviderUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderUpdate.swift; sourceTree = "<group>"; };
 		C6F913191D506C1200B0535C /* StaticCellDequeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticCellDequeable.swift; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 				C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */,
 				C60BE64D1D6B21DC006B0364 /* CollectionViewDataSource_SingleCellTest.swift */,
 				C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */,
-				C68BCBCB1D5B048200C5E720 /* CellConfigurationTest.swift */,
+				C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */,
 				94EBCFCD1E1A4A4B00184FD5 /* DataProviderTests.swift */,
 				94C903261E1D206200C0C56A /* FetchedResultsDataProviderTests.swift */,
 				C687C1BC1E378FDC0089F561 /* CellIdentifierProvidingTest.swift */,
@@ -267,7 +267,6 @@
 				9432D24B1CF5ABC300B72986 /* Frameworks */,
 				9432D24C1CF5ABC300B72986 /* Headers */,
 				9432D24D1CF5ABC300B72986 /* Resources */,
-				94120D551E2375D0002F5CB5 /* 🚧SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -351,23 +350,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		94120D561E23763A002F5CB5 /* 🚧SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "🚧SwiftLint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		9432D24A1CF5ABC300B72986 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -408,7 +390,7 @@
 				94C9032D1E1D20E500C0C56A /* CDTrain.swift in Sources */,
 				C687C1BB1E378E940089F561 /* UICollectionViewCellMock.swift in Sources */,
 				C687C1BD1E378FDC0089F561 /* CellIdentifierProvidingTest.swift in Sources */,
-				C68BCBCC1D5B048200C5E720 /* CellConfigurationTest.swift in Sources */,
+				C68BCBCC1D5B048200C5E720 /* BasicCellConfigurationTest.swift in Sources */,
 				94C9032C1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift in Sources */,
 				C687C1B91E378E490089F561 /* UITableViewCellMock.swift in Sources */,
 				94C903291E1D20D300C0C56A /* DataModel.xcdatamodel in Sources */,
