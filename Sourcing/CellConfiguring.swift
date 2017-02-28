@@ -20,7 +20,7 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  CellDequeable.swift
+//  CellConfiguring.swift
 //  Sourcing
 //
 //  Created by Lukas Schmidt on 02.08.16.
@@ -28,12 +28,12 @@
 import UIKit
 
 /**
-`CellDequeable` provides functionality to register the a nib to the TableView or Collection with a given cellIdentifier. 
+`CellConfiguring` provides functionality to register the a nib to the TableView or Collection with a given cellIdentifier. 
  When no nib is provided the default storyboard cell implementation is used.
  
- `CellDequeable` is loosly typed, for useage in dynamic Collection/TableViews. Use `StaticCellDequeable` when possible for more compiler support
+ `CellConfiguring` is loosly typed, for useage in dynamic Collection/TableViews. Use `StaticCellConfiguring` when possible for more compiler support
 */
-public protocol CellDequeable {
+public protocol CellConfiguring {
     var cellIdentifier: String { get }
     var nib: UINib? { get }
     

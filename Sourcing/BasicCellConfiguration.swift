@@ -25,7 +25,7 @@
 
 import UIKit
 
-public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellDequeable, StaticCellDequeable {
+public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfiguring, StaticCellConfiguring {
     public typealias Cell = CellToConfigure
     public typealias Object = ObjectOfCell
     
@@ -49,17 +49,17 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellDequeab
 }
 
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
-    public init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
+    public init(cellIdentifier: String, nib: UINib? = nil, additionalConfigurtion: ((Object, Cell) -> Void)? = nil) {
         self.init(cellIdentifier: cellIdentifier, configuration: { object, cell in
             cell.configure(with: object)
-            additionalConfiguartion?(object, cell)
+            additionalConfigurtion?(object, cell)
         }, nib: nib)
     }
 }
 
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & CellIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
-    public init(nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
+    public init(nib: UINib? = nil, additionalConfigurtion: ((Object, Cell) -> Void)? = nil) {
+        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfigurtion: additionalConfigurtion)
     }
 }
 

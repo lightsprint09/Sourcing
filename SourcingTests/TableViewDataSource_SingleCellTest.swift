@@ -98,9 +98,9 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDequCells() {
         //Given
-        var didCallAdditionalConfiguartion = false
-        let cell = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion: { _, _ in
-            didCallAdditionalConfiguartion = true
+        var didCallAdditionalConfigurtion = false
+        let cell = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfigurtion: { _, _ in
+            didCallAdditionalConfigurtion = true
         })
         let realTableView = UITableView()
         
@@ -114,7 +114,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(UITableViewCellMock.configuredObject, 10)
         XCTAssertEqual(tableViewMock.lastUsedReuseIdetifiers.first, cellIdentifier)
         XCTAssertTrue(cellForGivenRow is UITableViewCellMock<Int>)
-        XCTAssertTrue(didCallAdditionalConfiguartion)
+        XCTAssertTrue(didCallAdditionalConfigurtion)
     }
     
     func testUpdateDataSourceWithNoData() {

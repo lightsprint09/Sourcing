@@ -61,7 +61,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib),
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib),
                           CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier, nib: nib)]
         
         //When
@@ -75,7 +75,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
     
     func testNumberOfSections() {
         //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
                           CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
@@ -89,7 +89,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
                           CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
@@ -103,10 +103,10 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
 
     func testDequCells() {
         //Given
-        var didCallAdditionalConfiguartion = false
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil,
-                                                                                           additionalConfiguartion: { _, _ in
-            didCallAdditionalConfiguartion = true
+        var didCallAdditionalConfigurtion = false
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil,
+                                                                                           additionalConfigurtion: { _, _ in
+            didCallAdditionalConfigurtion = true
         }), CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [cellIdentifier: UICollectionViewCellMock<Int>(),
@@ -120,7 +120,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         //Then
         let mockIntCell = collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>
         let mockStringCell = collectionViewMock.cellMocks[secondCellIdentifier] as! UICollectionViewCellMock<String>
-        XCTAssert(didCallAdditionalConfiguartion)
+        XCTAssert(didCallAdditionalConfigurtion)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
         XCTAssertTrue(intCell is UICollectionViewCellMock<Int>)
@@ -132,7 +132,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
 
     func testUpdateDataSourceWithNoData() {
         //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
@@ -144,7 +144,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
     
     func testSetNewCollectionView() {
         //Given
-        let cellConfig: [CellDequeable] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
         let collectionViewMock = UICollectionViewMock()
         let secondCollectionViewMock = UICollectionViewMock()
         

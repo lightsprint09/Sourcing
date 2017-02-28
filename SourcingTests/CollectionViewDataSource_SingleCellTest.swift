@@ -100,9 +100,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testDequCells() {
         //Given
-        var didCallAdditionalConfiguartion = false
-        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguartion: { _, _ in
-            didCallAdditionalConfiguartion = true
+        var didCallAdditionalConfigurtion = false
+        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfigurtion: { _, _ in
+            didCallAdditionalConfigurtion = true
         })
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
@@ -116,7 +116,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(mockCell.configuredObject, 10)
         XCTAssertEqual(collectionViewMock.lastUsedReuseIdetifiers.first, cellIdentifier)
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
-        XCTAssertTrue(didCallAdditionalConfiguartion)
+        XCTAssertTrue(didCallAdditionalConfigurtion)
     }
 
     func testUpdateDataSourceWithNoData() {
