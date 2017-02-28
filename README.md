@@ -122,6 +122,37 @@ let dataSource = CollectionViewDataSource(tableView: tableView, dataProvider: da
 ### Multi Cell DataSources
 If you need to display diffrent kind of objects with different kind of cells, you cann do that too. DataSource looks up a matching cell for an object
 
+## Cells
+For each cell you want to display you need a CellConfiguration. A configuration is a type object which sets up all elements on your custom cell or delegates the setup to the cell itself. Use `BasicCellConfiguration`, `CellConfiguration` or implement your own configuration by using `StaticCellConfiguring`.
+
+### BasicCellConfiguration
+`BasicCellConfiguration` gives you a lot of freedom how to configure your cell. You can provide custom cellIdentifier, nib and a block to configure your cell. If you do not provide a nib, it will use a already regsiterd cell from the storyboard. 
+```swift
+let cellConfiguration: BasicCellConfiguration<TrainCell, Train> = BasicCellConfiguration(cellIdentifier: "TrainCell", configuration: { cell, train in 
+   cell.trainNameLabel.text = train.name
+   //...
+})
+```
+
+### ConfigurableCell & CellConfiguration
+A common pattern is to delegate configuration of a cell to the cell itself. If you are using this pattern, then your cell can implement `ConfigurableCell`. You can then use the configuration provided by the cell as configuration block.
+```swift
+extension TrainCell: ConfigurableCell {
+    func configure(with train: Train) {
+       trainNameLabel.text = train.name
+    }
+}
+let cellConfiguration: CellConfiguration<TrainCell> = CellConfiguration(cellIdentifier: "TrainCell")
+// CellConfiguration is just a generic typealias around BasicCellConfiguration
+```
+
+If you need to pass additional setup to your cell, which is not contained in your model object, you can use the following:
+```swift
+let cellConfiguration: CellConfiguration<TrainCell> = CellConfiguration(cellIdentifier: "TrainCell", additionalConfigurtion: { cell, train in 
+    // cell.setYourAdditionalState
+})
+```
+
 ```swift
 let trainCell = //
 let statationCell = //
