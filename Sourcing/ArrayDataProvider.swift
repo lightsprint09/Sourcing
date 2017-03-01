@@ -42,8 +42,8 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
     
     open var sectionIndexTitles: [String]?
    
-    var canMoveItems: Bool = false
-    var canDeleteItems: Bool = false
+    public var canMoveItems: Bool = false
+    public var canDeleteItems: Bool = false
     
     // MARK: Initializers
     
@@ -78,10 +78,10 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
      
      - parameter array: flat array.
      - parameter updates: diff of the new data.
-     - parameter causedByUserInteraction: flag if the changes are caused by a user
+     - parameter triggerdByTableView: flag if the change of data is already set in the TableView.
     */
-    public func reconfigure(with array: [Object], updates: [DataProviderUpdate<Object>]? = nil, causedByUserInteraction: Bool = false) {
-        reconfigure(with: [array], updates: updates, causedByUserInteraction: causedByUserInteraction)
+    public func reconfigure(with array: [Object], updates: [DataProviderUpdate<Object>]? = nil, triggerdByTableView: Bool = false) {
+        reconfigure(with: [array], updates: updates, triggerdByTableView: triggerdByTableView)
     }
     
     /**
@@ -89,11 +89,11 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
      
      - parameter array: 2D array.
      - parameter updates: diff of the new data.
-     - parameter causedByUserInteraction: flag if the changes are caused by a user.
+     - parameter triggerdByTableView: flag if the change of data is already set in the TableView..
      */
-    public func reconfigure(with array: [[Object]], updates: [DataProviderUpdate<Object>]? = nil, causedByUserInteraction: Bool = false) {
+    public func reconfigure(with array: [[Object]], updates: [DataProviderUpdate<Object>]? = nil, triggerdByTableView: Bool = false) {
         self.data = array
-        if !causedByUserInteraction {
+        if !triggerdByTableView {
            dataProviderDidChangeContets(with: updates)
         }
     }
@@ -115,12 +115,12 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
      - parameter sourceIndexPath: original indexPath.
      - parameter destinationIndexPath: destination indexPath.
      */
-    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, causedByUserInteraction: Bool) {
+    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, triggerdByTableView: Bool) {
         let soureElement = object(at: sourceIndexPath)
         data[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         data[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Object>.move(sourceIndexPath, destinationIndexPath)
-        if !causedByUserInteraction {
+        if !triggerdByTableView {
             dataProviderDidChangeContets(with: [update])
         }
     }
@@ -129,9 +129,9 @@ open class ArrayDataProvider<Object>: ArrayDataProviding, DataModifying {
         return canDeleteItems
     }
     
-    open func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool) {
+    open func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool) {
         data[indexPath.section].remove(at: indexPath.item)
-        if !causedByUserInteraction {
+        if !triggerdByTableView {
             dataProviderDidChangeContets(with: [.delete(indexPath)])
         }
     }

@@ -34,11 +34,13 @@ public protocol DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: the sourceIndexPath
     ///   - destinationIndexPath: the destinationIndexPath
-    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, causedByUserInteraction: Bool)
+    ///   - triggerdByTableView: pass `tru`e if the action was triggert by TableView delegate and the state of
+    ///     the tableView is already updated
+    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, triggerdByTableView: Bool)
     
     func canMoveItem(at indexPath: IndexPath) -> Bool
     
-    func deleteItem(at indexPath: IndexPath, causedByUserInteraction: Bool)
+    func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool)
     
     func canDeleteItem(at indexPath: IndexPath) -> Bool
 }
