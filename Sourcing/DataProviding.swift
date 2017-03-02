@@ -36,14 +36,14 @@ public protocol DataProviding: class {
     /**
      Object is the kind of data `DataProviding` provides.
      */
-    associatedtype Object
+    associatedtype Element
     
     /**
      Returns the object for a given indexPath.
      
      - parameter indexPath: the indexPath
      */
-    func object(at indexPath: IndexPath) -> Object
+    func object(at indexPath: IndexPath) -> Element
     
     /**
      Returns number of items for a given section.
@@ -62,7 +62,9 @@ public protocol DataProviding: class {
     /**
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
-    var sectionIndexTitles: Array<String>? { get }
+    var sectionIndexTitles: [String]? { get }
+    
+    var headerTitles: [String]? { get }
     
     func prefetchItems(at indexPaths: [IndexPath])
     
@@ -70,8 +72,14 @@ public protocol DataProviding: class {
     
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
-    var whenDataProviderChanged: ProcessUpdatesCallback<Object>? { get set }
+    var whenDataProviderChanged: ProcessUpdatesCallback<Element>? { get set }
     
+}
+
+public extension DataProviding {
+    var sectionIndexTitles: [String]? { return nil }
+    
+    var headerTitles: [String]? { return nil }
 }
 
 public extension DataProviding {
@@ -82,7 +90,7 @@ public extension DataProviding {
 
 }
 
-extension DataProviding where Object: Equatable {
+extension DataProviding where Element: Equatable {
     
     /**
      Returns the indexPath for a given object.
@@ -90,7 +98,7 @@ extension DataProviding where Object: Equatable {
      - parameter object: the object you want the indexPath for.
      - return: the indexPath of the object, if available.
      */
-    public func indexPath(for object: Object) -> IndexPath? {
+    public func indexPath(for object: Element) -> IndexPath? {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)

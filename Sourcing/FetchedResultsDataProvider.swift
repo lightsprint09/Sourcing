@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
  
-public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
+open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
     public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
@@ -18,7 +18,11 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     var updates: [DataProviderUpdate<Object>] = []
     
-    public var sectionIndexTitles: Array<String>? {
+    open var sectionIndexTitles: Array<String>? {
+        return fetchedResultsController.sectionIndexTitles
+    }
+    
+    open var headerTitles: [String]? {
         return fetchedResultsController.sectionIndexTitles
     }
     
@@ -55,7 +59,6 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     // MARK: NSFetchedResultsControllerDelegate
-    
     public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updates = []
     }

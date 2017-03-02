@@ -8,27 +8,28 @@
 
 import Foundation
 
-final public class AnyDataProvider<Object>: DataProviding {
+final public class AnyDataProvider<Element>: DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>? {
+    public var whenDataProviderChanged: ProcessUpdatesCallback<Element>? {
         didSet {
             setwhenDataProviderChanged(whenDataProviderChanged)
         }
     }
 
-    private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Object
+    private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Element
     private let numberOfItems: (_ inSextion: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
     
     private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
     private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
     
-    private let setwhenDataProviderChanged: (ProcessUpdatesCallback<Object>?) -> Void
+    private let setwhenDataProviderChanged: (ProcessUpdatesCallback<Element>?) -> Void
     
-    public let sectionIndexTitles: Array<String>?
+    public let sectionIndexTitles: [String]?
+    public let headerTitles: [String]?
     
-    public init<DataProvider: DataProviding>(_ dataProvider: DataProvider) where Object == DataProvider.Object {
+    public init<DataProvider: DataProviding>(_ dataProvider: DataProvider) where Element == DataProvider.Element {
         objectAtIndexPath = { indexPath in
             return dataProvider.object(at: indexPath)
         }
@@ -45,12 +46,13 @@ final public class AnyDataProvider<Object>: DataProviding {
             dataProvider.cancelPrefetchingForItems(at: indexPaths)
         }
         sectionIndexTitles = dataProvider.sectionIndexTitles
+        headerTitles = dataProvider.headerTitles
         setwhenDataProviderChanged = { whenDataProviderChanged in
             dataProvider.whenDataProviderChanged = whenDataProviderChanged
         }
     }
     
-    public func object(at indexPath: IndexPath) -> Object {
+    public func object(at indexPath: IndexPath) -> Element {
         return objectAtIndexPath(indexPath)
     }
     

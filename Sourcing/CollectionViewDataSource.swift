@@ -42,7 +42,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
                 anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil)
-        where DataProvider.Object == Object {
+        where DataProvider.Element == Object {
             self.collectionView = collectionView
             self.dataProvider = AnyDataProvider(dataProvider)
             self.cells = anyCells
@@ -155,14 +155,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
                      dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
-        where DataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
+        where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
     convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
                      dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
-        where DataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
+        where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }

@@ -37,7 +37,7 @@ open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
     /// **Warning:** Only set this when you are updating the datasource.
     public var whenDataProviderChanged: (([DataProviderUpdate<Object>]?) -> Void)?
 
-    fileprivate(set) open var data: [[Object]] = [[]]
+    fileprivate(set) open var contents: [[Object]] = [[]]
     public let sectionIndexTitles: [String]? = []
     
     var prefetchedIndexPaths: [IndexPath]?

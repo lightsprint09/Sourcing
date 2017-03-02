@@ -379,6 +379,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]], headerTitles: ["foo", "bar"])
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
         
         //When

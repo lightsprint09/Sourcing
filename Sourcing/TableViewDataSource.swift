@@ -24,7 +24,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
                 anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
-                where TypedDataProvider.Object == Object {
+                where TypedDataProvider.Element == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
@@ -113,14 +113,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let count = dataProvider.sectionIndexTitles?.count ?? -1
+        let count = dataProvider.headerTitles?.count ?? -1
         if section == 0 && count == 0 {
             return nil
         }
         if section > count {
             return nil
         } else {
-            return dataProvider.sectionIndexTitles?[section]
+            return dataProvider.headerTitles?[section]
         }
     }
     
@@ -159,14 +159,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
-        where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
+        where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
     
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
-        where TypedDataProvider.Object == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
+        where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
