@@ -33,8 +33,7 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
     public let nib: UINib?
     public let configuration: (Object, Cell) -> Void
     
-    public init(cellIdentifier: String, configuration: @escaping (Object, Cell) -> Void,
-                nib: UINib? = nil) {
+    public init(cellIdentifier: String, configuration: @escaping (Object, Cell) -> Void, nib: UINib? = nil) {
         self.cellIdentifier = cellIdentifier
         self.configuration = configuration
         self.nib = nib

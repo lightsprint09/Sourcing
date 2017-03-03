@@ -91,14 +91,14 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      */
     public func reconfigure(with array: [[Element]], updates: [DataProviderUpdate<Element>]? = nil, triggerdByTableView: Bool = false) {
         self.contents = array
-        if !triggerdByTableView {
-           dataProviderDidChangeContets(with: updates)
-        }
+        dataProviderDidChangeContets(with: updates, triggerdByTableView: triggerdByTableView)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Element>]?) {
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Element>]?, triggerdByTableView: Bool = false) {
+        if !triggerdByTableView {
+            whenDataProviderChanged?(updates)
+        }
         dataProviderDidUpdate?(updates)
-        whenDataProviderChanged?(updates)
     }
     
     // MARK: Data Modification
@@ -118,9 +118,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
         contents[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         contents[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Element>.move(sourceIndexPath, destinationIndexPath)
-        if !triggerdByTableView {
-            dataProviderDidChangeContets(with: [update])
-        }
+        dataProviderDidChangeContets(with: [update], triggerdByTableView: triggerdByTableView)
     }
     
     open func canDeleteItem(at indexPath: IndexPath) -> Bool {
@@ -129,9 +127,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
     
     open func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool = false) {
         contents[indexPath.section].remove(at: indexPath.item)
-        if !triggerdByTableView {
-            dataProviderDidChangeContets(with: [.delete(indexPath)])
-        }
+        dataProviderDidChangeContets(with: [.delete(indexPath)], triggerdByTableView: triggerdByTableView)
     }
     
 }

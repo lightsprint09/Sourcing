@@ -22,10 +22,6 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         return fetchedResultsController.sectionIndexTitles
     }
     
-    open var headerTitles: [String]? {
-        return fetchedResultsController.sectionIndexTitles
-    }
-    
     public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate
@@ -99,9 +95,11 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         dataProviderDidChangeContets(with: updates)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?) {
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {
+        if !triggerdByTableView {
+            whenDataProviderChanged?(updates)
+        }
         dataProviderDidUpdate?(updates)
-        whenDataProviderChanged?(updates)
     }
 
 }

@@ -58,7 +58,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchReuqest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
-                                                              sectionNameKeyPath: nil, cacheName: nil)
+                                                              sectionNameKeyPath: "name", cacheName: nil)
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
     }
     
@@ -200,6 +200,22 @@ class FetchedResultsDataProviderTests: XCTestCase {
         XCTAssert(didUpdateNotification)
         XCTAssert(didUpdateDataSource)
     }
+    
+    func testWillChangeContent() {
+        //Given
+        let oldIndexPath = IndexPath(row: 0, section: 0)
+        let newIndexPath = IndexPath(row: 1, section: 0)
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+        XCTAssert(!dataProvider.updates.isEmpty)
+        
+        //When
+        dataProvider.controllerWillChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        
+        //Then
+         XCTAssert(dataProvider.updates.isEmpty)
+       
+    }
 
     func testHandleDelete() {
         //Given
@@ -216,5 +232,14 @@ class FetchedResultsDataProviderTests: XCTestCase {
         } else {
             XCTFail()
         }
+    }
+    
+    func testSectionIndexTitles() {
+        
+        //When
+        let sectionIndex = dataProvider.sectionIndexTitles
+        
+        //Then
+        XCTAssertEqual(sectionIndex!, ["I"])
     }
 }

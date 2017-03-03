@@ -33,15 +33,60 @@ import XCTest
 class ArrayDataProviderTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     
-    func testDataSource() {
+    func testNumberOfSections() {
         //Given
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
+        //When
+        let numberOfSections = dataProvider.numberOfSections()
+        
         //Then
-        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2,
-                                                  objectIndexPath: (object: 4, atIndexPath: IndexPath(row: 1, section: 1)), notContainingObject: 100)
-        let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
-        dataProviderTest.validate()
+        XCTAssertEqual(numberOfSections, 2)
+    }
+    
+    func testNumberOfItemsInSection() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let numberOfItems = dataProvider.numberOfItems(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(numberOfItems, 2)
+    }
+    
+    func testObjectAtIndexPath() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = IndexPath(item: 0, section: 0)
+        let object = dataProvider.object(at: indexPath)
+        
+        //Then
+        XCTAssertEqual(object, 1)
+    }
+    
+    func testIndexPathForContainingObject() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = dataProvider.indexPath(for: 1)
+        
+        //Then
+        XCTAssertEqual(indexPath, IndexPath(item: 0, section: 0))
+    }
+    
+    func testIndexPathForNotContainingObject() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = dataProvider.indexPath(for: 5)
+        
+        //Then
+        XCTAssertNil(indexPath)
     }
     
     func testCallUpdate() {
@@ -61,10 +106,17 @@ class ArrayDataProviderTest: XCTestCase {
         //Then
         XCTAssertTrue(didUpdate)
         XCTAssertTrue(didUpdateDataSource)
-        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 3, atSection: 0), sections: 1,
-                                                  objectIndexPath: (object: 9, atIndexPath: IndexPath(row: 1, section: 0)), notContainingObject: 100)
-        let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
-        dataProviderTest.validate()
+    }
+    
+    func testRefonfigure() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        dataProvider.reconfigure(with: [8, 9, 10])
+        
+        //Then
+        XCTAssertEqual(dataProvider.contents.first!, [8, 9, 10])
     }
     
     func testNilSectionIndexTitles() {
