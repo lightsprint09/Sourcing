@@ -131,17 +131,6 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         XCTAssertTrue(stringCell is UITableViewCellMock<String>)
     }
 
-    func testUpdateDataSourceWithNoData() {
-        //Given
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
-        
-        //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        dataSource.process(updates: nil)
-        
-        //Then
-        XCTAssertEqual(tableViewMock.reloadedCount, 2)
-    }
     
     func testSetNewTableView() {
         //Given

@@ -119,13 +119,15 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testUpdateDataSourceWithNoData() {
         //Given
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell)
-
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cellConfig)
+        let reloadCount = tableViewMock.reloadedCount
         //When
+        
         dataSource.process(updates: nil)
         
         //Then
-        XCTAssertEqual(tableViewMock.reloadedCount, 2)
+        XCTAssertEqual(tableViewMock.reloadedCount, reloadCount + 1)
     }
     
     func testSelectedObject() {
