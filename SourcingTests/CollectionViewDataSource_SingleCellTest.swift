@@ -101,7 +101,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testDequCells() {
         //Given
         var didCallAdditionalConfigurtion = false
-        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfigurtion: { _, _ in
+        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguration: { _, _ in
             didCallAdditionalConfigurtion = true
         })
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())

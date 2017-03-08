@@ -38,10 +38,10 @@ class BasicCellConfigurationTest: XCTestCase {
     
     func testCellConfigurationInit() {
         //Given
-        let additionalConfigurtion = { (object: Int, cell: UITableViewCellMock<Int>) in }
+        let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in }
         
         //When
-        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfigurtion: additionalConfigurtion)
+        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
         
         //Then
         XCTAssertEqual(identifier, configuration.cellIdentifier)
@@ -50,10 +50,10 @@ class BasicCellConfigurationTest: XCTestCase {
     
     func testCellConfigurationInitWithCellIDentifierProviding() {
         //Given
-        let additionalConfigurtion = { (object: Int, cell: UITableViewCellMock<Int>) in }
+        let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in }
         
         //When
-        configuration = CellConfiguration(nib: nib, additionalConfigurtion: additionalConfigurtion)
+        configuration = CellConfiguration(nib: nib, additionalConfiguration: additionalConfiguration)
         
         //Then
         XCTAssertEqual(UITableViewCellMock<Int>.cellIdentifier, configuration.cellIdentifier)
@@ -63,10 +63,10 @@ class BasicCellConfigurationTest: XCTestCase {
     func testConfigureCell() {
         //Given
         var didCallAdditionalConfigurtion = false
-        let additionalConfigurtion = { (object: Int, cell: UITableViewCellMock<Int>) in
+        let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in
             didCallAdditionalConfigurtion = true
         }
-        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfigurtion: additionalConfigurtion)
+        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
         let cell = UITableViewCellMock<Int>()
         
         //When

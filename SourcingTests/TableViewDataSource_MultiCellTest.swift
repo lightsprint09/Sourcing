@@ -62,8 +62,8 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
     func testRegisterNib() {
         //Given
         let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfigurtion: nil),
-                                           CellConfiguration<UITableViewCellMock<String>>(nib: nib, additionalConfigurtion: nil)]
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib, additionalConfiguration: nil),
+                                           CellConfiguration<UITableViewCellMock<String>>(nib: nib, additionalConfiguration: nil)]
         
         //When
         let _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cellConfig)
@@ -105,7 +105,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
     func testDequCells() {
         //Given
         var didCallAdditionalConfigurtion = false
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, additionalConfigurtion: { _, _ in
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, additionalConfiguration: { _, _ in
             didCallAdditionalConfigurtion = true
         }), CellConfiguration<UITableViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let realTableView = UITableView()

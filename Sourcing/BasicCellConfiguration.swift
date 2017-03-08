@@ -48,17 +48,17 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
 }
 
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
-    public init(cellIdentifier: String, nib: UINib? = nil, additionalConfigurtion: ((Object, Cell) -> Void)? = nil) {
+    public init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
         self.init(cellIdentifier: cellIdentifier, configuration: { object, cell in
             cell.configure(with: object)
-            additionalConfigurtion?(object, cell)
+            additionalConfiguration?(object, cell)
         }, nib: nib)
     }
 }
 
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & CellIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
-    public init(nib: UINib? = nil, additionalConfigurtion: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfigurtion: additionalConfigurtion)
+    public init(nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
     }
 }
 

@@ -99,7 +99,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testDequCells() {
         //Given
         var didCallAdditionalConfigurtion = false
-        let cell = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfigurtion: { _, _ in
+        let cell = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguration: { _, _ in
             didCallAdditionalConfigurtion = true
         })
         let realTableView = UITableView()
