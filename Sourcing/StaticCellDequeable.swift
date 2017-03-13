@@ -20,18 +20,24 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  StaticCellDequeable.swift
+//  StaticCellConfiguring.swift
 //  Sourcing
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
 /**
- `StaticCellDequeable` provides a more static typed cell abstraction. See `CellDequeable` for basic information
+ `StaticCellConfiguring` provides a more static typed cell abstraction. See `CellConfiguring` for basic information
  */
-public protocol StaticCellDequeable: CellDequeable {
-    associatedtype Object
-    associatedtype Cell: ConfigurableCell
+public protocol StaticCellConfiguring: CellConfiguring {
     
-    func configureCellTypeSafe(_ cell: Cell, with object: Object) -> Cell
+    associatedtype Object
+    associatedtype Cell
+    
+}
+
+extension StaticCellConfiguring {
+    public func canConfigureCell(with object: Any) -> Bool {
+        return object is Object
+    }
 }

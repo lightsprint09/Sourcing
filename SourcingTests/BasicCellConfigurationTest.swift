@@ -30,50 +30,73 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
-class CellConfigurationTest: XCTestCase {
+class BasicCellConfigurationTest: XCTestCase {
+    
+    let nib = UINib(data: Data(), bundle: nil)
+    var configuration: CellConfiguration<UITableViewCellMock<Int>>!
+    let identifier = "cellIdentifier"
+    
     func testCellConfigurationInit() {
         //Given
-        let identifier = "cellIdentifier"
-        let nib = UINib(data: Data(), bundle: nil)
-        let additionalConfiguartion = { (object: Int, cell: MockCell<Int>) in }
+        let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in }
         
         //When
-        let configuration = CellConfiguration<MockCell<Int>>(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
+        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
         
         //Then
-        XCTAssertNotNil(configuration.additionalConfiguartion)
+        XCTAssertEqual(identifier, configuration.cellIdentifier)
+        XCTAssertNotNil(configuration.nib)
+    }
+    
+    func testCellConfigurationInitWithCellIDentifierProviding() {
+        //Given
+        let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in }
+        
+        //When
+        configuration = CellConfiguration(nib: nib, additionalConfiguration: additionalConfiguration)
+        
+        //Then
+        XCTAssertEqual(UITableViewCellMock<Int>.cellIdentifier, configuration.cellIdentifier)
         XCTAssertNotNil(configuration.nib)
     }
     
     func testConfigureCell() {
         //Given
-        let identifier = "cellIdentifier"
-        let nib = UINib(data: Data(), bundle: nil)
-        var didCallAdditionalConfiguartion = false
-        let additionalConfiguartion = { (object: Int, cell: MockCell<Int>) in
-            didCallAdditionalConfiguartion = true
+        var didCallAdditionalConfigurtion = false
+        let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in
+            didCallAdditionalConfigurtion = true
         }
-        let configuration = CellConfiguration<MockCell<Int>>(cellIdentifier: identifier, nib: nib, additionalConfiguartion: additionalConfiguartion)
-        let cell = MockCell<Int>()
+        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
+        let cell = UITableViewCellMock<Int>()
         
         //When
         let _ = configuration.configure(cell, with: 100)
         
         //Then
-        XCTAssertTrue(didCallAdditionalConfiguartion)
+        XCTAssertTrue(didCallAdditionalConfigurtion)
         XCTAssertEqual(cell.configurationCount, 1)
         XCTAssertEqual(cell.configuredObject, 100)
     }
     
     func testCanConfigureCell() {
-        //Given
-        let identifier = "cellIdentifier"
-        
         //When
-        let configuration = CellConfiguration<MockCell<Int>>(cellIdentifier: identifier)
+        configuration = CellConfiguration(cellIdentifier: identifier)
         
         //Then
         XCTAssert(configuration.canConfigureCell(with: 1))
+    }
+    
+    
+    
+    func testBasicCanConfigureInit() {
+        //Given
+        class BasicCell: CellIdentifierProviding {
+            static var cellIdentifier = "cellIdentifier"
+        }
+        let configuration = BasicCellConfiguration<BasicCell, String>(configuration: { _, _ in })
+        
+        //Then
+        XCTAssertEqual(configuration.cellIdentifier, "cellIdentifier")
     }
 
 }

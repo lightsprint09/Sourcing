@@ -25,36 +25,7 @@
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
+
 import UIKit
 
-public struct CellConfiguration<Cell: ConfigurableCell>: CellDequeable, StaticCellDequeable {
-    public typealias Object = Cell.DataSource
-    public let cellIdentifier: String
-    public let nib: UINib?
-    let additionalConfiguartion: ((Object, Cell) -> Void)?
-    
-    public  init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguartion: ((Object, Cell) -> Void)? = nil) {
-        self.cellIdentifier = cellIdentifier
-        self.nib = nib
-        self.additionalConfiguartion = additionalConfiguartion
-    }
-    
-    //TODO: May use optional Typesave closure for config
-    public func canConfigureCell(with object: Any) -> Bool {
-        return object is Object
-    }
-    
-    public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
-        if let object = object as? Object, let cell = cell as? Cell {
-            let _ = configureCellTypeSafe(cell, with: object)
-        }
-        return cell
-    }
-    
-    public func configureCellTypeSafe(_ cell: Cell, with object: Object) -> Cell {
-        cell.configure(with: object)
-        additionalConfiguartion?(object, cell)
-        
-        return cell
-    }
-}
+public typealias CellConfiguration<Cell: ConfigurableCell> = BasicCellConfiguration<Cell, Cell.DataSource>

@@ -1,68 +1,164 @@
- [![Build Status](https://travis-ci.org/lightsprint09/Sourcing.svg?branch=master)](https://travis-ci.org/lightsprint09/Sourcing)
+[![Build Status](https://travis-ci.org/lightsprint09/Sourcing.svg?branch=master)](https://travis-ci.org/lightsprint09/Sourcing)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 # Sourcing
 
-|           | Main Features                  |
-| --------- | ------------------------------ |
-| 🛡        | Typesave when using a homogeneous data type       |
-| 🐍 | Less typesafe, but flexible when displaying heterogeneous data types |
-| 🚄        | Extendable API                 |
-| &#9989;   | Fully unit tested              |
+* [Quick Demo](#quick-demo)
+* [DataProvider](#dataprovider)
+   * [ArrayDataProvider](#arraydataprovider)
+   * [FetchedResultsDataProvider](#fetchedresultsdataprovider)
+   * [AnyDataProvider](#anydataprovider)
+   * [Custom DataProvider](#custom-dataprovider)
+* [DataModificator](#datamodificator)
+  * [ArrayDataModificator](#arraydatamodificator)
+* [DataSource](#datasource)
+   * [TableViewDataSource](#tableviewdatasource)
+   * [CollectionViewDataSource](#collectionviewdatasource)
+   * [Multi Cell DataSources](#multicelldatasource)
+* [Cells](#cells)
+   * [BasicCellConfiguration](#basiccellconfiguration)
+   * [ConfigurableCell & CellConfiguration](#configurablecell&cellconfiguration)
+   * [CellIdentifierProviding]
+* [Installation](#installation)
 
-Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift 3.
+Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift.
 
-## Usage
-### Homogeneous data types
-Setting up your TableViewCell by implementing `ConfigurableCell`. This works for CollectionViewCell as well. Creating a typed configuartion `CellConfiguration` object for your cell with a given resue identifier or nib.
+## Quick Demo
+Setting up your Cell by implementing `ConfigurableCell` & `CellIdentifierProviding`.
 ```swift
 import Sourcing
 
 class TrainCell: UITableViewCell, ConfigurableCell {
-@IBOutlet var nameLabel: UILabel!
-
-func configure(with train: Train) {
-    nameLabel.text = train.name
+   @IBOutlet var nameLabel: UILabel!
+   
+   func configure(with train: Train) {
+      nameLabel.text = train.name
+   }
 }
-}
 
-let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
+//If your reuse identifier is the same a the class name
+extenion TrainCell: CellIdentifierProviding {}
 
+let trainCell = CellConfiguration<TrainCell>()
+let trains: [Train] = //
+let dataProvider = ArrayDataProvider(rows: trains)
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell)
+```
+## DataProvider
+A DataProvider encaupsulates you data. Use one of the given DataProviders or implement `DataProviding` to create your own DataProvider.
+
+### ArrayDataProvider
+`ArrayDataProvider<Element>` wraps  `Array<Element>` to an DataProvider.
+
+```swift
+let trains: [[Train]] = //
+let dataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["German", "French"])
 ```
 
-Set up data provider. Use the default `ArrayDataProvider`or implement you own custom dataprovider (eg with network capabilities).
+### FetchedResultsDataProvider
+`FetchedResultsDataProvider<Element>` takes a FetchedResultsController and provides a DataProvider for it.
+
 ```swift
-var dataSource: TableViewDataSource<ArrayDataProvider<Train>, CellConfiguration<TrainCell>>?
-let trains: Array<Train> = //
-let dataProvider: ArrayDataProvider<Train> = ArrayDataProvider(rows: trains, { [ weak self] updates in
-dataSource?.processUpdates(updates)
+let trains: NSFetchrequest<CDTrain> = //
+let fetchedResultsController: NSFetchedResultsController<CDTrain> = //
+let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+```
+
+### AnyDataProvider
+`AnyDataProvider<Element>` is a Type Eraser (http://chris.eidhof.nl/post/type-erasers-in-swift/) for DataProvider. This can be usefull if you want to put diffrent DataProviders in a Container.
+
+```swift
+let fetchedResultsDataProvider = FetchedResultsDataProvider<CDTrain>(fetchedResultsController: fetchedResultsController)
+let arrayDataProvider = ArrayDataProvider<CDTrain>(sections: trains)
+let dataProviders: [AnyDataProvider<CDTrain>] = [AnyDataProvider(fetchedResultsDataProvider), AnyDataProvider(arrayDataProvider)]
+```
+
+### Custom DataProvider
+If you want to create a simple DataProvider, implement the `ArrayDataProviding` like the following example
+```swift
+final public class DictionaryDataProvider<Object>: ArrayDataProviding {
+    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
+
+    public var data: [[Object]]
+    public let sectionIndexTitles: Array<String>?
+    
+    public init(dictionary: [String: [Object]]) {
+        self.sectionIndexTitles = Array(dictionary.keys)
+        self.data = dictionary.reduce([[]], { result, element in
+            return result.append(contentsOf: result)
+        })
+    }
+}
+```
+If you need full controll of your DataProvider implement `DataProviding`.
+
+Thirdparty Dataproviders:
+* [DBNetworkStack+Sourcing - NetworkDataProvider](https://github.com/dbsystel/DBNetworkStack-Sourcing)
+
+## DataModificator
+DataModificator can handle modification caused by the user. If a user deletes a cell in the a TableView, DataModificator needs to handle the changes on the model side. If you do not provider a DataModificator to the DataSource, the views wont be editable. You create a custom DataModificator by implementing `DataModifying`
+
+### ArrayDataModificator
+An ArrayDataProvider supports modifications out of the box.
+```swift
+let trains: [Train] = //
+let dataProvider = ArrayDataProvider(rows: trains)
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider)
+```
+## DataSource
+DataSources connect either UITablevView (TableViewDataSource) or UICollectionView(CollectionViewDataSource) with any given DataProvider.
+
+### TableViewDataSource
+```swift
+let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider, displaySectionIndexTitles: true)
+```
+
+### CollectionViewDataSource
+```swift
+let dataSource = CollectionViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider, displaySectionIndexTitles: true)
+```
+
+### Multi Cell DataSources
+If you need to display diffrent kind of objects with different kind of cells, you cann do that too. DataSource looks up a matching cell for an object
+
+## Cells
+For each cell you want to display you need a CellConfiguration. A configuration is a type object which sets up all elements on your custom cell or delegates the setup to the cell itself. Use `BasicCellConfiguration`, `CellConfiguration` or implement your own configuration by using `StaticCellConfiguring`.
+
+### BasicCellConfiguration
+`BasicCellConfiguration` gives you a lot of freedom how to configure your cell. You can provide custom cellIdentifier, nib and a block to configure your cell. If you do not provide a nib, it will use a already regsiterd cell from the storyboard. 
+```swift
+let cellConfiguration: BasicCellConfiguration<TrainCell, Train> = BasicCellConfiguration(cellIdentifier: "TrainCell", configuration: { cell, train in 
+   cell.trainNameLabel.text = train.name
+   //...
 })
 ```
-Link your data and your cell together by creating a `TableViewDataSource` object.
+
+### ConfigurableCell & CellConfiguration
+A common pattern is to delegate configuration of a cell to the cell itself. If you are using this pattern, then your cell can implement `ConfigurableCell`. You can then use the configuration provided by the cell as configuration block.
 ```swift
-let tableView: UITableView = //...
-dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequable: trainCellConfiguration)
+extension TrainCell: ConfigurableCell {
+    func configure(with train: Train) {
+       trainNameLabel.text = train.name
+    }
+}
+let cellConfiguration: CellConfiguration<TrainCell> = CellConfiguration(cellIdentifier: "TrainCell")
+// CellConfiguration is just a generic typealias around BasicCellConfiguration
 ```
 
-### Heterogeneous data types
-Create multiple `CellConfiguration`s with different type
+If you need to pass additional setup to your cell, which is not contained in your model object, you can use the following:
 ```swift
-let trainCellConfiguration = CellConfiguration<TrainCell>(cellIdentifier: "YourReuseID")
-let stationCellConfiguration = CellConfiguration<StationCell>(cellIdentifier: "YourReuseSecondID")
-```
-Create an loosely typed data provider. Keep in mind that you will lose all  compiler's support. 
-```swift
-let data: Array<Any> = //
-let dataProvider: ArrayDataProvider<Any> = ArrayDataProvider(rows: data)
-```
-Again link your data and your cell together by creating a `MultiCellTableViewDataSource` object.
-```swift
-let tableView: UITableView = //...
-let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cellDequeables: [trainCellConfiguration, stationCellConfiguration])
+let cellConfiguration: CellConfiguration<TrainCell> = CellConfiguration(cellIdentifier: "TrainCell", additionalConfigurtion: { cell, train in 
+    // cell.setYourAdditionalState
+})
 ```
 
-### Extending Sourcing by creating your own DataProvider.
-TBD
+```swift
+let trainCell = //
+let statationCell = //
+let dataProvider: ArrayDataProvider<Any> = ArrayDataProvider(rows: [train, station])
+let dataSource = CollectionViewDataSource(tableView: tableView, dataProvider: dataProvider, anyCells: [trainCell, stationCell], dataModificator: dataProvider, displaySectionIndexTitles: true)
+```
+This works for CollectionViewDataSource as well.
 
 ## Requirements
 
@@ -79,10 +175,10 @@ TBD
 Specify the following in your `Cartfile`:
 
 ```ogdl
-github "lightsprint09/sourcing" ~> 1.1
+github "lightsprint09/sourcing" ~> 2.0
 ```
 ## Contributing
-Feel free to submit pull requests with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
+Feel free to submit a pull request with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
 
 ## Contact
 Lukas Schmidt ([Mail](mailto:lukas.la.schmidt@deutschebahn.com), [@lightsprint09](https://twitter.com/lightsprint09))

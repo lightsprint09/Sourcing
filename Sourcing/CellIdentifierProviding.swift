@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,21 +20,20 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderUpdate.swift
+//  CellIdentifierProviding.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 24.01.17.
 //
 
-import Foundation
+public protocol CellIdentifierProviding {
+    static var cellIdentifier: String { get }
+}
 
-public enum DataProviderUpdate<Object> {
-    case insert(IndexPath)
-    case update(IndexPath, Object)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
+public extension CellIdentifierProviding {
     
-    case insertSection(Int)
-    case deleteSection(Int)
-    case moveSection(Int, Int)
+    static var cellIdentifier: String {
+        return String(describing: self)
+    }
+    
 }

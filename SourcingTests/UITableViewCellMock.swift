@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,21 +20,30 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  DataProviderUpdate.swift
+//  UITableViewCellMock.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 02.08.16.
+//  Created by Lukas Schmidt on 24.01.17.
 //
 
 import Foundation
+import UIKit
+import Sourcing
 
-public enum DataProviderUpdate<Object> {
-    case insert(IndexPath)
-    case update(IndexPath, Object)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
+class UITableViewCellMock<T>: UITableViewCell, ConfigurableCell, CellIdentifierProviding {
+    var configurationCount = 0
+    var configuredObject: T?
     
-    case insertSection(Int)
-    case deleteSection(Int)
-    case moveSection(Int, Int)
+    init() {
+        super.init(style: .default, reuseIdentifier: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        Swift.fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with object: T) {
+        configurationCount += 1
+        configuredObject = object
+    }
 }

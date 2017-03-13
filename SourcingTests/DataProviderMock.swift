@@ -33,15 +33,21 @@ import Sourcing
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
 open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
-    
-    fileprivate(set) open var data: [[Object]] = [[]]
-    public let sectionIndexTitles: [String]? = []
+    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+    /// **Warning:** Only set this when you are updating the datasource.
+    public var whenDataProviderChanged: (([DataProviderUpdate<Object>]?) -> Void)?
 
-    var sourceIndexPath: IndexPath?
-    var destinationIndexPath: IndexPath?
+    fileprivate(set) open var contents: [[Object]] = [[]]
+    public let sectionIndexTitles: [String]? = []
     
-    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        self.sourceIndexPath = sourceIndexPath
-        self.destinationIndexPath = destinationIndexPath
+    var prefetchedIndexPaths: [IndexPath]?
+    var canceledPrefetchedIndexPaths: [IndexPath]?
+
+    public func prefetchItems(at indexPaths: [IndexPath]) {
+        prefetchedIndexPaths = indexPaths
+    }
+    
+    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
+        canceledPrefetchedIndexPaths = indexPaths
     }
 }

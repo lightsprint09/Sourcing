@@ -9,33 +9,33 @@
 import Foundation
 import CoreData
  
-public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
-
-    let dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())?
-    let fetchedResultsController: NSFetchedResultsController<Object>
+open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
+    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+    /// **Warning:** Only set this when you are updating the datasource.
+    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
+    public let fetchedResultsController: NSFetchedResultsController<Object>
+    
+    var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     var updates: [DataProviderUpdate<Object>] = []
     
-    public var sectionIndexTitles: Array<String>? {
+    open var sectionIndexTitles: Array<String>? {
         return fetchedResultsController.sectionIndexTitles
     }
     
-    private let moveItemAtIdexPath: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)?
-    
-    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: (([DataProviderUpdate<Object>]?) ->())? = nil, moveItemAt: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> Void)? = nil) throws {
+    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate
-        self.moveItemAtIdexPath = moveItemAt
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
     }
     
-    public func reconfigure(with fetchRequest: (NSFetchedResultsController<Object>) -> ()) throws {
+    public func reconfigure(with configure: (NSFetchedResultsController<Object>) -> Void) throws {
         NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
-        fetchRequest(fetchedResultsController)
+        configure(fetchedResultsController)
         
         try fetchedResultsController.performFetch()
-        dataProviderDidUpdate?(nil)
+        dataProviderDidChangeContets(with: nil)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
@@ -54,17 +54,13 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         return fetchedResultsController.indexPath(forObject: object)
     }
     
-    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        moveItemAtIdexPath?(sourceIndexPath, destinationIndexPath)
-    }
-    
     // MARK: NSFetchedResultsControllerDelegate
-    
     public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updates = []
     }
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any,
+                           at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             guard let indexPath = newIndexPath else { fatalError("Index path should be not nil") }
@@ -83,7 +79,9 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         }
     }
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                           didChange sectionInfo: NSFetchedResultsSectionInfo,
+                           atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
             updates.append(.insertSection(sectionIndex))
@@ -94,6 +92,13 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        dataProviderDidChangeContets(with: updates)
+    }
+    
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {
+        if !triggerdByTableView {
+            whenDataProviderChanged?(updates)
+        }
         dataProviderDidUpdate?(updates)
     }
 

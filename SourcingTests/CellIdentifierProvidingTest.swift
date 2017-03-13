@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2017 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,26 +20,19 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 //
-//  AssertionsDeclaration.swift
+//  CellIdentifierProvidingTest.swift
 //  Sourcing
 //
-//  Created by Lukas Schmidt on 25.08.16.
+//  Created by Lukas Schmidt on 24.01.17.
 //
 
-import Foundation
+import XCTest
+import UIKit
+import Sourcing
 
-/// Stores custom assertions closures, by default it points to Swift functions. But test target can override them.
-class Assertions {
-    
-    static var assertClosure = swiftAssertClosure
-    static var assertionFailureClosure = swiftAssertionFailureClosure
-    static var preconditionClosure = swiftPreconditionClosure
-    static var preconditionFailureClosure = swiftPreconditionFailureClosure
-    static var fatalErrorClosure = swiftFatalErrorClosure
-    
-    static let swiftAssertClosure              = { Swift.assert($0, $1, file: $2, line: $3) }
-    static let swiftAssertionFailureClosure    = { Swift.assertionFailure($0, file: $1, line: $2) }
-    static let swiftPreconditionClosure        = { Swift.precondition($0, $1, file: $2, line: $3) }
-    static let swiftPreconditionFailureClosure = { Swift.preconditionFailure($0, file: $1, line: $2) }
-    static let swiftFatalErrorClosure          = { Swift.fatalError($0, file: $1, line: $2) }
+class CellIdentifierProvidingTest: XCTestCase {
+    func testIdentifier() {
+        
+        XCTAssertEqual(UITableViewCellMock<Int>.cellIdentifier, "UITableViewCellMock<Int>")
+    }
 }

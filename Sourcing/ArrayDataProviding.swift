@@ -35,20 +35,20 @@ public protocol ArrayDataProviding: DataProviding {
     /**
      Object is the kind of data `DataProviding` provides.
      */
-    associatedtype Object
-    var data: Array<Array<Object>> { get }
+    associatedtype Element
+    var contents: [[Element]] { get }
 }
 
 public extension ArrayDataProviding {
-    public func object(at indexPath: IndexPath) -> Object {
-        return data[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).item]
+    public func object(at indexPath: IndexPath) -> Element {
+        return contents[indexPath.section][indexPath.item]
     }
     
     public func numberOfItems(inSection section: Int) -> Int {
-        return data[section].count
+        return contents[section].count
     }
     
     public func numberOfSections() -> Int {
-        return  data.count
+        return  contents.count
     }
 }

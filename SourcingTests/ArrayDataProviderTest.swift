@@ -29,35 +29,94 @@
 import XCTest
 @testable import Sourcing
 
+// swiftlint:disable force_unwrapping
 class ArrayDataProviderTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     
-    func testDataSource() {
+    func testNumberOfSections() {
         //Given
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
+        //When
+        let numberOfSections = dataProvider.numberOfSections()
+        
         //Then
-        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 2, atSection: 1), sections: 2,
-                                                  objectIndexPath: (object: 4, atIndexPath: IndexPath(row: 1, section: 1)), notContainingObject: 100)
-        let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
-        dataProviderTest.test()
+        XCTAssertEqual(numberOfSections, 2)
+    }
+    
+    func testNumberOfItemsInSection() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let numberOfItems = dataProvider.numberOfItems(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(numberOfItems, 2)
+    }
+    
+    func testObjectAtIndexPath() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = IndexPath(item: 0, section: 0)
+        let object = dataProvider.object(at: indexPath)
+        
+        //Then
+        XCTAssertEqual(object, 1)
+    }
+    
+    func testIndexPathForContainingObject() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = dataProvider.indexPath(for: 1)
+        
+        //Then
+        XCTAssertEqual(indexPath, IndexPath(item: 0, section: 0))
+    }
+    
+    func testIndexPathForNotContainingObject() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = dataProvider.indexPath(for: 5)
+        
+        //Then
+        XCTAssertNil(indexPath)
     }
     
     func testCallUpdate() {
         var didUpdate = false
+        var didUpdateDataSource = false
         //Given
-        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], dataProviderDidUpdate: { update in
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        dataProvider.dataProviderDidUpdate = { _ in
             didUpdate = true
-        })
+        }
+        dataProvider.whenDataProviderChanged = { _ in
+            didUpdateDataSource = true
+        }
         //When
-        dataProvider.reconfigureData([8, 9, 10])
+        dataProvider.reconfigure(with: [8, 9, 10])
         
         //Then
         XCTAssertTrue(didUpdate)
-        let dataExpection = DataProviderExpection(rowsAtSection: (numberOfItems: 3, atSection: 0), sections: 1,
-                                                  objectIndexPath: (object: 9, atIndexPath: IndexPath(row: 1, section: 0)), notContainingObject: 100)
-        let dataProviderTest = DataProvidingTester(dataProvider: dataProvider, providerConfiguration: dataExpection)
-        dataProviderTest.test()
+        XCTAssertTrue(didUpdateDataSource)
+    }
+    
+    func testRefonfigure() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        dataProvider.reconfigure(with: [8, 9, 10])
+        
+        //Then
+        XCTAssertEqual(dataProvider.contents.first!, [8, 9, 10])
     }
     
     func testNilSectionIndexTitles() {
@@ -69,6 +128,30 @@ class ArrayDataProviderTest: XCTestCase {
         
         //Then
         XCTAssertNil(sectionIndexTitles)
+    }
+    
+    func testNonNilHeader() {
+        //Given
+        let header = "hello"
+        dataProvider = ArrayDataProvider(rows: [1, 2], headerTitle: header)
+        
+        //When
+        let titles = dataProvider.headerTitles
+        
+        //Then
+        XCTAssertEqual([header], titles!)
+    }
+    
+    func testNonNilHeaders() {
+        //Given
+        let headers = ["hallo", "bye"]
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], headerTitles: headers)
+        
+        //When
+        let titles = dataProvider.headerTitles
+        
+        //Then
+        XCTAssertEqual(headers, titles!)
     }
     
     func testNonNilSectionIndexTitles() {
@@ -83,30 +166,58 @@ class ArrayDataProviderTest: XCTestCase {
         XCTAssertEqual(sectionIndexTitles, titles!)
     }
     
-    func testNonNilSectionIndexTitle() {
+    func testCanMoveItemFromTo() {
         //Given
-        let sectionIndexTitle = "hello"
-        dataProvider = ArrayDataProvider(rows: [1,2], sectionTitle: sectionIndexTitle)
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
         //When
-        let titles = dataProvider.sectionIndexTitles
+        dataProvider.canMoveItems = true
         
         //Then
-        XCTAssertEqual([sectionIndexTitle], titles!)
+        XCTAssert(dataProvider.canMoveItem(at: IndexPath(item: 0, section: 0)))
     }
     
     func testMoveItemFromTo() {
         //Given
+        var didNotifyTableView = false
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        dataProvider.whenDataProviderChanged = { _ in didNotifyTableView = true }
         let sourceIndexPath = IndexPath(item: 0, section: 0)
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
         //When
-        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath)
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, triggerdByTableView: false)
         
         //Then
         let destinationObject = dataProvider.object(at: destinationIndexPath)
         XCTAssertEqual(destinationObject, 1)
+        XCTAssert(didNotifyTableView)
+    }
+    
+    func testCanDelteItems() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         
+        //When
+        dataProvider.canDeleteItems = true
+        
+        //Then
+        XCTAssert(dataProvider.canDeleteItem(at: IndexPath(item: 0, section: 0)))
+    }
+    
+    func testDelteItemAtIndexPath() {
+        //Given
+        var didNotifyTableView = false
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        dataProvider.whenDataProviderChanged = { _ in didNotifyTableView = true }
+        let deleteIndexPath = IndexPath(item: 0, section: 0)
+        
+        //When
+        dataProvider.deleteItem(at: deleteIndexPath, triggerdByTableView: false)
+        
+        //Then
+        let destinationObject = dataProvider.object(at: deleteIndexPath)
+        XCTAssertEqual(destinationObject, 2)
+        XCTAssert(didNotifyTableView)
     }
 }
