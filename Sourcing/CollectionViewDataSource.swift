@@ -25,7 +25,6 @@
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
-import Foundation
 import UIKit
 
 final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {

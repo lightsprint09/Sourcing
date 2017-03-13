@@ -6,7 +6,7 @@
 //  Copyright © 2016 Lukas Schmidt. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
