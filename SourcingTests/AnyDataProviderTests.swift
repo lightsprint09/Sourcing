@@ -129,5 +129,31 @@ class AnyDataProvidingTests: XCTestCase {
         //Then
         XCTAssertEqual(sectionIndexTitles, titles!)
     }
+    
+    func testSetSectionIndexTitlesInWrappedDataProvider() {
+        //Given
+        let newSectionIndexTitles = ["hallo", "bye"]
+        let wrappedDataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], sectionIndexTitles: [])
+        dataProvider = AnyDataProvider(wrappedDataProvider)
+        
+        //When
+        wrappedDataProvider.sectionIndexTitles = newSectionIndexTitles
+        
+        //Then
+        XCTAssertEqual(newSectionIndexTitles, dataProvider.sectionIndexTitles!)
+    }
+    
+    func testSetHeaderTitlesTitlesInWrappedDataProvider() {
+        //Given
+        let newHeaders = ["hallo", "bye"]
+        let wrappedDataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], headerTitles: [])
+        dataProvider = AnyDataProvider(wrappedDataProvider)
+        
+        //When
+        wrappedDataProvider.headerTitles = newHeaders
+        
+        //Then
+        XCTAssertEqual(newHeaders, dataProvider.headerTitles!)
+    }
 
 }
