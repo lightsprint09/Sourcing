@@ -26,8 +26,15 @@ final public class AnyDataProvider<Element>: DataProviding {
     
     private let setwhenDataProviderChanged: (ProcessUpdatesCallback<Element>?) -> Void
     
-    public let sectionIndexTitles: [String]?
-    public let headerTitles: [String]?
+    private let getSectionIndexTitles: () -> [String]?
+    private let getHeaderTitles: () -> [String]?
+    
+    public var sectionIndexTitles: [String]? {
+        return getSectionIndexTitles()
+    }
+    public var headerTitles: [String]? {
+        return getHeaderTitles()
+    }
     
     public init<DataProvider: DataProviding>(_ dataProvider: DataProvider) where Element == DataProvider.Element {
         objectAtIndexPath = { indexPath in
@@ -45,8 +52,12 @@ final public class AnyDataProvider<Element>: DataProviding {
         cancelPrefetchingForItemsAtIndexPaths = { indexPaths in
             dataProvider.cancelPrefetchingForItems(at: indexPaths)
         }
-        sectionIndexTitles = dataProvider.sectionIndexTitles
-        headerTitles = dataProvider.headerTitles
+        getSectionIndexTitles = {
+            return dataProvider.sectionIndexTitles
+        }
+        getHeaderTitles = {
+            return dataProvider.headerTitles
+        }
         setwhenDataProviderChanged = { whenDataProviderChanged in
             dataProvider.whenDataProviderChanged = whenDataProviderChanged
         }
