@@ -151,7 +151,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 
 // MARK: Typesafe initializers
 
-extension CollectionViewDataSource {
+public extension CollectionViewDataSource {
     convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
                      dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
