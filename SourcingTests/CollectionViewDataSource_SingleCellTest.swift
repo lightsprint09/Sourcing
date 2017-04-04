@@ -52,7 +52,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testSetDataSource() {
         //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
         
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 1)
@@ -67,7 +67,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
         
         //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
+        _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
@@ -283,7 +283,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testProcessUpdatesFromDataSource() {
         //Given
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
+        _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
         //When
         let insertion = DataProviderUpdate<Int>.insertSection(0)
         dataProvider.reconfigure(with: [[]], updates: [insertion])

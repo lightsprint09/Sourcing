@@ -113,11 +113,11 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let count = dataProvider.headerTitles?.count ?? -1
-        if section == 0 && count == 0 {
+        let headerTitlesCount = dataProvider.headerTitles?.count ?? -1
+        if section == 0 && headerTitlesCount == 0 {
             return nil
         }
-        if section > count {
+        if section > headerTitlesCount {
             return nil
         } else {
             return dataProvider.headerTitles?[section]
@@ -158,16 +158,20 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 
 public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cell: CellConfig, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataProvider: TypedDataProvider, cell: CellConfig,
+                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell],
+                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
     
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataProvider: TypedDataProvider, cells: Array<CellConfig>,
+                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells,
+                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
 }

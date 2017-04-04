@@ -49,7 +49,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         let dataProvider = ArrayDataProvider<Int>(sections: [[2], [1, 3, 10]])
         
         //When
-        let _ = CollectionViewDataSource<Int>(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cells)
+        _ = CollectionViewDataSource<Int>(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cells)
         
         //Then
         XCTAssertEqual(collectionViewMock.reloadedCount, 1)
@@ -65,7 +65,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
                           CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier, nib: nib)]
         
         //When
-        let _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
+        _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 2)

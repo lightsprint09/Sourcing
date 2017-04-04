@@ -70,7 +70,7 @@ class BasicCellConfigurationTest: XCTestCase {
         let cell = UITableViewCellMock<Int>()
         
         //When
-        let _ = configuration.configure(cell, with: 100)
+        _ = configuration.configure(cell, with: 100)
         
         //Then
         XCTAssertTrue(didCallAdditionalConfigurtion)
@@ -85,8 +85,6 @@ class BasicCellConfigurationTest: XCTestCase {
         //Then
         XCTAssert(configuration.canConfigureCell(with: 1))
     }
-    
-    
     
     func testBasicCanConfigureInit() {
         //Given
