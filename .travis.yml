@@ -1,7 +1,7 @@
 language: objective-c
 xcode_project: Sourcing.xcodeproj # path to your xcodeproj folder
 xcode_scheme: Sourcing
-osx_image: xcode8.2
+osx_image: xcode8.3
 before_install:
   - export SNAPSHOT_FORCE_DELETE=1
   - fastlane snapshot reset_simulators

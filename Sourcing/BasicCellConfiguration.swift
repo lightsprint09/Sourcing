@@ -67,4 +67,3 @@ extension BasicCellConfiguration where CellToConfigure: CellIdentifierProviding 
         self.init(cellIdentifier: CellToConfigure.cellIdentifier, configuration: configuration, nib: nib)
     }
 }
-

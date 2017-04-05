@@ -44,5 +44,5 @@ public class NSFetchedResultsSectionInfoMock: NSFetchedResultsSectionInfo {
     
     /* Returns the array of objects in the section.
      */
-    public var objects: [Any]? = nil
+    public var objects: [Any]?
 }
