@@ -17,8 +17,8 @@
    * [Multi Cell DataSources](#multicelldatasource)
 * [Cells](#cells)
    * [BasicCellConfiguration](#basiccellconfiguration)
-   * [ConfigurableCell & CellConfiguration](#configurablecell&cellconfiguration)
-   * [CellIdentifierProviding]
+   * [ConfigurableCell & CellConfiguration](#configurablecell--cellconfiguration)
+   * [CellIdentifierProviding](#cellidentifierproviding)
 * [Installation](#installation)
 
 Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift.
@@ -160,6 +160,15 @@ let dataSource = CollectionViewDataSource(tableView: tableView, dataProvider: da
 ```
 This works for CollectionViewDataSource as well.
 
+### CellidentifierProviding
+
+When your cell class name is the same as you cell identifier you could implement `CellidentifierProviding` for this class.
+
+```swift
+extension TrainCell: CellidentifierProviding {}
+
+let cellConfiguration = CellConfiguration<TrainCell>() //No need to provide a cell identifier.
+```
 ## Requirements
 
 - iOS 9.3+
