@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+
  
 open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
@@ -21,6 +22,8 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     open var sectionIndexTitles: Array<String>? {
         return fetchedResultsController.sectionIndexTitles
     }
+    
+    open var headerTitles: [String]?
     
     public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
