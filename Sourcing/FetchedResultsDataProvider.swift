@@ -22,7 +22,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     open var sectionIndexTitles: Array<String>? {
         return provideSectionIndexTitles ? fetchedResultsController.sectionIndexTitles : nil
     }
-    public var provideSectionIndexTitles: Bool = false
+    public var provideSectionIndexTitles: Bool = true
     
     open var headerTitles: [String]? {
         guard let generateHeaderAt = generateHeaderAt else {
