@@ -20,10 +20,18 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     var updates: [DataProviderUpdate<Object>] = []
     
     open var sectionIndexTitles: Array<String>? {
-        return fetchedResultsController.sectionIndexTitles
+        return provideSectionIndexTitles ? fetchedResultsController.sectionIndexTitles : nil
+    }
+    public var provideSectionIndexTitles: Bool = false
+    
+    open var headerTitles: [String]? {
+        guard let generateHeaderAt = generateHeaderAt else {
+            return nil
+        }
+        return (0..<numberOfSections()).map { generateHeaderAt($0) }
     }
     
-    open var headerTitles: [String]?
+    public var generateHeaderAt: ((Int) -> String)?
     
     public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
