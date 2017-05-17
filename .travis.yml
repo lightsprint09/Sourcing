@@ -1,11 +1,10 @@
-language: objective-c
-xcode_project: Sourcing.xcodeproj # path to your xcodeproj folder
-xcode_scheme: Sourcing
-osx_image: xcode8.3
-before_install:
-  - export SNAPSHOT_FORCE_DELETE=1
-  - fastlane snapshot reset_simulators
-script: 
-- set -o pipefail && xcodebuild -scheme Sourcing -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' ONLY_ACTIVE_ARCH=NO clean build test -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
-after_success:
-  - bash <(curl -s https://codecov.io/bash) -J 'Sourcing'
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode8.3
+      language: objective-c
+      env: "iOS"
+      script:
+        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -enableCodeCoverage YES | xcpretty
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
