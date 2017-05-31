@@ -129,7 +129,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, triggerdByTableView: true)
+        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: false)
     }
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -138,7 +138,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if let dataModificator = dataModificator, editingStyle == .delete {
-            dataModificator.deleteItem(at: indexPath, triggerdByTableView: true)
+            dataModificator.deleteItem(at: indexPath, updateView: false)
         }
     }
     

@@ -71,15 +71,16 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
         self.sectionIndexTitles = sectionIndexTitles
         self.headerTitles = headerTitles
     }
+    
     /**
      Reconfigures the dataSource with new data.
      
      - parameter array: flat array.
      - parameter updates: diff of the new data.
-     - parameter triggerdByTableView: flag if the change of data is already set in the TableView.
-    */
-    public func reconfigure(with array: [Element], updates: [DataProviderUpdate<Element>]? = nil, triggerdByTableView: Bool = false) {
-        reconfigure(with: [array], updates: updates, triggerdByTableView: triggerdByTableView)
+     - parameter updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
+     */
+    public func reconfigure(with array: [Element], updates: [DataProviderUpdate<Element>]? = nil, updateView: Bool = true) {
+        reconfigure(with: [array], updates: updates, updateView: updateView)
     }
     
     /**
@@ -87,15 +88,15 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      
      - parameter array: 2D array.
      - parameter updates: diff of the new data.
-     - parameter triggerdByTableView: flag if the change of data is already set in the TableView..
+     - parameter  updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
      */
-    public func reconfigure(with array: [[Element]], updates: [DataProviderUpdate<Element>]? = nil, triggerdByTableView: Bool = false) {
+    public func reconfigure(with array: [[Element]], updates: [DataProviderUpdate<Element>]? = nil, updateView: Bool = true) {
         self.contents = array
-        dataProviderDidChangeContets(with: updates, triggerdByTableView: triggerdByTableView)
+        dataProviderDidChangeContets(with: updates, updateView: updateView)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Element>]?, triggerdByTableView: Bool = false) {
-        if !triggerdByTableView {
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Element>]?, updateView: Bool = false) {
+        if updateView {
             whenDataProviderChanged?(updates)
         }
         dataProviderDidUpdate?(updates)
@@ -112,22 +113,23 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      
      - parameter sourceIndexPath: original indexPath.
      - parameter destinationIndexPath: destination indexPath.
+     - parameter  updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
      */
-    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, triggerdByTableView: Bool = false) {
+    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = true) {
         let soureElement = object(at: sourceIndexPath)
         contents[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         contents[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderUpdate<Element>.move(sourceIndexPath, destinationIndexPath)
-        dataProviderDidChangeContets(with: [update], triggerdByTableView: triggerdByTableView)
+        dataProviderDidChangeContets(with: [update], updateView: updateView)
     }
     
     open func canDeleteItem(at indexPath: IndexPath) -> Bool {
         return canDeleteItems
     }
     
-    open func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool = false) {
+    open func deleteItem(at indexPath: IndexPath, updateView: Bool = true) {
         contents[indexPath.section].remove(at: indexPath.item)
-        dataProviderDidChangeContets(with: [.delete(indexPath)], triggerdByTableView: triggerdByTableView)
+        dataProviderDidChangeContets(with: [.delete(indexPath)], updateView: updateView)
     }
     
 }

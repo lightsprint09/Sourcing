@@ -106,8 +106,8 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         dataProviderDidChangeContets(with: updates)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {
-        if !triggerdByTableView {
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, updateView: Bool = true) {
+        if updateView {
             whenDataProviderChanged?(updates)
         }
         dataProviderDidUpdate?(updates)

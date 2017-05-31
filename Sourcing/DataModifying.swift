@@ -34,13 +34,12 @@ public protocol DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: the sourceIndexPath
     ///   - destinationIndexPath: the destinationIndexPath
-    ///   - triggerdByTableView: pass `tru`e if the action was triggert by TableView delegate and the state of
-    ///     the tableView is already updated
-    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, triggerdByTableView: Bool)
+    ///   - updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
+    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool)
     
     func canMoveItem(at indexPath: IndexPath) -> Bool
     
-    func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool)
+    func deleteItem(at indexPath: IndexPath, updateView: Bool)
     
     func canDeleteItem(at indexPath: IndexPath) -> Bool
 }

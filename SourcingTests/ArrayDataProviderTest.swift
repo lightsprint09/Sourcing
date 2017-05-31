@@ -186,7 +186,7 @@ class ArrayDataProviderTest: XCTestCase {
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
         //When
-        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, triggerdByTableView: false)
+        dataProvider.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
         
         //Then
         let destinationObject = dataProvider.object(at: destinationIndexPath)
@@ -213,7 +213,7 @@ class ArrayDataProviderTest: XCTestCase {
         let deleteIndexPath = IndexPath(item: 0, section: 0)
         
         //When
-        dataProvider.deleteItem(at: deleteIndexPath, triggerdByTableView: false)
+        dataProvider.deleteItem(at: deleteIndexPath, updateView: true)
         
         //Then
         let destinationObject = dataProvider.object(at: deleteIndexPath)
