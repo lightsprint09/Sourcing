@@ -77,7 +77,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      
      - parameter array: flat array.
      - parameter updates: diff of the new data.
-     - parameter updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
+     - parameter updateView: flag if the view displaying the data should be updated. Pass `false` if your view is already up to date. Defaults to `true`.
      */
     public func reconfigure(with array: [Element], updates: [DataProviderUpdate<Element>]? = nil, updateView: Bool = true) {
         reconfigure(with: [array], updates: updates, updateView: updateView)
@@ -88,7 +88,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      
      - parameter array: 2D array.
      - parameter updates: diff of the new data.
-     - parameter  updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
+     - parameter  updateView: flag if the view displaying the data should be updated. Pass `false` if your view is already up to date. Defaults to `true`.
      */
     public func reconfigure(with array: [[Element]], updates: [DataProviderUpdate<Element>]? = nil, updateView: Bool = true) {
         self.contents = array
@@ -113,7 +113,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      
      - parameter sourceIndexPath: original indexPath.
      - parameter destinationIndexPath: destination indexPath.
-     - parameter  updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
+     - parameter  updateView: flag if the view displaying the data should be updated. Pass `false` if your view is already up to date. Defaults to `true`.
      */
     open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = true) {
         let soureElement = object(at: sourceIndexPath)
