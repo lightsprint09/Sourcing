@@ -34,7 +34,7 @@ public protocol DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: the sourceIndexPath
     ///   - destinationIndexPath: the destinationIndexPath
-    ///   - updateView: flag if the views displaying the data should update. When your view is alredy up to date pass `false`.
+    ///   - updateView: flag if the view displaying the data should be updated. Pass `false` if your view is already up to date. Defaults to `true`.
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool)
     
     func canMoveItem(at indexPath: IndexPath) -> Bool
