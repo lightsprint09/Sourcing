@@ -43,6 +43,8 @@
 		C68BCBC61D5A1DE100C5E720 /* UITableViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */; };
 		C68BCBCC1D5B048200C5E720 /* BasicCellConfigurationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */; };
 		C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */; };
+		C6E76AE11EE804FE007E323B /* DataProviderSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E76AE01EE804FE007E323B /* DataProviderSwitcher.swift */; };
+		C6E76AE31EE80530007E323B /* DataProviderSwitcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E76AE21EE80530007E323B /* DataProviderSwitcherTest.swift */; };
 		C6F913181D506BC800B0535C /* DataProviderUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913171D506BC800B0535C /* DataProviderUpdate.swift */; };
 		C6F9131A1D506C1200B0535C /* StaticCellDequeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913191D506C1200B0535C /* StaticCellDequeable.swift */; };
 		C6FE99921E4DEEA800B02B17 /* BasicCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FE99911E4DEEA800B02B17 /* BasicCellConfiguration.swift */; };
@@ -98,6 +100,8 @@
 		C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewMock.swift; sourceTree = "<group>"; };
 		C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCellConfigurationTest.swift; sourceTree = "<group>"; };
 		C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource_MultiCellTest.swift; sourceTree = "<group>"; };
+		C6E76AE01EE804FE007E323B /* DataProviderSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderSwitcher.swift; sourceTree = "<group>"; };
+		C6E76AE21EE80530007E323B /* DataProviderSwitcherTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderSwitcherTest.swift; sourceTree = "<group>"; };
 		C6F913171D506BC800B0535C /* DataProviderUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderUpdate.swift; sourceTree = "<group>"; };
 		C6F913191D506C1200B0535C /* StaticCellDequeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticCellDequeable.swift; sourceTree = "<group>"; };
 		C6FE99911E4DEEA800B02B17 /* BasicCellConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCellConfiguration.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 				94EBCFCD1E1A4A4B00184FD5 /* AnyDataProviderTests.swift */,
 				94C903261E1D206200C0C56A /* FetchedResultsDataProviderTests.swift */,
 				C687C1BC1E378FDC0089F561 /* CellIdentifierProvidingTest.swift */,
+				C6E76AE21EE80530007E323B /* DataProviderSwitcherTest.swift */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -206,6 +211,7 @@
 				948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */,
 				C6F913171D506BC800B0535C /* DataProviderUpdate.swift */,
 				943D00E91E01AE040066328E /* FetchedResultsDataProvider.swift */,
+				C6E76AE01EE804FE007E323B /* DataProviderSwitcher.swift */,
 			);
 			name = DataProvider;
 			sourceTree = "<group>";
@@ -355,6 +361,7 @@
 				9432D27B1CF5AE6200B72986 /* CellConfiguration.swift in Sources */,
 				C6FE99921E4DEEA800B02B17 /* BasicCellConfiguration.swift in Sources */,
 				C63610A51E40714C00417B45 /* DataModifying.swift in Sources */,
+				C6E76AE11EE804FE007E323B /* DataProviderSwitcher.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellConfiguring.swift in Sources */,
 				C657EA8B1D6B15B30048B8E7 /* CollectionViewRepresenting.swift in Sources */,
 				C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */,
@@ -369,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C61307631E261CD6009BD8CD /* DataProviderMock.swift in Sources */,
+				C6E76AE31EE80530007E323B /* DataProviderSwitcherTest.swift in Sources */,
 				C657EA8F1D6B19DF0048B8E7 /* UITableCollectionViewBaseMock.swift in Sources */,
 				945ABE881E0D731D001B42CE /* TableViewDataSource_MultiCellTest.swift in Sources */,
 				C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */,
