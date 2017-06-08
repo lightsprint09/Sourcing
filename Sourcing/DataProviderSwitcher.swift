@@ -22,6 +22,7 @@
 
 import Foundation
 
+/// `DataProviderSwitcher` lets one switch dynamicly between different DataProviders by changing corresponing to a given state.
 public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
     public var state: State {
         didSet {

@@ -57,4 +57,44 @@ class DataProviderSwitcherTest: XCTestCase {
         XCTAssertEqual(dataProviderSwitcher.state, .state2)
         XCTAssert(didCallDataProviderChanges)
     }
+    
+    func testObjectAtIndex() {
+        //Given
+        let expectedObjectAtIndex = "Test"
+        let arrayDataProvider = ArrayDataProvider(rows: [expectedObjectAtIndex])
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        })
+        
+        //When
+        let objectAtIndex = dataProviderSwitcher.object(at: IndexPath(row: 0, section: 0))
+        
+        //Then
+        XCTAssertEqual(expectedObjectAtIndex, objectAtIndex)
+    }
+    
+    func testNumberOfSections() {
+        //Given
+        let arrayDataProvider = ArrayDataProvider(sections: [[], []])
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        })
+        
+        //When
+        let numbersOfSection = dataProviderSwitcher.numberOfSections()
+        
+        //Then
+        XCTAssertEqual(numbersOfSection, 2)
+    }
+    
+    func testNumberOfItemsInSection() {
+        //Given
+        let arrayDataProvider = ArrayDataProvider(sections: [[], [""]])
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        })
+        
+        //When
+        let numbersOfitems = dataProviderSwitcher.numberOfItems(inSection: 1)
+        
+        //Then
+        XCTAssertEqual(numbersOfitems, 1)
+    }
 }
