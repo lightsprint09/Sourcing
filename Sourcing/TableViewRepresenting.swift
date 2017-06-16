@@ -26,7 +26,7 @@
 //  Created by Lukas Schmidt on 09.08.16.
 //
 
-import Foundation
+import UIKit
 
 /**
  Protocol abstraction for UITableView
