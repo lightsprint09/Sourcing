@@ -8,6 +8,7 @@
 * [DataProvider](#dataprovider)
    * [ArrayDataProvider](#arraydataprovider)
    * [FetchedResultsDataProvider](#fetchedresultsdataprovider)
+   * [DataProviderSwitcher](#dataproviderswitcher)
    * [AnyDataProvider](#anydataprovider)
    * [Custom DataProvider](#custom-dataprovider)
 * [DataModificator](#datamodificator)
@@ -63,6 +64,27 @@ let dataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["Ger
 let trains: NSFetchrequest<CDTrain> = //
 let fetchedResultsController: NSFetchedResultsController<CDTrain> = //
 let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+```
+
+### DataProviderSwitcher
+`DataProviderSwitcher` allows switching between different DataProviders dynamically by changing to a given state. It can help to compose DataPrvoiders.
+
+```swift
+enum State {
+  case initial
+  case loaded
+}
+let dataPrvodierSwitcher = DataProviderSwitcher<Train, State>(initialState: .initial, resolve: { state in 
+   switch state {
+      case .initial:
+        return AnyDataProvider(cachedDataProvider)
+      case .loaded:
+        return AnyDataProvider(networkResultDataProvider)
+   }
+} 
+
+//When state changes.
+dataPrvodierSwitcher.state = .loaded
 ```
 
 ### AnyDataProvider
