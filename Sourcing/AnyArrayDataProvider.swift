@@ -25,6 +25,8 @@ import Foundation
 public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
     private let capturedContents: () -> [[Element]]
     private let setWhenDataProviderChanged: (ProcessUpdatesCallback<Element>?) -> Void
+    private let getSectionIndexTitles: () -> [String]?
+    private let getHeaderTitles: () -> [String]?
     
     public var contents: [[Element]] {
         return capturedContents()
@@ -36,6 +38,14 @@ public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
         }
     }
     
+    public var sectionIndexTitles: [String]? {
+        return getSectionIndexTitles()
+    }
+    
+    public var headerTitles: [String]? {
+        return getHeaderTitles()
+    }
+    
     public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
         capturedContents = {
             return dataProvider.contents
@@ -43,6 +53,12 @@ public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
         whenDataProviderChanged = dataProvider.whenDataProviderChanged
         setWhenDataProviderChanged = { callback in
             dataProvider.whenDataProviderChanged = callback
+        }
+        getSectionIndexTitles = {
+            return dataProvider.sectionIndexTitles
+        }
+        getHeaderTitles = {
+            return dataProvider.headerTitles
         }
     }
 }
