@@ -207,10 +207,10 @@ let cellConfiguration = CellConfiguration<TrainCell>() //No need to provide a ce
 Specify the following in your `Cartfile`:
 
 ```ogdl
-github "lightsprint09/sourcing" ~> 2.0
+github "lightsprint09/sourcing" ~> 2.1
 ```
 ## Contributing
-Feel free to submit a pull request with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
+See CONTRIBUTING for details.
 
 ## Contact
 Lukas Schmidt ([Mail](mailto:lukas.la.schmidt@deutschebahn.com), [@lightsprint09](https://twitter.com/lightsprint09))
