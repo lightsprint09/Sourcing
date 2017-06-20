@@ -74,7 +74,7 @@ enum State {
   case initial
   case loaded
 }
-let dataPrvodierSwitcher = DataProviderSwitcher<Train, State>(initialState: .initial, resolve: { state in 
+let dataProviderSwitcher = DataProviderSwitcher<Train, State>(initialState: .initial, resolve: { state in 
    switch state {
       case .initial:
         return AnyDataProvider(cachedDataProvider)
@@ -84,7 +84,7 @@ let dataPrvodierSwitcher = DataProviderSwitcher<Train, State>(initialState: .ini
 } 
 
 //When state changes.
-dataPrvodierSwitcher.state = .loaded
+dataProviderSwitcher.state = .loaded
 ```
 
 ### AnyDataProvider
