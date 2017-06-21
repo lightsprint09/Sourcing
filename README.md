@@ -10,6 +10,7 @@
    * [FetchedResultsDataProvider](#fetchedresultsdataprovider)
    * [DataProviderSwitcher](#dataproviderswitcher)
    * [AnyDataProvider](#anydataprovider)
+   * [AnyArrayDataProvider](#anyarraydataprovider)
    * [Custom DataProvider](#custom-dataprovider)
 * [DataModificator](#datamodificator)
   * [ArrayDataModificator](#arraydatamodificator)
@@ -88,13 +89,16 @@ dataProviderSwitcher.state = .loaded
 ```
 
 ### AnyDataProvider
-`AnyDataProvider<Element>` is a Type Eraser (http://chris.eidhof.nl/post/type-erasers-in-swift/) for DataProvider. This can be useful if you want to put diffrent DataProviders in a Container.
+`AnyDataProvider<Element>` is a Type Eraser (http://chris.eidhof.nl/post/type-erasers-in-swift/) for DataProviding. This can be useful if you want to put diffrent DataProviders in a Container.
 
 ```swift
 let fetchedResultsDataProvider = FetchedResultsDataProvider<CDTrain>(fetchedResultsController: fetchedResultsController)
 let arrayDataProvider = ArrayDataProvider<CDTrain>(sections: trains)
 let dataProviders: [AnyDataProvider<CDTrain>] = [AnyDataProvider(fetchedResultsDataProvider), AnyDataProvider(arrayDataProvider)]
 ```
+
+### AnyArrayDataProvider
+`AnyArrayDataProvider<Element>` is a Type Eraser (http://chris.eidhof.nl/post/type-erasers-in-swift/) for ArrayDataProviding. This can be useful if you want to put diffrent ArrayDataProviders in a Container or composing features to ArrayDataProvider like filtering, sorting, etc.
 
 ### Custom DataProvider
 If you want to create a simple DataProvider, implement the `ArrayDataProviding` like the following example
@@ -115,7 +119,7 @@ final public class DictionaryDataProvider<Object>: ArrayDataProviding {
 ```
 If you need full controll of your DataProvider, implement `DataProviding`.
 
-Thirdparty Dataproviders:
+Thirdparty DataProviders:
 * [DBNetworkStack+Sourcing - NetworkDataProvider](https://github.com/dbsystel/DBNetworkStack-Sourcing)
 
 ## DataModificator
