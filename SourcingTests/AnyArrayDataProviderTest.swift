@@ -80,7 +80,5 @@ class AnyArrayDataProviderTest: XCTestCase {
         //Then
         XCTAssertEqual(anyArrayDataProvider.headerTitles ?? [], headerTitles)
     }
-    
-    
-    
+
 }
