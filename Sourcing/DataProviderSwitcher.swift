@@ -29,16 +29,16 @@ public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
             whenDataProviderChanged?(nil)
         }
     }
-    let dataProviderResolver: (State) -> AnyDataProvider<Object>
+    private let dataProviderResolver: (State) -> AnyDataProvider<Object>
     public var whenDataProviderChanged: (([DataProviderUpdate<Object>]?) -> Void)?
     
     var currentDataProvider: AnyDataProvider<Object> {
         return dataProviderResolver(state)
     }
     
-    public init(initialState: State, dataProviderResolver: @escaping (State) -> AnyDataProvider<Object>) {
+    public init(initialState: State, resolve: @escaping (State) -> AnyDataProvider<Object>) {
         self.state = initialState
-        self.dataProviderResolver = dataProviderResolver
+        self.dataProviderResolver = resolve
     }
     
     public func object(at indexPath: IndexPath) -> Object {

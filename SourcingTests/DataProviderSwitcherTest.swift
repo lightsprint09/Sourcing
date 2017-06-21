@@ -33,7 +33,7 @@ class DataProviderSwitcherTest: XCTestCase {
     func testInit() {
         //When
         let arrayDataProvider = ArrayDataProvider(rows: [])
-        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
         //Then
@@ -44,7 +44,7 @@ class DataProviderSwitcherTest: XCTestCase {
         //Given
         var didCallDataProviderChanges = false
         let arrayDataProvider = ArrayDataProvider(rows: [])
-        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         dataProviderSwitcher.whenDataProviderChanged = { _ in
             didCallDataProviderChanges = true
@@ -62,7 +62,7 @@ class DataProviderSwitcherTest: XCTestCase {
         //Given
         let expectedObjectAtIndex = "Test"
         let arrayDataProvider = ArrayDataProvider(rows: [expectedObjectAtIndex])
-        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
         //When
@@ -75,7 +75,7 @@ class DataProviderSwitcherTest: XCTestCase {
     func testNumberOfSections() {
         //Given
         let arrayDataProvider = ArrayDataProvider(sections: [[], []])
-        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
         //When
@@ -88,7 +88,7 @@ class DataProviderSwitcherTest: XCTestCase {
     func testNumberOfItemsInSection() {
         //Given
         let arrayDataProvider = ArrayDataProvider(sections: [[], [""]])
-        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, dataProviderResolver: { _ in return AnyDataProvider(arrayDataProvider)
+        let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
         //When

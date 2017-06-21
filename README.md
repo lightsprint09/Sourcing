@@ -8,6 +8,7 @@
 * [DataProvider](#dataprovider)
    * [ArrayDataProvider](#arraydataprovider)
    * [FetchedResultsDataProvider](#fetchedresultsdataprovider)
+   * [DataProviderSwitcher](#dataproviderswitcher)
    * [AnyDataProvider](#anydataprovider)
    * [AnyArrayDataProvider](#anyarraydataprovider)
    * [Custom DataProvider](#custom-dataprovider)
@@ -64,6 +65,27 @@ let dataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["Ger
 let trains: NSFetchrequest<CDTrain> = //
 let fetchedResultsController: NSFetchedResultsController<CDTrain> = //
 let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+```
+
+### DataProviderSwitcher
+`DataProviderSwitcher` allows switching between different DataProviders dynamically by changing to a given state. It can help to compose DataPrvoiders.
+
+```swift
+enum State {
+  case initial
+  case loaded
+}
+let dataProviderSwitcher = DataProviderSwitcher<Train, State>(initialState: .initial, resolve: { state in 
+   switch state {
+      case .initial:
+        return AnyDataProvider(cachedDataProvider)
+      case .loaded:
+        return AnyDataProvider(networkResultDataProvider)
+   }
+} 
+
+//When state changes.
+dataProviderSwitcher.state = .loaded
 ```
 
 ### AnyDataProvider
@@ -189,10 +211,10 @@ let cellConfiguration = CellConfiguration<TrainCell>() //No need to provide a ce
 Specify the following in your `Cartfile`:
 
 ```ogdl
-github "lightsprint09/sourcing" ~> 2.0
+github "lightsprint09/sourcing" ~> 2.1
 ```
 ## Contributing
-Feel free to submit a pull request with new features, improvements on tests or documentation and bug fixes. Keep in mind that we welcome code that is well tested and documented.
+See CONTRIBUTING for details.
 
 ## Contact
 Lukas Schmidt ([Mail](mailto:lukas.la.schmidt@deutschebahn.com), [@lightsprint09](https://twitter.com/lightsprint09))
