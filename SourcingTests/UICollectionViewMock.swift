@@ -47,7 +47,7 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
         return selectedIndexPaths
     }
     
-    func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
+    func _performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
         beginUpdatesCalledCount += 1
         endUpdatesCalledCount += 1
         updates?()

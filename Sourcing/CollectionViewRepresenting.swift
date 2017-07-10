@@ -41,7 +41,7 @@ public protocol CollectionViewRepresenting: class {
 
     func dequeueReusableCellWithReuseIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> UICollectionViewCell
     
-    func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?)
+    func _performBatchUpdates(_ updates: (() -> Swift.Void)?, completion: ((Bool) -> Swift.Void)?)
 
     func insertSections(_ sections: IndexSet)
     func deleteSections(_ sections: IndexSet)
@@ -57,4 +57,8 @@ public protocol CollectionViewRepresenting: class {
     
 }
 
-extension UICollectionView: CollectionViewRepresenting { }
+extension UICollectionView: CollectionViewRepresenting {
+    public func _performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
+        performBatchUpdates(updates, completion: completion)
+    }
+}
