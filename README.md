@@ -53,10 +53,31 @@ A DataProvider encaupsulates you data. Use one of the given DataProviders or imp
 ### ArrayDataProvider
 `ArrayDataProvider<Element>` wraps `Array<Element>` to a DataProvider.
 
+#### Initialize 
 ```swift
 let trains: [[Train]] = //
-let dataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["German", "French"])
+let dataProvider = ArrayDataProvider(sections: trains)
 ```
+ 
+#### Changing the data
+ ```swift
+ let newTrains: [[Train]] = //
+dataProvider.reconfigure(newTrains)
+ ```
+ If you calculate a diff for your new data, you can get insert/reorder/delete animation from your datasource.
+ 
+ ```swift
+ let newTrains: [[Train]] = //
+ let updates: [DataProviderUpdate<Train>] = //calculated diff
+ dataProvider.reconfigure(newTrains, updates: updates)
+ ```
+ #### SectionIndexTitles & SectionHeaders
+ ```swift
+ let trains: [[Train]] = //
+ let dataProvider = ArrayDataProvider(sections: trains, headerTitle: [...], sectionIndexTitles: [...])
+ ```
+ 
+ 
 
 ### FetchedResultsDataProvider
 `FetchedResultsDataProvider<Element>` takes a FetchedResultsController and provides a DataProvider for it.
@@ -130,6 +151,8 @@ An ArrayDataProvider supports modifications out of the box.
 ```swift
 let trains: [Train] = //
 let dataProvider = ArrayDataProvider(rows: trains)
+dataProvider.canMoveItems = true
+dataProvider.canDeleteItems = true
 let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider)
 ```
 ## DataSource
