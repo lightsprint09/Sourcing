@@ -61,7 +61,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         tableView.endUpdates()
     }
     
-    func process(update: DataProviderUpdate<Object>) {
+    private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
             tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
