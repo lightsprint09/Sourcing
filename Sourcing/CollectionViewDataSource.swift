@@ -70,15 +70,6 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         return cells.first(where: { $0.canConfigureCell(with: object) })
     }
     
-    func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else {
-            return collectionView.reloadData()
-        }
-        collectionView.performBatchUpdates({
-            updates.forEach(self.process)
-        }, completion: nil)
-    }
-    
     private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
@@ -96,6 +87,18 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         case .moveSection(let section, let newSection):
             collectionView.moveSection(section, toSection: newSection)
         }
+    }
+    
+    /// Animates multiple insert, delete, reload, and move operations as a group.
+    ///
+    /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
+    public func process(updates: [DataProviderUpdate<Object>]?) {
+        guard let updates = updates else {
+            return collectionView.reloadData()
+        }
+        collectionView.performBatchUpdates({
+            updates.forEach(self.process)
+        }, completion: nil)
     }
     
     public var selectedObjects: Array<Object>? {

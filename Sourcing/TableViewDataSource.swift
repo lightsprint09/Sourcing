@@ -71,7 +71,6 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         }
     }
     
-    
     /// Execute updates on your TableView. TableView will do a matching animation for each update
     ///
     /// - Parameter updates: list of updates to execute
