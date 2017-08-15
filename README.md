@@ -64,11 +64,10 @@ let dataProvider = ArrayDataProvider(sections: trains)
  let newTrains: [[Train]] = //
 dataProvider.reconfigure(newTrains)
  ```
- If you calculate a diff for your new data, you can get insert/reorder/delete animation from your datasource.
- 
+You can also provide cell animations if you process the differences:
  ```swift
  let newTrains: [[Train]] = //
- let updates: [DataProviderUpdate<Train>] = //calculated diff
+ let updates: [DataProviderUpdate<Train>] = //calculated diff – e.g: [.delete(IndexPath(row: 2, section: 0))]
  dataProvider.reconfigure(newTrains, updates: updates)
  ```
  #### SectionIndexTitles & SectionHeaders
