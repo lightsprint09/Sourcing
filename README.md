@@ -17,7 +17,7 @@
 * [DataSource](#datasource)
    * [TableViewDataSource](#tableviewdatasource)
    * [CollectionViewDataSource](#collectionviewdatasource)
-   * [Multi Cell DataSources](#multicelldatasource)
+   * [Multi Cell DataSources](#multicelldatasources)
 * [Cells](#cells)
    * [BasicCellConfiguration](#basiccellconfiguration)
    * [ConfigurableCell & CellConfiguration](#configurablecell--cellconfiguration)
