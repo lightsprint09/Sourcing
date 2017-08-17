@@ -74,7 +74,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         guard let updates = updates else {
             return collectionView.reloadData()
         }
-        collectionView.performBatchUpdates({
+        collectionView._performBatchUpdates({
             updates.forEach(self.process)
         }, completion: nil)
     }
