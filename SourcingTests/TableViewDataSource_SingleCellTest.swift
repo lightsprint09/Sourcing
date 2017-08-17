@@ -190,7 +190,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
-        XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
+        XCTAssertFalse(dataModificator.updateView ?? true)
     }
     
     func testProcessUpdatesInsert() {
@@ -376,7 +376,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         
         //Then
         XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
-        XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
+        XCTAssertFalse(dataModificator.updateView ?? true)
     }
     
     func testTitleForHeaderInSection() {
