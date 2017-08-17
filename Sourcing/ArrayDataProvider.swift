@@ -55,7 +55,8 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      - parameter sectionTitle: title for the section. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public convenience init<Rows: Collection>(rows: Rows, headerTitle: String? = nil) where Rows.Iterator.Element == Element {
+    public convenience init<Rows: Collection>(rows: Rows, headerTitle: String? = nil)
+        where Rows.Iterator.Element == Element {
         self.init(sections: [Array(rows)], headerTitles: headerTitle.map { [$0] })
     }
     
@@ -78,7 +79,8 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      - parameter updates: diff of the new data.
      - parameter triggerdByTableView: flag if the change of data is already set in the TableView.
     */
-    public func reconfigure<Rows: Collection>(with rows: Rows, updates: [DataProviderUpdate<Element>]? = nil, triggerdByTableView: Bool = false) where Rows.Iterator.Element == Element {
+    public func reconfigure<Rows: Collection>(with rows: Rows, updates: [DataProviderUpdate<Element>]? = nil, triggerdByTableView: Bool = false)
+        where Rows.Iterator.Element == Element {
         reconfigure(with: [Array(rows)], updates: updates, triggerdByTableView: triggerdByTableView)
     }
     
