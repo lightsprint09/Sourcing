@@ -29,71 +29,108 @@
 import UIKit
 import Sourcing
 
-class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewRepresenting {
-    
-    public var prefetchDataSource: UICollectionViewDataSourcePrefetching?
-    var dataSource: UICollectionViewDataSource?
-    
-    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
-        super.init(mockCells: mockCollectionViewCells)
+class UICollectionViewMock: UICollectionView  {
+    private var strongDataSource: UICollectionViewDataSource?
+    override var dataSource: UICollectionViewDataSource? {
+        get { return strongDataSource }
+        set { strongDataSource = newValue }
     }
     
-    func dequeueReusableCellWithReuseIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> UICollectionViewCell {
+    private var strongPrefetchDataSource: UICollectionViewDataSourcePrefetching?
+    override var prefetchDataSource: UICollectionViewDataSourcePrefetching? {
+        get { return strongPrefetchDataSource }
+        set { strongPrefetchDataSource = newValue }
+    }
+    
+    var reloadedCount = 0
+    var lastUsedReuseIdetifiers = Array<String>()
+    let cellMocks: Dictionary<String, AnyObject>
+    var registerdNibs = Dictionary<String, UINib?>()
+    
+    var beginUpdatesCalledCount = 0
+    var endUpdatesCalledCount = 0
+    
+    var insertedIndexPaths: Array<IndexPath>?
+    var deletedIndexPaths: Array<IndexPath>?
+    var reloadedIndexPaths: Array<IndexPath>?
+    var movedIndexPath: (from: IndexPath, to: IndexPath)?
+    
+    var insertedSections: IndexSet?
+    var deleteSections: IndexSet?
+    var movedSection: (from: Int, to: Int)?
+    
+    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
+        cellMocks = mockCollectionViewCells
+        super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
+        lastUsedReuseIdetifiers.append(identifier)
+        
+        return cellMocks[identifier]! as! Cell
+    }
+    
+    override func dequeueReusableCell(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> UICollectionViewCell {
         return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }
     
-    var selectedIndexPaths: [IndexPath]?
-    var indexPathsForSelectedItems: [IndexPath]? {
-        return selectedIndexPaths
+    private var selectedIndexPaths: [IndexPath]?
+    override var indexPathsForSelectedItems: [IndexPath]? {
+        get { return selectedIndexPaths }
+        set { selectedIndexPaths = newValue }
     }
     
     override func reloadData() {
         reloadedCount += 1
     }
     
-    override func registerNib(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+    override func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
         registerdNibs[identifier] = nib
     }
     
-    func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
+    override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
         beginUpdatesCalledCount += 1
         endUpdatesCalledCount += 1
         updates?()
     }
     
-    func insertSections(_ sections: IndexSet) {
+    override func insertSections(_ sections: IndexSet) {
         insertedSections = sections
     }
     
-    func deleteSections(_ sections: IndexSet) {
+    override func deleteSections(_ sections: IndexSet) {
         deleteSections = sections
     }
     
-    func reloadSections(_ sections: IndexSet) {
+    override func reloadSections(_ sections: IndexSet) {
     
     }
     
-    func moveSection(_ section: Int, toSection newSection: Int) {
+    override func moveSection(_ section: Int, toSection newSection: Int) {
         movedSection = (from: section, to: newSection)
     }
     
-    func insertItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    override func insertItems(at indexPaths: [IndexPath]) {
         insertedIndexPaths = indexPaths
     }
     
-    func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    override func deleteItems(at indexPaths: [IndexPath]) {
         deletedIndexPaths = indexPaths
     }
     
-    func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    override func reloadItems(at indexPaths: [IndexPath]) {
         reloadedIndexPaths = indexPaths
     }
     
-    func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath) {
+    override func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath) {
         movedIndexPath = (from: indexPath, to: newIndexPath)
     }
     
-    func cellForItemAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {
+    func cellForItematAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {
         let cell = cellMocks.first
         return cell?.1 as? UICollectionViewCell
     }

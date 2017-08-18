@@ -31,7 +31,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     public let dataProvider: AnyDataProvider<Object>
     public let dataModificator: DataModifying?
-    public var collectionView: CollectionViewRepresenting {
+    public var collectionView: UICollectionView {
         didSet {
             collectionView.dataSource = self
             collectionView.reloadData()
@@ -39,7 +39,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     }
     private let cells: Array<CellConfiguring>
     
-    public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
+    public init<DataProvider: DataProviding>(collectionView: UICollectionView, dataProvider: DataProvider,
                 anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object {
             self.collectionView = collectionView
@@ -62,7 +62,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     private func registerCells(_ cellDequeables: Array<CellConfiguring>) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
-            collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
+            collectionView.register(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
     }
     
@@ -82,13 +82,13 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
-            collectionView.insertItemsAtIndexPaths([indexPath])
+            collectionView.insertItems(at: [indexPath])
         case .update(let indexPath, _):
-            collectionView.reloadItemsAtIndexPaths([indexPath])
+            collectionView.reloadItems(at: [indexPath])
         case .move(let indexPath, let newIndexPath):
-            collectionView.moveItemAtIndexPath(indexPath, toIndexPath: newIndexPath)
+            collectionView.moveItem(at: indexPath, to: newIndexPath)
         case .delete(let indexPath):
-            collectionView.deleteItemsAtIndexPaths([indexPath])
+            collectionView.deleteItems(at: [indexPath])
         case .insertSection(let sectionIndex):
             collectionView.insertSections(IndexSet(integer: sectionIndex))
         case .deleteSection(let sectionIndex):
@@ -122,7 +122,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
         cellDequeable.configure(cell, with: object)
         
         return cell
@@ -152,14 +152,14 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 // MARK: Typesafe initializers
 
 public extension CollectionViewDataSource {
-    convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
+    convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
                      dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
-    convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
+    convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
                      dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)

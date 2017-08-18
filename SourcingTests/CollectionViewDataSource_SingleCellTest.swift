@@ -131,7 +131,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testSelectedObject() {
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
-        collectionViewMock.selectedIndexPaths = [IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 1)]
+        collectionViewMock.indexPathsForSelectedItems = [IndexPath(row: 0, section: 0), IndexPath(row: 2, section: 1)]
         let selectedObjects = dataSource.selectedObjects
         
         //Then
