@@ -17,7 +17,7 @@
 * [DataSource](#datasource)
    * [TableViewDataSource](#tableviewdatasource)
    * [CollectionViewDataSource](#collectionviewdatasource)
-   * [Multi Cell DataSources](#multicelldatasource)
+   * [Multi Cell DataSources](#multi-cell-datasources)
 * [Cells](#cells)
    * [BasicCellConfiguration](#basiccellconfiguration)
    * [ConfigurableCell & CellConfiguration](#configurablecell--cellconfiguration)
@@ -53,10 +53,30 @@ A DataProvider encaupsulates you data. Use one of the given DataProviders or imp
 ### ArrayDataProvider
 `ArrayDataProvider<Element>` wraps `Array<Element>` to a DataProvider.
 
+#### Initialize 
 ```swift
 let trains: [[Train]] = //
-let dataProvider = ArrayDataProvider(sections: trains, sectionIndexTitles: ["German", "French"])
+let dataProvider = ArrayDataProvider(sections: trains)
 ```
+ 
+#### Changing the data
+ ```swift
+ let newTrains: [[Train]] = //
+dataProvider.reconfigure(newTrains)
+ ```
+You can also provide cell animations if you process the differences:
+ ```swift
+ let newTrains: [[Train]] = //
+ let updates: [DataProviderUpdate<Train>] = //calculated diff – e.g: [.delete(IndexPath(row: 2, section: 0))]
+ dataProvider.reconfigure(newTrains, updates: updates)
+ ```
+ #### SectionIndexTitles & SectionHeaders
+ ```swift
+ let trains: [[Train]] = //
+ let dataProvider = ArrayDataProvider(sections: trains, headerTitle: [...], sectionIndexTitles: [...])
+ ```
+ 
+ 
 
 ### FetchedResultsDataProvider
 `FetchedResultsDataProvider<Element>` takes a FetchedResultsController and provides a DataProvider for it.
@@ -130,6 +150,8 @@ An ArrayDataProvider supports modifications out of the box.
 ```swift
 let trains: [Train] = //
 let dataProvider = ArrayDataProvider(rows: trains)
+dataProvider.canMoveItems = true
+dataProvider.canDeleteItems = true
 let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell, dataModificator: dataProvider)
 ```
 ## DataSource
