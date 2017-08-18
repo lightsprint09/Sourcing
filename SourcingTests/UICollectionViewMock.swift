@@ -47,6 +47,14 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
         return selectedIndexPaths
     }
     
+    override func reloadData() {
+        reloadedCount += 1
+    }
+    
+    override func registerNib(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+        registerdNibs[identifier] = nib
+    }
+    
     func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
         beginUpdatesCalledCount += 1
         endUpdatesCalledCount += 1

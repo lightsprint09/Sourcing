@@ -13,7 +13,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     
     public let dataProvider: AnyDataProvider<Object>
     public let dataModificator: DataModifying?
-    public var tableView: TableViewRepresenting {
+    public var tableView: UITableView {
         didSet {
             tableView.dataSource = self
             tableView.reloadData()
@@ -22,7 +22,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     private let cells: Array<CellConfiguring>
     public var displaySectionIndexTitles: Bool
     
-    public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
+    public init<TypedDataProvider: DataProviding>(tableView: UITableView, dataProvider: TypedDataProvider,
                 anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
                 where TypedDataProvider.Element == Object {
         self.tableView = tableView
@@ -44,7 +44,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     
     private func register(cells: Array<CellConfiguring>) {
         for cell in cells where cell.nib != nil {
-            tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+            tableView.register(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
         }
     }
     
@@ -64,17 +64,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
-            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+            tableView.insertRows(at: [indexPath], with: .fade)
         case .update(let indexPath, _):
             tableView.reloadRows(at: [indexPath], with: .none)
         case .move(let indexPath, let newIndexPath):
             tableView.moveRow(at: indexPath, to: newIndexPath)
         case .delete(let indexPath):
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         case .insertSection(let sectionIndex):
-            tableView.insertSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
         case .deleteSection(let sectionIndex):
-            tableView.deleteSections(IndexSet(integer: sectionIndex), withRowAnimation: .fade)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
         case .moveSection(let indexPath, let newIndexPath):
             tableView.moveSection(indexPath, toSection: newIndexPath)
         }
@@ -102,7 +102,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath) for object of type")
         }
-        let cell = self.tableView.dequeueReusableCellWithIdentifier(cellDequeable.cellIdentifier, forIndexPath: indexPath)
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellDequeable.cellIdentifier, for: indexPath)
         cellDequeable.configure(cell, with: object)
         
         return cell
@@ -157,7 +157,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 // MARK: Typesafe initializers
 
 public extension TableViewDataSource {
-    convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
+    convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
                      dataProvider: TypedDataProvider, cell: CellConfig,
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
@@ -166,7 +166,7 @@ public extension TableViewDataSource {
                       dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
     
-    convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
+    convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
                      dataProvider: TypedDataProvider, cells: Array<CellConfig>,
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {

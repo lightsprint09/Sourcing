@@ -55,7 +55,11 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         //Then
         XCTAssertEqual(tableViewMock.reloadedCount, 1)
         XCTAssertNotNil(tableViewMock.dataSource)
-        XCTAssertNotNil(tableViewMock.prefetchDataSource)
+        if #available(iOS 10.0, *) {
+            XCTAssertNotNil(tableViewMock.prefetchDataSource)
+        } else {
+            // Fallback on earlier versions
+        }
         XCTAssertEqual(tableViewMock.registerdNibs.count, 0)
     }
     
