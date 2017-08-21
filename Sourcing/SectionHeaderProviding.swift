@@ -20,29 +20,11 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-
-public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
-    private let capturedContents: () -> [[Element]]
-    private let setWhenDataProviderChanged: (ProcessUpdatesCallback<Element>?) -> Void
+public protocol SectionTitleProviding: class {
+    /**
+     Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
+     */
+    var sectionIndexTitles: [String]? { get }
     
-    public var contents: [[Element]] {
-        return capturedContents()
-    }
-    
-    public var whenDataProviderChanged: ProcessUpdatesCallback<Element>? {
-        didSet {
-            setWhenDataProviderChanged(whenDataProviderChanged)
-        }
-    }
-    
-    public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
-        capturedContents = {
-            return dataProvider.contents
-        }
-        whenDataProviderChanged = dataProvider.whenDataProviderChanged
-        setWhenDataProviderChanged = { callback in
-            dataProvider.whenDataProviderChanged = callback
-        }
-    }
+    func titleForHeader(inSection section: Int) -> String?
 }

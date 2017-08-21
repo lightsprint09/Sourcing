@@ -13,6 +13,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     
     public let dataProvider: AnyDataProvider<Object>
     public let dataModificator: DataModifying?
+    public let sectionTitleProvider: SectionTitleProviding?
     public var tableView: TableViewRepresenting {
         didSet {
             tableView.dataSource = self
@@ -20,16 +21,15 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         }
     }
     private let cells: Array<CellConfiguring>
-    public var displaySectionIndexTitles: Bool
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
-                anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
                 where TypedDataProvider.Element == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
         self.cells = anyCells
-        self.displaySectionIndexTitles = displaySectionIndexTitles
+        self.sectionTitleProvider = sectionTitleProvider
         super.init()
         dataProvider.whenDataProviderChanged = { [weak self] updates in
             self?.process(updates: updates)
@@ -112,19 +112,11 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return displaySectionIndexTitles ? dataProvider.sectionIndexTitles : nil
+        return sectionTitleProvider?.sectionIndexTitles
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let headerTitlesCount = dataProvider.headerTitles?.count ?? -1
-        if section == 0 && headerTitlesCount == 0 {
-            return nil
-        }
-        if section > headerTitlesCount {
-            return nil
-        } else {
-            return dataProvider.headerTitles?[section]
-        }
+        return sectionTitleProvider?.titleForHeader(inSection: section)
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -162,19 +154,19 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 public extension TableViewDataSource {
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cell: CellConfig,
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell],
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+                      dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
     }
     
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
                      dataProvider: TypedDataProvider, cells: Array<CellConfig>,
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells,
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+                      dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
     }
 }

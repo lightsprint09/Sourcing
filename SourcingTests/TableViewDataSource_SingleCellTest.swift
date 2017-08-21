@@ -42,7 +42,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]], sectionIndexTitles: ["foo", "bar"])
+        dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         tableViewMock = UITableViewMock()
         cell = CellConfiguration(cellIdentifier: cellIdentifier)
         dataModificator = DataModificatorMock()
@@ -152,13 +152,15 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testSectionIndexTitles() {
         //Given
         let realTableView = UITableView()
+        let secionIndexTitles = ["foo", "bar"]
+        let sectionTitleProvider = SectionTitleProvidingMock(sectionIndexTitles: secionIndexTitles, sectionHeaderTitles: [])
         
         //When
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, displaySectionIndexTitles: true)
-        let sectionTitles = dataSource.sectionIndexTitles(for: realTableView)
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, sectionTitleProvider: sectionTitleProvider)
+        let generatedSectionTitles = dataSource.sectionIndexTitles(for: realTableView)
         
         //Then
-        XCTAssertEqual(["foo", "bar"], sectionTitles!)
+        XCTAssertEqual(secionIndexTitles, generatedSectionTitles!)
     }
     
     func testSetNewTableView() {
@@ -382,8 +384,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
-        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]], headerTitles: ["foo", "bar"])
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+        let secionIndexTitles = ["foo", "bar"]
+        let sectionTitleProvider = SectionTitleProvidingMock(sectionIndexTitles: nil, sectionHeaderTitles: secionIndexTitles)
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
         
         //When
         let sectionTitle = dataSource.tableView(UITableView(), titleForHeaderInSection: 1)

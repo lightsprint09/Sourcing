@@ -39,9 +39,6 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
     public var whenDataProviderChanged: ProcessUpdatesCallback<Element>?
-    
-    open var headerTitles: [String]?
-    open var sectionIndexTitles: [String]?
    
     public var canMoveItems: Bool = false
     public var canDeleteItems: Bool = false
@@ -55,9 +52,9 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      - parameter sectionTitle: title for the section. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public convenience init<Rows: Collection>(rows: Rows, headerTitle: String? = nil)
+    public convenience init<Rows: Collection>(rows: Rows)
         where Rows.Iterator.Element == Element {
-        self.init(sections: [Array(rows)], headerTitles: headerTitle.map { [$0] })
+        self.init(sections: [Array(rows)])
     }
     
     /**
@@ -67,10 +64,8 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      - parameter sectionTitles: titles for the sections. nil by default.
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
-    public init(sections: [[Element]], headerTitles: [String]? = nil, sectionIndexTitles: [String]? = nil) {
+    public init(sections: [[Element]]) {
         self.contents = sections
-        self.sectionIndexTitles = sectionIndexTitles
-        self.headerTitles = headerTitles
     }
     /**
      Reconfigures the dataSource with new data.
