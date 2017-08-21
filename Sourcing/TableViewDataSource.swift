@@ -52,16 +52,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         return cells.first(where: { $0.canConfigureCell(with: object) })
     }
     
-    public func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else {
-            return tableView.reloadData()
-        }
-        tableView.beginUpdates()
-        updates.forEach(process)
-        tableView.endUpdates()
-    }
-    
-    func process(update: DataProviderUpdate<Object>) {
+    private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
             tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .fade)
@@ -78,6 +69,18 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         case .moveSection(let indexPath, let newIndexPath):
             tableView.moveSection(indexPath, toSection: newIndexPath)
         }
+    }
+    
+    /// Execute updates on your TableView. TableView will do a matching animation for each update
+    ///
+    /// - Parameter updates: list of updates to execute
+    public func process(updates: [DataProviderUpdate<Object>]?) {
+        guard let updates = updates else {
+            return tableView.reloadData()
+        }
+        tableView.beginUpdates()
+        updates.forEach(process)
+        tableView.endUpdates()
     }
     
     public var selectedObject: Object? {
