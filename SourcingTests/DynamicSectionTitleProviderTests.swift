@@ -20,15 +20,20 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-public protocol SectionTitleProviding {
-    /**
-     Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
-     */
-    var sectionIndexTitles: [String]? { get }
+import XCTest
+import Sourcing
+
+class DynamicSectionTitleProviderTests: XCTestCase {
     
-    /// Generates a optional section title for a given section
-    ///
-    /// - Parameter section: the section to generate the title for
-    /// - Returns: a section header title
-    func titleForHeader(inSection section: Int) -> String?
+    func testGenerateHeaderTitle() {
+        //Given
+        let dataProvider = ArrayDataProvider(rows: ["Hallo"])
+        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider, generateSectionHeaderTitles: { $0 })
+        
+        //When
+        let title = sectionTitelProvider.titleForHeader(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(title, "Hallo")
+    }
 }

@@ -20,15 +20,38 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-public protocol SectionTitleProviding {
+
+/// Generates section header titles by fetching the first element of a section and transforms it with a given closure into a header titles.
+public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
     /**
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
-    var sectionIndexTitles: [String]? { get }
+    public let sectionIndexTitles: [String]?
+    
+    private let dataProvider: AnyDataProvider<Element>
+    private let generateSectionHeaderTitles: (Element) -> String?
+    
+    
+    /// Creates a `DynamicHeaderTitlesProvider`.
+    ///
+    /// - Parameters:
+    ///   - dataProvider: the DataProvider used as source for header titles
+    ///   - generateSectionHeaderTitles: a closure to transform a Element which is part of the DataProvider into a single String, which is used as a section header titles
+    ///   - sectionIndexTitles: all section index titles
+    public init<DataProvider: DataProviding>(dataProvider: DataProvider, generateSectionHeaderTitles: @escaping (Element) -> String?, sectionIndexTitles: [String]? = nil) where DataProvider.Element == Element {
+        self.dataProvider = AnyDataProvider(dataProvider)
+        self.sectionIndexTitles = sectionIndexTitles
+        self.generateSectionHeaderTitles = generateSectionHeaderTitles
+    }
     
     /// Generates a optional section title for a given section
     ///
     /// - Parameter section: the section to generate the title for
     /// - Returns: a section header title
-    func titleForHeader(inSection section: Int) -> String?
+    public func titleForHeader(inSection section: Int) -> String? {
+        let indexPath = IndexPath(item: 0, section: section)
+        let firstObjectInSection = dataProvider.object(at: indexPath)
+        
+        return generateSectionHeaderTitles(firstObjectInSection)
+    }
 }

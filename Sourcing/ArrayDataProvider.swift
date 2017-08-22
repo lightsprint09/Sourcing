@@ -49,8 +49,6 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      Creates an instance of`ArrayDataProvider` with an flat array which results in a single section.
      
      - parameter rows: single section of data.
-     - parameter sectionTitle: title for the section. nil by default.
-     - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
     public convenience init<Rows: Collection>(rows: Rows)
         where Rows.Iterator.Element == Element {
@@ -61,8 +59,6 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      Creates an instance of`ArrayDataProvider` with an 2D array which results in a multiple sections.
      
      - parameter sections: 2D array.
-     - parameter sectionTitles: titles for the sections. nil by default.
-     - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
     public init(sections: [[Element]]) {
         self.contents = sections
