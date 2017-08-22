@@ -19,7 +19,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     var updates: [DataProviderUpdate<Object>] = []
     
-    open var sectionIndexTitles: Array<String>? {
+    open var sectionIndexTitles: [String]? {
         return provideSectionIndexTitles ? fetchedResultsController.sectionIndexTitles : nil
     }
     public var provideSectionIndexTitles: Bool = true

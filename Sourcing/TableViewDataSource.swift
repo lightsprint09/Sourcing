@@ -19,11 +19,11 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
             tableView.reloadData()
         }
     }
-    private let cells: Array<CellConfiguring>
+    private let cells: [CellConfiguring]
     public var displaySectionIndexTitles: Bool
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
-                anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
                 where TypedDataProvider.Element == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
@@ -42,7 +42,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         tableView.reloadData()
     }
     
-    private func register(cells: Array<CellConfiguring>) {
+    private func register(cells: [CellConfiguring]) {
         for cell in cells where cell.nib != nil {
             tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
         }
@@ -170,7 +170,7 @@ public extension TableViewDataSource {
     }
     
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cells: Array<CellConfig>,
+                     dataProvider: TypedDataProvider, cells: [CellConfig],
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
