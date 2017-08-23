@@ -19,11 +19,11 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
             tableView.reloadData()
         }
     }
-    private let cells: Array<CellConfiguring>
+    private let cells: [CellConfiguring]
     public var displaySectionIndexTitles: Bool
     
     public init<TypedDataProvider: DataProviding>(tableView: UITableView, dataProvider: TypedDataProvider,
-                anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
                 where TypedDataProvider.Element == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
@@ -42,7 +42,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         tableView.reloadData()
     }
     
-    private func register(cells: Array<CellConfiguring>) {
+    private func register(cells: [CellConfiguring]) {
         for cell in cells where cell.nib != nil {
             tableView.register(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
         }
@@ -52,16 +52,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         return cells.first(where: { $0.canConfigureCell(with: object) })
     }
     
-    public func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else {
-            return tableView.reloadData()
-        }
-        tableView.beginUpdates()
-        updates.forEach(process)
-        tableView.endUpdates()
-    }
-    
-    func process(update: DataProviderUpdate<Object>) {
+    private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
             tableView.insertRows(at: [indexPath], with: .fade)
@@ -78,6 +69,18 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         case .moveSection(let indexPath, let newIndexPath):
             tableView.moveSection(indexPath, toSection: newIndexPath)
         }
+    }
+    
+    /// Execute updates on your TableView. TableView will do a matching animation for each update
+    ///
+    /// - Parameter updates: list of updates to execute
+    public func process(updates: [DataProviderUpdate<Object>]?) {
+        guard let updates = updates else {
+            return tableView.reloadData()
+        }
+        tableView.beginUpdates()
+        updates.forEach(process)
+        tableView.endUpdates()
     }
     
     public var selectedObject: Object? {
@@ -167,7 +170,7 @@ public extension TableViewDataSource {
     }
     
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
-                     dataProvider: TypedDataProvider, cells: Array<CellConfig>,
+                     dataProvider: TypedDataProvider, cells: [CellConfig],
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)

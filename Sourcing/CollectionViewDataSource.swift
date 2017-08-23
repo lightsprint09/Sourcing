@@ -37,10 +37,10 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
             collectionView.reloadData()
         }
     }
-    private let cells: Array<CellConfiguring>
+    private let cells: [CellConfiguring]
     
     public init<DataProvider: DataProviding>(collectionView: UICollectionView, dataProvider: DataProvider,
-                anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil)
+                    anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object {
             self.collectionView = collectionView
             self.dataProvider = AnyDataProvider(dataProvider)
@@ -60,7 +60,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     // MARK: Private
     
-    private func registerCells(_ cellDequeables: Array<CellConfiguring>) {
+    private func registerCells(_ cellDequeables: [CellConfiguring]) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.register(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
@@ -68,15 +68,6 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
         return cells.first(where: { $0.canConfigureCell(with: object) })
-    }
-    
-    func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else {
-            return collectionView.reloadData()
-        }
-        collectionView.performBatchUpdates({
-            updates.forEach(self.process)
-        }, completion: nil)
     }
     
     private func process(update: DataProviderUpdate<Object>) {
@@ -98,7 +89,19 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         }
     }
     
-    public var selectedObjects: Array<Object>? {
+    /// Animates multiple insert, delete, reload, and move operations as a group.
+    ///
+    /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
+    public func process(updates: [DataProviderUpdate<Object>]?) {
+        guard let updates = updates else {
+            return collectionView.reloadData()
+        }
+        collectionView.performBatchUpdates({
+            updates.forEach(self.process)
+        }, completion: nil)
+    }
+    
+    public var selectedObjects: [Object]? {
         guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
             return nil
         }
@@ -160,7 +163,7 @@ public extension CollectionViewDataSource {
     }
     
     convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
-                     dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
+                     dataProvider: DataProvider, cells: [CellConfig], dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)

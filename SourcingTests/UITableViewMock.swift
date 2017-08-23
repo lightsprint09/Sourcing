@@ -62,8 +62,7 @@ class UITableViewMock: UITableView {
     var deleteSections: IndexSet?
     var movedSection: (from: Int, to: Int)?
 
-    
-    init(mockTableViewCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": UITableViewCellMock<Int>()]) {
+    init(mockTableViewCells: [String: UITableViewCell] = ["cellIdentifier": UITableViewCellMock<Int>()]) {
         cellMocks = mockTableViewCells
         super.init(frame: .zero, style: .plain)
     }
@@ -98,11 +97,19 @@ class UITableViewMock: UITableView {
         endUpdatesCalledCount += 1
     }
     
+<<<<<<< HEAD
     override func insertRows(at indexPaths: Array<IndexPath>, with withRowAnimation: UITableViewRowAnimation) {
         insertedIndexPaths = indexPaths
     }
     
     override func deleteRows(at indexPaths: Array<IndexPath>, with withRowAnimation: UITableViewRowAnimation) {
+=======
+    func insertRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation) {
+        insertedIndexPaths = indexPaths
+    }
+    
+    func deleteRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation) {
+>>>>>>> master
         deletedIndexPaths = indexPaths
     }
     

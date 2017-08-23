@@ -59,7 +59,7 @@ class UICollectionViewMock: UICollectionView  {
     var deleteSections: IndexSet?
     var movedSection: (from: Int, to: Int)?
     
-    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
+    init(mockCollectionViewCells:[String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
         cellMocks = mockCollectionViewCells
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }

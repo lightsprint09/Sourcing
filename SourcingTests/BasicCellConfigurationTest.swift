@@ -86,11 +86,13 @@ class BasicCellConfigurationTest: XCTestCase {
         XCTAssert(configuration.canConfigureCell(with: 1))
     }
     
+    class BasicCell: CellIdentifierProviding {
+        static var cellIdentifier = "cellIdentifier"
+    }
+    
     func testBasicCanConfigureInit() {
         //Given
-        class BasicCell: CellIdentifierProviding {
-            static var cellIdentifier = "cellIdentifier"
-        }
+       
         let configuration = BasicCellConfiguration<BasicCell, String>(configuration: { _, _ in })
         
         //Then
