@@ -114,7 +114,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>)
         XCTAssertEqual(mockCell.configurationCount, 1)
         XCTAssertEqual(mockCell.configuredObject, 10)
-        XCTAssertEqual(collectionViewMock.lastUsedReuseIdetifiers.first, cellIdentifier)
+        XCTAssertEqual(collectionViewMock.lastUsedReuseIdentifiers.first, cellIdentifier)
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
         XCTAssertTrue(didCallAdditionalConfigurtion)
     }

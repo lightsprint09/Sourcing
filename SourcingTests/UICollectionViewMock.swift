@@ -43,7 +43,7 @@ class UICollectionViewMock: UICollectionView {
     }
     
     var reloadedCount = 0
-    var lastUsedReuseIdetifiers = [String]()
+    var lastUsedReuseIdentifiers = [String]()
     let cellMocks: [String: AnyObject]
     var registerdNibs = [String: UINib?]()
     
@@ -66,7 +66,7 @@ class UICollectionViewMock: UICollectionView {
     }
     
     func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
-        lastUsedReuseIdetifiers.append(identifier)
+        lastUsedReuseIdentifiers.append(identifier)
         
         guard let cell = cellMocks[identifier] as? Cell else {
             fatalError("Could not find cell mock with identifier: \(identifier)")
