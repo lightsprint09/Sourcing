@@ -29,7 +29,7 @@
 import UIKit
 import Sourcing
 
-class UICollectionViewMock: UICollectionView  {
+class UICollectionViewMock: UICollectionView {
     private var strongDataSource: UICollectionViewDataSource?
     override var dataSource: UICollectionViewDataSource? {
         get { return strongDataSource }
@@ -43,23 +43,20 @@ class UICollectionViewMock: UICollectionView  {
     }
     
     var reloadedCount = 0
-    var lastUsedReuseIdetifiers = Array<String>()
-    let cellMocks: Dictionary<String, AnyObject>
-    var registerdNibs = Dictionary<String, UINib?>()
+    var lastUsedReuseIdetifiers = [String]()
+    let cellMocks: [String: AnyObject]
+    var registerdNibs = [String: UINib?]()
     
     var beginUpdatesCalledCount = 0
     var endUpdatesCalledCount = 0
     
-    var insertedIndexPaths: Array<IndexPath>?
-    var deletedIndexPaths: Array<IndexPath>?
-    var reloadedIndexPaths: Array<IndexPath>?
-    var movedIndexPath: (from: IndexPath, to: IndexPath)?
+   var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
     
     var insertedSections: IndexSet?
     var deleteSections: IndexSet?
     var movedSection: (from: Int, to: Int)?
     
-    init(mockCollectionViewCells:[String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
+    init(mockCollectionViewCells: [String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
         cellMocks = mockCollectionViewCells
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -71,7 +68,11 @@ class UICollectionViewMock: UICollectionView  {
     func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
         lastUsedReuseIdetifiers.append(identifier)
         
-        return cellMocks[identifier]! as! Cell
+        guard let cell = cellMocks[identifier] as? Cell else {
+            fatalError("Could not find cell mock with identifier: \(identifier)")
+        }
+        
+        return cell
     }
     
     override func dequeueReusableCell(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> UICollectionViewCell {
@@ -115,19 +116,19 @@ class UICollectionViewMock: UICollectionView  {
     }
     
     override func insertItems(at indexPaths: [IndexPath]) {
-        insertedIndexPaths = indexPaths
+        modifiedIndexPaths.inserted = indexPaths
     }
     
     override func deleteItems(at indexPaths: [IndexPath]) {
-        deletedIndexPaths = indexPaths
+        modifiedIndexPaths.deleted = indexPaths
     }
     
     override func reloadItems(at indexPaths: [IndexPath]) {
-        reloadedIndexPaths = indexPaths
+        modifiedIndexPaths.reloaded = indexPaths
     }
     
     override func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath) {
-        movedIndexPath = (from: indexPath, to: newIndexPath)
+        modifiedIndexPaths.moved = (from: indexPath, to: newIndexPath)
     }
     
     func cellForItematAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {

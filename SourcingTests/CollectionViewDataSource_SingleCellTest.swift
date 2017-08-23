@@ -188,8 +188,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [insertion])
         
         //Then
-        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.count, 1)
-        XCTAssertEqual(collectionViewMock.insertedIndexPaths?.first, insertionIndexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted?.count, 1)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted?.first, insertionIndexPath)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
@@ -203,8 +203,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [deletion])
         
         //Then
-        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.count, 1)
-        XCTAssertEqual(collectionViewMock.deletedIndexPaths?.first, deletetionIndexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted?.count, 1)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted?.first, deletetionIndexPath)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
@@ -219,8 +219,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [move])
         
         //Then
-        XCTAssertEqual(collectionViewMock.movedIndexPath?.from, oldIndexPath)
-        XCTAssertEqual(collectionViewMock.movedIndexPath?.to, newIndexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.moved?.from, oldIndexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.moved?.to, newIndexPath)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
@@ -234,7 +234,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [update])
         
         //Then
-        XCTAssertEqual(collectionViewMock.reloadedIndexPaths?.first, indexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.reloaded?.first, indexPath)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }

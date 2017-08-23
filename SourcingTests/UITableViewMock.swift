@@ -46,17 +46,14 @@ class UITableViewMock: UITableView {
         set { strongPrefetchDataSource = newValue }
     }
     var reloadedCount = 0
-    var lastUsedReuseIdetifiers = Array<String>()
-    let cellMocks: Dictionary<String, AnyObject>
-    var registerdNibs = Dictionary<String, UINib?>()
+    var lastUsedReuseIdetifiers = [String]()
+    let cellMocks: [String: AnyObject]
+    var registerdNibs = [String: UINib?]()
     
     var beginUpdatesCalledCount = 0
     var endUpdatesCalledCount = 0
     
-    var insertedIndexPaths: Array<IndexPath>?
-    var deletedIndexPaths: Array<IndexPath>?
-    var reloadedIndexPaths: Array<IndexPath>?
-    var movedIndexPath: (from: IndexPath, to: IndexPath)?
+    var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
     
     var insertedSections: IndexSet?
     var deleteSections: IndexSet?
@@ -86,7 +83,11 @@ class UITableViewMock: UITableView {
     func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
         lastUsedReuseIdetifiers.append(identifier)
         
-        return cellMocks[identifier]! as! Cell
+        guard let cell = cellMocks[identifier] as? Cell else {
+            fatalError("Could not find cell mock with identifier: \(identifier)")
+        }
+        
+        return cell
     }
     
     override func beginUpdates() {
@@ -97,24 +98,16 @@ class UITableViewMock: UITableView {
         endUpdatesCalledCount += 1
     }
     
-<<<<<<< HEAD
-    override func insertRows(at indexPaths: Array<IndexPath>, with withRowAnimation: UITableViewRowAnimation) {
-        insertedIndexPaths = indexPaths
+    override func insertRows(at indexPaths: [IndexPath], with withRowAnimation: UITableViewRowAnimation) {
+        modifiedIndexPaths.inserted = indexPaths
     }
     
-    override func deleteRows(at indexPaths: Array<IndexPath>, with withRowAnimation: UITableViewRowAnimation) {
-=======
-    func insertRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation) {
-        insertedIndexPaths = indexPaths
-    }
-    
-    func deleteRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation) {
->>>>>>> master
-        deletedIndexPaths = indexPaths
+    override func deleteRows(at indexPaths: [IndexPath], with withRowAnimation: UITableViewRowAnimation) {
+        modifiedIndexPaths.deleted = indexPaths
     }
     
     override public func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
-        reloadedIndexPaths = indexPaths
+        modifiedIndexPaths.reloaded = indexPaths
     }
     
     override func insertSections(_ sections: IndexSet, with withRowAnimation: UITableViewRowAnimation) {
@@ -130,7 +123,7 @@ class UITableViewMock: UITableView {
     }
     
     override func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {
-        movedIndexPath = (from: indexPath, to: newIndexPath)
+        modifiedIndexPaths.moved = (from: indexPath, to: newIndexPath)
     }
     
     override func cellForRow(at indexPath: IndexPath) -> UITableViewCell? {

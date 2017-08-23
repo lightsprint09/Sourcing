@@ -207,8 +207,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [0], updates: [insertion])
         
         //Then
-        XCTAssertEqual(tableViewMock.insertedIndexPaths?.count, 1)
-        XCTAssertEqual(tableViewMock.insertedIndexPaths?.first, insertionIndexPath)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.inserted?.count, 1)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.inserted?.first, insertionIndexPath)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
@@ -223,8 +223,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [0], updates: [deletion])
         
         //Then
-        XCTAssertEqual(tableViewMock.deletedIndexPaths?.count, 1)
-        XCTAssertEqual(tableViewMock.deletedIndexPaths?.first, deletetionIndexPath)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.deleted?.count, 1)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.deleted?.first, deletetionIndexPath)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
@@ -240,8 +240,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [0], updates: [move])
         
         //Then
-        XCTAssertEqual(tableViewMock.movedIndexPath?.from, oldIndexPath)
-        XCTAssertEqual(tableViewMock.movedIndexPath?.to, newIndexPath)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.moved?.from, oldIndexPath)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.moved?.to, newIndexPath)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
@@ -256,7 +256,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [0], updates: [update])
         
         //Then
-        XCTAssertEqual(tableViewMock.reloadedIndexPaths?.first, indexPath)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.reloaded?.first, indexPath)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
