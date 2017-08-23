@@ -36,7 +36,7 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
     var dataSource: UITableViewDataSource?
     var indexPathForSelectedRow: IndexPath?
     
-    init(mockTableViewCells: Dictionary<String, UITableViewCell> = ["cellIdentifier": UITableViewCellMock<Int>()]) {
+    init(mockTableViewCells: [String: UITableViewCell] = ["cellIdentifier": UITableViewCellMock<Int>()]) {
         super.init(mockCells: mockTableViewCells)
     }
     
@@ -56,11 +56,11 @@ class UITableViewMock: UITableCollectionViewBaseMock, TableViewRepresenting {
         endUpdatesCalledCount += 1
     }
     
-    func insertRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
+    func insertRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation) {
         insertedIndexPaths = indexPaths
     }
     
-    func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation) {
+    func deleteRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation) {
         deletedIndexPaths = indexPaths
     }
     

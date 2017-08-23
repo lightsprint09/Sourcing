@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
- 
 open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
@@ -19,7 +18,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     var updates: [DataProviderUpdate<Object>] = []
     
-    open var sectionIndexTitles: Array<String>? {
+    open var sectionIndexTitles: [String]? {
         return provideSectionIndexTitles ? fetchedResultsController.sectionIndexTitles : nil
     }
     public var provideSectionIndexTitles: Bool = true
