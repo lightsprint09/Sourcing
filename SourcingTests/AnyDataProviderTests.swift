@@ -103,7 +103,7 @@ class AnyDataProvidingTests: XCTestCase {
         let titles = dataProvider.headerTitles
         
         //Then
-        XCTAssertEqual([header], titles!)
+        XCTAssertEqual([header], titles ?? [])
     }
     
     func testNonNilHeaders() {
@@ -115,7 +115,7 @@ class AnyDataProvidingTests: XCTestCase {
         let titles = dataProvider.headerTitles
         
         //Then
-        XCTAssertEqual(headers, titles!)
+        XCTAssertEqual(headers, titles ?? [])
     }
     
     func testNonNilSectionIndexTitles() {
@@ -127,7 +127,7 @@ class AnyDataProvidingTests: XCTestCase {
         let titles = dataProvider.sectionIndexTitles
         
         //Then
-        XCTAssertEqual(sectionIndexTitles, titles!)
+        XCTAssertEqual(sectionIndexTitles, titles  ?? [])
     }
     
     func testSetSectionIndexTitlesInWrappedDataProvider() {
@@ -140,7 +140,7 @@ class AnyDataProvidingTests: XCTestCase {
         wrappedDataProvider.sectionIndexTitles = newSectionIndexTitles
         
         //Then
-        XCTAssertEqual(newSectionIndexTitles, dataProvider.sectionIndexTitles!)
+        XCTAssertEqual(newSectionIndexTitles, dataProvider.sectionIndexTitles ?? [])
     }
     
     func testSetHeaderTitlesTitlesInWrappedDataProvider() {
@@ -153,7 +153,7 @@ class AnyDataProvidingTests: XCTestCase {
         wrappedDataProvider.headerTitles = newHeaders
         
         //Then
-        XCTAssertEqual(newHeaders, dataProvider.headerTitles!)
+        XCTAssertEqual(newHeaders, dataProvider.headerTitles  ?? [])
     }
 
 }

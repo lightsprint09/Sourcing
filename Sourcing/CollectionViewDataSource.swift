@@ -40,7 +40,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     private let cells: [CellConfiguring]
     
     public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
-                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
+                    anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object {
             self.collectionView = collectionView
             self.dataProvider = AnyDataProvider(dataProvider)
