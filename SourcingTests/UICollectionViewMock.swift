@@ -34,7 +34,7 @@ class UICollectionViewMock: UITableCollectionViewBaseMock, CollectionViewReprese
     public var prefetchDataSource: UICollectionViewDataSourcePrefetching?
     var dataSource: UICollectionViewDataSource?
     
-    init(mockCollectionViewCells: Dictionary<String, UICollectionViewCell> = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
+    init(mockCollectionViewCells: [String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
         super.init(mockCells: mockCollectionViewCells)
     }
     

@@ -37,10 +37,10 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
             collectionView.reloadData()
         }
     }
-    private let cells: Array<CellConfiguring>
+    private let cells: [CellConfiguring]
     
     public init<DataProvider: DataProviding>(collectionView: CollectionViewRepresenting, dataProvider: DataProvider,
-                anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil)
+                    anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object {
             self.collectionView = collectionView
             self.dataProvider = AnyDataProvider(dataProvider)
@@ -60,7 +60,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
     
     // MARK: Private
     
-    private func registerCells(_ cellDequeables: Array<CellConfiguring>) {
+    private func registerCells(_ cellDequeables: [CellConfiguring]) {
         for cellDequeable in cellDequeables where cellDequeable.nib != nil {
             collectionView.registerNib(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
         }
@@ -101,7 +101,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
         }, completion: nil)
     }
     
-    public var selectedObjects: Array<Object>? {
+    public var selectedObjects: [Object]? {
         guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
             return nil
         }
@@ -163,7 +163,7 @@ public extension CollectionViewDataSource {
     }
     
     convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: CollectionViewRepresenting,
-                     dataProvider: DataProvider, cells: Array<CellConfig>, dataModificator: DataModifying? = nil)
+                     dataProvider: DataProvider, cells: [CellConfig], dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)

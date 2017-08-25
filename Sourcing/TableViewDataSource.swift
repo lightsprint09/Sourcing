@@ -42,7 +42,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         tableView.reloadData()
     }
     
-    private func register(cells: Array<CellConfiguring>) {
+    private func register(cells: [CellConfiguring]) {
         for cell in cells where cell.nib != nil {
             tableView.registerNib(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
         }
