@@ -52,7 +52,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         _ = CollectionViewDataSource<Int>(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cells)
         
         //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 1)
         XCTAssertNotNil(collectionViewMock.dataSource)
         XCTAssertNotNil(collectionViewMock.prefetchDataSource)
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
@@ -118,8 +118,8 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         let stringCell = dataSource.collectionView(realCollectionView, cellForItemAt:  IndexPath(row: 0, section: 1))
         
         //Then
-        let mockIntCell = collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>
-        let mockStringCell = collectionViewMock.cellMocks[secondCellIdentifier] as! UICollectionViewCellMock<String>
+        let mockIntCell = collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>
+        let mockStringCell = collectionViewMock.cellDequeueMock.cells[secondCellIdentifier] as! UICollectionViewCellMock<String>
         XCTAssert(didCallAdditionalConfigurtion)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
@@ -139,7 +139,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         dataSource.process(updates: nil)
         
         //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 2)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 2)
     }
     
     func testSetNewCollectionView() {
@@ -154,6 +154,6 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         dataSource.collectionView = secondCollectionViewMock
         //Then
         XCTAssertNotNil(secondCollectionViewMock.dataSource)
-        XCTAssertEqual(secondCollectionViewMock.reloadedCount, 1)
+        XCTAssertEqual(secondCollectionViewMock.executionCount.reloaded, 1)
     }
 }

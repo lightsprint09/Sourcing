@@ -53,9 +53,13 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cells)
         
         //Then
-        XCTAssertEqual(tableViewMock.reloadedCount, 1)
+        XCTAssertEqual(tableViewMock.executionCount.reloaded, 1)
         XCTAssertNotNil(tableViewMock.dataSource)
-        XCTAssertNotNil(tableViewMock.prefetchDataSource)
+        if #available(iOS 10.0, *) {
+            XCTAssertNotNil(tableViewMock.prefetchDataSource)
+        } else {
+            // Fallback on earlier versions
+        }
         XCTAssertEqual(tableViewMock.registerdNibs.count, 0)
     }
     
@@ -120,8 +124,8 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         let stringCell = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 0, section: 1))
         
         //Then
-        let mockIntCell = tableViewMock.cellMocks[cellIdentifier] as! UITableViewCellMock<Int>
-        let mockStringCell = tableViewMock.cellMocks[secondCellIdentifier] as! UITableViewCellMock<String>
+        let mockIntCell = tableViewMock.cellDequeueMock.cells[cellIdentifier] as! UITableViewCellMock<Int>
+        let mockStringCell = tableViewMock.cellDequeueMock.cells[secondCellIdentifier] as! UITableViewCellMock<String>
         XCTAssert(didCallAdditionalConfigurtion)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
@@ -143,6 +147,6 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         dataSource.tableView = secondTableview
         //Then
         XCTAssertNotNil(secondTableview.dataSource)
-        XCTAssertEqual(secondTableview.reloadedCount, 1)
+        XCTAssertEqual(secondTableview.executionCount.reloaded, 1)
     }
 }
