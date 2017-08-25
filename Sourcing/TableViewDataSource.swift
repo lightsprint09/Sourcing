@@ -55,17 +55,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
-            tableView.insertRows(at: [indexPath], with: .fade)
+            tableView.insertRows(at: [indexPath], with: .automatic)
         case .update(let indexPath, _):
-            tableView.reloadRows(at: [indexPath], with: .none)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         case .move(let indexPath, let newIndexPath):
             tableView.moveRow(at: indexPath, to: newIndexPath)
         case .delete(let indexPath):
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         case .insertSection(let sectionIndex):
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
         case .deleteSection(let sectionIndex):
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
         case .moveSection(let indexPath, let newIndexPath):
             tableView.moveSection(indexPath, toSection: newIndexPath)
         }
