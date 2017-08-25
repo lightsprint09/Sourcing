@@ -20,29 +20,18 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
+import Sourcing
 
-public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
-    private let capturedContents: () -> [[Element]]
-    private let setWhenDataProviderChanged: (ProcessUpdatesCallback<Element>?) -> Void
+class SectionTitleProvidingMock: SectionTitleProviding {
+    let sectionIndexTitles: [String]?
+    let sectionHeaderTitles: [String]
     
-    public var contents: [[Element]] {
-        return capturedContents()
+    init(sectionIndexTitles: [String]?, sectionHeaderTitles: [String]) {
+        self.sectionIndexTitles = sectionIndexTitles
+        self.sectionHeaderTitles = sectionHeaderTitles
     }
     
-    public var whenDataProviderChanged: ProcessUpdatesCallback<Element>? {
-        didSet {
-            setWhenDataProviderChanged(whenDataProviderChanged)
-        }
-    }
-    
-    public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
-        capturedContents = {
-            return dataProvider.contents
-        }
-        whenDataProviderChanged = dataProvider.whenDataProviderChanged
-        setWhenDataProviderChanged = { callback in
-            dataProvider.whenDataProviderChanged = callback
-        }
+    func titleForHeader(inSection section: Int) -> String? {
+        return sectionHeaderTitles[section]
     }
 }

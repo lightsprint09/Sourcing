@@ -40,7 +40,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        dataProvider = ArrayDataProvider<Any>(sections: [[2], ["String"]], sectionIndexTitles: ["foo", "bar"])
+        dataProvider = ArrayDataProvider<Any>(sections: [[2], ["String"]])
         tableViewMock = UITableViewMock()
     }
     

@@ -119,53 +119,6 @@ class ArrayDataProviderTest: XCTestCase {
         XCTAssertEqual(dataProvider.contents.first!, [8, 9, 10])
     }
     
-    func testNilSectionIndexTitles() {
-        //Given
-        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
-        
-        //When
-        let sectionIndexTitles = dataProvider.sectionIndexTitles
-        
-        //Then
-        XCTAssertNil(sectionIndexTitles)
-    }
-    
-    func testNonNilHeader() {
-        //Given
-        let header = "hello"
-        dataProvider = ArrayDataProvider(rows: [1, 2], headerTitle: header)
-        
-        //When
-        let titles = dataProvider.headerTitles
-        
-        //Then
-        XCTAssertEqual([header], titles!)
-    }
-    
-    func testNonNilHeaders() {
-        //Given
-        let headers = ["hallo", "bye"]
-        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], headerTitles: headers)
-        
-        //When
-        let titles = dataProvider.headerTitles
-        
-        //Then
-        XCTAssertEqual(headers, titles!)
-    }
-    
-    func testNonNilSectionIndexTitles() {
-        //Given
-        let sectionIndexTitles = ["hallo", "bye"]
-        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], sectionIndexTitles: sectionIndexTitles)
-        
-        //When
-        let titles = dataProvider.sectionIndexTitles
-        
-        //Then
-        XCTAssertEqual(sectionIndexTitles, titles!)
-    }
-    
     func testCanMoveItemFromTo() {
         //Given
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])

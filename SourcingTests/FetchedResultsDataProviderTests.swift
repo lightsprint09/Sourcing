@@ -234,12 +234,4 @@ class FetchedResultsDataProviderTests: XCTestCase {
         }
     }
     
-    func testSectionIndexTitles() {
-        
-        //When
-        let sectionIndex = dataProvider.sectionIndexTitles
-        
-        //Then
-        XCTAssertEqual(sectionIndex!, ["I"])
-    }
 }
