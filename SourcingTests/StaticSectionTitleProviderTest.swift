@@ -20,20 +20,4 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import XCTest
-import Sourcing
-
-class DynamicSectionTitleProviderTests: XCTestCase {
-    
-    func testGenerateHeaderTitle() {
-        //Given
-        let dataProvider = ArrayDataProvider(rows: ["Hallo"])
-        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider, generateSectionHeaderTitles: { $0 })
-        
-        //When
-        let title = sectionTitelProvider.titleForHeader(inSection: 0)
-        
-        //Then
-        XCTAssertEqual(title, "Hallo")
-    }
-}
+import Foundation
