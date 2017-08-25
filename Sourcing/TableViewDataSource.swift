@@ -160,19 +160,19 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 // MARK: Typesafe initializers
 
 public extension TableViewDataSource {
-    convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
-                     dataProvider: TypedDataProvider, cell: CellConfig,
+    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
+                     dataProvider: TypedDataProvider, cell: Cell,
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
-        where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
+        where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell],
                       dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
     
-    convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
-                     dataProvider: TypedDataProvider, cells: [CellConfig],
+    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
+                     dataProvider: TypedDataProvider, cells: [Cell],
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
-        where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
+        where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells,
                       dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)

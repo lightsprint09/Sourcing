@@ -155,16 +155,16 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 // MARK: Typesafe initializers
 
 public extension CollectionViewDataSource {
-    convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
-                     dataProvider: DataProvider, cell: CellConfig, dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
+    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
+                     dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
+        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
     }
     
-    convenience init<CellConfig: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
-                     dataProvider: DataProvider, cells: [CellConfig], dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UICollectionViewCell {
+    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
+                     dataProvider: DataProvider, cells: [Cell], dataModificator: DataModifying? = nil)
+        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }
