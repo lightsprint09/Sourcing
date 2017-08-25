@@ -387,7 +387,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let secionIndexTitles = ["foo", "bar"]
         let sectionTitleProvider = SectionTitleProvidingMock(sectionIndexTitles: nil, sectionHeaderTitles: secionIndexTitles)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
+        let dataSource = TableViewDataSource(tableView: tableViewMock,
+                                             dataProvider: dataProvider,
+                                             cell: cell,
+                                             dataModificator: dataModificator,
+                                             sectionTitleProvider: sectionTitleProvider)
         
         //When
         let sectionTitle = dataSource.tableView(UITableView(), titleForHeaderInSection: 1)

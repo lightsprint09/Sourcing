@@ -20,10 +20,10 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
             tableView.reloadData()
         }
     }
-    private let cells: Array<CellConfiguring>
+    private let cells: [CellConfiguring]
     
     public init<TypedDataProvider: DataProviding>(tableView: TableViewRepresenting, dataProvider: TypedDataProvider,
-                anyCells: Array<CellConfiguring>, dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
+                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
                 where TypedDataProvider.Element == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
@@ -162,7 +162,7 @@ public extension TableViewDataSource {
     }
     
     convenience init<CellConfig: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: TableViewRepresenting,
-                     dataProvider: TypedDataProvider, cells: Array<CellConfig>,
+                     dataProvider: TypedDataProvider, cells: [CellConfig],
                      dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, CellConfig.Object == Object, CellConfig.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)

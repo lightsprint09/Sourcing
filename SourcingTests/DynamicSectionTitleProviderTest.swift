@@ -28,7 +28,9 @@ class DynamicSectionTitleProviderTests: XCTestCase {
     func testGenerateHeaderTitleWithStaticIndexTitles() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
-        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider, generateSectionHeaderTitle: { (element, _) in element }, sectionIndexTitles: ["SectionIndexTitle"])
+        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
+                                                               generateSectionHeaderTitle: { (element, _) in element },
+                                                               sectionIndexTitles: ["SectionIndexTitle"])
         
         //When
         let title = sectionTitelProvider.titleForHeader(inSection: 0)
@@ -41,7 +43,9 @@ class DynamicSectionTitleProviderTests: XCTestCase {
     func testGenerateSectionIndexTitlesWithStaticSectionHeaderTitles() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionIndexTitle"])
-        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider, sectionHeaderTitles: ["SectionTitle"], generateSectionIndexTitle: { (element, _) in element })
+        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
+                                                               sectionHeaderTitles: ["SectionTitle"],
+                                                               generateSectionIndexTitle: { (element, _) in element })
         //When
         let title = sectionTitelProvider.titleForHeader(inSection: 0)
         

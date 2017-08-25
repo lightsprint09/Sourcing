@@ -46,8 +46,8 @@ public protocol TableViewRepresenting: class {
     func beginUpdates()
     func endUpdates()
     
-    func insertRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation)
-    func deleteRowsAtIndexPaths(_ indexPaths: Array<IndexPath>, withRowAnimation: UITableViewRowAnimation)
+    func insertRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation)
+    func deleteRowsAtIndexPaths(_ indexPaths: [IndexPath], withRowAnimation: UITableViewRowAnimation)
     func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath)
     func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation)
     
