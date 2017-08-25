@@ -270,8 +270,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [0], updates: [insertion])
         
         //Then
-        XCTAssertEqual(tableViewMock.insertedSections?.count, 1)
-        XCTAssertEqual(tableViewMock.insertedSections?.first, 0)
+        XCTAssertEqual(tableViewMock.modifiedSections.inserted?.count, 1)
+        XCTAssertEqual(tableViewMock.modifiedSections.inserted?.first, 0)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
@@ -285,8 +285,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [0], updates: [deletion])
         
         //Then
-        XCTAssertEqual(tableViewMock.deleteSections?.count, 1)
-        XCTAssertEqual(tableViewMock.deleteSections?.first, 0)
+        XCTAssertEqual(tableViewMock.modifiedSections.deleted?.count, 1)
+        XCTAssertEqual(tableViewMock.modifiedSections.deleted?.first, 0)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
@@ -300,8 +300,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [0], updates: [deletion])
         
         //Then
-        XCTAssertEqual(tableViewMock.movedSection?.from, 0)
-        XCTAssertEqual(tableViewMock.movedSection?.to, 1)
+        XCTAssertEqual(tableViewMock.modifiedSections.moved?.from, 0)
+        XCTAssertEqual(tableViewMock.modifiedSections.moved?.to, 1)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }
@@ -315,8 +315,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [[]], updates: [deletion])
         
         //Then
-        XCTAssertEqual(tableViewMock.deleteSections?.count, 1)
-        XCTAssertEqual(tableViewMock.deleteSections?.first, 0)
+        XCTAssertEqual(tableViewMock.modifiedSections.deleted?.count, 1)
+        XCTAssertEqual(tableViewMock.modifiedSections.deleted?.first, 0)
         XCTAssertEqual(tableViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(tableViewMock.endUpdatesCalledCount, 1)
     }

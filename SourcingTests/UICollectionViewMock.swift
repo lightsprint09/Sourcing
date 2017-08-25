@@ -29,7 +29,7 @@
 import UIKit
 import Sourcing
 
-class UICollectionViewMock: UICollectionView {
+class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
     private var strongDataSource: UICollectionViewDataSource?
     override var dataSource: UICollectionViewDataSource? {
         get { return strongDataSource }
@@ -50,11 +50,8 @@ class UICollectionViewMock: UICollectionView {
     var beginUpdatesCalledCount = 0
     var endUpdatesCalledCount = 0
     
-   var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
-    
-    var insertedSections: IndexSet?
-    var deleteSections: IndexSet?
-    var movedSection: (from: Int, to: Int)?
+    var modifiedIndexPaths = ModifiedIndexPaths()
+    var modifiedSections = ModifiedSections()
     
     init(mockCollectionViewCells: [String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
         cellMocks = mockCollectionViewCells
@@ -63,16 +60,6 @@ class UICollectionViewMock: UICollectionView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
-        lastUsedReuseIdentifiers.append(identifier)
-        
-        guard let cell = cellMocks[identifier] as? Cell else {
-            fatalError("Could not find cell mock with identifier: \(identifier)")
-        }
-        
-        return cell
     }
     
     override func dequeueReusableCell(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> UICollectionViewCell {
@@ -100,11 +87,11 @@ class UICollectionViewMock: UICollectionView {
     }
     
     override func insertSections(_ sections: IndexSet) {
-        insertedSections = sections
+        modifiedSections.inserted = sections
     }
     
     override func deleteSections(_ sections: IndexSet) {
-        deleteSections = sections
+        modifiedSections.deleted = sections
     }
     
     override func reloadSections(_ sections: IndexSet) {
@@ -112,7 +99,7 @@ class UICollectionViewMock: UICollectionView {
     }
     
     override func moveSection(_ section: Int, toSection newSection: Int) {
-        movedSection = (from: section, to: newSection)
+        modifiedSections.moved = (from: section, to: newSection)
     }
     
     override func insertItems(at indexPaths: [IndexPath]) {

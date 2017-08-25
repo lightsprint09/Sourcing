@@ -29,7 +29,25 @@
 import UIKit
 import Sourcing
 
-class UITableViewMock: UITableView {
+protocol UICollectionViewTableViewMocking: class {
+    var lastUsedReuseIdentifiers: [String] { get set }
+    var cellMocks: [String: AnyObject] { get }
+}
+
+extension UICollectionViewTableViewMocking {
+    
+    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
+        lastUsedReuseIdentifiers.append(identifier)
+        
+        guard let cell = cellMocks[identifier] as? Cell else {
+            fatalError("Could not find cell mock with identifier: \(identifier)")
+        }
+        
+        return cell
+    }
+}
+
+class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
     private var strongDataSource: UITableViewDataSource?
     override var dataSource: UITableViewDataSource? {
         get { return strongDataSource }
@@ -54,10 +72,7 @@ class UITableViewMock: UITableView {
     var endUpdatesCalledCount = 0
     
     var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
-    
-    var insertedSections: IndexSet?
-    var deleteSections: IndexSet?
-    var movedSection: (from: Int, to: Int)?
+    var modifiedSections = ModifiedSections()
 
     init(mockTableViewCells: [String: UITableViewCell] = ["cellIdentifier": UITableViewCellMock<Int>()]) {
         cellMocks = mockTableViewCells
@@ -78,16 +93,6 @@ class UITableViewMock: UITableView {
     
     override func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell {
         return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
-    }
-    
-    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
-        lastUsedReuseIdentifiers.append(identifier)
-        
-        guard let cell = cellMocks[identifier] as? Cell else {
-            fatalError("Could not find cell mock with identifier: \(identifier)")
-        }
-        
-        return cell
     }
     
     override func beginUpdates() {
@@ -111,15 +116,15 @@ class UITableViewMock: UITableView {
     }
     
     override func insertSections(_ sections: IndexSet, with withRowAnimation: UITableViewRowAnimation) {
-        insertedSections = sections
+        modifiedSections.inserted = sections
     }
     
     override func deleteSections(_ sections: IndexSet, with withRowAnimation: UITableViewRowAnimation) {
-        deleteSections = sections
+        modifiedSections.deleted = sections
     }
     
     override func moveSection(_ section: Int, toSection newSection: Int) {
-        movedSection = (from: section, to: newSection)
+        modifiedSections.moved = (from: section, to: newSection)
     }
     
     override func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {

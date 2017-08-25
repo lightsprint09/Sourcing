@@ -247,8 +247,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [insertion])
         
         //Then
-        XCTAssertEqual(collectionViewMock.insertedSections?.count, 1)
-        XCTAssertEqual(collectionViewMock.insertedSections?.first, 0)
+        XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.count, 1)
+        XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.first, 0)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
@@ -261,8 +261,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [deletion])
         
         //Then
-        XCTAssertEqual(collectionViewMock.deleteSections?.count, 1)
-        XCTAssertEqual(collectionViewMock.deleteSections?.first, 0)
+        XCTAssertEqual(collectionViewMock.modifiedSections.deleted?.count, 1)
+        XCTAssertEqual(collectionViewMock.modifiedSections.deleted?.first, 0)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
@@ -275,8 +275,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: [deletion])
         
         //Then
-        XCTAssertEqual(collectionViewMock.movedSection?.from, 0)
-        XCTAssertEqual(collectionViewMock.movedSection?.to, 1)
+        XCTAssertEqual(collectionViewMock.modifiedSections.moved?.from, 0)
+        XCTAssertEqual(collectionViewMock.modifiedSections.moved?.to, 1)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
@@ -289,8 +289,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataProvider.reconfigure(with: [[]], updates: [insertion])
         
         //Then
-        XCTAssertEqual(collectionViewMock.insertedSections?.count, 1)
-        XCTAssertEqual(collectionViewMock.insertedSections?.first, 0)
+        XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.count, 1)
+        XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.first, 0)
         XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
         XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
     }
