@@ -34,7 +34,7 @@ struct ExecutionCount {
     var endUpdates: Int = 0
 }
 
-class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
+class UITableViewMock: UITableView {
     private var strongDataSource: UITableViewDataSource?
     override var dataSource: UITableViewDataSource? {
         get { return strongDataSource }
@@ -50,9 +50,10 @@ class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
         get { return strongPrefetchDataSource }
         set { strongPrefetchDataSource = newValue }
     }
-    var lastUsedReuseIdentifiers = [String]()
-    let cellMocks: [String: AnyObject]
+    
     var registerdNibs = [String: UINib?]()
+    
+    var cellDequeueMock: CellDequeueMock<UITableViewCell>
     
     var executionCount = ExecutionCount()
     
@@ -60,7 +61,7 @@ class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
     var modifiedSections = ModifiedSections()
 
     init(mockTableViewCells: [String: UITableViewCell] = ["cellIdentifier": UITableViewCellMock<Int>()]) {
-        cellMocks = mockTableViewCells
+        cellDequeueMock = CellDequeueMock(cells: mockTableViewCells, dequeueCellReuseIdentifiers: [])
         super.init(frame: .zero, style: .plain)
     }
     
@@ -77,7 +78,7 @@ class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
     }
     
     override func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell {
-        return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
+        return cellDequeueMock.dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }
     
     override func beginUpdates() {
@@ -117,7 +118,6 @@ class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
     }
     
     override func cellForRow(at indexPath: IndexPath) -> UITableViewCell? {
-        let cell = cellMocks.first
-        return cell?.1 as? UITableViewCell
+        return cellDequeueMock.cells.first?.value
     }
 }

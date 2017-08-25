@@ -20,19 +20,17 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
+import Foundation
 
-protocol UICollectionViewTableViewMocking: class {
-    var lastUsedReuseIdentifiers: [String] { get set }
-    var cellMocks: [String: AnyObject] { get }
-}
-
-extension UICollectionViewTableViewMocking {
+struct CellDequeueMock<Cell> {
+    let cells: [String: Cell]
     
-    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
-        lastUsedReuseIdentifiers.append(identifier)
+    var dequeueCellReuseIdentifiers = [String]()
+    
+    mutating func dequeueWithIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
+        dequeueCellReuseIdentifiers.append(identifier)
         
-        guard let cell = cellMocks[identifier] as? Cell else {
+        guard let cell = cells[identifier] else {
             fatalError("Could not find cell mock with identifier: \(identifier)")
         }
         

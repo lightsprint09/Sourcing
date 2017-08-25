@@ -113,10 +113,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let cellForGivenRow = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 2, section: 1))
         
         //Then
-        let UITableViewCellMock = (tableViewMock.cellMocks[cellIdentifier] as! UITableViewCellMock<Int>)
+        let UITableViewCellMock = (tableViewMock.cellDequeueMock.cells[cellIdentifier] as! UITableViewCellMock<Int>)
         XCTAssertEqual(UITableViewCellMock.configurationCount, 1)
         XCTAssertEqual(UITableViewCellMock.configuredObject, 10)
-        XCTAssertEqual(tableViewMock.lastUsedReuseIdentifiers.first, cellIdentifier)
+        XCTAssertEqual(tableViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, cellIdentifier)
         XCTAssertTrue(cellForGivenRow is UITableViewCellMock<Int>)
         XCTAssertTrue(didCallAdditionalConfigurtion)
     }

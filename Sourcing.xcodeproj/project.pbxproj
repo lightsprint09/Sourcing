@@ -31,7 +31,7 @@
 		C63610A71E4077C800417B45 /* DataModificatorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63610A61E4077C800417B45 /* DataModificatorMock.swift */; };
 		C6363D841F4DBCE00052E9BD /* ModifiedIndexPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */; };
 		C6363D971F5016A90052E9BD /* ModifiedSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D961F5016A90052E9BD /* ModifiedSections.swift */; };
-		C6363D9A1F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D991F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift */; };
+		C6363D9C1F5028D40052E9BD /* CellDequeueMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D9B1F5028D40052E9BD /* CellDequeueMock.swift */; };
 		C64CEDD11D741BF400027CBB /* ArrayDataProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */; };
 		C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */; };
 		C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */; };
@@ -90,7 +90,7 @@
 		C63610A61E4077C800417B45 /* DataModificatorMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModificatorMock.swift; sourceTree = "<group>"; };
 		C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifiedIndexPaths.swift; sourceTree = "<group>"; };
 		C6363D961F5016A90052E9BD /* ModifiedSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifiedSections.swift; sourceTree = "<group>"; };
-		C6363D991F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewTableViewMocking.swift; sourceTree = "<group>"; };
+		C6363D9B1F5028D40052E9BD /* CellDequeueMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDequeueMock.swift; sourceTree = "<group>"; };
 		C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProviding.swift; sourceTree = "<group>"; };
 		C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewMock.swift; sourceTree = "<group>"; };
 		C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellIdentifierProviding.swift; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 				C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */,
 				C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */,
 				C6363D961F5016A90052E9BD /* ModifiedSections.swift */,
-				C6363D991F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift */,
+				C6363D9B1F5028D40052E9BD /* CellDequeueMock.swift */,
 			);
 			name = UIKitMocks;
 			sourceTree = "<group>";
@@ -407,7 +407,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C61307631E261CD6009BD8CD /* DataProviderMock.swift in Sources */,
-				C6363D9A1F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift in Sources */,
 				C6E76AE31EE80530007E323B /* DataProviderSwitcherTest.swift in Sources */,
 				C6B92C741EF127FC00D059AF /* AnyArrayDataProviderTest.swift in Sources */,
 				945ABE881E0D731D001B42CE /* TableViewDataSource_MultiCellTest.swift in Sources */,
@@ -415,6 +414,7 @@
 				C60BE64E1D6B21DC006B0364 /* CollectionViewDataSource_SingleCellTest.swift in Sources */,
 				C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */,
 				C687C1BF1E379C120089F561 /* NSFetchedResultsSectionInfoMock.swift in Sources */,
+				C6363D9C1F5028D40052E9BD /* CellDequeueMock.swift in Sources */,
 				945ABE861E0D720F001B42CE /* TableViewDataSource_SingleCellTest.swift in Sources */,
 				94C9032D1E1D20E500C0C56A /* CDTrain.swift in Sources */,
 				C6363D841F4DBCE00052E9BD /* ModifiedIndexPaths.swift in Sources */,

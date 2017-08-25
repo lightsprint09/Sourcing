@@ -111,10 +111,10 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let cellAtIdexPath = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 2, section: 1))
         
         //Then
-        let mockCell = (collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>)
+        let mockCell = (collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>)
         XCTAssertEqual(mockCell.configurationCount, 1)
         XCTAssertEqual(mockCell.configuredObject, 10)
-        XCTAssertEqual(collectionViewMock.lastUsedReuseIdentifiers.first, cellIdentifier)
+        XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, cellIdentifier)
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
         XCTAssertTrue(didCallAdditionalConfigurtion)
     }

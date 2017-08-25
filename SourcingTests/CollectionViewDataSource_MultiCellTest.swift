@@ -118,8 +118,8 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         let stringCell = dataSource.collectionView(realCollectionView, cellForItemAt:  IndexPath(row: 0, section: 1))
         
         //Then
-        let mockIntCell = collectionViewMock.cellMocks[cellIdentifier] as! UICollectionViewCellMock<Int>
-        let mockStringCell = collectionViewMock.cellMocks[secondCellIdentifier] as! UICollectionViewCellMock<String>
+        let mockIntCell = collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>
+        let mockStringCell = collectionViewMock.cellDequeueMock.cells[secondCellIdentifier] as! UICollectionViewCellMock<String>
         XCTAssert(didCallAdditionalConfigurtion)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)

@@ -28,7 +28,7 @@
 
 import UIKit
 
-class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
+class UICollectionViewMock: UICollectionView {
     private var strongDataSource: UICollectionViewDataSource?
     override var dataSource: UICollectionViewDataSource? {
         get { return strongDataSource }
@@ -41,9 +41,9 @@ class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
         set { strongPrefetchDataSource = newValue }
     }
     
-    var lastUsedReuseIdentifiers = [String]()
-    let cellMocks: [String: AnyObject]
     var registerdNibs = [String: UINib?]()
+    
+    var cellDequeueMock: CellDequeueMock<UICollectionViewCell>
     
     var executionCount = ExecutionCount()
     
@@ -51,7 +51,7 @@ class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
     var modifiedSections = ModifiedSections()
     
     init(mockCollectionViewCells: [String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
-        cellMocks = mockCollectionViewCells
+        cellDequeueMock = CellDequeueMock(cells: mockCollectionViewCells, dequeueCellReuseIdentifiers: [])
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -60,7 +60,7 @@ class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
     }
     
     override func dequeueReusableCell(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> UICollectionViewCell {
-        return dequeueWithIdentifier(identifier, forIndexPath: indexPath)
+        return cellDequeueMock.dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }
     
     private var selectedIndexPaths: [IndexPath]?
@@ -116,7 +116,6 @@ class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
     }
     
     func cellForItematAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {
-        let cell = cellMocks.first
-        return cell?.1 as? UICollectionViewCell
+        return cellDequeueMock.cells.first?.value
     }
 }

@@ -124,8 +124,8 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         let stringCell = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 0, section: 1))
         
         //Then
-        let mockIntCell = tableViewMock.cellMocks[cellIdentifier] as! UITableViewCellMock<Int>
-        let mockStringCell = tableViewMock.cellMocks[secondCellIdentifier] as! UITableViewCellMock<String>
+        let mockIntCell = tableViewMock.cellDequeueMock.cells[cellIdentifier] as! UITableViewCellMock<Int>
+        let mockStringCell = tableViewMock.cellDequeueMock.cells[secondCellIdentifier] as! UITableViewCellMock<String>
         XCTAssert(didCallAdditionalConfigurtion)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
