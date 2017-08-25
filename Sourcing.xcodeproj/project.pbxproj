@@ -31,6 +31,7 @@
 		C63610A71E4077C800417B45 /* DataModificatorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63610A61E4077C800417B45 /* DataModificatorMock.swift */; };
 		C6363D841F4DBCE00052E9BD /* ModifiedIndexPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */; };
 		C6363D971F5016A90052E9BD /* ModifiedSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D961F5016A90052E9BD /* ModifiedSections.swift */; };
+		C6363D9A1F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D991F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift */; };
 		C64CEDD11D741BF400027CBB /* ArrayDataProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */; };
 		C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */; };
 		C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */; };
@@ -89,6 +90,7 @@
 		C63610A61E4077C800417B45 /* DataModificatorMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModificatorMock.swift; sourceTree = "<group>"; };
 		C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifiedIndexPaths.swift; sourceTree = "<group>"; };
 		C6363D961F5016A90052E9BD /* ModifiedSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifiedSections.swift; sourceTree = "<group>"; };
+		C6363D991F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewTableViewMocking.swift; sourceTree = "<group>"; };
 		C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProviding.swift; sourceTree = "<group>"; };
 		C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewMock.swift; sourceTree = "<group>"; };
 		C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellIdentifierProviding.swift; sourceTree = "<group>"; };
@@ -186,21 +188,30 @@
 			name = Tests;
 			sourceTree = "<group>";
 		};
+		C6363D981F5024B90052E9BD /* UIKitMocks */ = {
+			isa = PBXGroup;
+			children = (
+				C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */,
+				C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */,
+				C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */,
+				C6363D961F5016A90052E9BD /* ModifiedSections.swift */,
+				C6363D991F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift */,
+			);
+			name = UIKitMocks;
+			sourceTree = "<group>";
+		};
 		C68BCBC41D5A1DD000C5E720 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				C6363D981F5024B90052E9BD /* UIKitMocks */,
 				C61307621E261CD6009BD8CD /* DataProviderMock.swift */,
 				C63610A61E4077C800417B45 /* DataModificatorMock.swift */,
-				C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */,
-				C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */,
 				94C903281E1D20D300C0C56A /* DataModel.xcdatamodel */,
 				94C9032A1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift */,
 				94C9032B1E1D20E500C0C56A /* CDTrain.swift */,
 				C687C1B81E378E490089F561 /* UITableViewCellMock.swift */,
 				C687C1BA1E378E940089F561 /* UICollectionViewCellMock.swift */,
 				C687C1BE1E379C120089F561 /* NSFetchedResultsSectionInfoMock.swift */,
-				C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */,
-				C6363D961F5016A90052E9BD /* ModifiedSections.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -396,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C61307631E261CD6009BD8CD /* DataProviderMock.swift in Sources */,
+				C6363D9A1F5024CE0052E9BD /* UICollectionViewTableViewMocking.swift in Sources */,
 				C6E76AE31EE80530007E323B /* DataProviderSwitcherTest.swift in Sources */,
 				C6B92C741EF127FC00D059AF /* AnyArrayDataProviderTest.swift in Sources */,
 				945ABE881E0D731D001B42CE /* TableViewDataSource_MultiCellTest.swift in Sources */,

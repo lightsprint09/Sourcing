@@ -53,7 +53,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, anyCells: cells)
         
         //Then
-        XCTAssertEqual(tableViewMock.reloadedCount, 1)
+        XCTAssertEqual(tableViewMock.executionCount.reloaded, 1)
         XCTAssertNotNil(tableViewMock.dataSource)
         if #available(iOS 10.0, *) {
             XCTAssertNotNil(tableViewMock.prefetchDataSource)
@@ -147,6 +147,6 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         dataSource.tableView = secondTableview
         //Then
         XCTAssertNotNil(secondTableview.dataSource)
-        XCTAssertEqual(secondTableview.reloadedCount, 1)
+        XCTAssertEqual(secondTableview.executionCount.reloaded, 1)
     }
 }

@@ -27,24 +27,11 @@
 //
 
 import UIKit
-import Sourcing
 
-protocol UICollectionViewTableViewMocking: class {
-    var lastUsedReuseIdentifiers: [String] { get set }
-    var cellMocks: [String: AnyObject] { get }
-}
-
-extension UICollectionViewTableViewMocking {
-    
-    func dequeueWithIdentifier<Cell>(_ identifier: String, forIndexPath indexPath: IndexPath) -> Cell {
-        lastUsedReuseIdentifiers.append(identifier)
-        
-        guard let cell = cellMocks[identifier] as? Cell else {
-            fatalError("Could not find cell mock with identifier: \(identifier)")
-        }
-        
-        return cell
-    }
+struct ExecutionCount {
+    var reloaded: Int = 0
+    var beginUpdates: Int = 0
+    var endUpdates: Int = 0
 }
 
 class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
@@ -63,13 +50,11 @@ class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
         get { return strongPrefetchDataSource }
         set { strongPrefetchDataSource = newValue }
     }
-    var reloadedCount = 0
     var lastUsedReuseIdentifiers = [String]()
     let cellMocks: [String: AnyObject]
     var registerdNibs = [String: UINib?]()
     
-    var beginUpdatesCalledCount = 0
-    var endUpdatesCalledCount = 0
+    var executionCount = ExecutionCount()
     
     var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
     var modifiedSections = ModifiedSections()
@@ -88,7 +73,7 @@ class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
     }
     
     override func reloadData() {
-        reloadedCount += 1
+        executionCount.reloaded += 1
     }
     
     override func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell {
@@ -96,11 +81,11 @@ class UITableViewMock: UITableView, UICollectionViewTableViewMocking {
     }
     
     override func beginUpdates() {
-        beginUpdatesCalledCount += 1
+        executionCount.beginUpdates += 1
     }
     
     override func endUpdates() {
-        endUpdatesCalledCount += 1
+        executionCount.endUpdates += 1
     }
     
     override func insertRows(at indexPaths: [IndexPath], with withRowAnimation: UITableViewRowAnimation) {

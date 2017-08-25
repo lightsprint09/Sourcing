@@ -52,7 +52,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         _ = CollectionViewDataSource<Int>(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cells)
         
         //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 1)
         XCTAssertNotNil(collectionViewMock.dataSource)
         XCTAssertNotNil(collectionViewMock.prefetchDataSource)
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
@@ -139,7 +139,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         dataSource.process(updates: nil)
         
         //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 2)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 2)
     }
     
     func testSetNewCollectionView() {
@@ -154,6 +154,6 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         dataSource.collectionView = secondCollectionViewMock
         //Then
         XCTAssertNotNil(secondCollectionViewMock.dataSource)
-        XCTAssertEqual(secondCollectionViewMock.reloadedCount, 1)
+        XCTAssertEqual(secondCollectionViewMock.executionCount.reloaded, 1)
     }
 }

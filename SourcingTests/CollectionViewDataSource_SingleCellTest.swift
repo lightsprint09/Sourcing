@@ -55,7 +55,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
         
         //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 1)
         XCTAssertNotNil(collectionViewMock.dataSource)
         XCTAssertNotNil(collectionViewMock.prefetchDataSource)
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
@@ -125,7 +125,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.process(updates: nil)
         
         //Then
-        XCTAssertEqual(collectionViewMock.reloadedCount, 2)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 2)
     }
     
     func testSelectedObject() {
@@ -158,7 +158,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.collectionView = secondCollectionViewMock
         //Then
         XCTAssertNotNil(secondCollectionViewMock.dataSource)
-        XCTAssertEqual(secondCollectionViewMock.reloadedCount, 1)
+        XCTAssertEqual(secondCollectionViewMock.executionCount.reloaded, 1)
     }
 
     func testMoveIndexPaths() {
@@ -190,8 +190,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted?.count, 1)
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted?.first, insertionIndexPath)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     func testProcessUpdatesDelete() {
@@ -205,8 +205,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted?.count, 1)
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted?.first, deletetionIndexPath)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     func testProcessUpdatesMove() {
@@ -221,8 +221,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.moved?.from, oldIndexPath)
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.moved?.to, newIndexPath)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     func testProcessUpdatesUpdate() {
@@ -235,8 +235,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         
         //Then
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.reloaded?.first, indexPath)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     func testProcessUpdatesInsertSection() {
@@ -249,8 +249,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.count, 1)
         XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.first, 0)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     func testProcessUpdatesDeleteSection() {
@@ -263,8 +263,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.modifiedSections.deleted?.count, 1)
         XCTAssertEqual(collectionViewMock.modifiedSections.deleted?.first, 0)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     func testProcessUpdatesMoveSection() {
@@ -277,8 +277,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.modifiedSections.moved?.from, 0)
         XCTAssertEqual(collectionViewMock.modifiedSections.moved?.to, 1)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     func testProcessUpdatesFromDataSource() {
@@ -291,8 +291,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.count, 1)
         XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.first, 0)
-        XCTAssertEqual(collectionViewMock.beginUpdatesCalledCount, 1)
-        XCTAssertEqual(collectionViewMock.endUpdatesCalledCount, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
     }
     
     @available(iOS 10.0, *)

@@ -27,7 +27,6 @@
 //
 
 import UIKit
-import Sourcing
 
 class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
     private var strongDataSource: UICollectionViewDataSource?
@@ -42,13 +41,11 @@ class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
         set { strongPrefetchDataSource = newValue }
     }
     
-    var reloadedCount = 0
     var lastUsedReuseIdentifiers = [String]()
     let cellMocks: [String: AnyObject]
     var registerdNibs = [String: UINib?]()
     
-    var beginUpdatesCalledCount = 0
-    var endUpdatesCalledCount = 0
+    var executionCount = ExecutionCount()
     
     var modifiedIndexPaths = ModifiedIndexPaths()
     var modifiedSections = ModifiedSections()
@@ -73,7 +70,7 @@ class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
     }
     
     override func reloadData() {
-        reloadedCount += 1
+        executionCount.reloaded += 1
     }
     
     override func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
@@ -81,8 +78,8 @@ class UICollectionViewMock: UICollectionView, UICollectionViewTableViewMocking {
     }
     
     override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
-        beginUpdatesCalledCount += 1
-        endUpdatesCalledCount += 1
+        executionCount.beginUpdates += 1
+        executionCount.endUpdates += 1
         updates?()
     }
     
