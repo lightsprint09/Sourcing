@@ -28,12 +28,6 @@
 
 import UIKit
 
-struct ExecutionCount {
-    var reloaded: Int = 0
-    var beginUpdates: Int = 0
-    var endUpdates: Int = 0
-}
-
 class UITableViewMock: UITableView {
     private var strongDataSource: UITableViewDataSource?
     override var dataSource: UITableViewDataSource? {

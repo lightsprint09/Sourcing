@@ -32,6 +32,7 @@
 		C6363D841F4DBCE00052E9BD /* ModifiedIndexPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */; };
 		C6363D971F5016A90052E9BD /* ModifiedSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D961F5016A90052E9BD /* ModifiedSections.swift */; };
 		C6363D9C1F5028D40052E9BD /* CellDequeueMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D9B1F5028D40052E9BD /* CellDequeueMock.swift */; };
+		C6363D9E1F5029CC0052E9BD /* ExecutionCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6363D9D1F5029CC0052E9BD /* ExecutionCount.swift */; };
 		C64CEDD11D741BF400027CBB /* ArrayDataProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */; };
 		C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */; };
 		C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */; };
@@ -91,6 +92,7 @@
 		C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifiedIndexPaths.swift; sourceTree = "<group>"; };
 		C6363D961F5016A90052E9BD /* ModifiedSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifiedSections.swift; sourceTree = "<group>"; };
 		C6363D9B1F5028D40052E9BD /* CellDequeueMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDequeueMock.swift; sourceTree = "<group>"; };
+		C6363D9D1F5029CC0052E9BD /* ExecutionCount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutionCount.swift; sourceTree = "<group>"; };
 		C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProviding.swift; sourceTree = "<group>"; };
 		C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewMock.swift; sourceTree = "<group>"; };
 		C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellIdentifierProviding.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				C6363D831F4DBCE00052E9BD /* ModifiedIndexPaths.swift */,
 				C6363D961F5016A90052E9BD /* ModifiedSections.swift */,
 				C6363D9B1F5028D40052E9BD /* CellDequeueMock.swift */,
+				C6363D9D1F5029CC0052E9BD /* ExecutionCount.swift */,
 			);
 			name = UIKitMocks;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				C687C1BF1E379C120089F561 /* NSFetchedResultsSectionInfoMock.swift in Sources */,
 				C6363D9C1F5028D40052E9BD /* CellDequeueMock.swift in Sources */,
 				945ABE861E0D720F001B42CE /* TableViewDataSource_SingleCellTest.swift in Sources */,
+				C6363D9E1F5029CC0052E9BD /* ExecutionCount.swift in Sources */,
 				94C9032D1E1D20E500C0C56A /* CDTrain.swift in Sources */,
 				C6363D841F4DBCE00052E9BD /* ModifiedIndexPaths.swift in Sources */,
 				C687C1BB1E378E940089F561 /* UICollectionViewCellMock.swift in Sources */,
