@@ -30,53 +30,53 @@ class AnyArrayDataProviderTest: XCTestCase {
         //Given
         let contents = ["ICE", "TGV"]
         let arrayDataProvider = ArrayDataProvider(rows: contents)
-        
+
         //When
         let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
-        
+
         //Then
         XCTAssertEqual(anyArrayDataProvider.contents.first ?? [], contents)
     }
-    
+
     func testSetWhenDataProviderChanged() {
         //Given
         let contents = ["ICE", "TGV"]
         let arrayDataProvider = ArrayDataProvider(rows: contents)
         let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
-        
+
         //When
         var calledWhenChanges = false
         anyArrayDataProvider.whenDataProviderChanged = { updates in
             calledWhenChanges = true
         }
         arrayDataProvider.reconfigure(with: [[]])
-        
+
         //Then
         XCTAssert(calledWhenChanges)
     }
-    
+
     func testGetSectionIndexTitles() {
         //Given
-        let arrayDataProvider = ArrayDataProvider(rows: [])
+        let arrayDataProvider = ArrayDataProvider<String>(rows: [])
         let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
         let sectionIndexTitles = ["test"]
-        
+
         //When
         arrayDataProvider.sectionIndexTitles = sectionIndexTitles
-        
+
         //Then
         XCTAssertEqual(anyArrayDataProvider.sectionIndexTitles ?? [], sectionIndexTitles)
     }
-    
+
     func testGetHeaderTitles() {
         //Given
-        let arrayDataProvider = ArrayDataProvider(rows: [])
+        let arrayDataProvider = ArrayDataProvider<String>(rows: [])
         let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
         let headerTitles = ["test"]
-        
+
         //When
         arrayDataProvider.headerTitles = headerTitles
-        
+
         //Then
         XCTAssertEqual(anyArrayDataProvider.headerTitles ?? [], headerTitles)
     }

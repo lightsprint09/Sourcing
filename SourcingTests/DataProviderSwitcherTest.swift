@@ -32,7 +32,7 @@ class DataProviderSwitcherTest: XCTestCase {
     
     func testInit() {
         //When
-        let arrayDataProvider = ArrayDataProvider(rows: [])
+        let arrayDataProvider = ArrayDataProvider<String>(rows: [])
         let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
@@ -43,7 +43,7 @@ class DataProviderSwitcherTest: XCTestCase {
     func testWhenStateChanges() {
         //Given
         var didCallDataProviderChanges = false
-        let arrayDataProvider = ArrayDataProvider(rows: [])
+        let arrayDataProvider = ArrayDataProvider<String>(rows: [])
         let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         dataProviderSwitcher.whenDataProviderChanged = { _ in
@@ -61,7 +61,7 @@ class DataProviderSwitcherTest: XCTestCase {
     func testObjectAtIndex() {
         //Given
         let expectedObjectAtIndex = "Test"
-        let arrayDataProvider = ArrayDataProvider(rows: [expectedObjectAtIndex])
+        let arrayDataProvider = ArrayDataProvider<String>(rows: [expectedObjectAtIndex])
         let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
@@ -74,7 +74,7 @@ class DataProviderSwitcherTest: XCTestCase {
     
     func testNumberOfSections() {
         //Given
-        let arrayDataProvider = ArrayDataProvider(sections: [[], []])
+        let arrayDataProvider = ArrayDataProvider<String>(sections: [[], []])
         let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
@@ -87,7 +87,7 @@ class DataProviderSwitcherTest: XCTestCase {
     
     func testNumberOfItemsInSection() {
         //Given
-        let arrayDataProvider = ArrayDataProvider(sections: [[], [""]])
+        let arrayDataProvider = ArrayDataProvider<String>(sections: [[], [""]])
         let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
         
