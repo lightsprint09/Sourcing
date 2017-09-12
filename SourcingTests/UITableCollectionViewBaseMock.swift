@@ -28,7 +28,7 @@
 
 import UIKit
 
-// swiftlint:disable force_cast force_try force_unwrapping
+// swiftlint:disable force_cast force_unwrapping
 class UITableCollectionViewBaseMock {
     var reloadedCount = 0
     var lastUsedReuseIdetifiers = [String]()
