@@ -53,6 +53,8 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     private func process(update: DataProviderUpdate<Object>) {
+        tableView.beginUpdates()
+        
         switch update {
         case .insert(let indexPath):
             tableView.insertRows(at: [indexPath], with: .automatic)
@@ -69,6 +71,8 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         case .moveSection(let indexPath, let newIndexPath):
             tableView.moveSection(indexPath, toSection: newIndexPath)
         }
+        
+        tableView.endUpdates()
     }
     
     /// Execute updates on your TableView. TableView will do a matching animation for each update
@@ -78,9 +82,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         guard let updates = updates else {
             return tableView.reloadData()
         }
-        tableView.beginUpdates()
         updates.forEach(process)
-        tableView.endUpdates()
     }
     
     public var selectedObject: Object? {

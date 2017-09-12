@@ -82,7 +82,11 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         case .move:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
             guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
+            let newObject = self.object(at: newIndexPath)
+            let object = self.object(at: indexPath)
             updates.append(.move(indexPath, newIndexPath))
+            updates.append(.update(newIndexPath, newObject))
+            updates.append(.update(indexPath, object))
         case .delete:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
             updates.append(.delete(indexPath))

@@ -43,19 +43,18 @@ class FetchedResultsDataProviderTests: XCTestCase {
     
     var managedObjectContext: NSManagedObjectContext!
     var train: CDTrain!
+    var train2: CDTrain!
     var fetchedResultsController: NSFetchedResultsController<CDTrain>!
     var dataProvider: FetchedResultsDataProvider<CDTrain>!
     
     override func setUp() {
         managedObjectContext = managedObjectContextForTesting()
         
-        train = NSEntityDescription.insertNewObject(forEntityName: "CDTrain", into: managedObjectContext) as! CDTrain
-        train.id = "1"
-        train.name = "ICE"
-        managedObjectContext.insert(train)
+        train = self.createAndInsertTrain(with: "1")
+        train2 = self.createAndInsertTrain(with: "2")
         
         let fetchReuqest = NSFetchRequest<CDTrain>(entityName: "CDTrain")
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.id), ascending: true)
         fetchReuqest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
                                                               sectionNameKeyPath: "name", cacheName: nil)
@@ -69,7 +68,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
 
     func testNumberOfItems() {
         //Then
-        XCTAssertEqual(dataProvider.numberOfItems(inSection: 0), 1)
+        XCTAssertEqual(dataProvider.numberOfItems(inSection: 0), 2)
     }
 
     func testObjectAtIndexPath() {
@@ -174,7 +173,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
                                 didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
         
         //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
+        XCTAssertEqual(dataProvider.updates.count, 3)
         if case .move(let updatedIndexPath, let newMovedIndexPath) = dataProvider.updates.first! {
             XCTAssertEqual(oldIndexPath, updatedIndexPath)
             XCTAssertEqual(newIndexPath, newMovedIndexPath)
@@ -241,5 +240,15 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(sectionIndex!, ["I"])
+    }
+    
+    // MARK: helper
+    
+    private func createAndInsertTrain(with id: String) -> CDTrain {
+        let newTrain = NSEntityDescription.insertNewObject(forEntityName: "CDTrain", into: managedObjectContext) as! CDTrain
+        newTrain.id = id
+        newTrain.name = "ICE"
+        managedObjectContext.insert(newTrain)
+        return newTrain
     }
 }
