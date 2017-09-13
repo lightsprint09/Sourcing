@@ -49,7 +49,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
     // MARK: Initializers
     
     /**
-     Creates an instance of `ArrayDataProvider` with a flat array which results in a single section.
+     Creates an instance of `ArrayDataProvider` with a flat collection which results a single section.
      
      - parameter rows: single section of data.
      - parameter sectionTitle: title for the section. nil by default.
