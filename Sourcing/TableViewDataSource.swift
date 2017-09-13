@@ -60,6 +60,9 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
             tableView.reloadRows(at: [indexPath], with: .automatic)
         case .move(let indexPath, let newIndexPath):
             tableView.moveRow(at: indexPath, to: newIndexPath)
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [newIndexPath], with: .automatic)
+            }
         case .delete(let indexPath):
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case .insertSection(let sectionIndex):
