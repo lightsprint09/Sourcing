@@ -29,13 +29,13 @@
 import Foundation
 
 public protocol DataModifying {
-    /// Moves item from sourceIndexPath to the destinationIndexPath
+    /// Moves item from sourceIndexPath to destinationIndexPath
     ///
     /// - Parameters:
-    ///   - sourceIndexPath: the sourceIndexPath
-    ///   - destinationIndexPath: the destinationIndexPath
-    ///   - triggerdByTableView: pass `tru`e if the action was triggert by TableView delegate and the state of
-    ///     the tableView is already updated
+    ///   - sourceIndexPath: Source's IndexPath
+    ///   - destinationIndexPath: Destination's IndexPath
+    ///   - triggerdByTableView: pass `true` if the action was triggered by UITableView's delegate and the state of
+    ///     the tableView has already been updated
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, triggerdByTableView: Bool)
     
     func canMoveItem(at indexPath: IndexPath) -> Bool
