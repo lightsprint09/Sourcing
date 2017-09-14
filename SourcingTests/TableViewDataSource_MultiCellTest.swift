@@ -30,7 +30,7 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
-// swiftlint:disable force_cast force_try force_unwrapping
+// swiftlint:disable force_cast
 class TableViewDataSourceMultiCellTest: XCTestCase {
     let cellIdentifier = "cellIdentifier"
     let secondCellIdentifier = "cellIdentifier2"
