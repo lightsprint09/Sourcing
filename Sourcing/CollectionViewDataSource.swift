@@ -27,6 +27,7 @@
 //
 import UIKit
 
+#if os(iOS) || os(tvOS)
 final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
     public let dataProvider: AnyDataProvider<Object>
@@ -169,3 +170,4 @@ public extension CollectionViewDataSource {
             self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
     }
 }
+#endif

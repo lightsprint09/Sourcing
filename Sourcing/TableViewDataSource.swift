@@ -8,6 +8,7 @@
 
 import UIKit
 
+#if os(iOS) || os(tvOS)
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
@@ -178,3 +179,5 @@ public extension TableViewDataSource {
                       dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
     }
 }
+
+#endif
