@@ -95,7 +95,7 @@ extension DataProviding where Element: Equatable {
     /**
      Returns the indexPath for a given object.
      
-     - parameter object: the object you want the indexPath for.
+     - parameter object: the object to find the indexPath for.
      - return: the indexPath of the object, if available.
      */
     public func indexPath(for object: Element) -> IndexPath? {
