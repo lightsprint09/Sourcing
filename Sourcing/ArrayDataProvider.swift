@@ -29,7 +29,7 @@
 import Foundation
 
 /**
- `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
+ `ArrayDataProvider` provides basic implementation to map arrays to a `DataProvider`.
  */
 open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
     
@@ -49,7 +49,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
     // MARK: Initializers
     
     /**
-     Creates an instance of`ArrayDataProvider` with an flat array which results in a single section.
+     Creates an instance of `ArrayDataProvider` with a flat collection which results a single section.
      
      - parameter rows: single section of data.
      - parameter sectionTitle: title for the section. nil by default.
