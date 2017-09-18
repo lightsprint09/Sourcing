@@ -32,10 +32,6 @@ import Foundation
  `ArrayDataProvider` provides interface for dataProvides which rely on Array as internal data structure.
  */
 public protocol ArrayDataProviding: DataProviding {
-    /**
-     Object is the kind of data `DataProviding` provides.
-     */
-    associatedtype Element
     var contents: [[Element]] { get }
 }
 
@@ -49,6 +45,6 @@ public extension ArrayDataProviding {
     }
     
     public func numberOfSections() -> Int {
-        return  contents.count
+        return contents.count
     }
 }
