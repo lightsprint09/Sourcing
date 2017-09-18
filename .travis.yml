@@ -26,3 +26,9 @@ matrix:
       env: "tvOS"
       script:
         - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=tvOS Simulator,name=Apple TV 1080p,OS=latest' test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -enableCodeCoverage NO | xcpretty
+    - os: osx
+      osx_image: xcode9
+      language: objective-c
+      env: "Carthage"
+      script:
+        - carthage build --no-skip-current
