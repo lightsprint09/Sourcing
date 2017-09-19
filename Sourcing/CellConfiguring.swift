@@ -35,7 +35,9 @@ import UIKit
 */
 public protocol CellConfiguring {
     var cellIdentifier: String { get }
+    #if os(iOS) || os(tvOS)
     var nib: UINib? { get }
+    #endif
     
     /**
      Check if the cell can be used to display this specific object.

@@ -6,8 +6,6 @@ matrix:
       env: "iOS Swift 3.1"
       script:
         - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -enableCodeCoverage YES | xcpretty
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
     - os: osx
       osx_image: xcode9
       language: objective-c
@@ -16,3 +14,21 @@ matrix:
         - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -enableCodeCoverage YES | xcpretty
       after_success:
         - bash <(curl -s https://codecov.io/bash)
+    - os: osx
+      osx_image: xcode9
+      language: objective-c
+      env: "watchOS"
+      script:
+        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=watchOS Simulator,name=Apple Watch Series 2 - 38mm' build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+    - os: osx
+      osx_image: xcode9
+      language: objective-c
+      env: "tvOS"
+      script:
+        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=tvOS Simulator,name=Apple TV 1080p,OS=latest' test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -enableCodeCoverage NO | xcpretty
+    - os: osx
+      osx_image: xcode9
+      language: objective-c
+      env: "Carthage"
+      script:
+        - carthage build --no-skip-current
