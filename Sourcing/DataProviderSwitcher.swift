@@ -30,6 +30,11 @@ public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
         }
     }
     private let dataProviderResolver: (State) -> AnyDataProvider<Object>
+    /**
+     Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+     
+     - warning: Only set this when you are updating the datasource. Only set this when you are updating the datasource by your own.
+     */
     public var whenDataProviderChanged: (([DataProviderUpdate<Object>]?) -> Void)?
     
     var currentDataProvider: AnyDataProvider<Object> {
