@@ -29,7 +29,7 @@ import XCTest
 import CoreData
 @testable import Sourcing
 
-// swiftlint:disable force_cast force_try force_unwrapping
+// swiftlint:disable force_cast force_try force_unwrapping xctfail_message
 class FetchedResultsDataProviderTests: XCTestCase {
     func managedObjectContextForTesting() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -42,24 +42,33 @@ class FetchedResultsDataProviderTests: XCTestCase {
     }
     
     var managedObjectContext: NSManagedObjectContext!
-    var train: CDTrain!
+    var train1: CDTrain!
+    var train2: CDTrain!
     var fetchedResultsController: NSFetchedResultsController<CDTrain>!
     var dataProvider: FetchedResultsDataProvider<CDTrain>!
     
     override func setUp() {
         managedObjectContext = managedObjectContextForTesting()
         
-        train = NSEntityDescription.insertNewObject(forEntityName: "CDTrain", into: managedObjectContext) as! CDTrain
-        train.id = "1"
-        train.name = "ICE"
-        managedObjectContext.insert(train)
+        train1 = self.train(id: "1", name: "ICE")
+        managedObjectContext.insert(train1)
         
-        let fetchReuqest = NSFetchRequest<CDTrain>(entityName: "CDTrain")
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        train2 = self.train(id: "2", name: "ICE")
+        managedObjectContext.insert(train2)
+        
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.id), ascending: true)
         fetchReuqest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
-                                                              sectionNameKeyPath: "name", cacheName: nil)
+                                                              sectionNameKeyPath: #keyPath(CDTrain.name), cacheName: nil)
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
+    }
+    
+    private func train(id: String, name: String) -> CDTrain {
+        let train = CDTrain.newObject(in: managedObjectContext)
+        train.id = id
+        train.name = name
+        return train
     }
     
     func testNumberOfSections() {
@@ -69,19 +78,25 @@ class FetchedResultsDataProviderTests: XCTestCase {
 
     func testNumberOfItems() {
         //Then
-        XCTAssertEqual(dataProvider.numberOfItems(inSection: 0), 1)
+        XCTAssertEqual(dataProvider.numberOfItems(inSection: 0), 2)
     }
 
     func testObjectAtIndexPath() {
         //Then
-        let indexPath = IndexPath(item: 0, section: 0)
-        XCTAssertEqual(dataProvider.object(at: indexPath), train)
+        var indexPath = IndexPath(item: 0, section: 0)
+        XCTAssertEqual(dataProvider.object(at: indexPath), train1)
+        
+        indexPath = IndexPath(item: 1, section: 0)
+        XCTAssertEqual(dataProvider.object(at: indexPath), train2)
     }
 
     func testIndexPathForObject() {
         //Then
-        let indexPath = IndexPath(item: 0, section: 0)
-        XCTAssertEqual(dataProvider.indexPath(for: train), indexPath)
+        var indexPath = IndexPath(item: 0, section: 0)
+        XCTAssertEqual(dataProvider.indexPath(for: train1), indexPath)
+        
+        indexPath = IndexPath(item: 1, section: 0)
+        XCTAssertEqual(dataProvider.indexPath(for: train2), indexPath)
     }
     
     func testReconfigureFetchRequest() {
@@ -199,6 +214,51 @@ class FetchedResultsDataProviderTests: XCTestCase {
         //Then
         XCTAssert(didUpdateNotification)
         XCTAssert(didUpdateDataSource)
+    }
+    
+    func testProcessUpdatesNumberForMoveChange() {
+        //Given
+        var updatesNumber = 0
+        
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
+        dataProvider.whenDataProviderChanged = { updates in
+            if !updates!.isEmpty {
+                updatesNumber += 1
+            }
+        }
+        
+        let oldIndexPath = IndexPath(row: 0, section: 0)
+        let newIndexPath = IndexPath(row: 1, section: 0)
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+        
+        //When
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        
+        //Then
+        XCTAssertEqual(updatesNumber, 2)
+    }
+    
+    func testProcessUpdatesNumberForOtherThenMoveChange() {
+        //Given
+        var updatesNumber = 0
+        
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
+        dataProvider.whenDataProviderChanged = { updates in
+            if !updates!.isEmpty {
+                updatesNumber += 1
+            }
+        }
+        
+        let indexPath = IndexPath(row: 1, section: 0)
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: indexPath, for: .update, newIndexPath: indexPath)
+        
+        //When
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        
+        //Then
+        XCTAssertEqual(updatesNumber, 1)
     }
     
     func testWillChangeContent() {

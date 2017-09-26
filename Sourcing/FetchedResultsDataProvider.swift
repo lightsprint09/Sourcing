@@ -103,6 +103,13 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         dataProviderDidChangeContets(with: updates)
+        let updatesByMoves = updates.map({ (operation: DataProviderUpdate<Object>) -> DataProviderUpdate<Object>? in
+            if case .move(_, let newIndexPath) = operation {
+                return .update(newIndexPath, object(at: newIndexPath))
+            }
+            return nil
+        }).flatMap { $0 }
+        dataProviderDidChangeContets(with: updatesByMoves)
     }
     
     func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {
