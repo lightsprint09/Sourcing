@@ -18,7 +18,6 @@ extension CDTrain {
         return NSFetchRequest<CDTrain>(entityName: "CDTrain")
     }
 
-    
     @NSManaged var id: String
     @NSManaged var name: String
 }

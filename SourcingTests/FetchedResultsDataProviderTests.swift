@@ -216,14 +216,25 @@ class FetchedResultsDataProviderTests: XCTestCase {
         XCTAssert(didUpdateDataSource)
     }
     
-    func testProcessUpdatesNumberForMoveChange() {
+    func testProcessUpdatesForMoveChange() {
         //Given
-        var updatesNumber = 0
+        var updateIndexPath = IndexPath()
+        var moveIndexPaths = [IndexPath]()
         
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
         dataProvider.whenDataProviderChanged = { updates in
-            if !updates!.isEmpty {
-                updatesNumber += 1
+            if updates!.isEmpty {
+                return
+            }
+                
+            for update in updates! {
+                switch update {
+                case .update(let indexPath, _):
+                    updateIndexPath = indexPath
+                case .move(let indexPath, let newIndexPath):
+                    moveIndexPaths = [indexPath, newIndexPath]
+                default: break
+                }
             }
         }
         
@@ -236,17 +247,26 @@ class FetchedResultsDataProviderTests: XCTestCase {
         dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
         
         //Then
-        XCTAssertEqual(updatesNumber, 2)
+        XCTAssertEqual(updateIndexPath, newIndexPath)
+        XCTAssertEqual(moveIndexPaths, [oldIndexPath, newIndexPath])
     }
     
-    func testProcessUpdatesNumberForOtherThenMoveChange() {
+    func testProcessUpdatesForUpdateChange() {
         //Given
-        var updatesNumber = 0
+        var updateIndexPath = IndexPath()
         
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
         dataProvider.whenDataProviderChanged = { updates in
-            if !updates!.isEmpty {
-                updatesNumber += 1
+            if updates!.isEmpty {
+                return
+            }
+           
+            for update in updates! {
+                switch update {
+                case .update(let indexPath, _):
+                    updateIndexPath = indexPath
+                default: break
+                }
             }
         }
         
@@ -258,7 +278,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
         
         //Then
-        XCTAssertEqual(updatesNumber, 1)
+        XCTAssertEqual(updateIndexPath, indexPath)
     }
     
     func testWillChangeContent() {
