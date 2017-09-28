@@ -10,10 +10,11 @@ import Foundation
 import CoreData
 
 open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
+    
     /**
-     Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
+     Closure which gets called, when data inside the provider changes and those changes should be propagated to the datasource.
      
-     - warning: Only set this when you are updating the datasource. Only set this when you are updating the datasource by your own.
+     - warning: Only set this when you are updating the datasource by your own.
      */
     public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
     
@@ -148,6 +149,14 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         dataProviderDidChangeContets(with: updates)
+        let updatesByMoves = updates.map({ (operation: DataProviderUpdate<Object>) -> DataProviderUpdate<Object>? in
+            if case .move(_, let newIndexPath) = operation {
+                return .update(newIndexPath, object(at: newIndexPath))
+            }
+            return nil
+        }).flatMap { $0 }
+        dataProviderDidChangeContets(with: updatesByMoves)
+        
     }
     
     func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {
