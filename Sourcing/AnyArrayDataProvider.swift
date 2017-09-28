@@ -32,6 +32,11 @@ public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
         return capturedContents()
     }
     
+    /**
+     Closure which gets called, when data inside the provider changes and those changes should be propagated to the datasource.
+     
+     - warning: Only set this when you are updating the datasource by your own.
+     */
     public var whenDataProviderChanged: ProcessUpdatesCallback<Element>? {
         didSet {
             setWhenDataProviderChanged(whenDataProviderChanged)

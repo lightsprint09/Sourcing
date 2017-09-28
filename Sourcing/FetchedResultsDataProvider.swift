@@ -10,19 +10,31 @@ import Foundation
 import CoreData
 
 open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
+    
+    /**
+     Closure which gets called, when data inside the provider changes and those changes should be propagated to the datasource.
+     
+     - warning: Only set this when you are updating the datasource by your own.
+     */
     public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
+    
+    //The fetchedResultsController which backs the dataprovider
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
-    var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
+    // Subscribe to updates of this dataProvider.
+    public var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
     var updates: [DataProviderUpdate<Object>] = []
     
+    /**
+     Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
+     */
     open var sectionIndexTitles: [String]? {
         return provideSectionIndexTitles ? fetchedResultsController.sectionIndexTitles : nil
     }
+    // Decide wether section index titles sould be provided.
     public var provideSectionIndexTitles: Bool = true
     
+    // Header titles for each section
     open var headerTitles: [String]? {
         guard let generateHeaderAt = generateHeaderAt else {
             return nil
@@ -30,8 +42,26 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         return (0..<numberOfSections()).map { generateHeaderAt($0) }
     }
     
+    /**
+     Closure so provide header titles. Set this to generate custom header titles.
+     
+     **Example**:
+     ```swift
+         let headers = ["SectionOne", "SectionTwo"]
+         let frcDataProvider = //
+         frcDataProvider.generateHeaderAt = { sectionIndex
+             return headers[sectionIndex]
+         }
+     ```
+    */
     public var generateHeaderAt: ((Int) -> String)?
     
+    /// Creates an instacte with a given `NSFetchedResultsController` which fetches matching objects.
+    ///
+    /// - Parameters:
+    ///   - fetchedResultsController: a `NSFetchedResultsController` which provides the data fetched from CoreData.
+    ///   - dataProviderDidUpdate: Subscribe to updates of this dataProvider.
+    /// - Throws: If fetching fails.
     public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate
@@ -40,9 +70,25 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         try fetchedResultsController.performFetch()
     }
     
-    public func reconfigure(with configure: (NSFetchedResultsController<Object>) -> Void) throws {
+    /**
+     Reconfigure the `NSFetchedResultsController` to changes the contents it provides to the data provider.
+ 
+     - Parameter configuration: reconfigure the `NSFetchedResultsController` in this given block
+     - Throws: If fetching fails.
+     
+     **Example**:
+     ```swift
+         let frcDataProvider = //
+         let newFetchRequest = //
+     
+     frcDataProvider.reconfigure { frc in
+         frc.fetchRequest = newFetchRequest
+     }
+     ```
+     */
+    public func reconfigure(with configuration: (NSFetchedResultsController<Object>) -> Void) throws {
         NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
-        configure(fetchedResultsController)
+        configuration(fetchedResultsController)
         
         try fetchedResultsController.performFetch()
         dataProviderDidChangeContets(with: nil)
@@ -103,6 +149,14 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         dataProviderDidChangeContets(with: updates)
+        let updatesByMoves = updates.map({ (operation: DataProviderUpdate<Object>) -> DataProviderUpdate<Object>? in
+            if case .move(_, let newIndexPath) = operation {
+                return .update(newIndexPath, object(at: newIndexPath))
+            }
+            return nil
+        }).flatMap { $0 }
+        dataProviderDidChangeContets(with: updatesByMoves)
+        
     }
     
     func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {

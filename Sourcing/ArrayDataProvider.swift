@@ -36,8 +36,12 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
     open var contents: [[Element]]
     
     public var dataProviderDidUpdate: ProcessUpdatesCallback<Element>?
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
+    
+    /**
+     Closure which gets called, when data inside the provider changes and those changes should be propagated to the datasource.
+     
+     - warning: Only set this when you are updating the datasource by your own.
+     */
     public var whenDataProviderChanged: ProcessUpdatesCallback<Element>?
     
     open var headerTitles: [String]?
