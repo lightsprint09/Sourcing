@@ -30,7 +30,7 @@ import XCTest
 import UIKit
 @testable import Sourcing
 
-// swiftlint:disable force_cast force_unwrapping
+// swiftlint:disable force_cast force_unwrapping xctfail_message
 class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     let cellIdentifier = "cellIdentifier"

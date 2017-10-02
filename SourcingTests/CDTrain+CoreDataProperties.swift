@@ -13,6 +13,11 @@ import Foundation
 import CoreData
 
 extension CDTrain {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<CDTrain> {
+        return NSFetchRequest<CDTrain>(entityName: "CDTrain")
+    }
+
     @NSManaged var id: String
     @NSManaged var name: String
 }
