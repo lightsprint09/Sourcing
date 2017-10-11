@@ -79,9 +79,16 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         guard let updates = updates else {
             return tableView.reloadData()
         }
-        tableView.beginUpdates()
-        updates.forEach(process)
-        tableView.endUpdates()
+        if #available(iOSApplicationExtension 11.0, *) {
+            tableView.performBatchUpdates ({
+                updates.forEach(process)
+            }, completion: nil)
+        } else {
+            // Fallback on earlier versions
+            tableView.beginUpdates()
+            updates.forEach(process)
+            tableView.endUpdates()
+        }
     }
     
     public var selectedObject: Object? {

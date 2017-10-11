@@ -45,7 +45,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         configure(fetchedResultsController)
         
         try fetchedResultsController.performFetch()
-        dataProviderDidChangeContets(with: nil)
+        dataProviderDidChangeContents(with: nil)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
@@ -102,18 +102,33 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        dataProviderDidChangeContets(with: updates)
-        let updatesByMoves = updates.map({ (operation: DataProviderUpdate<Object>) -> DataProviderUpdate<Object>? in
+        // Check if destination indexpath in move exists in other updates
+        let updatesIndexPaths = updates.flatMap { update -> IndexPath? in
+            switch update {
+            case .delete(let indexPath), .insert(let indexPath), .update(let indexPath, _):
+                return indexPath
+            default: return nil
+            }
+        }
+        // Do not pass move if destination index paths aleady exists
+        let checkedUpdates = updates.flatMap { update-> DataProviderUpdate<Object>? in
+            if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
+               return nil
+            }
+            return update
+        }
+        dataProviderDidChangeContents(with: checkedUpdates)
+        let updatesByMoves = updates.flatMap { operation -> DataProviderUpdate<Object>? in
             if case .move(_, let newIndexPath) = operation {
                 return .update(newIndexPath, object(at: newIndexPath))
             }
             return nil
-        }).flatMap { $0 }
-        dataProviderDidChangeContets(with: updatesByMoves)
+        }
+        dataProviderDidChangeContents(with: updatesByMoves)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {
-        if !triggerdByTableView {
+    func dataProviderDidChangeContents(with updates: [DataProviderUpdate<Object>]?, triggeredByTableView: Bool = false) {
+        if !triggeredByTableView {
             whenDataProviderChanged?(updates)
         }
         dataProviderDidUpdate?(updates)
