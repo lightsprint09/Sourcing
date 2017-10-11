@@ -102,7 +102,6 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        // Check if destination indexpath in move exists in other updates
         let updatesIndexPaths = updates.flatMap { update -> IndexPath? in
             switch update {
             case .delete(let indexPath), .insert(let indexPath), .update(let indexPath, _):
@@ -110,7 +109,6 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
             default: return nil
             }
         }
-        // Do not pass move if destination index paths aleady exists
         let checkedUpdates = updates.flatMap { update-> DataProviderUpdate<Object>? in
             if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
                return nil
