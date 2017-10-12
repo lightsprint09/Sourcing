@@ -104,7 +104,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         let updatesIndexPaths = updates.flatMap { update -> IndexPath? in
             switch update {
-            case .delete(let indexPath), .insert(let indexPath), .update(let indexPath, _):
+            case .update(let indexPath, _):
                 return indexPath
             default: return nil
             }
@@ -125,7 +125,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         dataProviderDidChangeContents(with: updatesByMoves)
     }
     
-    func dataProviderDidChangeContents(with updates: [DataProviderUpdate<Object>]?, triggeredByTableView: Bool = false) {
+    func dataProviderDidChangeContents(with updates: [DataProviderUpdate<Object>]? = nil, triggeredByTableView: Bool = false) {
         if !triggeredByTableView {
             whenDataProviderChanged?(updates)
         }
