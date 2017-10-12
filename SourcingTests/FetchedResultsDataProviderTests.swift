@@ -198,6 +198,26 @@ class FetchedResultsDataProviderTests: XCTestCase {
         }
     }
     
+    func testConflictIndexPathsForMoveUpdate() {
+        //Given
+        let updateIndexPath = IndexPath(row: 1, section: 0)
+        let oldIndexPath = IndexPath(row: 0, section: 0)
+        let newIndexPath = IndexPath(row: 1, section: 0)
+        
+        //When
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                didChange: 1, at: updateIndexPath, for: .update, newIndexPath: nil)
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        
+        //Then
+        XCTAssertEqual(dataProvider.updates.count, 1)
+        if case .move = dataProvider.updates.first! {
+            XCTFail()
+        }
+    }
+    
     func testProcessUpdates() {
         //Given
         var didUpdateNotification = false

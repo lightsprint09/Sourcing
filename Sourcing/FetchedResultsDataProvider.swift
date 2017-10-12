@@ -109,13 +109,13 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
             default: return nil
             }
         }
-        let checkedUpdates = updates.flatMap { update -> DataProviderUpdate<Object>? in
+        updates = updates.flatMap { update -> DataProviderUpdate<Object>? in
             if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
                return nil
             }
             return update
         }
-        dataProviderDidChangeContents(with: checkedUpdates)
+        dataProviderDidChangeContents(with: updates)
         let updatesByMoves = updates.flatMap { operation -> DataProviderUpdate<Object>? in
             if case .move(_, let newIndexPath) = operation {
                 return .update(newIndexPath, object(at: newIndexPath))
