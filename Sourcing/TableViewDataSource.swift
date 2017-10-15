@@ -22,6 +22,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     private let cells: [CellConfiguring]
     public var displaySectionIndexTitles: Bool
+    public var rowAnimation: UITableViewRowAnimation = .automatic
     
     public init<TypedDataProvider: DataProviding>(tableView: UITableView, dataProvider: TypedDataProvider,
                 anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
@@ -56,17 +57,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
-            tableView.insertRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [indexPath], with: rowAnimation)
         case .update(let indexPath, _):
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            tableView.reloadRows(at: [indexPath], with: rowAnimation)
         case .move(let indexPath, let newIndexPath):
             tableView.moveRow(at: indexPath, to: newIndexPath)
         case .delete(let indexPath):
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.deleteRows(at: [indexPath], with: rowAnimation)
         case .insertSection(let sectionIndex):
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: rowAnimation)
         case .deleteSection(let sectionIndex):
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: rowAnimation)
         case .moveSection(let indexPath, let newIndexPath):
             tableView.moveSection(indexPath, toSection: newIndexPath)
         }
