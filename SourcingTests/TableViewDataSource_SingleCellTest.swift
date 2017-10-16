@@ -50,7 +50,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testSetDataSource() {
         //When
-        _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell)
+        _ = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell, rowAnimation: .fade)
         
         //Then
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 1)
