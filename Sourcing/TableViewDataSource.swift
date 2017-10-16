@@ -22,16 +22,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     private let cells: [CellConfiguring]
     public var displaySectionIndexTitles: Bool
-    public var rowAnimation: UITableViewRowAnimation = .automatic
+    public var rowAnimation: UITableViewRowAnimation
     
     public init<TypedDataProvider: DataProviding>(tableView: UITableView, dataProvider: TypedDataProvider,
-                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                                                  anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false, rowAnimation: UITableViewRowAnimation = .automatic)
                 where TypedDataProvider.Element == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
         self.cells = anyCells
         self.displaySectionIndexTitles = displaySectionIndexTitles
+        self.rowAnimation = rowAnimation
         super.init()
         dataProvider.whenDataProviderChanged = { [weak self] updates in
             self?.process(updates: updates)
