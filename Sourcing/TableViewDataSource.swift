@@ -165,20 +165,20 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 public extension TableViewDataSource {
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
                      dataProvider: TypedDataProvider, cell: Cell,
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false, rowAnimation: UITableViewRowAnimation = .automatic)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell],
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles, rowAnimation: rowAnimation)
     }
     
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
                      dataProvider: TypedDataProvider, cells: [Cell],
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false, rowAnimation: UITableViewRowAnimation = .automatic)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells,
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles, rowAnimation: rowAnimation)
     }
 }
 
