@@ -22,15 +22,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     private let cells: [CellConfiguring]
     public var displaySectionIndexTitles: Bool
+    public var rowAnimation: UITableViewRowAnimation
     
     public init<TypedDataProvider: DataProviding>(tableView: UITableView, dataProvider: TypedDataProvider,
-                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                                                  anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false, rowAnimation: UITableViewRowAnimation = .automatic)
                 where TypedDataProvider.Element == Object {
         self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
         self.cells = anyCells
         self.displaySectionIndexTitles = displaySectionIndexTitles
+        self.rowAnimation = rowAnimation
         super.init()
         dataProvider.whenDataProviderChanged = { [weak self] updates in
             self?.process(updates: updates)
@@ -56,17 +58,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     private func process(update: DataProviderUpdate<Object>) {
         switch update {
         case .insert(let indexPath):
-            tableView.insertRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [indexPath], with: rowAnimation)
         case .update(let indexPath, _):
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            tableView.reloadRows(at: [indexPath], with: rowAnimation)
         case .move(let indexPath, let newIndexPath):
             tableView.moveRow(at: indexPath, to: newIndexPath)
         case .delete(let indexPath):
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.deleteRows(at: [indexPath], with: rowAnimation)
         case .insertSection(let sectionIndex):
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: rowAnimation)
         case .deleteSection(let sectionIndex):
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: rowAnimation)
         case .moveSection(let indexPath, let newIndexPath):
             tableView.moveSection(indexPath, toSection: newIndexPath)
         }
@@ -163,20 +165,20 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 public extension TableViewDataSource {
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
                      dataProvider: TypedDataProvider, cell: Cell,
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false, rowAnimation: UITableViewRowAnimation = .automatic)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell],
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles, rowAnimation: rowAnimation)
     }
     
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
                      dataProvider: TypedDataProvider, cells: [Cell],
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false, rowAnimation: UITableViewRowAnimation = .automatic)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells,
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles, rowAnimation: rowAnimation)
     }
 }
 
