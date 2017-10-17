@@ -20,20 +20,15 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-
-public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
-    public typealias Element = ContentElement
+public protocol SectionTitleProviding {
+    /**
+     Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
+     */
+    var sectionIndexTitles: [String]? { get }
     
-    private let capturedContents: () -> [[Element]]
-    
-    public var contents: [[Element]] {
-        return capturedContents()
-    }
-    
-    public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
-        capturedContents = {
-            return dataProvider.contents
-        }
-    }
+    /// Generates a optional section title for a given section
+    ///
+    /// - Parameter section: the section to generate the title for
+    /// - Returns: a section header title
+    func titleForHeader(inSection section: Int) -> String?
 }

@@ -59,23 +59,10 @@ public protocol DataProviding: class {
      */
     func numberOfSections() -> Int
     
-    /**
-     Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
-     */
-    var sectionIndexTitles: [String]? { get }
-    
-    var headerTitles: [String]? { get }
-    
     func prefetchItems(at indexPaths: [IndexPath])
     
     func cancelPrefetchingForItems(at indexPaths: [IndexPath])
     
-}
-
-public extension DataProviding {
-    var sectionIndexTitles: [String]? { return nil }
-    
-    var headerTitles: [String]? { return nil }
 }
 
 public extension DataProviding {

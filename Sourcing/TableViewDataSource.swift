@@ -24,21 +24,22 @@ class Demo {
 //    }
 }
 
-
 #if os(iOS) || os(tvOS)
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
     public let dataProvider: AnyDataProvider<Object>
+    public let sectionTitleProvider: SectionTitleProviding?
     public let dataModificator: DataModifying?
     private let cells: [CellConfiguring]
     
     public init<TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider,
-                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
+          anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
                 where TypedDataProvider.Element == Object {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
         self.cells = anyCells
+        self.sectionTitleProvider = sectionTitleProvider
         super.init()
     }
     
@@ -68,19 +69,11 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return dataProvider.sectionIndexTitles
+        return sectionTitleProvider?.sectionIndexTitles
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let headerTitlesCount = dataProvider.headerTitles?.count ?? -1
-        if section == 0 && headerTitlesCount == 0 {
-            return nil
-        }
-        if section > headerTitlesCount {
-            return nil
-        } else {
-            return dataProvider.headerTitles?[section]
-        }
+        return sectionTitleProvider?.titleForHeader(inSection: section)
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -117,19 +110,19 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 
 public extension TableViewDataSource {
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cell: Cell,
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(dataProvider: typeErasedDataProvider, anyCells: [cell],
-                      dataModificator: dataModificator)
+                      dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
     }
     
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cells: [Cell],
-                     dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+                     dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(dataProvider: typeErasedDataProvider, anyCells: cells,
-                      dataModificator: dataModificator)
+                      dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
     }
 }
 

@@ -22,18 +22,20 @@
 
 import Foundation
 
-public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
-    public typealias Element = ContentElement
+public struct StaticSectionTitlesProvider: SectionTitleProviding {
+    public let sectionIndexTitles: [String]?
+    private let sectionHeaderTitles: [String?]?
     
-    private let capturedContents: () -> [[Element]]
-    
-    public var contents: [[Element]] {
-        return capturedContents()
+    init(sectionHeaderTitles: [String?]?, sectionIndexTitles: [String]?) {
+        self.sectionHeaderTitles = sectionHeaderTitles
+        self.sectionIndexTitles = sectionIndexTitles
     }
     
-    public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
-        capturedContents = {
-            return dataProvider.contents
-        }
+    /// Generates a optional section title for a given section
+    ///
+    /// - Parameter section: the section to generate the title for
+    /// - Returns: a section header title
+    public func titleForHeader(inSection section: Int) -> String? {
+        return sectionHeaderTitles?[section]
     }
 }

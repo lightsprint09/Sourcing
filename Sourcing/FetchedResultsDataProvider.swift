@@ -10,31 +10,14 @@ import Foundation
 import CoreData
 
 open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: ProcessUpdatesCallback?
+    
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
-    var dataProviderDidUpdate: ProcessUpdatesCallback?
     var updates: [DataProviderUpdate] = []
     
-    open var sectionIndexTitles: [String]? {
-        return provideSectionIndexTitles ? fetchedResultsController.sectionIndexTitles : nil
-    }
-    public var provideSectionIndexTitles: Bool = true
     
-    open var headerTitles: [String]? {
-        guard let generateHeaderAt = generateHeaderAt else {
-            return nil
-        }
-        return (0..<numberOfSections()).map { generateHeaderAt($0) }
-    }
-    
-    public var generateHeaderAt: ((Int) -> String)?
-    
-    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback? = nil) throws {
+    public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
-        self.dataProviderDidUpdate = dataProviderDidUpdate
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
@@ -105,10 +88,10 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     }
     
     func dataProviderDidChangeContets(with updates: [DataProviderUpdate]?, triggerdByTableView: Bool = false) {
-        if !triggerdByTableView {
-            whenDataProviderChanged?(updates)
-        }
-        dataProviderDidUpdate?(updates)
+//        if !triggerdByTableView {
+//            whenDataProviderChanged?(updates)
+//        }
+//        dataProviderDidUpdate?(updates)
     }
 
 }
