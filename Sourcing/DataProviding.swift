@@ -28,7 +28,7 @@
 
 import Foundation
 
-public typealias ProcessUpdatesCallback<Object> = ([DataProviderUpdate<Object>]?) -> Void
+public typealias ProcessUpdatesCallback = ([DataProviderUpdate]?) -> Void
 
 /// `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
 /// It is generic over Object, which is the kind of data it provides.
@@ -69,10 +69,6 @@ public protocol DataProviding: class {
     func prefetchItems(at indexPaths: [IndexPath])
     
     func cancelPrefetchingForItems(at indexPaths: [IndexPath])
-    
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
-    var whenDataProviderChanged: ProcessUpdatesCallback<Element>? { get set }
     
 }
 

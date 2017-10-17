@@ -31,14 +31,15 @@ import Foundation
 /**
  `ArrayDataProvider` provides basic implementation to map arrays to a `DataProvider`.
  */
-open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
+open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying {
+    public typealias Element = ContentElement
     
     open var contents: [[Element]]
     
-    public var dataProviderDidUpdate: ProcessUpdatesCallback<Element>?
+    public var dataProviderDidUpdate: ProcessUpdatesCallback?
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: ProcessUpdatesCallback<Element>?
+    public var whenDataProviderChanged: ProcessUpdatesCallback?
     
     open var headerTitles: [String]?
     open var sectionIndexTitles: [String]?
@@ -79,7 +80,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      - parameter updates: diff of the new data.
      - parameter triggerdByTableView: flag if the change of data is already set in the TableView.
     */
-    public func reconfigure<Rows: Collection>(with rows: Rows, updates: [DataProviderUpdate<Element>]? = nil, triggerdByTableView: Bool = false)
+    public func reconfigure<Rows: Collection>(with rows: Rows, updates: [DataProviderUpdate]? = nil, triggerdByTableView: Bool = false)
         where Rows.Iterator.Element == Element {
         reconfigure(with: [Array(rows)], updates: updates, triggerdByTableView: triggerdByTableView)
     }
@@ -91,12 +92,12 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
      - parameter updates: diff of the new data.
      - parameter triggerdByTableView: flag if the change of data is already set in the TableView..
      */
-    public func reconfigure(with array: [[Element]], updates: [DataProviderUpdate<Element>]? = nil, triggerdByTableView: Bool = false) {
+    public func reconfigure(with array: [[Element]], updates: [DataProviderUpdate]? = nil, triggerdByTableView: Bool = false) {
         self.contents = array
         dataProviderDidChangeContets(with: updates, triggerdByTableView: triggerdByTableView)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Element>]?, triggerdByTableView: Bool = false) {
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate]?, triggerdByTableView: Bool = false) {
         if !triggerdByTableView {
             whenDataProviderChanged?(updates)
         }
@@ -119,7 +120,7 @@ open class ArrayDataProvider<Element>: ArrayDataProviding, DataModifying {
         let soureElement = object(at: sourceIndexPath)
         contents[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         contents[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
-        let update = DataProviderUpdate<Element>.move(sourceIndexPath, destinationIndexPath)
+        let update = DataProviderUpdate.move(sourceIndexPath, destinationIndexPath)
         dataProviderDidChangeContets(with: [update], triggerdByTableView: triggerdByTableView)
     }
     

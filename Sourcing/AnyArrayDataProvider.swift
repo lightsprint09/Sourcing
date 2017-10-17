@@ -22,20 +22,15 @@
 
 import Foundation
 
-public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
+public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
+    public typealias Element = ContentElement
+    
     private let capturedContents: () -> [[Element]]
-    private let setWhenDataProviderChanged: (ProcessUpdatesCallback<Element>?) -> Void
     private let getSectionIndexTitles: () -> [String]?
     private let getHeaderTitles: () -> [String]?
     
     public var contents: [[Element]] {
         return capturedContents()
-    }
-    
-    public var whenDataProviderChanged: ProcessUpdatesCallback<Element>? {
-        didSet {
-            setWhenDataProviderChanged(whenDataProviderChanged)
-        }
     }
     
     public var sectionIndexTitles: [String]? {
@@ -49,10 +44,6 @@ public final class AnyArrayDataProvider<Element>: ArrayDataProviding {
     public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
         capturedContents = {
             return dataProvider.contents
-        }
-        whenDataProviderChanged = dataProvider.whenDataProviderChanged
-        setWhenDataProviderChanged = { callback in
-            dataProvider.whenDataProviderChanged = callback
         }
         getSectionIndexTitles = {
             return dataProvider.sectionIndexTitles

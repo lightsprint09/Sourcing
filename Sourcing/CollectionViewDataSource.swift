@@ -28,146 +28,146 @@
 import UIKit
 
 #if os(iOS) || os(tvOS)
-final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
-    
-    public let dataProvider: AnyDataProvider<Object>
-    public let dataModificator: DataModifying?
-    public var collectionView: UICollectionView {
-        didSet {
-            collectionView.dataSource = self
-            collectionView.reloadData()
-        }
-    }
-    private let cells: [CellConfiguring]
-    
-    public init<DataProvider: DataProviding>(collectionView: UICollectionView, dataProvider: DataProvider,
-                    anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object {
-            self.collectionView = collectionView
-            self.dataProvider = AnyDataProvider(dataProvider)
-            self.cells = anyCells
-            self.dataModificator = dataModificator
-            super.init()
-            dataProvider.whenDataProviderChanged = { [weak self] updates in
-                self?.process(updates: updates)
-            }
-            registerCells(cells)
-            collectionView.dataSource = self
-            if #available(iOS 10.0, *) {
-                collectionView.prefetchDataSource = self
-            }
-            collectionView.reloadData()
-    }
-    
-    // MARK: Private
-    
-    private func registerCells(_ cellDequeables: [CellConfiguring]) {
-        for cellDequeable in cellDequeables where cellDequeable.nib != nil {
-            collectionView.register(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
-        }
-    }
-    
-    private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
-        return cells.first(where: { $0.canConfigureCell(with: object) })
-    }
-    
-    private func process(update: DataProviderUpdate<Object>) {
-        switch update {
-        case .insert(let indexPath):
-            collectionView.insertItems(at: [indexPath])
-        case .update(let indexPath, _):
-            collectionView.reloadItems(at: [indexPath])
-        case .move(let indexPath, let newIndexPath):
-            collectionView.moveItem(at: indexPath, to: newIndexPath)
-        case .delete(let indexPath):
-            collectionView.deleteItems(at: [indexPath])
-        case .insertSection(let sectionIndex):
-            collectionView.insertSections(IndexSet(integer: sectionIndex))
-        case .deleteSection(let sectionIndex):
-            collectionView.deleteSections(IndexSet(integer: sectionIndex))
-        case .moveSection(let section, let newSection):
-            collectionView.moveSection(section, toSection: newSection)
-        }
-    }
-    
-    /// Animates multiple insert, delete, reload, and move operations as a group.
-    ///
-    /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
-    public func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else {
-            return collectionView.reloadData()
-        }
-        collectionView.performBatchUpdates({
-            updates.forEach(self.process)
-        }, completion: nil)
-    }
-    
-    public var selectedObjects: [Object]? {
-        guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
-            return nil
-        }
-        
-        return selectedIndexPaths.map(dataProvider.object)
-    }
-    
-    // MARK: UICollectionViewDataSource
-    
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataProvider.numberOfSections()
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataProvider.numberOfItems(inSection: section)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let object = dataProvider.object(at: indexPath)
-        
-        guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Unexpected cell type at \(indexPath)")
-        }
-        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
-        cellDequeable.configure(cell, with: object)
-        
-        return cell
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return dataModificator?.canMoveItem(at: indexPath) ?? false
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, triggerdByTableView: true)
-    }
-    
-    // MARK: UICollectionViewDataSourcePrefetching
-    
-    @available(iOS 10.0, *)
-    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        dataProvider.prefetchItems(at: indexPaths)
-    }
-    
-    @available(iOS 10.0, *)
-    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        dataProvider.cancelPrefetchingForItems(at: indexPaths)
-    }
-}
-
-// MARK: Typesafe initializers
-
-public extension CollectionViewDataSource {
-    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
-                     dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
-    }
-    
-    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
-                     dataProvider: DataProvider, cells: [Cell], dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
-    }
-}
+//final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
+//    
+//    public let dataProvider: AnyDataProvider<Object>
+//    public let dataModificator: DataModifying?
+//    public var collectionView: UICollectionView {
+//        didSet {
+//            collectionView.dataSource = self
+//            collectionView.reloadData()
+//        }
+//    }
+//    private let cells: [CellConfiguring]
+//    
+//    public init<DataProvider: DataProviding>(collectionView: UICollectionView, dataProvider: DataProvider,
+//                    anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
+//        where DataProvider.Element == Object {
+//            self.collectionView = collectionView
+//            self.dataProvider = AnyDataProvider(dataProvider)
+//            self.cells = anyCells
+//            self.dataModificator = dataModificator
+//            super.init()
+//            dataProvider.whenDataProviderChanged = { [weak self] updates in
+//                self?.process(updates: updates)
+//            }
+//            registerCells(cells)
+//            collectionView.dataSource = self
+//            if #available(iOS 10.0, *) {
+//                collectionView.prefetchDataSource = self
+//            }
+//            collectionView.reloadData()
+//    }
+//    
+//    // MARK: Private
+//    
+//    private func registerCells(_ cellDequeables: [CellConfiguring]) {
+//        for cellDequeable in cellDequeables where cellDequeable.nib != nil {
+//            collectionView.register(cellDequeable.nib, forCellWithReuseIdentifier: cellDequeable.cellIdentifier)
+//        }
+//    }
+//    
+//    private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
+//        return cells.first(where: { $0.canConfigureCell(with: object) })
+//    }
+//    
+//    private func process(update: DataProviderUpdate) {
+//        switch update {
+//        case .insert(let indexPath):
+//            collectionView.insertItems(at: [indexPath])
+//        case .update(let indexPath):
+//            collectionView.reloadItems(at: [indexPath])
+//        case .move(let indexPath, let newIndexPath):
+//            collectionView.moveItem(at: indexPath, to: newIndexPath)
+//        case .delete(let indexPath):
+//            collectionView.deleteItems(at: [indexPath])
+//        case .insertSection(let sectionIndex):
+//            collectionView.insertSections(IndexSet(integer: sectionIndex))
+//        case .deleteSection(let sectionIndex):
+//            collectionView.deleteSections(IndexSet(integer: sectionIndex))
+//        case .moveSection(let section, let newSection):
+//            collectionView.moveSection(section, toSection: newSection)
+//        }
+//    }
+//    
+//    /// Animates multiple insert, delete, reload, and move operations as a group.
+//    ///
+//    /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
+//    public func process(updates: [DataProviderUpdate]?) {
+//        guard let updates = updates else {
+//            return collectionView.reloadData()
+//        }
+//        collectionView.performBatchUpdates({
+//            updates.forEach(self.process)
+//        }, completion: nil)
+//    }
+//    
+//    public var selectedObjects: [Object]? {
+//        guard let selectedIndexPaths = collectionView.indexPathsForSelectedItems else {
+//            return nil
+//        }
+//        
+//        return selectedIndexPaths.map(dataProvider.object)
+//    }
+//    
+//    // MARK: UICollectionViewDataSource
+//    
+//    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+//        return dataProvider.numberOfSections()
+//    }
+//    
+//    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return dataProvider.numberOfItems(inSection: section)
+//    }
+//    
+//    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let object = dataProvider.object(at: indexPath)
+//        
+//        guard let cellDequeable = cellDequeableForIndexPath(object) else {
+//            fatalError("Unexpected cell type at \(indexPath)")
+//        }
+//        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
+//        cellDequeable.configure(cell, with: object)
+//        
+//        return cell
+//    }
+//    
+//    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+//        return dataModificator?.canMoveItem(at: indexPath) ?? false
+//    }
+//    
+//    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+//        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, triggerdByTableView: true)
+//    }
+//    
+//    // MARK: UICollectionViewDataSourcePrefetching
+//    
+//    @available(iOS 10.0, *)
+//    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+//        dataProvider.prefetchItems(at: indexPaths)
+//    }
+//    
+//    @available(iOS 10.0, *)
+//    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+//        dataProvider.cancelPrefetchingForItems(at: indexPaths)
+//    }
+//}
+//
+//// MARK: Typesafe initializers
+//
+//public extension CollectionViewDataSource {
+//    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
+//                     dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
+//        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
+//            let typeErasedDataProvider = AnyDataProvider(dataProvider)
+//            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
+//    }
+//    
+//    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
+//                     dataProvider: DataProvider, cells: [Cell], dataModificator: DataModifying? = nil)
+//        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
+//            let typeErasedDataProvider = AnyDataProvider(dataProvider)
+//            self.init(collectionView: collectionView, dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
+//    }
+//}
 #endif

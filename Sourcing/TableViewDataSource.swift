@@ -8,87 +8,42 @@
 
 import UIKit
 
+class Demo {
+    var tableView: UITableView!
+    
+//    func setup() {
+//        let dataProvider = ArrayDataProvider(rows: ["Hallo"])
+//        let cellConfiguration = BasicCellConfiguration<UITableViewCell, String>(cellIdentifier: "", configuration: { _ in
+//            
+//        })
+//        tableView.register(cellConfiguration: cellConfiguration)
+//        let dataSource = TableViewDataSource(dataProvider: dataProvider, cells: [cellConfiguration])
+//        tableView.dataSource = dataSource
+//        tableView.reloadData()
+////        let reloadingTableview = AnimatedTableViewChanges(tableView: tableView, dataProvider: dataProvider)
+//    }
+}
+
+
 #if os(iOS) || os(tvOS)
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     
     public let dataProvider: AnyDataProvider<Object>
     public let dataModificator: DataModifying?
-    public var tableView: UITableView {
-        didSet {
-            tableView.dataSource = self
-            tableView.reloadData()
-        }
-    }
     private let cells: [CellConfiguring]
-    public var displaySectionIndexTitles: Bool
     
-    public init<TypedDataProvider: DataProviding>(tableView: UITableView, dataProvider: TypedDataProvider,
-                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
+    public init<TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider,
+                anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
                 where TypedDataProvider.Element == Object {
-        self.tableView = tableView
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
         self.cells = anyCells
-        self.displaySectionIndexTitles = displaySectionIndexTitles
         super.init()
-        dataProvider.whenDataProviderChanged = { [weak self] updates in
-            self?.process(updates: updates)
-        }
-        register(cells: cells)
-        tableView.dataSource = self
-        if #available(iOS 10.0, *) {
-            tableView.prefetchDataSource = self
-        }
-        tableView.reloadData()
-    }
-    
-    private func register(cells: [CellConfiguring]) {
-        for cell in cells where cell.nib != nil {
-            tableView.register(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
-        }
     }
     
     private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
         return cells.first(where: { $0.canConfigureCell(with: object) })
-    }
-    
-    private func process(update: DataProviderUpdate<Object>) {
-        switch update {
-        case .insert(let indexPath):
-            tableView.insertRows(at: [indexPath], with: .automatic)
-        case .update(let indexPath, _):
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        case .move(let indexPath, let newIndexPath):
-            tableView.moveRow(at: indexPath, to: newIndexPath)
-        case .delete(let indexPath):
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        case .insertSection(let sectionIndex):
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
-        case .deleteSection(let sectionIndex):
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
-        case .moveSection(let indexPath, let newIndexPath):
-            tableView.moveSection(indexPath, toSection: newIndexPath)
-        }
-    }
-    
-    /// Execute updates on your TableView. TableView will do a matching animation for each update
-    ///
-    /// - Parameter updates: list of updates to execute
-    public func process(updates: [DataProviderUpdate<Object>]?) {
-        guard let updates = updates else {
-            return tableView.reloadData()
-        }
-        tableView.beginUpdates()
-        updates.forEach(process)
-        tableView.endUpdates()
-    }
-    
-    public var selectedObject: Object? {
-        guard let indexPath = tableView.indexPathForSelectedRow else {
-            return nil
-        }
-        return dataProvider.object(at: indexPath)
     }
     
     // MARK: UITableViewDataSource
@@ -106,14 +61,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         guard let cellDequeable = cellDequeableForIndexPath(object) else {
             fatalError("Unexpected cell type at \(indexPath) for object of type")
         }
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellDequeable.cellIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellDequeable.cellIdentifier, for: indexPath)
         cellDequeable.configure(cell, with: object)
         
         return cell
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return displaySectionIndexTitles ? dataProvider.sectionIndexTitles : nil
+        return dataProvider.sectionIndexTitles
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -161,22 +116,20 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 // MARK: Typesafe initializers
 
 public extension TableViewDataSource {
-    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
-                     dataProvider: TypedDataProvider, cell: Cell,
+    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cell: Cell,
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: [cell],
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+            self.init(dataProvider: typeErasedDataProvider, anyCells: [cell],
+                      dataModificator: dataModificator)
     }
     
-    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(tableView: UITableView,
-                     dataProvider: TypedDataProvider, cells: [Cell],
+    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cells: [Cell],
                      dataModificator: DataModifying? = nil, displaySectionIndexTitles: Bool = false)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(tableView: tableView, dataProvider: typeErasedDataProvider, anyCells: cells,
-                      dataModificator: dataModificator, displaySectionIndexTitles: displaySectionIndexTitles)
+            self.init(dataProvider: typeErasedDataProvider, anyCells: cells,
+                      dataModificator: dataModificator)
     }
 }
 

@@ -9,13 +9,6 @@
 import Foundation
 
 final public class AnyDataProvider<Element>: DataProviding {
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: ProcessUpdatesCallback<Element>? {
-        didSet {
-            setwhenDataProviderChanged(whenDataProviderChanged)
-        }
-    }
 
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Element
     private let numberOfItems: (_ inSextion: Int) -> Int
@@ -23,9 +16,7 @@ final public class AnyDataProvider<Element>: DataProviding {
     
     private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
     private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
-    
-    private let setwhenDataProviderChanged: (ProcessUpdatesCallback<Element>?) -> Void
-    
+        
     private let getSectionIndexTitles: () -> [String]?
     private let getHeaderTitles: () -> [String]?
     
@@ -57,9 +48,6 @@ final public class AnyDataProvider<Element>: DataProviding {
         }
         getHeaderTitles = {
             return dataProvider.headerTitles
-        }
-        setwhenDataProviderChanged = { whenDataProviderChanged in
-            dataProvider.whenDataProviderChanged = whenDataProviderChanged
         }
     }
     

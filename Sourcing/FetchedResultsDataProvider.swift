@@ -12,11 +12,11 @@ import CoreData
 open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
     /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
     /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: ProcessUpdatesCallback<Object>?
+    public var whenDataProviderChanged: ProcessUpdatesCallback?
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
-    var dataProviderDidUpdate: ProcessUpdatesCallback<Object>?
-    var updates: [DataProviderUpdate<Object>] = []
+    var dataProviderDidUpdate: ProcessUpdatesCallback?
+    var updates: [DataProviderUpdate] = []
     
     open var sectionIndexTitles: [String]? {
         return provideSectionIndexTitles ? fetchedResultsController.sectionIndexTitles : nil
@@ -32,7 +32,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     
     public var generateHeaderAt: ((Int) -> String)?
     
-    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback<Object>? = nil) throws {
+    public init(fetchedResultsController: NSFetchedResultsController<Object>, dataProviderDidUpdate: ProcessUpdatesCallback? = nil) throws {
         self.fetchedResultsController = fetchedResultsController
         self.dataProviderDidUpdate = dataProviderDidUpdate
         super.init()
@@ -77,8 +77,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
             updates.append(.insert(indexPath))
         case .update:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            let object = self.object(at: indexPath)
-            updates.append(.update(indexPath, object))
+            updates.append(.update(indexPath))
         case .move:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
             guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
@@ -105,7 +104,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         dataProviderDidChangeContets(with: updates)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate<Object>]?, triggerdByTableView: Bool = false) {
+    func dataProviderDidChangeContets(with updates: [DataProviderUpdate]?, triggerdByTableView: Bool = false) {
         if !triggerdByTableView {
             whenDataProviderChanged?(updates)
         }

@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2017 Lukas Schmidt.
+//  Copyright (C) DB Systel GmbH.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -19,35 +19,25 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  DataProviderMock.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 10.01.17.
-//
 
 import Foundation
-import Sourcing
 
-/**
- `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
- */
-open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: (([DataProviderUpdate]?) -> Void)?
-
-    fileprivate(set) open var contents: [[Object]] = [[]]
-    public let sectionIndexTitles: [String]? = []
+/// A DataPrvider that can be observes for changes.
+public protocol ObservableDataProvider {
     
-    var prefetchedIndexPaths: [IndexPath]?
-    var canceledPrefetchedIndexPaths: [IndexPath]?
-
-    public func prefetchItems(at indexPaths: [IndexPath]) {
-        prefetchedIndexPaths = indexPaths
-    }
+    /// Observe the changes of the DataProvider.
+    ///
+    /// Can be use to animate changes in a TableView or in any other view hirachy.
+    ///
+    /// - Parameter observer: gets called when updates are available. If nil the DataProvider could
+    /// not calculate the updates, but new data is availabe. Reload you complete view when this happens.
     
-    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
-        canceledPrefetchedIndexPaths = indexPaths
-    }
+    /// To unregister call ``
+    /// - Returns: An opaque object to act as the observer.
+    func addObserver(observer: ([DataProviderUpdate]?) -> Void) -> NSObjectProtocol
+    
+    /// Removes given observer from the receiver’s dispatch table.
+    ///
+    /// - Parameter observer: The observer to remove
+    func removeObserver(observer: Any)
 }

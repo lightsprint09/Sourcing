@@ -30,7 +30,7 @@ public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
         }
     }
     private let dataProviderResolver: (State) -> AnyDataProvider<Object>
-    public var whenDataProviderChanged: (([DataProviderUpdate<Object>]?) -> Void)?
+    public var whenDataProviderChanged: (([DataProviderUpdate]?) -> Void)?
     
     var currentDataProvider: AnyDataProvider<Object> {
         return dataProviderResolver(state)
