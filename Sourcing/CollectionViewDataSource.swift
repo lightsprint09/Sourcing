@@ -53,7 +53,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
             }
             registerCells(cells)
             collectionView.dataSource = self
-            if #available(iOS 10.0, *) {
+            if #available(iOS 10.0, tvOSApplicationExtension 10.0, *) {
                 collectionView.prefetchDataSource = self
             }
             collectionView.reloadData()
