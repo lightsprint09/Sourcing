@@ -24,16 +24,17 @@ import Foundation
 
 public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
     public typealias Element = ContentElement
-    
     private let capturedContents: () -> [[Element]]
     
     public var contents: [[Element]] {
         return capturedContents()
     }
+    public let observable: DataProviderObservable
     
     public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
         capturedContents = {
             return dataProvider.contents
         }
+        self.observable = dataProvider.observable
     }
 }

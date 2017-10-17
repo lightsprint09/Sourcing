@@ -59,6 +59,8 @@ public protocol DataProviding: class {
      */
     func numberOfSections() -> Int
     
+    var observable: DataProviderObservable { get }
+    
     func prefetchItems(at indexPaths: [IndexPath])
     
     func cancelPrefetchingForItems(at indexPaths: [IndexPath])

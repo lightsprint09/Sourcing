@@ -46,9 +46,9 @@ class DataProviderSwitcherTest: XCTestCase {
         let arrayDataProvider = ArrayDataProvider<String>(rows: [])
         let dataProviderSwitcher = DataProviderSwitcher(initialState: MockState.state1, resolve: { _ in return AnyDataProvider(arrayDataProvider)
         })
-        dataProviderSwitcher.whenDataProviderChanged = { _ in
+        dataProviderSwitcher.observable.addObserver(observer: { _ in
             didCallDataProviderChanges = true
-        }
+        })
 
         //When
         dataProviderSwitcher.state = .state2

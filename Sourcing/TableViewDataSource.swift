@@ -6,25 +6,9 @@
 //  Copyright © 2016 Lukas Schmidt. All rights reserved.
 //
 
-import UIKit
-
-class Demo {
-    var tableView: UITableView!
-    
-//    func setup() {
-//        let dataProvider = ArrayDataProvider(rows: ["Hallo"])
-//        let cellConfiguration = BasicCellConfiguration<UITableViewCell, String>(cellIdentifier: "", configuration: { _ in
-//            
-//        })
-//        tableView.register(cellConfiguration: cellConfiguration)
-//        let dataSource = TableViewDataSource(dataProvider: dataProvider, cells: [cellConfiguration])
-//        tableView.dataSource = dataSource
-//        tableView.reloadData()
-////        let reloadingTableview = AnimatedTableViewChanges(tableView: tableView, dataProvider: dataProvider)
-//    }
-}
-
 #if os(iOS) || os(tvOS)
+import UIKit
+    
 /// Generic DataSoruce providing data to a tableview.
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
     

@@ -46,39 +46,13 @@ class AnyArrayDataProviderTest: XCTestCase {
 
         //When
         var calledWhenChanges = false
-        anyArrayDataProvider.whenDataProviderChanged = { updates in
+        anyArrayDataProvider.observable.addObserver(observer: { _ in
             calledWhenChanges = true
-        }
+        })
         arrayDataProvider.reconfigure(with: [[]])
 
         //Then
         XCTAssert(calledWhenChanges)
-    }
-
-    func testGetSectionIndexTitles() {
-        //Given
-        let arrayDataProvider = ArrayDataProvider<String>(rows: [])
-        let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
-        let sectionIndexTitles = ["test"]
-
-        //When
-        arrayDataProvider.sectionIndexTitles = sectionIndexTitles
-
-        //Then
-        XCTAssertEqual(anyArrayDataProvider.sectionIndexTitles ?? [], sectionIndexTitles)
-    }
-
-    func testGetHeaderTitles() {
-        //Given
-        let arrayDataProvider = ArrayDataProvider<String>(rows: [])
-        let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
-        let headerTitles = ["test"]
-
-        //When
-        arrayDataProvider.headerTitles = headerTitles
-
-        //Then
-        XCTAssertEqual(anyArrayDataProvider.headerTitles ?? [], headerTitles)
     }
 
 }

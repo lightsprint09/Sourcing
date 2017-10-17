@@ -73,87 +73,15 @@ class AnyDataProvidingTests: XCTestCase {
         //Given
         let underlyingDataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         dataProvider = AnyDataProvider(underlyingDataProvider)
-        dataProvider.whenDataProviderChanged = { _ in
+        dataProvider.observable.addObserver(observer: { _ in
             didUpdateDataSource = true
-        }
+        })
+
         //When
         underlyingDataProvider.reconfigure(with: [8, 9, 10])
         
         //Then
         XCTAssertTrue(didUpdateDataSource)
-    }
-    
-    func testNilSectionIndexTitles() {
-        //Given
-        dataProvider = AnyDataProvider(ArrayDataProvider(sections: [[1, 2], [3, 4]]))
-        
-        //When
-        let sectionIndexTitles = dataProvider.sectionIndexTitles
-        
-        //Then
-        XCTAssertNil(sectionIndexTitles)
-    }
-    
-    func testNonNilHeader() {
-        //Given
-        let header = "hello"
-        dataProvider = AnyDataProvider(ArrayDataProvider(rows: [1, 2], headerTitle: header))
-        
-        //When
-        let titles = dataProvider.headerTitles
-        
-        //Then
-        XCTAssertEqual([header], titles ?? [])
-    }
-    
-    func testNonNilHeaders() {
-        //Given
-        let headers = ["hallo", "bye"]
-        dataProvider = AnyDataProvider(ArrayDataProvider(sections: [[1, 2], [3, 4]], headerTitles: headers))
-        
-        //When
-        let titles = dataProvider.headerTitles
-        
-        //Then
-        XCTAssertEqual(headers, titles ?? [])
-    }
-    
-    func testNonNilSectionIndexTitles() {
-        //Given
-        let sectionIndexTitles = ["hallo", "bye"]
-        dataProvider = AnyDataProvider(ArrayDataProvider(sections: [[1, 2], [3, 4]], sectionIndexTitles: sectionIndexTitles))
-        
-        //When
-        let titles = dataProvider.sectionIndexTitles
-        
-        //Then
-        XCTAssertEqual(sectionIndexTitles, titles  ?? [])
-    }
-    
-    func testSetSectionIndexTitlesInWrappedDataProvider() {
-        //Given
-        let newSectionIndexTitles = ["hallo", "bye"]
-        let wrappedDataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], sectionIndexTitles: [])
-        dataProvider = AnyDataProvider(wrappedDataProvider)
-        
-        //When
-        wrappedDataProvider.sectionIndexTitles = newSectionIndexTitles
-        
-        //Then
-        XCTAssertEqual(newSectionIndexTitles, dataProvider.sectionIndexTitles ?? [])
-    }
-    
-    func testSetHeaderTitlesTitlesInWrappedDataProvider() {
-        //Given
-        let newHeaders = ["hallo", "bye"]
-        let wrappedDataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]], headerTitles: [])
-        dataProvider = AnyDataProvider(wrappedDataProvider)
-        
-        //When
-        wrappedDataProvider.headerTitles = newHeaders
-        
-        //Then
-        XCTAssertEqual(newHeaders, dataProvider.headerTitles  ?? [])
     }
 
 }

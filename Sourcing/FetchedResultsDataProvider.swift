@@ -13,11 +13,13 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
-    var updates: [DataProviderUpdate] = []
+    public let observable: DataProviderObservable
     
+    var updates: [DataProviderUpdate] = []
     
     public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
+        self.observable = DefaultDataProviderObservable()
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()

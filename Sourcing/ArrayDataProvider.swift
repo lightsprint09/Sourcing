@@ -35,6 +35,8 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
     public typealias Element = ContentElement
     
     open var contents: [[Element]]
+    
+    public let observable: DataProviderObservable
    
     public var canMoveItems: Bool = false
     public var canDeleteItems: Bool = false
@@ -62,6 +64,7 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      */
     public init(sections: [[Element]]) {
         self.contents = sections
+        observable = DefaultDataProviderObservable()
     }
     /**
      Reconfigures the dataSource with new data.
@@ -70,9 +73,9 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      - parameter updates: diff of the new data.
      - parameter triggerdByTableView: flag if the change of data is already set in the TableView.
     */
-    public func reconfigure<Rows: Collection>(with rows: Rows, updates: [DataProviderUpdate]? = nil, triggerdByTableView: Bool = false)
+    public func reconfigure<Rows: Collection>(with rows: Rows, change: DataProviderChange = .unknown, triggerdByTableView: Bool = false)
         where Rows.Iterator.Element == Element {
-        reconfigure(with: [Array(rows)], updates: updates, triggerdByTableView: triggerdByTableView)
+        reconfigure(with: [Array(rows)], change: change, triggerdByTableView: triggerdByTableView)
     }
     
     /**
@@ -82,15 +85,13 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      - parameter updates: diff of the new data.
      - parameter triggerdByTableView: flag if the change of data is already set in the TableView..
      */
-    public func reconfigure(with array: [[Element]], updates: [DataProviderUpdate]? = nil, triggerdByTableView: Bool = false) {
+    public func reconfigure(with array: [[Element]], change: DataProviderChange = .unknown, triggerdByTableView: Bool = false) {
         self.contents = array
-        dataProviderDidChangeContets(with: updates, triggerdByTableView: triggerdByTableView)
+        dataProviderDidChangeContets(with: change, triggerdByTableView: triggerdByTableView)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate]?, triggerdByTableView: Bool = false) {
-        if !triggerdByTableView {
-            //whenDataProviderChanged?(updates)
-        }
+    private func dataProviderDidChangeContets(with updates: DataProviderChange, triggerdByTableView: Bool = false) {
+       //observable.send(updates: updates)
     }
     
     // MARK: Data Modification
@@ -109,8 +110,8 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
         let soureElement = object(at: sourceIndexPath)
         contents[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         contents[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
-        let update = DataProviderUpdate.move(sourceIndexPath, destinationIndexPath)
-        dataProviderDidChangeContets(with: [update], triggerdByTableView: triggerdByTableView)
+        let update = DataProviderChange.Change.move(sourceIndexPath, destinationIndexPath)
+        dataProviderDidChangeContets(with: .changes([update]), triggerdByTableView: triggerdByTableView)
     }
     
     open func canDeleteItem(at indexPath: IndexPath) -> Bool {
@@ -119,7 +120,7 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
     
     open func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool = false) {
         contents[indexPath.section].remove(at: indexPath.item)
-        dataProviderDidChangeContets(with: [.delete(indexPath)], triggerdByTableView: triggerdByTableView)
+        dataProviderDidChangeContets(with: .changes([.delete(indexPath)]), triggerdByTableView: triggerdByTableView)
     }
     
 }

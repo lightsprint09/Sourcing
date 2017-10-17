@@ -59,7 +59,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         fetchReuqest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
                                                               sectionNameKeyPath: "name", cacheName: nil)
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController, dataProviderDidUpdate: { _ in })
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
     }
     
     func testNumberOfSections() {
@@ -86,9 +86,9 @@ class FetchedResultsDataProviderTests: XCTestCase {
     
     func testReconfigureFetchRequest() {
         var didUpdate = false
-        dataProvider.whenDataProviderChanged = { updates in
-            didUpdate = updates == nil
-        }
+        dataProvider.observable.addObserver(observer: { updates in
+            
+        })
         try? dataProvider.reconfigure(with: { _ in
             
         })
@@ -123,7 +123,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .update(let updatedIndexPath, _) = dataProvider.updates.first! {
+        if case .update(let updatedIndexPath) = dataProvider.updates.first! {
             XCTAssertEqual(indexPath, updatedIndexPath)
         } else {
             XCTFail()
@@ -187,11 +187,8 @@ class FetchedResultsDataProviderTests: XCTestCase {
         //Given
         var didUpdateNotification = false
         var didUpdateDataSource = false
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController,
-                                                       dataProviderDidUpdate: { _ in
-                                                        didUpdateNotification = true
-        })
-        dataProvider.whenDataProviderChanged = { _ in didUpdateDataSource = true }
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+        dataProvider.observable.addObserver(observer: { _ in didUpdateDataSource = true })
         
         //When
         dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
@@ -232,14 +229,5 @@ class FetchedResultsDataProviderTests: XCTestCase {
         } else {
             XCTFail()
         }
-    }
-    
-    func testSectionIndexTitles() {
-        
-        //When
-        let sectionIndex = dataProvider.sectionIndexTitles
-        
-        //Then
-        XCTAssertEqual(sectionIndex!, ["I"])
     }
 }

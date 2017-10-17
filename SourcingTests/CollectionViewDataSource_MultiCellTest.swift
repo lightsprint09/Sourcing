@@ -49,7 +49,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         let dataProvider = ArrayDataProvider<Int>(sections: [[2], [1, 3, 10]])
         
         //When
-        _ = CollectionViewDataSource<Int>(collectionView: collectionViewMock, dataProvider: dataProvider, cells: cells)
+        _ = CollectionViewDataSource<Int>(dataProvider: dataProvider, cells: cells)
         
         //Then
         XCTAssertEqual(collectionViewMock.executionCount.reloaded, 1)
@@ -65,7 +65,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
                           CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier, nib: nib)]
         
         //When
-        _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
+        _ = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 2)
@@ -80,7 +80,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: realCollectionView, dataProvider: dataProvider, anyCells: cellConfig)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
         let sectionCount = dataSource.numberOfSections(in: realCollectionView)
         
         //Then
@@ -94,7 +94,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: realCollectionView, dataProvider: dataProvider, anyCells: cellConfig)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
         let rowCount = dataSource.collectionView(realCollectionView, numberOfItemsInSection: 0)
         
         //Then
@@ -113,7 +113,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
                                                                                 secondCellIdentifier: UICollectionViewCellMock<String>()])
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
         let intCell = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 0, section: 0))
         let stringCell = dataSource.collectionView(realCollectionView, cellForItemAt:  IndexPath(row: 0, section: 1))
         
@@ -130,30 +130,4 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         XCTAssertTrue(stringCell is UICollectionViewCellMock<String>)
     }
 
-    func testUpdateDataSourceWithNoData() {
-        //Given
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
-        
-        //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        dataSource.process(updates: nil)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 2)
-    }
-    
-    func testSetNewCollectionView() {
-        //Given
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
-        let collectionViewMock = UICollectionViewMock()
-        let secondCollectionViewMock = UICollectionViewMock()
-        
-        //When
-        XCTAssertNil(secondCollectionViewMock.dataSource)
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, anyCells: cellConfig)
-        dataSource.collectionView = secondCollectionViewMock
-        //Then
-        XCTAssertNotNil(secondCollectionViewMock.dataSource)
-        XCTAssertEqual(secondCollectionViewMock.executionCount.reloaded, 1)
-    }
 }

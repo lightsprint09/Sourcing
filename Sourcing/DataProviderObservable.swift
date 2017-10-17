@@ -22,8 +22,27 @@
 
 import Foundation
 
+public class DefaultDataProviderObservable: DataProviderObservable {
+    
+    public init() {
+        
+    }
+    
+    public func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
+        return NSObject()
+    }
+    
+    public func removeObserver(observer: Any) {
+        
+    }
+    
+    func send(updates: DataProviderChange) {
+        
+    }
+}
+
 /// A DataPrvider that can be observes for changes.
-public protocol ObservableDataProvider {
+public protocol DataProviderObservable: class {
     
     /// Observe the changes of the DataProvider.
     ///
@@ -34,7 +53,7 @@ public protocol ObservableDataProvider {
     
     /// To unregister call ``
     /// - Returns: An opaque object to act as the observer.
-    func addObserver(observer: ([DataProviderUpdate]?) -> Void) -> NSObjectProtocol
+    func addObserver(observer: @escaping  (DataProviderChange) -> Void) -> NSObjectProtocol
     
     /// Removes given observer from the receiver’s dispatch table.
     ///

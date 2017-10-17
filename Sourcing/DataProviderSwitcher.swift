@@ -29,6 +29,7 @@ public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
             //whenDataProviderChanged?(nil)
         }
     }
+    public let observable: DataProviderObservable
     private let dataProviderResolver: (State) -> AnyDataProvider<Object>
     
     var currentDataProvider: AnyDataProvider<Object> {
@@ -38,6 +39,7 @@ public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
     public init(initialState: State, resolve: @escaping (State) -> AnyDataProvider<Object>) {
         self.state = initialState
         self.dataProviderResolver = resolve
+        self.observable = DefaultDataProviderObservable()
     }
     
     public func object(at indexPath: IndexPath) -> Object {

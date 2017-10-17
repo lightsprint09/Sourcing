@@ -14,6 +14,8 @@ final public class AnyDataProvider<Element>: DataProviding {
     private let numberOfItems: (_ inSextion: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
     
+    public var observable: DataProviderObservable
+    
     private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
     private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
     
@@ -33,6 +35,7 @@ final public class AnyDataProvider<Element>: DataProviding {
         cancelPrefetchingForItemsAtIndexPaths = { indexPaths in
             dataProvider.cancelPrefetchingForItems(at: indexPaths)
         }
+        self.observable = dataProvider.observable
     }
     
     public func object(at indexPath: IndexPath) -> Element {

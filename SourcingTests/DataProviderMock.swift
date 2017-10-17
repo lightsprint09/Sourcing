@@ -33,12 +33,11 @@ import Sourcing
  `ArrayDataProvider` provides basic implementation to map arrays to an `DataProvider`.
  */
 open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
-    /// Closure which gets called, when a data inside the provider changes and those changes should be propagated to the datasource.
-    /// **Warning:** Only set this when you are updating the datasource.
-    public var whenDataProviderChanged: (([DataProviderUpdate]?) -> Void)?
+    public var observable: DataProviderObservable = DefaultDataProviderObservable()
+    
+    public typealias Element = Object
 
     fileprivate(set) open var contents: [[Object]] = [[]]
-    public let sectionIndexTitles: [String]? = []
     
     var prefetchedIndexPaths: [IndexPath]?
     var canceledPrefetchedIndexPaths: [IndexPath]?

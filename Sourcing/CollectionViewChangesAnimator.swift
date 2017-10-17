@@ -20,56 +20,52 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
+import UIKit
 
-public class TableViewChangesAnimator {
+public final class CollectionViewChangesAnimator {
+     public let dataProvider: DataProviderObservable
     
     private var dataPrvoiderObserver: NSObjectProtocol?
-    public let dataProvider: DataProviderObservable
-    private let tableView: UITableView
-        
-    public init<DataProvider: DataProviderObservable>(tableView: UITableView, dataProvider: DataProvider) {
-        self.tableView = tableView
+    private let collectionView: UICollectionView
+    
+    public init<DataProvider: DataProviderObservable>(collectionView: UICollectionView, dataProvider: DataProvider) {
+        self.collectionView = collectionView
         self.dataProvider = dataProvider
         dataPrvoiderObserver = dataProvider.addObserver(observer: { [weak self] update in
             switch update {
             case .unknown:
-                self?.tableView.reloadData()
+                self?.collectionView.reloadData()
             case .changes(let updates):
                 self?.process(updates: updates)
             }
         })
     }
     
-    deinit {
-        dataProvider.removeObserver(observer: dataPrvoiderObserver as Any)
-    }
-    
     private func process(update: DataProviderChange.Change) {
         switch update {
         case .insert(let indexPath):
-            tableView.insertRows(at: [indexPath], with: .automatic)
+            collectionView.insertItems(at: [indexPath])
         case .update(let indexPath):
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            collectionView.reloadItems(at: [indexPath])
         case .move(let indexPath, let newIndexPath):
-            tableView.moveRow(at: indexPath, to: newIndexPath)
+            collectionView.moveItem(at: indexPath, to: newIndexPath)
         case .delete(let indexPath):
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            collectionView.deleteItems(at: [indexPath])
         case .insertSection(let sectionIndex):
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+            collectionView.insertSections(IndexSet(integer: sectionIndex))
         case .deleteSection(let sectionIndex):
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
-        case .moveSection(let indexPath, let newIndexPath):
-            tableView.moveSection(indexPath, toSection: newIndexPath)
+            collectionView.deleteSections(IndexSet(integer: sectionIndex))
+        case .moveSection(let section, let newSection):
+            collectionView.moveSection(section, toSection: newSection)
         }
     }
     
-    /// Execute updates on your TableView. TableView will do a matching animation for each update
+    /// Animates multiple insert, delete, reload, and move operations as a group.
     ///
-    /// - Parameter updates: list of updates to execute
-    private func process(updates: [DataProviderChange.Change]) {
-        tableView.beginUpdates()
-        updates.forEach(process)
-        tableView.endUpdates()
+    /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
+    public func process(updates: [DataProviderChange.Change]) {
+        collectionView.performBatchUpdates({
+            updates.forEach(self.process)
+        }, completion: nil)
     }
 }
