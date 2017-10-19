@@ -100,15 +100,11 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testDequeCells() {
         //Given
-        var didCallAdditionalConfigurtion = false
-        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguration: { _, _ in
-            didCallAdditionalConfigurtion = true
-        })
-        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)
         
         //When
         let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
-        let cellAtIdexPath = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 2, section: 1))
+        let cellAtIdexPath = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 2, section: 1))
         
         //Then
         let mockCell = (collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>)
@@ -116,7 +112,6 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(mockCell.configuredObject, 10)
         XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, cellIdentifier)
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
-        XCTAssertTrue(didCallAdditionalConfigurtion)
     }
     
     func testMoveIndexPaths() {

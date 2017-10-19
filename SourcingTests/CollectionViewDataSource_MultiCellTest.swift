@@ -103,24 +103,18 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
 
     func testDequCells() {
         //Given
-        var didCallAdditionalConfigurtion = false
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil,
-                                                                                           additionalConfiguration: { _, _ in
-            didCallAdditionalConfigurtion = true
-        }), CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
-        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil), CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [cellIdentifier: UICollectionViewCellMock<Int>(),
                                                                                 secondCellIdentifier: UICollectionViewCellMock<String>()])
         
         //When
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
-        let intCell = dataSource.collectionView(realCollectionView, cellForItemAt: IndexPath(row: 0, section: 0))
-        let stringCell = dataSource.collectionView(realCollectionView, cellForItemAt:  IndexPath(row: 0, section: 1))
+        let intCell = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 0, section: 0))
+        let stringCell = dataSource.collectionView(collectionViewMock, cellForItemAt:  IndexPath(row: 0, section: 1))
         
         //Then
         let mockIntCell = collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>
         let mockStringCell = collectionViewMock.cellDequeueMock.cells[secondCellIdentifier] as! UICollectionViewCellMock<String>
-        XCTAssert(didCallAdditionalConfigurtion)
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
         XCTAssertTrue(intCell is UICollectionViewCellMock<Int>)
