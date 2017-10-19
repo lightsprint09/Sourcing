@@ -38,7 +38,6 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
     var collectionViewMock: UICollectionViewMock!
-    var realCollectionView: UICollectionView!
     var cell: CellConfiguration<UICollectionViewCellMock<Int>>!
     
     override func setUp() {
@@ -46,41 +45,15 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         collectionViewMock = UICollectionViewMock()
         cell = CellConfiguration(cellIdentifier: cellIdentifier)
-        realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         dataModificator = DataModificatorMock()
-    }
-    
-    func testSetDataSource() {
-        //When
-        _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 1)
-        XCTAssertNotNil(collectionViewMock.dataSource)
-        XCTAssertNotNil(collectionViewMock.prefetchDataSource)
-        XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
-    }
-    
-    func testRegisterNib() {
-        //Given
-        let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
-        
-        //When
-        _ = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cellConfig)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
     }
 
     func testNumberOfSections() {
         //Given
-        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
-        let sectionCount = dataSource.numberOfSections(in: realCollectionView)
+        let sectionCount = dataSource.numberOfSections(in: collectionViewMock)
         
         //Then
         XCTAssertEqual(sectionCount, 2)
@@ -88,11 +61,10 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
-        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
-        let rowCount = dataSource.collectionView(realCollectionView, numberOfItemsInSection: 1)
+        let rowCount = dataSource.collectionView(collectionViewMock, numberOfItemsInSection: 1)
         
         //Then
         XCTAssertEqual(rowCount, 3)
@@ -100,11 +72,11 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testDequeCells() {
         //Given
-        let cell = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
+        let indexPath = IndexPath(row: 2, section: 1)
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider, cell: cell)
-        let cellAtIdexPath = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 2, section: 1))
+        let cellAtIdexPath = dataSource.collectionView(collectionViewMock, cellForItemAt: indexPath)
         
         //Then
         let mockCell = (collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>)
@@ -120,11 +92,11 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let dataProviderMock = DataProviderMock<Int>()
         
         //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProviderMock,
+        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock,
                                                   cell: cellConfig, dataModificator: dataModificator)
         let fromIndexPath = IndexPath(row: 0, section: 1)
         let toIndexPath = IndexPath(row: 1, section: 0)
-        dataSource.collectionView(realCollectionView, moveItemAt: fromIndexPath, to: toIndexPath)
+        dataSource.collectionView(collectionViewMock, moveItemAt: fromIndexPath, to: toIndexPath)
         
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
@@ -135,16 +107,15 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testPrefetchItemsAtIndexPaths() {
         //Given
         let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock,
-                                                                                         dataProvider: dataProviderMock, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cell: cell)
         
         //When
         let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.collectionView(realCollectionView, prefetchItemsAt: prefetchedIndexPaths)
+        dataSource.collectionView(collectionViewMock, prefetchItemsAt: prefetchedIndexPaths)
         
         //Then
         guard let x = dataProviderMock.prefetchedIndexPaths else {
-            return XCTFail()
+            return XCTFail("Did not use given prefatch indexPaths")
         }
         XCTAssertEqual(x, prefetchedIndexPaths)
     }
@@ -153,27 +124,29 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testCenclePrefetchItemsAtIndexPaths() {
         //Given
         let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock,
-                                                                                    dataProvider: dataProviderMock, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cell: cell)
         
         //When
         let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.collectionView(realCollectionView, cancelPrefetchingForItemsAt: canceldIndexPaths)
+        dataSource.collectionView(collectionViewMock, cancelPrefetchingForItemsAt: canceldIndexPaths)
         
         //Then
         guard let x = dataProviderMock.canceledPrefetchedIndexPaths else {
-            return XCTFail()
+            return XCTFail("Did not use given prefatch indexPaths")
         }
         XCTAssertEqual(x, canceldIndexPaths)
     }
     
     func testCanMoveCellAtIndexPath() {
-        dataModificator.canMoveItemAt = true
-        //When
-        let dataSource = CollectionViewDataSource(collectionView: collectionViewMock, dataProvider: dataProvider,
+        
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider,
                                                   cell: cell, dataModificator: dataModificator)
+        //When
+        dataModificator.canMoveItemAt = true
         
         //Then
-        XCTAssertTrue(dataSource.collectionView(realCollectionView, canMoveItemAt: IndexPath(item: 0, section: 0)))
+        let indexPath = IndexPath(item: 0, section: 0)
+        let dataSourceCanMoveItem = dataSource.collectionView(collectionViewMock, canMoveItemAt: indexPath)
+        XCTAssertTrue(dataSourceCanMoveItem)
     }
 }

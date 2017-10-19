@@ -22,8 +22,13 @@
 
 import UIKit
 
+/**
+ A listener that observers changes of an dataprovider. It create animations to make changes visible in the view by using
+ ``UICollectionView`s APIs to animate cells
+ */
+
 public final class CollectionViewChangesAnimator {
-     public let dataProvider: DataProviderObservable
+    public let dataProvider: DataProviderObservable
     
     private var dataPrvoiderObserver: NSObjectProtocol?
     private let collectionView: UICollectionView

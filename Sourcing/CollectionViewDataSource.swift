@@ -96,8 +96,7 @@ final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewD
 // MARK: Typesafe initializers
 
 public extension CollectionViewDataSource {
-    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(collectionView: UICollectionView,
-                     dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
+    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
         where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)

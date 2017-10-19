@@ -31,10 +31,6 @@ import XCTest
 // swiftlint:disable force_cast
 
 class CollectionViewDataSourceMultiCellTest: XCTestCase {
-
-    let cellIdentifier = "cellIdentifier"
-    let secondCellIdentifier = "cellIdentifier2"
-    
     var dataProvider: ArrayDataProvider<Any>!
     var collectionViewMock: UICollectionViewMock!
     
@@ -43,67 +39,12 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
         collectionViewMock = UICollectionViewMock()
     }
-    func testSetDataSource() {
-        let cells: [CellConfiguration<UICollectionViewCellMock<Int>>] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
-                                                         CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
-        let dataProvider = ArrayDataProvider<Int>(sections: [[2], [1, 3, 10]])
-        
-        //When
-        _ = CollectionViewDataSource<Int>(dataProvider: dataProvider, cells: cells)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 1)
-        XCTAssertNotNil(collectionViewMock.dataSource)
-        XCTAssertNotNil(collectionViewMock.prefetchDataSource)
-        XCTAssertEqual(collectionViewMock.registerdNibs.count, 0)
-    }
-    
-    func testRegisterNib() {
-        //Given
-        let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib),
-                          CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier, nib: nib)]
-        
-        //When
-        _ = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.registerdNibs.count, 2)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[secondCellIdentifier] as Any)
-    }
-    
-    func testNumberOfSections() {
-        //Given
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
-                          CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
-        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        
-        //When
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
-        let sectionCount = dataSource.numberOfSections(in: realCollectionView)
-        
-        //Then
-        XCTAssertEqual(sectionCount, 2)
-    }
 
-    func testNumberOfRowsInSections() {
+    func testDequeCells() {
         //Given
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
-                          CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
-        let realCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        
-        //When
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
-        let rowCount = dataSource.collectionView(realCollectionView, numberOfItemsInSection: 0)
-        
-        //Then
-        XCTAssertEqual(rowCount, 1)
-    }
-
-    func testDequCells() {
-        //Given
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil), CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
+        let cellIdentifier = "cellIdentifier"
+        let secondCellIdentifier = "cellIdentifier2"
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier), CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [cellIdentifier: UICollectionViewCellMock<Int>(),
                                                                                 secondCellIdentifier: UICollectionViewCellMock<String>()])
         

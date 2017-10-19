@@ -48,34 +48,6 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataModificator = DataModificatorMock()
     }
     
-    func testSetDataSource() {
-        //When
-        _ = TableViewDataSource(dataProvider: dataProvider, cell: cell)
-        
-        //Then
-        XCTAssertEqual(tableViewMock.executionCount.reloaded, 1)
-        XCTAssertNotNil(tableViewMock.dataSource)
-        if #available(iOS 10.0, *) {
-            XCTAssertNotNil(tableViewMock.prefetchDataSource)
-        } else {
-            // Fallback on earlier versions
-        }
-        XCTAssertEqual(tableViewMock.registerdNibs.count, 0)
-    }
-    
-    func testRegisterNib() {
-        //Given
-        let nib = UINib(data: Data(), bundle: nil)
-        let cell = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
-        
-        //When
-        _ = TableViewDataSource(dataProvider: dataProvider, cell: cell)
-        
-        //Then
-        XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
-    }
-    
     func testNumberOfSections() {
         //Given
         let realTableView = UITableView()
@@ -100,7 +72,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(rowCount, 3)
     }
     
-    func testDequCells() {
+    func testDequeCells() {
         //Given
         var didCallAdditionalConfigurtion = false
         let cell = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguration: { _, _ in
@@ -121,18 +93,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertTrue(didCallAdditionalConfigurtion)
     }
     
-    func testUpdateDataSourceWithNoData() {
-        //Given
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)]
-        _ = TableViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
-        let reloadCount = tableViewMock.executionCount.reloaded
-        //When
-        
-        dataProvider.reconfigure(with: [0])
-        
-        //Then
-        XCTAssertEqual(tableViewMock.executionCount.reloaded, reloadCount + 1)
-    }
+    
     
     func testMoveIndexPaths() {
         //Given
