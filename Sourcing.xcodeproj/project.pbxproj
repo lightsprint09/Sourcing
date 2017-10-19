@@ -27,6 +27,9 @@
 		94EBCFCE1E1A4A4B00184FD5 /* AnyDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EBCFCD1E1A4A4B00184FD5 /* AnyDataProviderTests.swift */; };
 		C6021BBB1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBA1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift */; };
 		C6021BBD1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift */; };
+		C6021BC01F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBE1F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift */; };
+		C6021BC11F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBF1F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift */; };
+		C6021BC31F98C90500767F85 /* SectionTitlesProvidingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BC21F98C90500767F85 /* SectionTitlesProvidingMock.swift */; };
 		C60BE64E1D6B21DC006B0364 /* CollectionViewDataSource_SingleCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE64D1D6B21DC006B0364 /* CollectionViewDataSource_SingleCellTest.swift */; };
 		C61307631E261CD6009BD8CD /* DataProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61307621E261CD6009BD8CD /* DataProviderMock.swift */; };
 		C63610A51E40714C00417B45 /* DataModifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63610A41E40714C00417B45 /* DataModifying.swift */; };
@@ -99,6 +102,9 @@
 		94EBCFCD1E1A4A4B00184FD5 /* AnyDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDataProviderTests.swift; sourceTree = "<group>"; };
 		C6021BBA1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterCelllConfigurationsTest.swift"; sourceTree = "<group>"; };
 		C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewRegisterCelllConfigurationsTest.swift; sourceTree = "<group>"; };
+		C6021BBE1F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSectionTitleProviderTest.swift; sourceTree = "<group>"; };
+		C6021BBF1F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticSectionTitleProviderTest.swift; sourceTree = "<group>"; };
+		C6021BC21F98C90500767F85 /* SectionTitlesProvidingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitlesProvidingMock.swift; sourceTree = "<group>"; };
 		C60BE64D1D6B21DC006B0364 /* CollectionViewDataSource_SingleCellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource_SingleCellTest.swift; sourceTree = "<group>"; };
 		C61307621E261CD6009BD8CD /* DataProviderMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderMock.swift; sourceTree = "<group>"; };
 		C63610A41E40714C00417B45 /* DataModifying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModifying.swift; sourceTree = "<group>"; };
@@ -202,6 +208,8 @@
 		945727A11E16BF7800024C65 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C6021BBE1F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift */,
+				C6021BBF1F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift */,
 				945ABE851E0D720F001B42CE /* TableViewDataSource_SingleCellTest.swift */,
 				945ABE871E0D731D001B42CE /* TableViewDataSource_MultiCellTest.swift */,
 				C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */,
@@ -237,6 +245,7 @@
 		C68BCBC41D5A1DD000C5E720 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				C6021BC21F98C90500767F85 /* SectionTitlesProvidingMock.swift */,
 				C6363D981F5024B90052E9BD /* UIKitMocks */,
 				C61307621E261CD6009BD8CD /* DataProviderMock.swift */,
 				C63610A61E4077C800417B45 /* DataModificatorMock.swift */,
@@ -455,11 +464,13 @@
 			files = (
 				C6021BBB1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift in Sources */,
 				C61307631E261CD6009BD8CD /* DataProviderMock.swift in Sources */,
+				C6021BC31F98C90500767F85 /* SectionTitlesProvidingMock.swift in Sources */,
 				C6E76AE31EE80530007E323B /* DataProviderSwitcherTest.swift in Sources */,
 				C6B92C741EF127FC00D059AF /* AnyArrayDataProviderTest.swift in Sources */,
 				945ABE881E0D731D001B42CE /* TableViewDataSource_MultiCellTest.swift in Sources */,
 				C6D12DC51F961D440015A3C3 /* TableViewChangesAnimatorTest.swift in Sources */,
 				C6021BBD1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift in Sources */,
+				C6021BC11F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift in Sources */,
 				C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */,
 				C60BE64E1D6B21DC006B0364 /* CollectionViewDataSource_SingleCellTest.swift in Sources */,
 				C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */,
@@ -468,6 +479,7 @@
 				945ABE861E0D720F001B42CE /* TableViewDataSource_SingleCellTest.swift in Sources */,
 				C6363D9E1F5029CC0052E9BD /* ExecutionCount.swift in Sources */,
 				C6D12DC31F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift in Sources */,
+				C6021BC01F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift in Sources */,
 				94C9032D1E1D20E500C0C56A /* CDTrain.swift in Sources */,
 				C6363D841F4DBCE00052E9BD /* ModifiedIndexPaths.swift in Sources */,
 				C687C1BB1E378E940089F561 /* UICollectionViewCellMock.swift in Sources */,
