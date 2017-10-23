@@ -15,7 +15,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     
     public let observable: DataProviderObservable
     
-    var updates: [DataProviderUpdate] = []
+    var updates: [DataProviderChange.Change] = []
     
     public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
@@ -30,7 +30,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         configure(fetchedResultsController)
         
         try fetchedResultsController.performFetch()
-        dataProviderDidChangeContets(with: nil)
+        //dataProviderDidChangeContents(with: nil)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
@@ -86,14 +86,35 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        dataProviderDidChangeContets(with: updates)
+        let updatesIndexPaths = updates.flatMap { update -> IndexPath? in
+            switch update {
+            case .update(let indexPath):
+                return indexPath
+            default: return nil
+            }
+        }
+        updates = updates.flatMap { update -> DataProviderChange.Change? in
+            if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
+               return nil
+            }
+            return update
+        }
+        dataProviderDidChangeContents(with: updates)
+        let updatesByMoves = updates.flatMap { operation -> DataProviderChange.Change? in
+            if case .move(_, let newIndexPath) = operation {
+                return .update(newIndexPath)
+            }
+            return nil
+        }
+        dataProviderDidChangeContents(with: updatesByMoves)
     }
     
-    func dataProviderDidChangeContets(with updates: [DataProviderUpdate]?, triggerdByTableView: Bool = false) {
+    func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]?, triggerdByTableView: Bool = false) {
 //        if !triggerdByTableView {
 //            whenDataProviderChanged?(updates)
 //        }
 //        dataProviderDidUpdate?(updates)
+
     }
 
 }
