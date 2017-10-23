@@ -35,7 +35,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
 
         //Then
-        XCTAssertEqual(anyArrayDataProvider.contents.first ?? [], contents)
+        XCTAssertEqual(anyArrayDataProvider.content.first ?? [], contents)
     }
 
     func testSetWhenDataProviderChanged() {

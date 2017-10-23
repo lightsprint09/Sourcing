@@ -26,14 +26,14 @@ public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
     public typealias Element = ContentElement
     private let capturedContents: () -> [[Element]]
     
-    public var contents: [[Element]] {
+    public var content: [[Element]] {
         return capturedContents()
     }
     public let observable: DataProviderObservable
     
     public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
         capturedContents = {
-            return dataProvider.contents
+            return dataProvider.content
         }
         self.observable = dataProvider.observable
     }

@@ -37,7 +37,7 @@ open class DataProviderMock<Object>: NSObject, ArrayDataProviding {
     
     public typealias Element = Object
 
-    fileprivate(set) open var contents: [[Object]] = [[]]
+    fileprivate(set) open var content: [[Object]] = [[]]
     
     var prefetchedIndexPaths: [IndexPath]?
     var canceledPrefetchedIndexPaths: [IndexPath]?

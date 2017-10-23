@@ -34,7 +34,7 @@ import Foundation
 open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying {
     public typealias Element = ContentElement
     
-    open var contents: [[Element]]
+    open var content: [[Element]]
     
     public let observable: DataProviderObservable
    
@@ -63,7 +63,7 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
     public init(sections: [[Element]]) {
-        self.contents = sections
+        self.content = sections
         observable = DefaultDataProviderObservable()
     }
     /**
@@ -86,7 +86,7 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      - parameter triggerdByTableView: flag if the change of data is already set in the TableView..
      */
     public func reconfigure(with array: [[Element]], change: DataProviderChange = .unknown, triggerdByTableView: Bool = false) {
-        self.contents = array
+        self.content = array
         dataProviderDidChangeContets(with: change, triggerdByTableView: triggerdByTableView)
     }
     
@@ -108,8 +108,8 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      */
     open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, triggerdByTableView: Bool = false) {
         let soureElement = object(at: sourceIndexPath)
-        contents[sourceIndexPath.section].remove(at: sourceIndexPath.item)
-        contents[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
+        content[sourceIndexPath.section].remove(at: sourceIndexPath.item)
+        content[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderChange.Change.move(sourceIndexPath, destinationIndexPath)
         dataProviderDidChangeContets(with: .changes([update]), triggerdByTableView: triggerdByTableView)
     }
@@ -119,7 +119,7 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
     }
     
     open func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool = false) {
-        contents[indexPath.section].remove(at: indexPath.item)
+        content[indexPath.section].remove(at: indexPath.item)
         dataProviderDidChangeContets(with: .changes([.delete(indexPath)]), triggerdByTableView: triggerdByTableView)
     }
     

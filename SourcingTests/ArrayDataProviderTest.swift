@@ -112,7 +112,7 @@ class ArrayDataProviderTest: XCTestCase {
         dataProvider.reconfigure(with: [8, 9, 10])
         
         //Then
-        XCTAssertEqual(dataProvider.contents.first!, [8, 9, 10])
+        XCTAssertEqual(dataProvider.content.first!, [8, 9, 10])
     }
     
     func testCanMoveItemFromTo() {
