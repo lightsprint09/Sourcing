@@ -37,7 +37,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         }
         register(cells: cells)
         tableView.dataSource = self
-        if #available(iOS 10.0, *) {
+        if #available(iOS 10.0, tvOSApplicationExtension 10.0, *) {
             tableView.prefetchDataSource = self
         }
         tableView.reloadData()
