@@ -28,8 +28,6 @@
 
 import Foundation
 
-public typealias ProcessUpdatesCallback = ([DataProviderUpdate]?) -> Void
-
 /// `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
 /// It is generic over Object, which is the kind of data it provides.
 public protocol DataProviding: class {

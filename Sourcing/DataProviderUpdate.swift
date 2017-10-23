@@ -37,14 +37,3 @@ public enum DataProviderChange {
         case moveSection(Int, Int)
     }
 }
-
-public enum DataProviderUpdate {
-    case insert(IndexPath)
-    case update(IndexPath)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
-    
-    case insertSection(Int)
-    case deleteSection(Int)
-    case moveSection(Int, Int)
-}
