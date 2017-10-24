@@ -31,15 +31,15 @@ import Foundation
 /**
  `ArrayDataProvider` provides basic implementation to map arrays to a `DataProvider`.
  */
-open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying {
+open class ArrayDataProvider<ContentElement>: ArrayDataProviding {
     public typealias Element = ContentElement
     
     open var content: [[Element]]
     
-    public let observable: DataProviderObservable
-   
-    public var canMoveItems: Bool = false
-    public var canDeleteItems: Bool = false
+    public var observable: DataProviderObservable {
+        return defaultObservable
+    }
+    private let defaultObservable: DefaultDataProviderObservable
     
     // MARK: Initializers
     
@@ -64,18 +64,18 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      */
     public init(sections: [[Element]]) {
         self.content = sections
-        observable = DefaultDataProviderObservable()
+        defaultObservable = DefaultDataProviderObservable()
     }
     /**
      Reconfigures the dataSource with new data.
      
      - parameter array: flat array.
      - parameter updates: diff of the new data.
-     - parameter triggerdByTableView: flag if the change of data is already set in the TableView.
+     - parameter updateView: flag if the change of data is already set in the TableView.
     */
-    public func reconfigure<Rows: Collection>(with rows: Rows, change: DataProviderChange = .unknown, triggerdByTableView: Bool = false)
+    public func reconfigure<Rows: Collection>(with rows: Rows, change: DataProviderChange = .unknown, updateView: Bool = true)
         where Rows.Iterator.Element == Element {
-        reconfigure(with: [Array(rows)], change: change, triggerdByTableView: triggerdByTableView)
+        reconfigure(with: [Array(rows)], change: change, updateView: updateView)
     }
     
     /**
@@ -83,44 +83,15 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding, DataModifying 
      
      - parameter array: 2D array.
      - parameter updates: diff of the new data.
-     - parameter triggerdByTableView: flag if the change of data is already set in the TableView..
+     - parameter updateView: flag if the change of data is already set in the view.
      */
-    public func reconfigure(with array: [[Element]], change: DataProviderChange = .unknown, triggerdByTableView: Bool = false) {
+    public func reconfigure(with array: [[Element]], change: DataProviderChange = .unknown, updateView: Bool = true) {
         self.content = array
-        dataProviderDidChangeContets(with: change, triggerdByTableView: triggerdByTableView)
+        dataProviderDidChangeContets(with: change, updateView: updateView)
     }
     
-    private func dataProviderDidChangeContets(with updates: DataProviderChange, triggerdByTableView: Bool = false) {
-       //observable.send(updates: updates)
-    }
-    
-    // MARK: Data Modification
-    
-    open func canMoveItem(at indexPath: IndexPath) -> Bool {
-        return canMoveItems
-    }
-    
-    /**
-     Update item position in dataSource.
-     
-     - parameter sourceIndexPath: original indexPath.
-     - parameter destinationIndexPath: destination indexPath.
-     */
-    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, triggerdByTableView: Bool = false) {
-        let soureElement = object(at: sourceIndexPath)
-        content[sourceIndexPath.section].remove(at: sourceIndexPath.item)
-        content[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
-        let update = DataProviderChange.Change.move(sourceIndexPath, destinationIndexPath)
-        dataProviderDidChangeContets(with: .changes([update]), triggerdByTableView: triggerdByTableView)
-    }
-    
-    open func canDeleteItem(at indexPath: IndexPath) -> Bool {
-        return canDeleteItems
-    }
-    
-    open func deleteItem(at indexPath: IndexPath, triggerdByTableView: Bool = false) {
-        content[indexPath.section].remove(at: indexPath.item)
-        dataProviderDidChangeContets(with: .changes([.delete(indexPath)]), triggerdByTableView: triggerdByTableView)
+    private func dataProviderDidChangeContets(with updates: DataProviderChange, updateView: Bool = true) {
+        defaultObservable.send(updates: updates)
     }
     
 }

@@ -50,9 +50,11 @@
 		C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */; };
 		C68BCBC61D5A1DE100C5E720 /* UITableViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */; };
 		C68BCBCC1D5B048200C5E720 /* BasicCellConfigurationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */; };
+		C696D4CB1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift */; };
 		C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */; };
 		C6B92C721EF126E300D059AF /* AnyArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B92C711EF126E300D059AF /* AnyArrayDataProvider.swift */; };
 		C6B92C741EF127FC00D059AF /* AnyArrayDataProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B92C731EF127FC00D059AF /* AnyArrayDataProviderTest.swift */; };
+		C6CB05FC1F9E132700EEDBF3 /* ArrayDataProviderModifyingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CB05FB1F9E132700EEDBF3 /* ArrayDataProviderModifyingTest.swift */; };
 		C6D12DBF1F96119A0015A3C3 /* UICollectionView+RegisterCelllConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D12DBE1F96119A0015A3C3 /* UICollectionView+RegisterCelllConfigurations.swift */; };
 		C6D12DC11F9612C00015A3C3 /* CollectionViewChangesAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D12DC01F9612C00015A3C3 /* CollectionViewChangesAnimator.swift */; };
 		C6D12DC31F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D12DC21F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift */; };
@@ -125,9 +127,11 @@
 		C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderTest.swift; sourceTree = "<group>"; };
 		C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewMock.swift; sourceTree = "<group>"; };
 		C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCellConfigurationTest.swift; sourceTree = "<group>"; };
+		C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderModifying.swift; sourceTree = "<group>"; };
 		C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource_MultiCellTest.swift; sourceTree = "<group>"; };
 		C6B92C711EF126E300D059AF /* AnyArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyArrayDataProvider.swift; sourceTree = "<group>"; };
 		C6B92C731EF127FC00D059AF /* AnyArrayDataProviderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyArrayDataProviderTest.swift; sourceTree = "<group>"; };
+		C6CB05FB1F9E132700EEDBF3 /* ArrayDataProviderModifyingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderModifyingTest.swift; sourceTree = "<group>"; };
 		C6D12DBE1F96119A0015A3C3 /* UICollectionView+RegisterCelllConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+RegisterCelllConfigurations.swift"; sourceTree = "<group>"; };
 		C6D12DC01F9612C00015A3C3 /* CollectionViewChangesAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChangesAnimator.swift; sourceTree = "<group>"; };
 		C6D12DC21F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChangesAnimatorTest.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				C6D12DC41F961D440015A3C3 /* TableViewChangesAnimatorTest.swift */,
 				C6021BBA1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift */,
 				C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift */,
+				C6CB05FB1F9E132700EEDBF3 /* ArrayDataProviderModifyingTest.swift */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -267,6 +272,7 @@
 				94EBCFCB1E1A481500184FD5 /* AnyDataProvider.swift */,
 				C64CEDD01D741BF400027CBB /* ArrayDataProviding.swift */,
 				948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */,
+				C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift */,
 				C6F913171D506BC800B0535C /* DataProviderUpdate.swift */,
 				943D00E91E01AE040066328E /* FetchedResultsDataProvider.swift */,
 				C6E76AE01EE804FE007E323B /* DataProviderSwitcher.swift */,
@@ -446,6 +452,7 @@
 				C6FE99921E4DEEA800B02B17 /* BasicCellConfiguration.swift in Sources */,
 				C6F3A0721F95CDEA00F43FA4 /* SectionTitleProviding.swift in Sources */,
 				C63610A51E40714C00417B45 /* DataModifying.swift in Sources */,
+				C696D4CB1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift in Sources */,
 				C6F3A0711F95CDEA00F43FA4 /* DynamicSectionTitleProvider.swift in Sources */,
 				C6B92C721EF126E300D059AF /* AnyArrayDataProvider.swift in Sources */,
 				C6E76AE11EE804FE007E323B /* DataProviderSwitcher.swift in Sources */,
@@ -483,6 +490,7 @@
 				94C9032D1E1D20E500C0C56A /* CDTrain.swift in Sources */,
 				C6363D841F4DBCE00052E9BD /* ModifiedIndexPaths.swift in Sources */,
 				C687C1BB1E378E940089F561 /* UICollectionViewCellMock.swift in Sources */,
+				C6CB05FC1F9E132700EEDBF3 /* ArrayDataProviderModifyingTest.swift in Sources */,
 				C6363D971F5016A90052E9BD /* ModifiedSections.swift in Sources */,
 				C687C1BD1E378FDC0089F561 /* CellIdentifierProvidingTest.swift in Sources */,
 				C68BCBCC1D5B048200C5E720 /* BasicCellConfigurationTest.swift in Sources */,

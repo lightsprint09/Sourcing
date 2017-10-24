@@ -28,7 +28,7 @@
 
 import XCTest
 import UIKit
-@testable import Sourcing
+import Sourcing
 
 // swiftlint:disable force_cast force_unwrapping
 class TableViewDataSourceSingleCellTest: XCTestCase {
@@ -78,11 +78,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let cell = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nil, additionalConfiguration: { _, _ in
             didCallAdditionalConfigurtion = true
         })
-        let realTableView = UITableView()
         
         //When
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
-        let cellForGivenRow = dataSource.tableView(realTableView, cellForRowAt: IndexPath(row: 2, section: 1))
+        let cellForGivenRow = dataSource.tableView(tableViewMock, cellForRowAt: IndexPath(row: 2, section: 1))
         
         //Then
         let UITableViewCellMock = (tableViewMock.cellDequeueMock.cells[cellIdentifier] as! UITableViewCellMock<Int>)
@@ -92,7 +91,6 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertTrue(cellForGivenRow is UITableViewCellMock<Int>)
         XCTAssertTrue(didCallAdditionalConfigurtion)
     }
-    
     
     
     func testMoveIndexPaths() {
@@ -105,7 +103,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //When
         let fromIndexPath = IndexPath(row: 0, section: 1)
         let toIndexPath = IndexPath(row: 1, section: 0)
-        dataSource.tableView(UITableView(), moveRowAt: fromIndexPath, to: toIndexPath)
+        dataSource.tableView(tableViewMock, moveRowAt: fromIndexPath, to: toIndexPath)
         
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
@@ -120,7 +118,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         
         //When
         let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.tableView(UITableView(), prefetchRowsAt: prefetchedIndexPaths)
+        dataSource.tableView(tableViewMock, prefetchRowsAt: prefetchedIndexPaths)
         
         //Then
         XCTAssertEqual(dataProviderMock.prefetchedIndexPaths!, prefetchedIndexPaths)
@@ -133,7 +131,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         
         //When
         let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.tableView(UITableView(), cancelPrefetchingForRowsAt: canceldIndexPaths)
+        dataSource.tableView(tableViewMock, cancelPrefetchingForRowsAt: canceldIndexPaths)
         
         //Then
         XCTAssertEqual(dataProviderMock.canceledPrefetchedIndexPaths!, canceldIndexPaths)
@@ -147,7 +145,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
         
         //Then
-        XCTAssertTrue(dataSource.tableView(UITableView(), canMoveRowAt: IndexPath(row: 0, section: 0)))
+        XCTAssertTrue(dataSource.tableView(tableViewMock, canMoveRowAt: IndexPath(row: 0, section: 0)))
         
     }
     
@@ -156,7 +154,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
         
         //When
-        let canMove = dataSource.tableView(UITableView(), canMoveRowAt: IndexPath(row: 0, section: 0))
+        let canMove = dataSource.tableView(tableViewMock, canMoveRowAt: IndexPath(row: 0, section: 0))
         
         //Then
         XCTAssertFalse(canMove)
@@ -168,7 +166,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
          let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
         
         //When
-        let canDelete = dataSource.tableView(UITableView(), canEditRowAt: IndexPath(row: 0, section: 0))
+        let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
         
         //Then
         XCTAssert(canDelete)
@@ -179,7 +177,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
         
         //When
-        let canDelete = dataSource.tableView(UITableView(), canEditRowAt: IndexPath(row: 0, section: 0))
+        let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
         
         //Then
         XCTAssertFalse(canDelete)
@@ -191,7 +189,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let deletedIndexPath = IndexPath(row: 0, section: 0)
         
         //When
-        dataSource.tableView(UITableView(), commit: .delete, forRowAt: deletedIndexPath)
+        dataSource.tableView(tableViewMock, commit: .delete, forRowAt: deletedIndexPath)
         
         //Then
         XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
@@ -200,11 +198,13 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
+        let sectionTitleProvider = StaticSectionTitlesProvider(sectionHeaderTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell,
+                                         dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
         
         //When
-        let sectionTitle = dataSource.tableView(UITableView(), titleForHeaderInSection: 1)
+        let sectionTitle = dataSource.tableView(tableViewMock, titleForHeaderInSection: 1)
         
         //Then
         XCTAssertEqual(sectionTitle, "bar")

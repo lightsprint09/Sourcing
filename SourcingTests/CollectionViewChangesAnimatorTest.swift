@@ -31,7 +31,7 @@ final class DataProviderObservableMock: DataProviderObservable {
         return NSObject()
     }
     
-    func removeObserver(observer: Any) {
+    func removeObserver(observer: NSObjectProtocol) {
         
     }
     

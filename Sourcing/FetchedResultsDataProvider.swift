@@ -13,13 +13,17 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
-    public let observable: DataProviderObservable
+    public var observable: DataProviderObservable {
+        return defaultObservable
+    }
+    
+    private let defaultObservable: DefaultDataProviderObservable
     
     var updates: [DataProviderChange.Change] = []
     
     public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
-        self.observable = DefaultDataProviderObservable()
+        self.defaultObservable = DefaultDataProviderObservable()
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
@@ -30,7 +34,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         configure(fetchedResultsController)
         
         try fetchedResultsController.performFetch()
-        //dataProviderDidChangeContents(with: nil)
+        defaultObservable.send(updates: .unknown)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
@@ -109,12 +113,12 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         dataProviderDidChangeContents(with: updatesByMoves)
     }
     
-    func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]?, triggerdByTableView: Bool = false) {
-//        if !triggerdByTableView {
+    func dataProviderDidChangeContents(with updates: [DataProviderChange.Change], updateView: Bool = false) {
+//        if !updateView {
 //            whenDataProviderChanged?(updates)
 //        }
 //        dataProviderDidUpdate?(updates)
-
+        defaultObservable.send(updates: .changes(updates))
     }
 
 }

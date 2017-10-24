@@ -104,7 +104,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
     func testReconfigureFetchRequest() {
         var didUpdate = false
         dataProvider.observable.addObserver(observer: { updates in
-            
+            didUpdate = true
         })
         try? dataProvider.reconfigure(with: { _ in
             

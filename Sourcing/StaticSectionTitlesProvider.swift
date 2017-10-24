@@ -26,7 +26,7 @@ public struct StaticSectionTitlesProvider: SectionTitleProviding {
     public let sectionIndexTitles: [String]?
     private let sectionHeaderTitles: [String?]?
     
-    init(sectionHeaderTitles: [String?]?, sectionIndexTitles: [String]?) {
+    public init(sectionHeaderTitles: [String?]? = nil, sectionIndexTitles: [String]? = nil) {
         self.sectionHeaderTitles = sectionHeaderTitles
         self.sectionIndexTitles = sectionIndexTitles
     }

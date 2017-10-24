@@ -23,21 +23,27 @@
 import Foundation
 
 public class DefaultDataProviderObservable: DataProviderObservable {
+    private var observers: [NSObject: (DataProviderChange) -> Void] = [:]
     
     public init() {
         
     }
     
     public func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
-        return NSObject()
+        let token = NSObject()
+        observers[token] = observer
+        
+        return token
     }
     
-    public func removeObserver(observer: Any) {
-        
+    public func removeObserver(observer: NSObjectProtocol) {
+        if let  observer = observer as? NSObject {
+            observers[observer] = nil
+        }
     }
     
     func send(updates: DataProviderChange) {
-        
+        observers.forEach { $0.value(updates) }
     }
 }
 
@@ -58,5 +64,5 @@ public protocol DataProviderObservable: class {
     /// Removes given observer from the receiver’s dispatch table.
     ///
     /// - Parameter observer: The observer to remove
-    func removeObserver(observer: Any)
+    func removeObserver(observer: NSObjectProtocol)
 }
