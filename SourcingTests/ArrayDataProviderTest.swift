@@ -27,7 +27,7 @@
 //
 
 import XCTest
-@testable import Sourcing
+import Sourcing
 
 // swiftlint:disable force_unwrapping
 class ArrayDataProviderTest: XCTestCase {

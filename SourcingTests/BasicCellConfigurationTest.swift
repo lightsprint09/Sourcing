@@ -28,7 +28,7 @@
 
 import XCTest
 import UIKit
-@testable import Sourcing
+import Sourcing
 
 class BasicCellConfigurationTest: XCTestCase {
     

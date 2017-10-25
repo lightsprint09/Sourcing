@@ -26,10 +26,13 @@ import Foundation
 public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
     public var state: State {
         didSet {
-            //whenDataProviderChanged?(nil)
+            defaultObservable.send(updates: .unknown)
         }
     }
-    public let observable: DataProviderObservable
+    public var observable: DataProviderObservable {
+        return defaultObservable
+    }
+    private let defaultObservable: DefaultDataProviderObservable
     private let dataProviderResolver: (State) -> AnyDataProvider<Object>
     
     var currentDataProvider: AnyDataProvider<Object> {
@@ -39,7 +42,7 @@ public class DataProviderSwitcher<State: Equatable, Object>: DataProviding {
     public init(initialState: State, resolve: @escaping (State) -> AnyDataProvider<Object>) {
         self.state = initialState
         self.dataProviderResolver = resolve
-        self.observable = DefaultDataProviderObservable()
+        self.defaultObservable = DefaultDataProviderObservable()
     }
     
     public func object(at indexPath: IndexPath) -> Object {

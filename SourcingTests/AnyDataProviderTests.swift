@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Sourcing
+import Sourcing
 
 class AnyDataProvidingTests: XCTestCase {
     var dataProvider: AnyDataProvider<Int>!

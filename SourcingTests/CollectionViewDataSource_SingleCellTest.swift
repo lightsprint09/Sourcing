@@ -28,7 +28,7 @@
 
 import XCTest
 import UIKit
-@testable import Sourcing
+import Sourcing
 
 // swiftlint:disable force_cast
 class CollectionViewDataSourceSingleCellTest: XCTestCase {

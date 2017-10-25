@@ -23,20 +23,6 @@
 import XCTest
 import Sourcing
 
-final class DataProviderObservableMock: DataProviderObservable {
-    var observer: ((DataProviderChange) -> Void)?
-    
-    func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
-        self.observer = observer
-        return NSObject()
-    }
-    
-    func removeObserver(observer: NSObjectProtocol) {
-        
-    }
-    
-}
-
 final class CollectionViewChangesAnimatorTest: XCTestCase {
     
     var collectionViewMock: UICollectionViewMock!

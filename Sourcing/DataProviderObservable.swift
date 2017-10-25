@@ -42,7 +42,7 @@ public class DefaultDataProviderObservable: DataProviderObservable {
         }
     }
     
-    func send(updates: DataProviderChange) {
+    public func send(updates: DataProviderChange) {
         observers.forEach { $0.value(updates) }
     }
 }
@@ -64,5 +64,5 @@ public protocol DataProviderObservable: class {
     /// Removes given observer from the receiver’s dispatch table.
     ///
     /// - Parameter observer: The observer to remove
-    func removeObserver(observer: NSObjectProtocol)
+    func removeObserver(observer: NSObjectProtocol)    
 }
