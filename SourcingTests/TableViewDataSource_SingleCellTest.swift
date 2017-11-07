@@ -387,7 +387,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let dataSource = TableViewDataSource(tableView: tableViewMock, dataProvider: dataProvider, cell: cell)
         
         //When
-        let canDelete = dataSource.tableView(UITableView(), canEditRowAt: IndexPath(row: 0, section: 0))
+        let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
         
         //Then
         XCTAssertFalse(canDelete)
@@ -399,10 +399,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let deletedIndexPath = IndexPath(row: 0, section: 0)
         
         //When
-        dataSource.tableView(UITableView(), commit: .delete, forRowAt: deletedIndexPath)
+        dataSource.tableView(tableViewMock, commit: .delete, forRowAt: deletedIndexPath)
         
         //Then
         XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
+        XCTAssertEqual(tableViewMock.modifiedIndexPaths.deleted?.first, deletedIndexPath)
         XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
     }
     
