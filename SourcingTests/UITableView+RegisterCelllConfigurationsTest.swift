@@ -23,7 +23,7 @@
 import XCTest
 import Sourcing
 
-class UITableViewRegisterCelllConfigurationsTest: XCTestCase {
+class UITableViewRegisterCellTest: XCTestCase {
     var tableViewMock: UITableViewMock!
     
     override func setUp() {

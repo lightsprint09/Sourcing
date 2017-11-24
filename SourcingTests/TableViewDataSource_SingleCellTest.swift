@@ -92,7 +92,6 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertTrue(didCallAdditionalConfigurtion)
     }
     
-    
     func testMoveIndexPaths() {
         //Given
         let cellConfig = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)

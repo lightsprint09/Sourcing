@@ -44,7 +44,8 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         //Given
         let cellIdentifier = "cellIdentifier"
         let secondCellIdentifier = "cellIdentifier2"
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier), CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
+                                             CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [cellIdentifier: UICollectionViewCellMock<Int>(),
                                                                                 secondCellIdentifier: UICollectionViewCellMock<String>()])
         

@@ -24,7 +24,7 @@ import XCTest
 import UIKit
 import Sourcing
 
-class UICollectionViewRegisterCelllConfigurationsTest: XCTestCase {
+class UICollectionViewRegisterCelllTest: XCTestCase {
     var collectionViewMock: UICollectionViewMock!
     
     override func setUp() {

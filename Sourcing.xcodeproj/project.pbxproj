@@ -26,7 +26,7 @@
 		94EBCFCC1E1A481500184FD5 /* AnyDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EBCFCB1E1A481500184FD5 /* AnyDataProvider.swift */; };
 		94EBCFCE1E1A4A4B00184FD5 /* AnyDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EBCFCD1E1A4A4B00184FD5 /* AnyDataProviderTests.swift */; };
 		C6021BBB1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBA1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift */; };
-		C6021BBD1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift */; };
+		C6021BBD1F98BDEC00767F85 /* UICollectionViewRegisterCelllTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllTest.swift */; };
 		C6021BC01F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBE1F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift */; };
 		C6021BC11F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BBF1F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift */; };
 		C6021BC31F98C90500767F85 /* SectionTitlesProvidingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6021BC21F98C90500767F85 /* SectionTitlesProvidingMock.swift */; };
@@ -102,7 +102,7 @@
 		94EBCFCB1E1A481500184FD5 /* AnyDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDataProvider.swift; sourceTree = "<group>"; };
 		94EBCFCD1E1A4A4B00184FD5 /* AnyDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDataProviderTests.swift; sourceTree = "<group>"; };
 		C6021BBA1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterCelllConfigurationsTest.swift"; sourceTree = "<group>"; };
-		C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewRegisterCelllConfigurationsTest.swift; sourceTree = "<group>"; };
+		C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewRegisterCelllTest.swift; sourceTree = "<group>"; };
 		C6021BBE1F98C8FE00767F85 /* DynamicSectionTitleProviderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSectionTitleProviderTest.swift; sourceTree = "<group>"; };
 		C6021BBF1F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticSectionTitleProviderTest.swift; sourceTree = "<group>"; };
 		C6021BC21F98C90500767F85 /* SectionTitlesProvidingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitlesProvidingMock.swift; sourceTree = "<group>"; };
@@ -225,7 +225,7 @@
 				C6D12DC21F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift */,
 				C6D12DC41F961D440015A3C3 /* TableViewChangesAnimatorTest.swift */,
 				C6021BBA1F98BAEA00767F85 /* UITableView+RegisterCelllConfigurationsTest.swift */,
-				C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift */,
+				C6021BBC1F98BDEC00767F85 /* UICollectionViewRegisterCelllTest.swift */,
 				C6CB05FB1F9E132700EEDBF3 /* ArrayDataProviderModifyingTest.swift */,
 			);
 			name = Tests;
@@ -471,7 +471,7 @@
 				C6B92C741EF127FC00D059AF /* AnyArrayDataProviderTest.swift in Sources */,
 				945ABE881E0D731D001B42CE /* TableViewDataSource_MultiCellTest.swift in Sources */,
 				C6D12DC51F961D440015A3C3 /* TableViewChangesAnimatorTest.swift in Sources */,
-				C6021BBD1F98BDEC00767F85 /* UICollectionViewRegisterCelllConfigurationsTest.swift in Sources */,
+				C6021BBD1F98BDEC00767F85 /* UICollectionViewRegisterCelllTest.swift in Sources */,
 				C6021BC11F98C8FE00767F85 /* StaticSectionTitleProviderTest.swift in Sources */,
 				C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */,
 				C60BE64E1D6B21DC006B0364 /* CollectionViewDataSource_SingleCellTest.swift in Sources */,

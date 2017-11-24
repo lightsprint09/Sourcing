@@ -60,12 +60,10 @@ public protocol DataProviding: class {
      */
     func numberOfSections() -> Int
     
-    
     /// Prefetch items into the dataprovider
     ///
     /// - Parameter indexPaths: a list of indexPaths to prefetch
     func prefetchItems(at indexPaths: [IndexPath])
-    
     
     /// Cancle prefetching of already prefetched items
     ///

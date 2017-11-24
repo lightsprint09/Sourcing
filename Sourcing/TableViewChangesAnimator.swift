@@ -47,7 +47,9 @@ public final class TableViewChangesAnimator {
     }
     
     deinit {
-        dataProvider.removeObserver(observer: dataPrvoiderObserver!)
+        if let dataPrvoiderObserver = dataPrvoiderObserver {
+            dataProvider.removeObserver(observer: dataPrvoiderObserver)
+        }
     }
     
     private func process(update: DataProviderChange.Change) {

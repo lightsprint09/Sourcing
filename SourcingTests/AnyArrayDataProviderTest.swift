@@ -46,7 +46,7 @@ class AnyArrayDataProviderTest: XCTestCase {
 
         //When
         var calledWhenChanges = false
-        anyArrayDataProvider.observable.addObserver(observer: { _ in
+        _ = anyArrayDataProvider.observable.addObserver(observer: { _ in
             calledWhenChanges = true
         })
         arrayDataProvider.reconfigure(with: [[]])

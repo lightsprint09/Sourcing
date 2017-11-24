@@ -73,7 +73,7 @@ class AnyDataProvidingTests: XCTestCase {
         //Given
         let underlyingDataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         dataProvider = AnyDataProvider(underlyingDataProvider)
-        dataProvider.observable.addObserver(observer: { _ in
+        _ = dataProvider.observable.addObserver(observer: { _ in
             didUpdateDataSource = true
         })
 

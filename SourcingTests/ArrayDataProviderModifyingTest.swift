@@ -44,7 +44,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     func testMoveItemFromTo() {
         //Given
         var didNotifyTableView = false
-        dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
+        _ = dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
         let sourceIndexPath = IndexPath(item: 0, section: 0)
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
@@ -69,7 +69,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     func testDelteItemAtIndexPath() {
         //Given
         var didNotifyTableView = false
-        dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
+        _ = dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
         let deleteIndexPath = IndexPath(item: 0, section: 0)
         
         //When

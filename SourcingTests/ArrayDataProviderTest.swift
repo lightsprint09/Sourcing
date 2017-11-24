@@ -93,7 +93,7 @@ class ArrayDataProviderTest: XCTestCase {
         var didUpdate = false
         //Given
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
-        dataProvider.observable.addObserver(observer: { _ in
+        _ = dataProvider.observable.addObserver(observer: { _ in
             didUpdate = true
         })
         

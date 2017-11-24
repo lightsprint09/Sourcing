@@ -103,7 +103,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
     
     func testReconfigureFetchRequest() {
         var didUpdate = false
-        dataProvider.observable.addObserver(observer: { updates in
+        _ = dataProvider.observable.addObserver(observer: { _ in
             didUpdate = true
         })
         try? dataProvider.reconfigure(with: { _ in
@@ -140,7 +140,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .update(let updatedIndexPath) = dataProvider.updates.first! {
+        if case .update(let updatedIndexPath)? = dataProvider.updates.first {
             XCTAssertEqual(indexPath, updatedIndexPath)
         } else {
             XCTFail()
@@ -157,7 +157,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .insertSection(let updatedSection) = dataProvider.updates.first! {
+        if case .insertSection(let updatedSection)? = dataProvider.updates.first {
             XCTAssertEqual(section, updatedSection)
         } else {
             XCTFail()
@@ -174,7 +174,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .deleteSection(let updatedSection) = dataProvider.updates.first! {
+        if case .deleteSection(let updatedSection)? = dataProvider.updates.first {
             XCTAssertEqual(section, updatedSection)
         } else {
             XCTFail()
@@ -192,7 +192,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .move(let updatedIndexPath, let newMovedIndexPath) = dataProvider.updates.first! {
+        if case .move(let updatedIndexPath, let newMovedIndexPath)? = dataProvider.updates.first {
             XCTAssertEqual(oldIndexPath, updatedIndexPath)
             XCTAssertEqual(newIndexPath, newMovedIndexPath)
         } else {
@@ -215,7 +215,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .move = dataProvider.updates.first! {
+        if case .move? = dataProvider.updates.first {
             XCTFail()
         }
     }
@@ -277,14 +277,12 @@ class FetchedResultsDataProviderTests: XCTestCase {
             if case .changes(let updates) = change {
                 updatesNumber += 1
 
-                if case .move(_, _) = updates.first! {
+                if case .move(_, _)? = updates.first {
                     isFirstMoveCall = true
                 }
 
-                if case .update(_) = updates.first! {
-                    if isFirstMoveCall {
-                        isSecondUpdateCall = true
-                    }
+                if case .update(_)? = updates.first, isFirstMoveCall {
+                    isSecondUpdateCall = true
                 }
             }
         }
@@ -309,10 +307,8 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         _ = dataProvider.observable.addObserver { change in
-            if case .changes(let updates) = change {
-                if case .update(let indexPath)? = updates.first {
-                    updateIndexPath = indexPath
-                }
+            if case .changes(let updates) = change, case .update(let indexPath)? = updates.first {
+                updateIndexPath = indexPath
             }
         }
         
@@ -353,7 +349,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .delete(let updatedIndexPath) = dataProvider.updates.first! {
+        if case .delete(let updatedIndexPath)? = dataProvider.updates.first {
             XCTAssertEqual(deletedIndexPath, updatedIndexPath)
         } else {
             XCTFail()
