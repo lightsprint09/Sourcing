@@ -222,16 +222,14 @@ class FetchedResultsDataProviderTests: XCTestCase {
     
     func testProcessUpdates() {
         //Given
-        var didUpdateNotification = false
         var didUpdateDataSource = false
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        dataProvider.observable.addObserver(observer: { _ in didUpdateDataSource = true })
+        _ = dataProvider.observable.addObserver(observer: { _ in didUpdateDataSource = true })
         
         //When
         dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
         
         //Then
-        XCTAssert(didUpdateNotification)
         XCTAssert(didUpdateDataSource)
     }
     
@@ -241,20 +239,19 @@ class FetchedResultsDataProviderTests: XCTestCase {
         var moveIndexPaths = [IndexPath]()
         
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        dataProvider.observable.addObserver { updates in
-//            guard let updates = updates, !updates.isEmpty else {
-//                return
-//            }
-//
-//            for update in updates {
-//                switch update {
-//                case .update(let indexPath, _):
-//                    updateIndexPath = indexPath
-//                case .move(let indexPath, let newIndexPath):
-//                    moveIndexPaths = [indexPath, newIndexPath]
-//                default: break
-//                }
-//            }
+        _ = dataProvider.observable.addObserver { change in
+            if case .changes(let updates) = change {
+                for update in updates {
+                    switch update {
+                    case .update(let indexPath):
+                        updateIndexPath = indexPath
+                    case .move(let indexPath, let newIndexPath):
+                        moveIndexPaths = [indexPath, newIndexPath]
+                    default: break
+                    }
+                }
+            }
+
         }
         
         let oldIndexPath = IndexPath(row: 0, section: 0)
@@ -276,22 +273,20 @@ class FetchedResultsDataProviderTests: XCTestCase {
         var isSecondUpdateCall = false
         
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        dataProvider.observable.addObserver { updates in
-//            guard let updates = updates, !updates.isEmpty else {
-//                return
-//            }
-//
-//            updatesNumber += 1
-//
-//            if case .move(_, _) = updates.first! {
-//                isFirstMoveCall = true
-//            }
-//
-//            if case .update(_, _) = updates.first! {
-//                if isFirstMoveCall {
-//                    isSecondUpdateCall = true
-//                }
-//            }
+        _ = dataProvider.observable.addObserver { change in
+            if case .changes(let updates) = change {
+                updatesNumber += 1
+
+                if case .move(_, _) = updates.first! {
+                    isFirstMoveCall = true
+                }
+
+                if case .update(_) = updates.first! {
+                    if isFirstMoveCall {
+                        isSecondUpdateCall = true
+                    }
+                }
+            }
         }
         
         let oldIndexPath = IndexPath(row: 0, section: 0)
@@ -313,15 +308,12 @@ class FetchedResultsDataProviderTests: XCTestCase {
         var updateIndexPath = IndexPath()
         
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        dataProvider.observable.addObserver { change in
-//            let
-//            guard let updates = updates, !updates.isEmpty else {
-//                return
-//            }
-//
-//            if case .update(let indexPath, _) = updates.first! {
-//                updateIndexPath = indexPath
-//            }
+        _ = dataProvider.observable.addObserver { change in
+            if case .changes(let updates) = change {
+                if case .update(let indexPath)? = updates.first {
+                    updateIndexPath = indexPath
+                }
+            }
         }
         
         let indexPath = IndexPath(row: 1, section: 0)
