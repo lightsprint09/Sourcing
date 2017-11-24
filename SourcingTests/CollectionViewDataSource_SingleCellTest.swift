@@ -114,10 +114,10 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.collectionView(collectionViewMock, prefetchItemsAt: prefetchedIndexPaths)
         
         //Then
-        guard let x = dataProviderMock.prefetchedIndexPaths else {
+        guard let resultingPrefetchedIndexPaths = dataProviderMock.prefetchedIndexPaths else {
             return XCTFail("Did not use given prefatch indexPaths")
         }
-        XCTAssertEqual(x, prefetchedIndexPaths)
+        XCTAssertEqual(resultingPrefetchedIndexPaths, prefetchedIndexPaths)
     }
     
     @available(iOS 10.0, *)
@@ -131,10 +131,10 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         dataSource.collectionView(collectionViewMock, cancelPrefetchingForItemsAt: canceldIndexPaths)
         
         //Then
-        guard let x = dataProviderMock.canceledPrefetchedIndexPaths else {
+        guard let resultingPrefetchedIndexPaths = dataProviderMock.canceledPrefetchedIndexPaths else {
             return XCTFail("Did not use given prefatch indexPaths")
         }
-        XCTAssertEqual(x, canceldIndexPaths)
+        XCTAssertEqual(resultingPrefetchedIndexPaths, canceldIndexPaths)
     }
     
     func testCanMoveCellAtIndexPath() {

@@ -36,9 +36,11 @@ open class ArrayDataProvider<ContentElement>: ArrayDataProviding {
     
     open var content: [[Element]]
     
+    /// An observable where you can list on changes for the DataProvider.
     public var observable: DataProviderObservable {
         return defaultObservable
     }
+    
     private let defaultObservable: DefaultDataProviderObservable
     
     // MARK: Initializers

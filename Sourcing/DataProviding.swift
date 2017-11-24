@@ -36,6 +36,9 @@ public protocol DataProviding: class {
      */
     associatedtype Element
     
+    /// An observable where you can list on changes for the DataProvider.
+    var observable: DataProviderObservable { get }
+    
     /**
      Returns the object for a given indexPath.
      
@@ -57,18 +60,30 @@ public protocol DataProviding: class {
      */
     func numberOfSections() -> Int
     
-    var observable: DataProviderObservable { get }
     
+    /// Prefetch items into the dataprovider
+    ///
+    /// - Parameter indexPaths: a list of indexPaths to prefetch
     func prefetchItems(at indexPaths: [IndexPath])
     
+    
+    /// Cancle prefetching of already prefetched items
+    ///
+    /// - Parameter indexPaths:  a list of indexPaths to cancle prefetching
     func cancelPrefetchingForItems(at indexPaths: [IndexPath])
     
 }
 
 public extension DataProviding {
     
+    /// Prefetch items into the dataprovider
+    ///
+    /// - Parameter indexPaths: a list of indexPaths to prefetch
     func prefetchItems(at indexPaths: [IndexPath]) { }
     
+    /// Cancle prefetching of already prefetched items
+    ///
+    /// - Parameter indexPaths:  a list of indexPaths to cancle prefetching
     func cancelPrefetchingForItems(at indexPaths: [IndexPath]) { }
 
 }
@@ -85,8 +100,8 @@ extension DataProviding where Element: Equatable {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
-                let o = self.object(at: indexPath)
-                if o == object {
+                let lookedUpObject = self.object(at: indexPath)
+                if lookedUpObject == object {
                     return indexPath
                 }
             }

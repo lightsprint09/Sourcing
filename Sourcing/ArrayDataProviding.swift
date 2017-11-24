@@ -36,14 +36,29 @@ public protocol ArrayDataProviding: DataProviding {
 }
 
 public extension ArrayDataProviding {
+    /**
+     Returns the object for a given indexPath.
+     
+     - parameter indexPath: the indexPath
+     */
     public func object(at indexPath: IndexPath) -> Element {
         return content[indexPath.section][indexPath.item]
     }
     
+    /**
+     Returns number of items for a given section.
+     
+     - return: number of items
+     */
     public func numberOfItems(inSection section: Int) -> Int {
         return content[section].count
     }
     
+    /**
+     Returns number of sections
+     
+     - return: number of sections
+     */
     public func numberOfSections() -> Int {
         return content.count
     }

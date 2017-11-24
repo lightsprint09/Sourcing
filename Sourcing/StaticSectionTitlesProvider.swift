@@ -23,6 +23,7 @@
 import Foundation
 
 public struct StaticSectionTitlesProvider: SectionTitleProviding {
+    /// All sectionIndexTitles
     public let sectionIndexTitles: [String]?
     private let sectionHeaderTitles: [String?]?
     

@@ -25,10 +25,17 @@ import Foundation
 public class DefaultDataProviderObservable: DataProviderObservable {
     private var observers: [NSObject: (DataProviderChange) -> Void] = [:]
     
-    public init() {
-        
-    }
+    public init() {}
     
+    /// Observe the changes of the DataProvider.
+    ///
+    /// Can be use to animate changes in a TableView or in any other view hirachy.
+    ///
+    /// - Parameter observer: gets called when updates are available. If nil the DataProvider could
+    /// not calculate the updates, but new data is availabe. Reload you complete view when this happens.
+    
+    /// To unregister call ``
+    /// - Returns: An opaque object to act as the observer.
     public func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
         let token = NSObject()
         observers[token] = observer
@@ -36,6 +43,9 @@ public class DefaultDataProviderObservable: DataProviderObservable {
         return token
     }
     
+    // Removes given observer from the receiver’s dispatch table.
+    ///
+    /// - Parameter observer: The observer to remove
     public func removeObserver(observer: NSObjectProtocol) {
         if let  observer = observer as? NSObject {
             observers[observer] = nil

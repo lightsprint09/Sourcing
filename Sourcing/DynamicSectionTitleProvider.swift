@@ -41,7 +41,7 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
     public var sectionIndexTitles: [String]? {
-        let allSections = (0..<dataProvider.numberOfSections())
+        let allSections = 0..<dataProvider.numberOfSections()
         
         return allSections.map { indexTitle(inSection: $0) }.flatMap { $0 }
     }

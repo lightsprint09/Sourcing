@@ -22,29 +22,35 @@
 
 import Foundation
 
+///Wrapps an `ArrayDataProvider` and handles changes to manipulate the content of the provider.
 public final class ArrayDataProviderModifier<Element>: DataModifying {
     public var canMoveItems: Bool = false
     public var canDeleteItems: Bool = false
     
     private let dataProvider: ArrayDataProvider<Element>
     
-    public init(dataProvider: ArrayDataProvider<Element>) {
+    public init(dataProvider: ArrayDataProvider<Element>, canMoveItems: Bool = false, canDeleteItems: Bool = false) {
         self.dataProvider = dataProvider
+        self.canMoveItems = canMoveItems
+        self.canDeleteItems = canDeleteItems
     }
     
-    // MARK: Data Modification
-    
-    open func canMoveItem(at indexPath: IndexPath) -> Bool {
+    /// Checks wethere item at an indexPath can be moved
+    ///
+    /// - Parameter indexPath: the indexPath to check for if it can be moved
+    /// - Returns: if the item can be moved
+    public func canMoveItem(at indexPath: IndexPath) -> Bool {
         return canMoveItems
     }
     
-    /**
-     Update item position in dataSource.
-     
-     - parameter sourceIndexPath: original indexPath.
-     - parameter destinationIndexPath: destination indexPath.
-     */
-    open func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = false) {
+    /// Moves item from sourceIndexPath to destinationIndexPath
+    ///
+    /// - Parameters:
+    ///   - sourceIndexPath: Source's IndexPath
+    ///   - destinationIndexPath: Destination's IndexPath
+    ///   - updateView: pass `true` if the action was triggered by UITableView's delegate and the state of
+    ///     the tableView has already been updated
+    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = false) {
         let soureElement = dataProvider.object(at: sourceIndexPath)
         var content = dataProvider.content
         content[sourceIndexPath.section].remove(at: sourceIndexPath.item)
@@ -53,11 +59,21 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
         dataProvider.reconfigure(with: content, change: .changes([update]), updateView: updateView)
     }
     
-    open func canDeleteItem(at indexPath: IndexPath) -> Bool {
+    /// Checks wethere item at an indexPath can be deleted
+    ///
+    /// - Parameter indexPath: the indexPath to check for if it can be deleted
+    /// - Returns: if the item can be deleted
+    public func canDeleteItem(at indexPath: IndexPath) -> Bool {
         return canDeleteItems
     }
     
-    open func deleteItem(at indexPath: IndexPath, updateView: Bool = false) {
+    /// Deleted item at a given indexPath
+    ///
+    /// - Parameters:
+    ///   - indexPath: the indexPath you want to delete
+    ///   - updateView: pass `true` if the action was triggered by UITableView's /UICollectionView delegate and the state of
+    ///     the view has already been updated
+    public func deleteItem(at indexPath: IndexPath, updateView: Bool = false) {
         var content = dataProvider.content
         content[indexPath.section].remove(at: indexPath.item)
         dataProvider.reconfigure(with: content, change: .changes([.delete(indexPath)]), updateView: updateView)
