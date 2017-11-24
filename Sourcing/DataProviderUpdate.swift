@@ -21,12 +21,13 @@
 //
 
 import Foundation
-//Discribes a change inse a DataProvider
+
+/// Discribes a change inse a DataProvider
 public enum DataProviderChange {
-    //Some contents change, but the change cant be described.
-    //It is recommended to do a whole reload here.
+    /// Some contents change, but the change cant be described.
+    /// It is recommended to do a whole reload here.
     case unknown
-    //Changes are represented of an Array of change
+    /// Changes are represented of an Array of change
     case changes([Change])
     
     public enum Change {

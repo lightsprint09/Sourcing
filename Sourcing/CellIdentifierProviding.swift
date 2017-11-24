@@ -26,12 +26,15 @@
 //  Created by Lukas Schmidt on 24.01.17.
 //
 
+/// By implementing this the Cell provides its reuse identifiere
 public protocol CellIdentifierProviding {
+    /// Reuse Indentifier of the cell
     static var cellIdentifier: String { get }
 }
 
 public extension CellIdentifierProviding {
     
+    /// Reuse Indentifier of the cell which defaults to the classname
     static var cellIdentifier: String {
         return String(describing: self)
     }

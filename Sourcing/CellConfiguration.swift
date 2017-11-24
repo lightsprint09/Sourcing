@@ -26,6 +26,4 @@
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-import UIKit
-
 public typealias CellConfiguration<Cell: ConfigurableCell> = BasicCellConfiguration<Cell, Cell.DataSource>

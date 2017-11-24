@@ -19,12 +19,6 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  Configurable.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 02.08.16.
-//
 
 /**
  By implementing `ConfigurableCell` the cell provides the functionality to display the specified object.

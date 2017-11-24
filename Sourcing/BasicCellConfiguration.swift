@@ -31,7 +31,7 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
     #if os(iOS) || os(tvOS)
     public let nib: UINib?
     #endif
-    public let configuration: (Object, Cell) -> Void
+    private let configuration: (Object, Cell) -> Void
     
     public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
         if let object = object as? Object, let cell = cell as? Cell {
@@ -39,23 +39,29 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
         }
         return cell
     }
-}
-
-#if os(iOS) || os(tvOS)
-extension BasicCellConfiguration {
-    public init(cellIdentifier: String, configuration: @escaping (Object, Cell) -> Void, nib: UINib? = nil) {
+    
+    #if os(iOS) || os(tvOS)
+    public init(cellIdentifier: String, nib: UINib? = nil, configuration: @escaping (Object, Cell) -> Void) {
         self.cellIdentifier = cellIdentifier
         self.configuration = configuration
         self.nib = nib
     }
+    #else
+    public init(cellIdentifier: String, configuration: @escaping (Object, Cell) -> Void) {
+        self.cellIdentifier = cellIdentifier
+        self.configuration = configuration
+    }
+    #endif
 }
+
+#if os(iOS) || os(tvOS)
     
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
     public init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: cellIdentifier, configuration: { object, cell in
+        self.init(cellIdentifier: cellIdentifier, nib: nib, configuration: { object, cell in
             cell.configure(with: object)
             additionalConfiguration?(object, cell)
-        }, nib: nib)
+        })
     }
 }
 
@@ -67,7 +73,7 @@ extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & CellI
 
 extension BasicCellConfiguration where CellToConfigure: CellIdentifierProviding {
     public init(configuration: @escaping (Object, Cell) -> Void, nib: UINib? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, configuration: configuration, nib: nib)
+        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, configuration: configuration)
     }
 }
 #else
