@@ -52,7 +52,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         //When
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
         let intCell = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 0, section: 0))
-        let stringCell = dataSource.collectionView(collectionViewMock, cellForItemAt:  IndexPath(row: 0, section: 1))
+        let stringCell = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 0, section: 1))
         
         //Then
         let mockIntCell = collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>

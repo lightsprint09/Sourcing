@@ -20,36 +20,38 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
+#if os(iOS) || os(tvOS)
+    import UIKit
 
-public extension UITableView {
-    
-    /**
-     Registers a nib object containing a cell with the table view under a specified identifier.
-    
-     Before dequeueing any cells, call this method to tell the table
-     view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
-     the table view uses the provided information to create a new cell object automatically.
-     
-     - parameter cellConfiguration: the cell configuration which to register.
-     */
-    func register<Cell: StaticCellConfiguring>(cellConfiguration: Cell) where Cell.Cell: UITableViewCell {
-        register(cellConfigurations: [cellConfiguration])
-    }
-    
-    /**
-     Registers a nib object containing a cell with the table view under a specified identifier.
-     
-     Before dequeueing any cells, call this method to tell the table
-     view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
-     the table view uses the provided information to create a new cell object automatically.
-     
-     - parameter cellConfigurations: the cell configurations which to register.
-     */
-    func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UITableViewCell {
-        for cell in cellConfigurations where cell.nib != nil {
-            register(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+    public extension UITableView {
+        
+        /**
+         Registers a nib object containing a cell with the table view under a specified identifier.
+        
+         Before dequeueing any cells, call this method to tell the table
+         view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
+         the table view uses the provided information to create a new cell object automatically.
+         
+         - parameter cellConfiguration: the cell configuration which to register.
+         */
+        func register<Cell: StaticCellConfiguring>(cellConfiguration: Cell) where Cell.Cell: UITableViewCell {
+            register(cellConfigurations: [cellConfiguration])
         }
+        
+        /**
+         Registers a nib object containing a cell with the table view under a specified identifier.
+         
+         Before dequeueing any cells, call this method to tell the table
+         view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
+         the table view uses the provided information to create a new cell object automatically.
+         
+         - parameter cellConfigurations: the cell configurations which to register.
+         */
+        func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UITableViewCell {
+            for cell in cellConfigurations where cell.nib != nil {
+                register(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+            }
+        }
+        
     }
-    
-}
+#endif

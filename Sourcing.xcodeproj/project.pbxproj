@@ -186,9 +186,6 @@
 		9432D2511CF5ABC300B72986 /* Sourcing */ = {
 			isa = PBXGroup;
 			children = (
-				C6F3A06E1F95CDE900F43FA4 /* DynamicSectionTitleProvider.swift */,
-				C6F3A06F1F95CDEA00F43FA4 /* SectionTitleProviding.swift */,
-				C6F3A0701F95CDEA00F43FA4 /* StaticSectionTitlesProvider.swift */,
 				C6F9131D1D5072B400B0535C /* DataProvider */,
 				C6FAE1631E2E201E00928D6B /* Cell */,
 				C6FAE1621E2E200500928D6B /* DataSource */,
@@ -265,6 +262,9 @@
 		C6F9131D1D5072B400B0535C /* DataProvider */ = {
 			isa = PBXGroup;
 			children = (
+				C6F3A06E1F95CDE900F43FA4 /* DynamicSectionTitleProvider.swift */,
+				C6F3A06F1F95CDEA00F43FA4 /* SectionTitleProviding.swift */,
+				C6F3A0701F95CDEA00F43FA4 /* StaticSectionTitlesProvider.swift */,
 				C63610A41E40714C00417B45 /* DataModifying.swift */,
 				9432D26E1CF5ACE700B72986 /* DataProviding.swift */,
 				94EBCFCB1E1A481500184FD5 /* AnyDataProvider.swift */,
