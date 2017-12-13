@@ -20,10 +20,10 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-
-/// A observable which notifies about dataprovider changes.
-public protocol DataProviderObservable: class {
+public class DefaultDataProviderObservable: DataProviderObservable {
+    private var observers: [NSObject: (DataProviderChange) -> Void] = [:]
+    
+    public init() {}
     
     /// Observe the changes of the DataProvider.
     ///
@@ -34,10 +34,27 @@ public protocol DataProviderObservable: class {
     
     /// To unregister call ``
     /// - Returns: An opaque object to act as the observer.
-    func addObserver(observer: @escaping  (DataProviderChange) -> Void) -> NSObjectProtocol
+    public func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
+        let token = NSObject()
+        observers[token] = observer
+        
+        return token
+    }
     
-    /// Removes given observer from the receiver’s dispatch table.
+    // Removes given observer from the receiver’s dispatch table.
     ///
     /// - Parameter observer: The observer to remove
-    func removeObserver(observer: NSObjectProtocol)    
+    public func removeObserver(observer: NSObjectProtocol) {
+        if let  observer = observer as? NSObject {
+            observers[observer] = nil
+        }
+    }
+    
+    
+    /// Send updates from a data provider to all observers.
+    ///
+    /// - Parameter updates: the updates to distribute.
+    public func send(updates: DataProviderChange) {
+        observers.forEach { $0.value(updates) }
+    }
 }

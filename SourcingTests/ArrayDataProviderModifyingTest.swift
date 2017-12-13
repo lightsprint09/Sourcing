@@ -29,6 +29,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     
     override func setUp() {
+        super.setUp()
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
         arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider)
     }

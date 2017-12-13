@@ -48,6 +48,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
     var dataProvider: FetchedResultsDataProvider<CDTrain>!
     
     override func setUp() {
+        super.setUp()
         managedObjectContext = managedObjectContextForTesting()
         
         train1 = self.train(id: "1", name: "ICE")

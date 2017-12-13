@@ -28,15 +28,15 @@ import UIKit
  */
 public final class TableViewChangesAnimator {
     
-    public let dataProvider: DataProviderObservable
+    public let dataProviderObservable: DataProviderObservable
     
     private var dataPrvoiderObserver: NSObjectProtocol?
     private let tableView: UITableView
     
-    public init<DataProvider: DataProviderObservable>(tableView: UITableView, dataProvider: DataProvider) {
+    public init<Observable: DataProviderObservable>(tableView: UITableView, dataProviderObservable: Observable) {
         self.tableView = tableView
-        self.dataProvider = dataProvider
-        dataPrvoiderObserver = dataProvider.addObserver(observer: { [weak self] update in
+        self.dataProviderObservable = dataProviderObservable
+        dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
             switch update {
             case .unknown:
                 self?.tableView.reloadData()
@@ -48,7 +48,7 @@ public final class TableViewChangesAnimator {
     
     deinit {
         if let dataPrvoiderObserver = dataPrvoiderObserver {
-            dataProvider.removeObserver(observer: dataPrvoiderObserver)
+            dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
         }
     }
     

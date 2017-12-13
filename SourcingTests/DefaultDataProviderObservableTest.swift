@@ -20,24 +20,45 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
+import XCTest
+import Sourcing
 
-/// A observable which notifies about dataprovider changes.
-public protocol DataProviderObservable: class {
+final class DefaultDataProviderObservableTest: XCTestCase {
+    var observable: DefaultDataProviderObservable!
     
-    /// Observe the changes of the DataProvider.
-    ///
-    /// Can be use to animate changes in a TableView or in any other view hirachy.
-    ///
-    /// - Parameter observer: gets called when updates are available. If nil the DataProvider could
-    /// not calculate the updates, but new data is availabe. Reload you complete view when this happens.
+    override func setUp() {
+        super.setUp()
+        observable = DefaultDataProviderObservable()
+    }
     
-    /// To unregister call ``
-    /// - Returns: An opaque object to act as the observer.
-    func addObserver(observer: @escaping  (DataProviderChange) -> Void) -> NSObjectProtocol
+    func testRegister() {
+        //Given
+        var observerWasCalled = false
+        let action = { (_: DataProviderChange) in
+            observerWasCalled = true
+        }
+        
+        //When
+        _ = observable.addObserver(observer: action)
+        observable.send(updates: .unknown)
+        
+        //Then
+        XCTAssertTrue(observerWasCalled)
+    }
     
-    /// Removes given observer from the receiver’s dispatch table.
-    ///
-    /// - Parameter observer: The observer to remove
-    func removeObserver(observer: NSObjectProtocol)    
+    func testUnregister() {
+        var observerWasCalled = false
+        let action = { (_: DataProviderChange) in
+            observerWasCalled = true
+        }
+        let observer = observable.addObserver(observer: action)
+        
+        //When
+        observable.removeObserver(observer: observer)
+        observable.send(updates: .unknown)
+        
+        //Then
+        XCTAssertFalse(observerWasCalled)
+    }
+    
 }

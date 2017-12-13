@@ -23,20 +23,19 @@
 import UIKit
 
 /**
- A listener that observers changes of an dataprovider. It create animations to make changes visible in the view by using
- ``UICollectionView`s APIs to animate cells
+ A listener that observers changes of an data provider. It create animations to make changes visible in the view by using
+ ``UICollectionView`s APIs to animate cells.
  */
-
 public final class CollectionViewChangesAnimator {
-    public let dataProvider: DataProviderObservable
+    public let dataProviderObservable: DataProviderObservable
     
     private var dataPrvoiderObserver: NSObjectProtocol?
     private let collectionView: UICollectionView
     
-    public init<DataProvider: DataProviderObservable>(collectionView: UICollectionView, dataProvider: DataProvider) {
+    public init<Observable: DataProviderObservable>(collectionView: UICollectionView, dataProviderObservable: Observable) {
         self.collectionView = collectionView
-        self.dataProvider = dataProvider
-        dataPrvoiderObserver = dataProvider.addObserver(observer: { [weak self] update in
+        self.dataProviderObservable = dataProviderObservable
+        dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
             switch update {
             case .unknown:
                 self?.collectionView.reloadData()
@@ -44,6 +43,12 @@ public final class CollectionViewChangesAnimator {
                 self?.process(updates: updates)
             }
         })
+    }
+    
+    deinit {
+        if let dataPrvoiderObserver = dataPrvoiderObserver {
+            dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
+        }
     }
     
     private func process(update: DataProviderChange.Change) {
@@ -68,7 +73,7 @@ public final class CollectionViewChangesAnimator {
     /// Animates multiple insert, delete, reload, and move operations as a group.
     ///
     /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
-    public func process(updates: [DataProviderChange.Change]) {
+    private func process(updates: [DataProviderChange.Change]) {
         collectionView.performBatchUpdates({
             updates.forEach(self.process)
         }, completion: nil)

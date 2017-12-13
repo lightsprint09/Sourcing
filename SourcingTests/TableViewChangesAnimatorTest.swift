@@ -32,7 +32,31 @@ final class TableViewChangesAnimatorTest: XCTestCase {
     override func setUp() {
         super.setUp()
         tableViewMock = UITableViewMock()
-        tableViewChangesAnimator = TableViewChangesAnimator(tableView: tableViewMock, dataProvider: observable)
+        tableViewChangesAnimator = TableViewChangesAnimator(tableView: tableViewMock, dataProviderObservable: observable)
+    }
+    
+    func testInitDeinit() {
+        //Given
+        let observable = DataProviderObservableMock()
+        var collectionViewChangesAnimator2: TableViewChangesAnimator? = TableViewChangesAnimator(tableView: tableViewMock,
+                                                                                                           dataProviderObservable: observable)
+        XCTAssertNotNil(observable.observer)
+        
+        //When
+        collectionViewChangesAnimator2 = nil
+        
+        //Then
+        XCTAssertNil(observable.observer)
+    }
+    
+    func testProcessUnknownReload() {
+        //When
+        observable.observer?(.unknown)
+        
+        //Then
+        XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 0)
+        XCTAssertEqual(tableViewMock.executionCount.endUpdates, 0)
+        XCTAssertEqual(tableViewMock.executionCount.reloaded, 1)
     }
     
     func testProcessUpdatesInsert() {

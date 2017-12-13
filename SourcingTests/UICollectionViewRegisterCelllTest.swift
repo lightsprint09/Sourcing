@@ -26,20 +26,28 @@ import Sourcing
 
 class UICollectionViewRegisterCelllTest: XCTestCase {
     var collectionViewMock: UICollectionViewMock!
+    let cellIdentifier = "cellIdentifier"
+    let nib = UINib(data: Data(), bundle: nil)
+    var cellConfig: CellConfiguration<UICollectionViewCellMock<Int>>!
     
     override func setUp() {
         super.setUp()
         collectionViewMock = UICollectionViewMock()
+        cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
+    }
+    
+    func testRegisterMultipleNib() {
+        //When
+        collectionViewMock.register(cellConfigurations: [cellConfig])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
+        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
     }
     
     func testRegisterNib() {
-        //Given
-        let cellIdentifier = "cellIdentifier"
-        let nib = UINib(data: Data(), bundle: nil)
-        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
-        
         //When
-        collectionViewMock.register(cellConfigurations: [cellConfig])
+        collectionViewMock.register(cellConfiguration: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)

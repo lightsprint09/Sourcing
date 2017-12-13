@@ -32,7 +32,31 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
     override func setUp() {
         super.setUp()
         collectionViewMock = UICollectionViewMock()
-        collectionViewChangesAnimator = CollectionViewChangesAnimator(collectionView: collectionViewMock, dataProvider: observable)
+        collectionViewChangesAnimator = CollectionViewChangesAnimator(collectionView: collectionViewMock, dataProviderObservable: observable)
+    }
+    
+    func testInitDeinit() {
+        //Given
+        let observable = DataProviderObservableMock()
+        var collectionViewChangesAnimator2: CollectionViewChangesAnimator? = CollectionViewChangesAnimator(collectionView: collectionViewMock,
+                                                                                                           dataProviderObservable: observable)
+        XCTAssertNotNil(observable.observer)
+        
+        //When
+       collectionViewChangesAnimator2 = nil
+        
+        //Then
+        XCTAssertNil(observable.observer)
+    }
+    
+    func testProcessUnknownReload() {
+        //When
+        observable.observer?(.unknown)
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 0)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 0)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 1)
     }
     
     func testProcessUpdatesInsert() {
@@ -48,6 +72,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted?.first, insertionIndexPath)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
     
     func testProcessUpdatesDelete() {
@@ -63,6 +88,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted?.first, deletetionIndexPath)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
     
     func testProcessUpdatesMove() {
@@ -79,6 +105,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.moved?.to, newIndexPath)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
     
     func testProcessUpdatesUpdate() {
@@ -93,6 +120,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedIndexPaths.reloaded?.first, indexPath)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
     
     func testProcessUpdatesInsertSection() {
@@ -107,6 +135,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.first, 0)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
     
     func testProcessUpdatesDeleteSection() {
@@ -121,6 +150,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedSections.deleted?.first, 0)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
     
     func testProcessUpdatesMoveSection() {
@@ -135,6 +165,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedSections.moved?.to, 1)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
     
     func testProcessUpdatesFromDataSource() {
@@ -149,5 +180,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.first, 0)
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
     }
+    
 }
