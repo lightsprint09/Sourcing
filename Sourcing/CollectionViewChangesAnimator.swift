@@ -20,62 +20,64 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
+#if os(iOS) || os(tvOS)
+    import UIKit
 
-/**
- A listener that observers changes of an data provider. It create animations to make changes visible in the view by using
- ``UICollectionView`s APIs to animate cells.
- */
-public final class CollectionViewChangesAnimator {
-    public let dataProviderObservable: DataProviderObservable
-    
-    private var dataPrvoiderObserver: NSObjectProtocol?
-    private let collectionView: UICollectionView
-    
-    public init<Observable: DataProviderObservable>(collectionView: UICollectionView, dataProviderObservable: Observable) {
-        self.collectionView = collectionView
-        self.dataProviderObservable = dataProviderObservable
-        dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
-            switch update {
-            case .unknown:
-                self?.collectionView.reloadData()
-            case .changes(let updates):
-                self?.process(updates: updates)
+    /**
+     A listener that observers changes of an data provider. It create animations to make changes visible in the view by using
+     ``UICollectionView`s APIs to animate cells.
+     */
+    public final class CollectionViewChangesAnimator {
+        public let dataProviderObservable: DataProviderObservable
+        
+        private var dataPrvoiderObserver: NSObjectProtocol?
+        private let collectionView: UICollectionView
+        
+        public init<Observable: DataProviderObservable>(collectionView: UICollectionView, dataProviderObservable: Observable) {
+            self.collectionView = collectionView
+            self.dataProviderObservable = dataProviderObservable
+            dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
+                switch update {
+                case .unknown:
+                    self?.collectionView.reloadData()
+                case .changes(let updates):
+                    self?.process(updates: updates)
+                }
+            })
+        }
+        
+        deinit {
+            if let dataPrvoiderObserver = dataPrvoiderObserver {
+                dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
             }
-        })
-    }
-    
-    deinit {
-        if let dataPrvoiderObserver = dataPrvoiderObserver {
-            dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
+        }
+        
+        private func process(update: DataProviderChange.Change) {
+            switch update {
+            case .insert(let indexPath):
+                collectionView.insertItems(at: [indexPath])
+            case .update(let indexPath):
+                collectionView.reloadItems(at: [indexPath])
+            case .move(let indexPath, let newIndexPath):
+                collectionView.moveItem(at: indexPath, to: newIndexPath)
+            case .delete(let indexPath):
+                collectionView.deleteItems(at: [indexPath])
+            case .insertSection(let sectionIndex):
+                collectionView.insertSections(IndexSet(integer: sectionIndex))
+            case .deleteSection(let sectionIndex):
+                collectionView.deleteSections(IndexSet(integer: sectionIndex))
+            case .moveSection(let section, let newSection):
+                collectionView.moveSection(section, toSection: newSection)
+            }
+        }
+        
+        /// Animates multiple insert, delete, reload, and move operations as a group.
+        ///
+        /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
+        private func process(updates: [DataProviderChange.Change]) {
+            collectionView.performBatchUpdates({
+                updates.forEach(self.process)
+            }, completion: nil)
         }
     }
-    
-    private func process(update: DataProviderChange.Change) {
-        switch update {
-        case .insert(let indexPath):
-            collectionView.insertItems(at: [indexPath])
-        case .update(let indexPath):
-            collectionView.reloadItems(at: [indexPath])
-        case .move(let indexPath, let newIndexPath):
-            collectionView.moveItem(at: indexPath, to: newIndexPath)
-        case .delete(let indexPath):
-            collectionView.deleteItems(at: [indexPath])
-        case .insertSection(let sectionIndex):
-            collectionView.insertSections(IndexSet(integer: sectionIndex))
-        case .deleteSection(let sectionIndex):
-            collectionView.deleteSections(IndexSet(integer: sectionIndex))
-        case .moveSection(let section, let newSection):
-            collectionView.moveSection(section, toSection: newSection)
-        }
-    }
-    
-    /// Animates multiple insert, delete, reload, and move operations as a group.
-    ///
-    /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
-    private func process(updates: [DataProviderChange.Change]) {
-        collectionView.performBatchUpdates({
-            updates.forEach(self.process)
-        }, completion: nil)
-    }
-}
+#endif
