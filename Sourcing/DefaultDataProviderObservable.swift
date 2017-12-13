@@ -50,7 +50,6 @@ public class DefaultDataProviderObservable: DataProviderObservable {
         }
     }
     
-    
     /// Send updates from a data provider to all observers.
     ///
     /// - Parameter updates: the updates to distribute.
