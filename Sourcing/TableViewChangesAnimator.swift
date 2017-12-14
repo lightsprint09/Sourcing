@@ -24,16 +24,21 @@
     import UIKit
 
     /**
-     A listener that observers changes of an dataprovider. It create animations to make changes visible in the view by using
+     A listener that observers changes of a data provider. It create animations to make changes visible in the view by using
      ``UITableView`s APIs to animate cells. You can configurate your animatones needed for each change.
      */
     public final class TableViewChangesAnimator {
         
-        public let dataProviderObservable: DataProviderObservable
+        private let dataProviderObservable: DataProviderObservable
         
         private var dataPrvoiderObserver: NSObjectProtocol?
         private let tableView: UITableView
         
+        /// Creates an instance and starts listening for changes to animate them into the table view.
+        ///
+        /// - Parameters:
+        ///   - collectionView: the table view which should be animated
+        ///   - dataProviderObservable: observable for listing to changes of a data provider
         public init<Observable: DataProviderObservable>(tableView: UITableView, dataProviderObservable: Observable) {
             self.tableView = tableView
             self.dataProviderObservable = dataProviderObservable

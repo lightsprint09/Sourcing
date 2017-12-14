@@ -29,9 +29,10 @@
 import Foundation
 
 /**
- `ArrayDataProvider` provides interface for dataProvides which rely on Array as internal data structure.
+ `ArrayDataProvider` provides interface for data provides which rely on Array as internal data structure.
  */
 public protocol ArrayDataProviding: DataProviding {
+    /// The content which is provided by the data provider
     var content: [[Element]] { get }
 }
 

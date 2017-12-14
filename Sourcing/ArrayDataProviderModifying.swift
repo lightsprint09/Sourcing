@@ -22,13 +22,26 @@
 
 import Foundation
 
-///Wrapps an `ArrayDataProvider` and handles changes to manipulate the content of the provider.
+/**
+Wrapps an `ArrayDataProvider` and handles changes to manipulate the content of the provider.
+ 
+- seealso: `DataModifying`
+*/
 public final class ArrayDataProviderModifier<Element>: DataModifying {
+    /// Flag if items can be moved by the data source.
     public var canMoveItems: Bool = false
+    
+    /// Flag if items can be deleted by the data source.
     public var canDeleteItems: Bool = false
     
     private let dataProvider: ArrayDataProvider<Element>
     
+    /// Creates an `ArrayDataProvider` instace.
+    ///
+    /// - Parameters:
+    ///   - dataProvider: the data provider which should be modiefiable
+    ///   - canMoveItems: Flag if items can be moved by the data source.
+    ///   - canDeleteItems: Flag if items can be deleted by the data source.
     public init(dataProvider: ArrayDataProvider<Element>, canMoveItems: Bool = false, canDeleteItems: Bool = false) {
         self.dataProvider = dataProvider
         self.canMoveItems = canMoveItems

@@ -36,7 +36,7 @@ public protocol DataProviding: class {
      */
     associatedtype Element
     
-    /// An observable where you can list on changes for the DataProvider.
+    /// An observable where you can list on changes for the data provider.
     var observable: DataProviderObservable { get }
     
     /**
@@ -60,7 +60,7 @@ public protocol DataProviding: class {
      */
     func numberOfSections() -> Int
     
-    /// Prefetch items into the dataprovider
+    /// Prefetch items into the data provider
     ///
     /// - Parameter indexPaths: a list of indexPaths to prefetch
     func prefetchItems(at indexPaths: [IndexPath])
@@ -74,7 +74,7 @@ public protocol DataProviding: class {
 
 public extension DataProviding {
     
-    /// Prefetch items into the dataprovider
+    /// Prefetch items into the data provider
     ///
     /// - Parameter indexPaths: a list of indexPaths to prefetch
     func prefetchItems(at indexPaths: [IndexPath]) { }

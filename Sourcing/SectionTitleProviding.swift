@@ -20,6 +20,7 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+/// Providing section header titles and section index titles.
 public protocol SectionTitleProviding {
     /**
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`

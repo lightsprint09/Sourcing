@@ -26,7 +26,7 @@
  
  **Example**
  ```swift
- //A DataProvider with multiple sections. Each section contains trains from a single type
+ //A data provider with multiple sections. Each section contains trains from a single type
  let dataProvider: ArrayDataPrvoider<Train> = //
  
  //Use type name as a section header and shortname as a section index title.
@@ -53,11 +53,11 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
     /// Creates a `DynamicHeaderTitlesProvider`.
     ///
     /// - Parameters:
-    ///   - dataProvider: the DataProvider used as source for header titles.
+    ///   - dataProvider: the data provider used as source for header titles.
     ///   - generateSectionHeaderTitles: a closure to transform a Element which is part of
-    ///     the DataProvider into a single String, which is used as a section header titles.
+    ///     the data provider into a single String, which is used as a section header titles.
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
-    ///     DataProvider into a single String, which is used as a section index titles.
+    ///     data provider into a single String, which is used as a section index titles.
     public init<DataProvider: DataProviding>(dataProvider: DataProvider, generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String?,
                 generateSectionIndexTitle: @escaping (Element, IndexPath) -> String?) where DataProvider.Element == Element {
         self.dataProvider = AnyDataProvider(dataProvider)
@@ -68,8 +68,8 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
     /// Creates a `DynamicHeaderTitlesProvider`.
     ///
     /// - Parameters:
-    ///   - dataProvider: the DataProvider used as source for header titles.
-    ///   - generateSectionHeaderTitles: a closure to transform a Element which is part of the DataProvider into
+    ///   - dataProvider: the data provider used as source for header titles.
+    ///   - generateSectionHeaderTitles: a closure to transform a Element which is part of the data provider into
     ///     a single String, which is used as a section header titles.
     ///   - sectionIndexTitles: all section index titles.
     public convenience init<DataProvider: DataProviding>(dataProvider: DataProvider, generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String?,
@@ -81,9 +81,9 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
     /// Creates a `DynamicHeaderTitlesProvider`.
     ///
     /// - Parameters:
-    ///   - dataProvider: the DataProvider used as source for header titles.
+    ///   - dataProvider: the data provider used as source for header titles.
     ///   - sectionHeaderTitles: all titles used in section headers.
-    ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the DataProvider
+    ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the data provider
     ///     into a single String, which is used as a section index titles.
     public convenience init<DataProvider: DataProviding>(dataProvider: DataProvider, sectionHeaderTitles: [String]? = nil,
                             generateSectionIndexTitle: @escaping (Element, IndexPath) -> String?) where DataProvider.Element == Element {

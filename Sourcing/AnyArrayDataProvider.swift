@@ -21,16 +21,22 @@
 //
 
 import Foundation
-
+/// Type eraser for `ArrayDataProviding`. This can be helpful to build conecpts like filtering, sorting ontop of array data provider
 public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
     public typealias Element = ContentElement
     private let capturedContents: () -> [[Element]]
     
+    /// The content which is provided by the data provider
     public var content: [[Element]] {
         return capturedContents()
     }
+    
+    /// An observable where you can list on changes for the data provider.
     public let observable: DataProviderObservable
     
+    /// Type ereases a give `ArrayDataProviding`.
+    ///
+    /// - Parameter dataProvider: the data provider to type erase.
     public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
         capturedContents = {
             return dataProvider.content

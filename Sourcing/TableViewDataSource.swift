@@ -9,14 +9,28 @@
 #if os(iOS) || os(tvOS)
 import UIKit
     
-/// Generic DataSoruce providing data to a tableview.
+/// `TableViewDataSource` uses data provider and provides the data as a `UITableViewDataSource`
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
-    
+    /// The data provider which provides the data to the data source
     public let dataProvider: AnyDataProvider<Object>
+    
+    /// Provides section header titles and section index titles
     public let sectionTitleProvider: SectionTitleProviding?
+    
+    /// Optional data modificator can be used to modify the data providers content
     public let dataModificator: DataModifying?
+    
     private let cells: [CellConfiguring]
     
+    /// Creates an instance with a data provider and cell configurations
+    /// which will be displayed in the collection view.
+    ///
+    /// - Note: This initializer is loosly typed. If you just display one cell, use the strongly typed initializer.
+    /// - Parameters:
+    ///   - dataProvider: the data provider which provides data to the data source
+    ///   - anyCells: the cell configuration for the collection view cells
+    ///   - dataModificator: optional data modifier.
+    ///   - sectionTitleProvider: provides section header titles and section index titles.
     public init<TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider,
           anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
                 where TypedDataProvider.Element == Object {
@@ -93,6 +107,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
 // MARK: Typesafe initializers
 
 public extension TableViewDataSource {
+    /// Creates an instance with a data provider and cell configuration
+    /// which will be displayed in the collection view.
+    ///
+    /// - Parameters:
+    ///   - dataProvider: the data provider which provides data to the data source
+    ///   - cell: the cell configuration for the collection view cell
+    ///   - dataModificator: optional data modifier.
+    ///   - sectionTitleProvider: provides section header titles and section index titles.
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cell: Cell,
                      dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
@@ -101,6 +123,14 @@ public extension TableViewDataSource {
                       dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
     }
     
+    /// Creates an instance with a data provider and cell configurations
+    /// which will be displayed in the collection view.
+    ///
+    /// - Parameters:
+    ///   - dataProvider: the data provider which provides data to the data source
+    ///   - cells: the cell configuration for the collection view cells
+    ///   - dataModificator: optional data modifier.
+    ///   - sectionTitleProvider: provides section header titles and section index titles.
     convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cells: [Cell],
                      dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {

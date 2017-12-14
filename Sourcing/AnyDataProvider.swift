@@ -22,10 +22,10 @@
 
 import Foundation
 
-//Type eareses a DataProviding
+/// Type eareses a DataProviding.
 final public class AnyDataProvider<Element>: DataProviding {
     
-    /// An observable where you can list on changes for the DataProvider.
+    /// An observable where you can list on changes for the data provider.
     public var observable: DataProviderObservable
 
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Element
@@ -35,6 +35,9 @@ final public class AnyDataProvider<Element>: DataProviding {
     private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
     private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
     
+    /// Type eareses a DataProviding.
+    ///
+    /// - Parameter dataProvider: the data provider to type erase
     public init<DataProvider: DataProviding>(_ dataProvider: DataProvider) where Element == DataProvider.Element {
         objectAtIndexPath = { indexPath in
             return dataProvider.object(at: indexPath)
@@ -81,14 +84,14 @@ final public class AnyDataProvider<Element>: DataProviding {
         return numberOfSectionsCallback()
     }
     
-    /// Prefetch items into the dataprovider
+    /// Prefetch items into the data provider
     ///
     /// - Parameter indexPaths: a list of indexPaths to prefetch
     public func prefetchItems(at indexPaths: [IndexPath]) {
         prefetchItemsAtIndexPaths(indexPaths)
     }
     
-    /// Prefetch items into the dataprovider
+    /// Prefetch items into the data provider
     ///
     /// - Parameter indexPaths: a list of indexPaths to prefetch
     public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {

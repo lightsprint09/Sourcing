@@ -28,84 +28,111 @@
 import UIKit
 
 #if os(iOS) || os(tvOS)
-final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
-    
-    public let dataProvider: AnyDataProvider<Object>
-    public let dataModificator: DataModifying?
-   
-    private let cells: [CellConfiguring]
-    
-    public init<DataProvider: DataProviding>(dataProvider: DataProvider,
-                    anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object {
-            self.dataProvider = AnyDataProvider(dataProvider)
-            self.cells = anyCells
-            self.dataModificator = dataModificator
-            super.init()
-    }
-    
-    // MARK: Private
-    
-    private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
-        return cells.first(where: { $0.canConfigureCell(with: object) })
-    }
-    
-    // MARK: UICollectionViewDataSource
-    
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataProvider.numberOfSections()
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataProvider.numberOfItems(inSection: section)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let object = dataProvider.object(at: indexPath)
+    /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`
+    final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
+        /// The data provider which provides the data to the data source
+        public let dataProvider: AnyDataProvider<Object>
         
-        guard let cellDequeable = cellDequeableForIndexPath(object) else {
-            fatalError("Unexpected cell type at \(indexPath)")
+        /// Optional data modificator can be used to modify the data providers content
+        public let dataModificator: DataModifying?
+       
+        private let cells: [CellConfiguring]
+        
+        /// Creates an instance with a data provider and cell configurations
+        /// which will be displayed in the collection view.
+        ///
+        /// - Note: This initializer is loosly typed. If you just display one cell, use the strongly typed initializer.
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - anyCells: the cell configuration for the collection view cells
+        ///   - dataModificator: optional data modifier.
+        public init<DataProvider: DataProviding>(dataProvider: DataProvider,
+                        anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
+            where DataProvider.Element == Object {
+                self.dataProvider = AnyDataProvider(dataProvider)
+                self.cells = anyCells
+                self.dataModificator = dataModificator
+                super.init()
         }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
-        cellDequeable.configure(cell, with: object)
         
-        return cell
+        // MARK: Private
+        
+        private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
+            return cells.first(where: { $0.canConfigureCell(with: object) })
+        }
+        
+        // MARK: UICollectionViewDataSource
+        
+        public func numberOfSections(in collectionView: UICollectionView) -> Int {
+            return dataProvider.numberOfSections()
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return dataProvider.numberOfItems(inSection: section)
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let object = dataProvider.object(at: indexPath)
+            
+            guard let cellDequeable = cellDequeableForIndexPath(object) else {
+                fatalError("Unexpected cell type at \(indexPath)")
+            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
+            cellDequeable.configure(cell, with: object)
+            
+            return cell
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+            return dataModificator?.canMoveItem(at: indexPath) ?? false
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+            dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
+        }
+        
+        // MARK: UICollectionViewDataSourcePrefetching
+        
+        @available(iOS 10.0, *)
+        public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+            dataProvider.prefetchItems(at: indexPaths)
+        }
+        
+        @available(iOS 10.0, *)
+        public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+            dataProvider.cancelPrefetchingForItems(at: indexPaths)
+        }
     }
-    
-    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return dataModificator?.canMoveItem(at: indexPath) ?? false
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
-    }
-    
-    // MARK: UICollectionViewDataSourcePrefetching
-    
-    @available(iOS 10.0, *)
-    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        dataProvider.prefetchItems(at: indexPaths)
-    }
-    
-    @available(iOS 10.0, *)
-    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        dataProvider.cancelPrefetchingForItems(at: indexPaths)
-    }
-}
 
-// MARK: Typesafe initializers
+    // MARK: TypesafeInitializers
 
-public extension CollectionViewDataSource {
-    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
+    public extension CollectionViewDataSource {
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
+        ///   - dataModificator: optional data modifier.
+        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
+            (dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
+        }
+        
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
+        ///   - dataModificator: optional data modifier.
+        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
+            (dataProvider: DataProvider, cells: [Cell], dataModificator: DataModifying? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
+        }
     }
-    
-    convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cells: [Cell], dataModificator: DataModifying? = nil)
-        where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
-            let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
-    }
-}
 #endif

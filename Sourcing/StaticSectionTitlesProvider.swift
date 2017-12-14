@@ -22,11 +22,19 @@
 
 import Foundation
 
+/// Generates section header titles and section index titles by using the given array of strings.
 public struct StaticSectionTitlesProvider: SectionTitleProviding {
     /// All sectionIndexTitles
     public let sectionIndexTitles: [String]?
+    
     private let sectionHeaderTitles: [String?]?
     
+    
+    /// Creates an instace.
+    ///
+    /// - Parameters:
+    ///   - sectionHeaderTitles: static list of section header titles
+    ///   - sectionIndexTitles: static list of section index titles
     public init(sectionHeaderTitles: [String?]? = nil, sectionIndexTitles: [String]? = nil) {
         self.sectionHeaderTitles = sectionHeaderTitles
         self.sectionIndexTitles = sectionIndexTitles

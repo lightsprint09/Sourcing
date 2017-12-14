@@ -29,14 +29,17 @@
 import Foundation
 
 /**
- `ArrayDataProvider` provides basic implementation to map arrays to a `DataProvider`.
+ `ArrayDataProvider` provides basic implementation to map arrays to a `DataProviding`.
+ 
+ - seealso: `ArrayDataProviding`
  */
-open class ArrayDataProvider<ContentElement>: ArrayDataProviding {
+public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
     public typealias Element = ContentElement
     
-    open var content: [[Element]]
+    /// The content which is provided by the data provider
+    public var content: [[Element]]
     
-    /// An observable where you can list on changes for the DataProvider.
+    /// An observable where you can list on changes for the data provider.
     public var observable: DataProviderObservable {
         return defaultObservable
     }

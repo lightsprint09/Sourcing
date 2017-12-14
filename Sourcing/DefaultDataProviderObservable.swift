@@ -20,9 +20,12 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-public class DefaultDataProviderObservable: DataProviderObservable {
+/// A default implementation for a observable which notifies about data provider changes.
+/// - SeeAlso: `DataProviderObservable`
+public final class DefaultDataProviderObservable: DataProviderObservable {
     private var observers: [NSObject: (DataProviderChange) -> Void] = [:]
     
+    /// Creates a instance of the obsavable.
     public init() {}
     
     /// Observe the changes of the DataProvider.
@@ -41,7 +44,7 @@ public class DefaultDataProviderObservable: DataProviderObservable {
         return token
     }
     
-    // Removes given observer from the receiver’s dispatch table.
+    /// Removes given observer from the receiver’s dispatch table.
     ///
     /// - Parameter observer: The observer to remove
     public func removeObserver(observer: NSObjectProtocol) {
