@@ -19,7 +19,7 @@ matrix:
       language: objective-c
       env: "tvOS"
       script:
-        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=tvOS Simulator,name=Apple TV 1080p,OS=latest' test -enableCodeCoverage NO | xcpretty
+        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=tvOS Simulator,name=Apple TV,OS=latest' test -enableCodeCoverage NO | xcpretty
     - os: osx
       osx_image: xcode9.2
       language: objective-c
