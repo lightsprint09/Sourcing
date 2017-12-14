@@ -40,27 +40,17 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         dataProvider = ArrayDataProvider<Any>(sections: [[2], ["String"]])
         tableViewMock = UITableViewMock()
     }
-
-    func testNumberOfSections() {
+    
+    func testInitStronglyTypedMultiCell() {
         //Given
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, anyCells: [])
+        let cellIdentifier = "cellIdentifier"
+        let secondCellIdentifier = "cellIdentifier2"
+        let cellConfig: [CellConfiguration<UITableViewCellMock<Int>>] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier),
+                                                                              CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
         
         //When
-        let sectionCount = dataSource.numberOfSections(in: tableViewMock)
+        _ = TableViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cells: cellConfig)
         
-        //Then
-        XCTAssertEqual(sectionCount, 2)
-    }
-
-    func testNumberOfRowsInSections() {
-        //Given
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, anyCells: [])
-        
-        //When
-        let rowCount = dataSource.tableView(tableViewMock, numberOfRowsInSection: 1)
-        
-        //Then
-        XCTAssertEqual(rowCount, 1)
     }
 
     func testDequeCells() {

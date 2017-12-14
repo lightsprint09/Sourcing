@@ -86,7 +86,7 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
             return dataModificator?.canMoveItem(at: indexPath) ?? false
         }
-        
+                
         public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
             dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
         }

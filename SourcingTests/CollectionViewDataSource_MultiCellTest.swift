@@ -39,6 +39,18 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         dataProvider = ArrayDataProvider(sections: [[2], ["String"]])
         collectionViewMock = UICollectionViewMock()
     }
+    
+    func testInitStronglyTypedMultiCell() {
+        //Given
+        let cellIdentifier = "cellIdentifier"
+        let secondCellIdentifier = "cellIdentifier2"
+        let cellConfig: [CellConfiguration<UICollectionViewCellMock<Int>>] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
+                                             CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
+        
+        //When
+        _ = CollectionViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cells: cellConfig)
+        
+    }
 
     func testDequeCells() {
         //Given

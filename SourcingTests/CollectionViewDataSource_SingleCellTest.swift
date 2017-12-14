@@ -149,4 +149,16 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let dataSourceCanMoveItem = dataSource.collectionView(collectionViewMock, canMoveItemAt: indexPath)
         XCTAssertTrue(dataSourceCanMoveItem)
     }
+    
+    func testCanMoveCellAtIndexPathWithOutDataModificator() {
+        //Given
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
+        
+        //When
+        let canMove = dataSource.collectionView(collectionViewMock, canMoveItemAt: IndexPath(row: 0, section: 0))
+        
+        //Then
+        XCTAssertFalse(canMove)
+    }
+
 }

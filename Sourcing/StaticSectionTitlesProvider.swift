@@ -29,7 +29,6 @@ public struct StaticSectionTitlesProvider: SectionTitleProviding {
     
     private let sectionHeaderTitles: [String?]?
     
-    
     /// Creates an instace.
     ///
     /// - Parameters:
