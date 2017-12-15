@@ -39,7 +39,7 @@
         /// - Parameters:
         ///   - collectionView: the table view which should be animated
         ///   - dataProviderObservable: observable for listing to changes of a data provider
-        public init<Observable: DataProviderObservable>(tableView: UITableView, dataProviderObservable: Observable) {
+        public init(tableView: UITableView, dataProviderObservable: DataProviderObservable) {
             self.tableView = tableView
             self.dataProviderObservable = dataProviderObservable
             dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in

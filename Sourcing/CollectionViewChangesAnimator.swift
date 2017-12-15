@@ -38,7 +38,7 @@
         /// - Parameters:
         ///   - collectionView: the collection view which should be animated
         ///   - dataProviderObservable: observable for listing to changes of a data provider
-        public init<Observable: DataProviderObservable>(collectionView: UICollectionView, dataProviderObservable: Observable) {
+        public init(collectionView: UICollectionView, dataProviderObservable: DataProviderObservable) {
             self.collectionView = collectionView
             self.dataProviderObservable = dataProviderObservable
             dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
