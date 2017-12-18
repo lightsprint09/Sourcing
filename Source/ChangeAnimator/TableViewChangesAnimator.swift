@@ -25,26 +25,27 @@
 
     /**
      A listener that observers changes of a data provider. It create animations to make changes visible in the view by using
-     ``UICollectionView`s APIs to animate cells.
+     ``UITableView`s APIs to animate cells. You can configurate your animatones needed for each change.
      */
-    public final class CollectionViewChangesAnimator {
+    public final class TableViewChangesAnimator {
+        
         private let dataProviderObservable: DataProviderObservable
         
         private var dataPrvoiderObserver: NSObjectProtocol?
-        private let collectionView: UICollectionView
+        private let tableView: UITableView
         
-        /// Creates an instance and starts listening for changes to animate them into the collection view
+        /// Creates an instance and starts listening for changes to animate them into the table view.
         ///
         /// - Parameters:
-        ///   - collectionView: the collection view which should be animated
+        ///   - collectionView: the table view which should be animated
         ///   - dataProviderObservable: observable for listing to changes of a data provider
-        public init(collectionView: UICollectionView, dataProviderObservable: DataProviderObservable) {
-            self.collectionView = collectionView
+        public init(tableView: UITableView, dataProviderObservable: DataProviderObservable) {
+            self.tableView = tableView
             self.dataProviderObservable = dataProviderObservable
             dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
                 switch update {
                 case .unknown:
-                    self?.collectionView.reloadData()
+                    self?.tableView.reloadData()
                 case .changes(let updates):
                     self?.process(updates: updates)
                 }
@@ -52,37 +53,38 @@
         }
         
         deinit {
-            if let dataPrvoiderObserver = dataPrvoiderObserver {
-                dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
+            guard let dataPrvoiderObserver = dataPrvoiderObserver else {
+                return
             }
+            dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
         }
         
         private func process(update: DataProviderChange.Change) {
             switch update {
             case .insert(let indexPath):
-                collectionView.insertItems(at: [indexPath])
+                tableView.insertRows(at: [indexPath], with: .automatic)
             case .update(let indexPath):
-                collectionView.reloadItems(at: [indexPath])
+                tableView.reloadRows(at: [indexPath], with: .automatic)
             case .move(let indexPath, let newIndexPath):
-                collectionView.moveItem(at: indexPath, to: newIndexPath)
+                tableView.moveRow(at: indexPath, to: newIndexPath)
             case .delete(let indexPath):
-                collectionView.deleteItems(at: [indexPath])
+                tableView.deleteRows(at: [indexPath], with: .automatic)
             case .insertSection(let sectionIndex):
-                collectionView.insertSections(IndexSet(integer: sectionIndex))
+                tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
             case .deleteSection(let sectionIndex):
-                collectionView.deleteSections(IndexSet(integer: sectionIndex))
-            case .moveSection(let section, let newSection):
-                collectionView.moveSection(section, toSection: newSection)
+                tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+            case .moveSection(let indexPath, let newIndexPath):
+                tableView.moveSection(indexPath, toSection: newIndexPath)
             }
         }
         
-        /// Animates multiple insert, delete, reload, and move operations as a group.
+        /// Execute updates on your TableView. TableView will do a matching animation for each update
         ///
-        /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
+        /// - Parameter updates: list of updates to execute
         private func process(updates: [DataProviderChange.Change]) {
-            collectionView.performBatchUpdates({
-                updates.forEach(self.process)
-            }, completion: nil)
+            tableView.beginUpdates()
+            updates.forEach(process)
+            tableView.endUpdates()
         }
     }
 #endif

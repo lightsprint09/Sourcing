@@ -86,7 +86,7 @@
 		9432D2521CF5ABC300B72986 /* Sourcing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sourcing.h; sourceTree = "<group>"; };
 		9432D2541CF5ABC300B72986 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9432D2591CF5ABC300B72986 /* SourcingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SourcingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9432D2601CF5ABC300B72986 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SourcingTests/Info.plist; sourceTree = "<group>"; };
+		9432D2601CF5ABC300B72986 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = "<group>"; };
 		9432D2691CF5AC7C00B72986 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
 		9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurableCell.swift; sourceTree = "<group>"; };
 		9432D26E1CF5ACE700B72986 /* DataProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviding.swift; sourceTree = "<group>"; };
@@ -171,8 +171,8 @@
 		9432D2451CF5ABC300B72986 = {
 			isa = PBXGroup;
 			children = (
-				9432D2511CF5ABC300B72986 /* Sourcing */,
-				9432D25D1CF5ABC300B72986 /* SourcingTests */,
+				9432D2511CF5ABC300B72986 /* Source */,
+				9432D25D1CF5ABC300B72986 /* Tests */,
 				9432D2601CF5ABC300B72986 /* Info.plist */,
 				9432D2501CF5ABC300B72986 /* Products */,
 			);
@@ -187,25 +187,26 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9432D2511CF5ABC300B72986 /* Sourcing */ = {
+		9432D2511CF5ABC300B72986 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				C6F9131D1D5072B400B0535C /* DataProvider */,
-				C6FAE1631E2E201E00928D6B /* Cell */,
+				C6FAE1631E2E201E00928D6B /* Cells */,
 				C6FAE1621E2E200500928D6B /* DataSource */,
+				C68C91231FE7C4D9009490A0 /* ChangesAnimator */,
 				9432D2521CF5ABC300B72986 /* Sourcing.h */,
 				9432D2541CF5ABC300B72986 /* Info.plist */,
 			);
-			path = Sourcing;
+			path = Source;
 			sourceTree = "<group>";
 		};
-		9432D25D1CF5ABC300B72986 /* SourcingTests */ = {
+		9432D25D1CF5ABC300B72986 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				C68BCBC41D5A1DD000C5E720 /* Mocks */,
 				945727A11E16BF7800024C65 /* Tests */,
 			);
-			path = SourcingTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		945727A11E16BF7800024C65 /* Tests */ = {
@@ -231,6 +232,7 @@
 				C61699B21FE0F3360061EA11 /* DefaultDataProviderObservableTest.swift */,
 			);
 			name = Tests;
+			path = SourcingTests;
 			sourceTree = "<group>";
 		};
 		C6363D981F5024B90052E9BD /* UIKitMocks */ = {
@@ -262,6 +264,17 @@
 				C6CB06021F9F5EB900EEDBF3 /* DataProviderObservableMock.swift */,
 			);
 			name = Mocks;
+			path = SourcingTests/Mocks;
+			sourceTree = "<group>";
+		};
+		C68C91231FE7C4D9009490A0 /* ChangesAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				C6817BA51F8E6F09008B45F6 /* TableViewChangesAnimator.swift */,
+				C6D12DC01F9612C00015A3C3 /* CollectionViewChangesAnimator.swift */,
+			);
+			name = ChangesAnimator;
+			path = ChangeAnimator;
 			sourceTree = "<group>";
 		};
 		C6F9131D1D5072B400B0535C /* DataProvider */ = {
@@ -282,7 +295,7 @@
 				C6E163761F8F764500ED9F1D /* DataProviderObservable.swift */,
 				C61699B01FE011640061EA11 /* DefaultDataProviderObservable.swift */,
 			);
-			name = DataProvider;
+			path = DataProvider;
 			sourceTree = "<group>";
 		};
 		C6FAE1621E2E200500928D6B /* DataSource */ = {
@@ -290,13 +303,11 @@
 			children = (
 				945ABE831E0D678E001B42CE /* TableViewDataSource.swift */,
 				9432D2691CF5AC7C00B72986 /* CollectionViewDataSource.swift */,
-				C6817BA51F8E6F09008B45F6 /* TableViewChangesAnimator.swift */,
-				C6D12DC01F9612C00015A3C3 /* CollectionViewChangesAnimator.swift */,
 			);
-			name = DataSource;
+			path = DataSource;
 			sourceTree = "<group>";
 		};
-		C6FAE1631E2E201E00928D6B /* Cell */ = {
+		C6FAE1631E2E201E00928D6B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				C6F913191D506C1200B0535C /* StaticCellDequeable.swift */,
@@ -308,7 +319,7 @@
 				C6817BA31F8E6BD2008B45F6 /* UITableView+RegisterCelllConfigurations.swift */,
 				C6D12DBE1F96119A0015A3C3 /* UICollectionView+RegisterCelllConfigurations.swift */,
 			);
-			name = Cell;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -642,7 +653,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sourcing/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -668,7 +679,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Sourcing/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -686,7 +697,7 @@
 		9432D2671CF5ABC300B72986 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SourcingTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.SourcingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -698,7 +709,7 @@
 		9432D2681CF5ABC300B72986 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SourcingTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.SourcingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
