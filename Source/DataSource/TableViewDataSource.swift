@@ -20,7 +20,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     /// Optional data modificator can be used to modify the data providers content
     public let dataModificator: DataModifying?
     
-    private let cells: [CellConfiguring]
+    private let cellConfigurations: [CellConfiguring]
     
     /// Creates an instance with a data provider and cell configurations
     /// which will be displayed in the collection view.
@@ -32,17 +32,17 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
     ///   - dataModificator: optional data modifier.
     ///   - sectionTitleProvider: provides section header titles and section index titles.
     public init<TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider,
-          anyCells: [CellConfiguring], dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
+          anyCellConfigurations: [CellConfiguring], dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
                 where TypedDataProvider.Element == Object {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
-        self.cells = anyCells
+        self.cellConfigurations = anyCellConfigurations
         self.sectionTitleProvider = sectionTitleProvider
         super.init()
     }
     
     private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
-        return cells.first(where: { $0.canConfigureCell(with: object) })
+        return cellConfigurations.first(where: { $0.canConfigureCell(with: object) })
     }
     
     // MARK: UITableViewDataSource
@@ -115,11 +115,11 @@ public extension TableViewDataSource {
     ///   - cell: the cell configuration for the collection view cell
     ///   - dataModificator: optional data modifier.
     ///   - sectionTitleProvider: provides section header titles and section index titles.
-    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cell: Cell,
+    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfiguration: Cell,
                      dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(dataProvider: typeErasedDataProvider, anyCells: [cell],
+            self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
                       dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
     }
     
@@ -131,11 +131,11 @@ public extension TableViewDataSource {
     ///   - cells: the cell configuration for the collection view cells
     ///   - dataModificator: optional data modifier.
     ///   - sectionTitleProvider: provides section header titles and section index titles.
-    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cells: [Cell],
+    convenience init<Cell: StaticCellConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfigurations: [Cell],
                      dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
-            self.init(dataProvider: typeErasedDataProvider, anyCells: cells,
+            self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
                       dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
     }
 }

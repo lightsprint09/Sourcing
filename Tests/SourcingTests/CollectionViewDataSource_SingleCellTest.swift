@@ -50,7 +50,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testNumberOfSections() {
         //Given
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
         let sectionCount = dataSource.numberOfSections(in: collectionViewMock)
@@ -61,7 +61,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
         let rowCount = dataSource.collectionView(collectionViewMock, numberOfItemsInSection: 1)
@@ -72,7 +72,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testDequeCells() {
         //Given
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let indexPath = IndexPath(row: 2, section: 1)
         
         //When
@@ -93,7 +93,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         
         //When
         let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock,
-                                                  cell: cellConfig, dataModificator: dataModificator)
+                                                  cellConfiguration: cellConfig, dataModificator: dataModificator)
         let fromIndexPath = IndexPath(row: 0, section: 1)
         let toIndexPath = IndexPath(row: 1, section: 0)
         dataSource.collectionView(collectionViewMock, moveItemAt: fromIndexPath, to: toIndexPath)
@@ -107,7 +107,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testPrefetchItemsAtIndexPaths() {
         //Given
         let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
         
         //When
         let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
@@ -124,7 +124,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testCenclePrefetchItemsAtIndexPaths() {
         //Given
         let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
         
         //When
         let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
@@ -140,7 +140,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testCanMoveCellAtIndexPath() {
         
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider,
-                                                  cell: cell, dataModificator: dataModificator)
+                                                  cellConfiguration: cell, dataModificator: dataModificator)
         //When
         dataModificator.canMoveItemAt = true
         
@@ -152,7 +152,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanMoveCellAtIndexPathWithOutDataModificator() {
         //Given
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
         let canMove = dataSource.collectionView(collectionViewMock, canMoveItemAt: IndexPath(row: 0, section: 0))

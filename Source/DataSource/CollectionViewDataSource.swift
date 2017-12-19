@@ -36,7 +36,7 @@ import UIKit
         /// Optional data modificator can be used to modify the data providers content
         public let dataModificator: DataModifying?
        
-        private let cells: [CellConfiguring]
+        private let cellConfigurations: [CellConfiguring]
         
         /// Creates an instance with a data provider and cell configurations
         /// which will be displayed in the collection view.
@@ -47,10 +47,10 @@ import UIKit
         ///   - anyCells: the cell configuration for the collection view cells
         ///   - dataModificator: optional data modifier.
         public init<DataProvider: DataProviding>(dataProvider: DataProvider,
-                        anyCells: [CellConfiguring], dataModificator: DataModifying? = nil)
+                        anyCellConfigurations: [CellConfiguring], dataModificator: DataModifying? = nil)
             where DataProvider.Element == Object {
                 self.dataProvider = AnyDataProvider(dataProvider)
-                self.cells = anyCells
+                self.cellConfigurations = anyCellConfigurations
                 self.dataModificator = dataModificator
                 super.init()
         }
@@ -58,7 +58,7 @@ import UIKit
         // MARK: Private
         
         private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
-            return cells.first(where: { $0.canConfigureCell(with: object) })
+            return cellConfigurations.first(where: { $0.canConfigureCell(with: object) })
         }
         
         // MARK: UICollectionViewDataSource
@@ -115,10 +115,10 @@ import UIKit
         ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
         ///   - dataModificator: optional data modifier.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
-            (dataProvider: DataProvider, cell: Cell, dataModificator: DataModifying? = nil)
+            (dataProvider: DataProvider, cellConfiguration: Cell, dataModificator: DataModifying? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCells: [cell], dataModificator: dataModificator)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration], dataModificator: dataModificator)
         }
         
         /// Creates an instance with a data provider and a cell configuration
@@ -129,10 +129,10 @@ import UIKit
         ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
         ///   - dataModificator: optional data modifier.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
-            (dataProvider: DataProvider, cells: [Cell], dataModificator: DataModifying? = nil)
+            (dataProvider: DataProvider, cellConfigurations: [Cell], dataModificator: DataModifying? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCells: cells, dataModificator: dataModificator)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations, dataModificator: dataModificator)
         }
     }
 #endif

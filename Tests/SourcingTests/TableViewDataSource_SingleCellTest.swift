@@ -53,7 +53,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let realTableView = UITableView()
         
         //When
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let sectionCount = dataSource.numberOfSections(in: realTableView)
         
         //Then
@@ -65,7 +65,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let realTableView = UITableView()
         
         //When
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let rowCount = dataSource.tableView(realTableView, numberOfRowsInSection: 1)
         
         //Then
@@ -80,7 +80,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         })
         
         //When
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let cellForGivenRow = dataSource.tableView(tableViewMock, cellForRowAt: IndexPath(row: 2, section: 1))
         
         //Then
@@ -97,7 +97,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let cellConfig = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)
         let dataProviderMock = DataProviderMock<Int>()
         let dataSource = TableViewDataSource(dataProvider: dataProviderMock,
-                                             cell: cellConfig, dataModificator: dataModificator)
+                                             cellConfiguration: cellConfig, dataModificator: dataModificator)
         
         //When
         let fromIndexPath = IndexPath(row: 0, section: 1)
@@ -113,7 +113,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testPrefetchItemsAtIndexPaths() {
         //Given
         let dataProviderMock = DataProviderMock<Int>()
-        let dataSource: UITableViewDataSourcePrefetching = TableViewDataSource(dataProvider: dataProviderMock, cell: cell)
+        let dataSource: UITableViewDataSourcePrefetching = TableViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
         
         //When
         let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
@@ -126,7 +126,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testCenclePrefetchItemsAtIndexPaths() {
         //Given
         let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = TableViewDataSource(dataProvider: dataProviderMock, cell: cell)
+        let dataSource = TableViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
         
         //When
         let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
@@ -141,7 +141,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         dataModificator.canMoveItemAt = true
         
         //When
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, dataModificator: dataModificator)
         
         //Then
         XCTAssertTrue(dataSource.tableView(tableViewMock, canMoveRowAt: IndexPath(row: 0, section: 0)))
@@ -150,7 +150,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanMoveCellAtIndexPathWithOutDataModificator() {
         //Given
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
         let canMove = dataSource.tableView(tableViewMock, canMoveRowAt: IndexPath(row: 0, section: 0))
@@ -162,7 +162,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testCanDeleteCell() {
         //Given
         dataModificator.canDeleteItemAt = true
-         let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, dataModificator: dataModificator)
         
         //When
         let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
@@ -173,7 +173,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanDeleteCellWithOutDataModificator() {
         //Given
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
         let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
@@ -184,7 +184,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDeleteCell() {
         //Given
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell, dataModificator: dataModificator)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, dataModificator: dataModificator)
         let deletedIndexPath = IndexPath(row: 0, section: 0)
         
         //When
@@ -199,7 +199,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Given
         let sectionTitleProvider = StaticSectionTitlesProvider(sectionHeaderTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell,
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
                                          dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
         
         //When
@@ -214,7 +214,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let indexHeaders = ["foo", "bar"]
         let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: cell,
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
                                              dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
         
         //When

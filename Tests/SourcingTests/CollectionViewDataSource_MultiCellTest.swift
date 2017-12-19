@@ -48,7 +48,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
                                              CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
         
         //When
-        _ = CollectionViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cells: cellConfig)
+        _ = CollectionViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cellConfigurations: cellConfig)
         
     }
 
@@ -62,7 +62,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
                                                                                 secondCellIdentifier: UICollectionViewCellMock<String>()])
         
         //When
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, anyCellConfigurations: cellConfig)
         let intCell = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 0, section: 0))
         let stringCell = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 0, section: 1))
         

@@ -49,7 +49,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
                                                                               CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
         
         //When
-        _ = TableViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cells: cellConfig)
+        _ = TableViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cellConfigurations: cellConfig)
         
     }
 
@@ -61,7 +61,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
              CellConfiguration<UITableViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
         let mockCells = [cellIdentifier: UITableViewCellMock<Int>(), secondCellIdentifier: UITableViewCellMock<String>()]
         let tableViewMock = UITableViewMock(mockTableViewCells: mockCells)
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, anyCells: cellConfig)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, anyCellConfigurations: cellConfig)
 
         //When
         let intCell = dataSource.tableView(tableViewMock, cellForRowAt: IndexPath(row: 0, section: 0))
