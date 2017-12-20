@@ -30,7 +30,7 @@
     public final class CollectionViewChangesAnimator {
         private let dataProviderObservable: DataProviderObservable
         
-        private var dataPrvoiderObserver: NSObjectProtocol?
+        private var dataPrvoiderObserver: NSObjectProtocol!
         private let collectionView: UICollectionView
         
         /// Creates an instance and starts listening for changes to animate them into the collection view
@@ -52,9 +52,6 @@
         }
         
         deinit {
-            guard let dataPrvoiderObserver = dataPrvoiderObserver else {
-                return
-            }
             dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
         }
         

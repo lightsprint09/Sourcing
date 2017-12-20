@@ -59,9 +59,10 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
     ///     the data provider into a single String, which is used as a section footer titles.
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
     ///     data provider into a single String, which is used as a section index titles.
-    public init<DataProvider: DataProviding>(dataProvider: DataProvider, generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in return nil },
+    public init<DataProvider: DataProviding>(dataProvider: DataProvider,
+                                             generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in return nil },
                                              generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in return nil },
-                generateSectionIndexTitle: ((Element, IndexPath) -> String)? = nil) where DataProvider.Element == Element {
+                                             generateSectionIndexTitle: ((Element, IndexPath) -> String)? = nil) where DataProvider.Element == Element {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.generateSectionHeaderTitle = generateSectionHeaderTitle
         self.generateSectionFooterTitle = generateSectionFooterTitle

@@ -74,9 +74,8 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            guard let cellDequeable = cellDequeableForIndexPath(object) else {
-                fatalError("Unexpected cell type at \(indexPath)")
-            }
+            let cellDequeable: CellConfiguring! = cellDequeableForIndexPath(object)
+            precondition(cellDequeable != nil, "Unexpected cell type at \(indexPath) for object of type")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
             cellDequeable.configure(cell, with: object)
             

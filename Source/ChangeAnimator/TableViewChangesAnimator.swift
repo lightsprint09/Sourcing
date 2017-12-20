@@ -31,7 +31,7 @@
         
         private let dataProviderObservable: DataProviderObservable
         
-        private var dataPrvoiderObserver: NSObjectProtocol?
+        private var dataPrvoiderObserver: NSObjectProtocol!
         private let tableView: UITableView
         
         /// Creates an instance and starts listening for changes to animate them into the table view.
@@ -53,9 +53,6 @@
         }
         
         deinit {
-            guard let dataPrvoiderObserver = dataPrvoiderObserver else {
-                return
-            }
             dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
         }
         
