@@ -41,14 +41,13 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
     public var sectionIndexTitles: [String]? {
-        let allSections = 0..<dataProvider.numberOfSections()
-        
-        return allSections.map { indexTitle(inSection: $0) }.flatMap { $0 }
+        return indexSectionTitles()
     }
     
     private let dataProvider: AnyDataProvider<Element>
     private let generateSectionHeaderTitle: (Element, IndexPath) -> String?
-    private let generateSectionIndexTitle: (Element, IndexPath) -> String?
+    private let generateSectionFooterTitle: (Element, IndexPath) -> String?
+    private let generateSectionIndexTitle: ((Element, IndexPath) -> String)?
     
     /// Creates a `DynamicHeaderTitlesProvider`.
     ///
@@ -56,39 +55,17 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
     ///   - dataProvider: the data provider used as source for header titles.
     ///   - generateSectionHeaderTitles: a closure to transform a Element which is part of
     ///     the data provider into a single String, which is used as a section header titles.
+    ///   - generateSectionFooterTitle: a closure to transform a Element which is part of
+    ///     the data provider into a single String, which is used as a section footer titles.
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
     ///     data provider into a single String, which is used as a section index titles.
-    public init<DataProvider: DataProviding>(dataProvider: DataProvider, generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String?,
-                generateSectionIndexTitle: @escaping (Element, IndexPath) -> String?) where DataProvider.Element == Element {
+    public init<DataProvider: DataProviding>(dataProvider: DataProvider, generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in return nil },
+                                             generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in return nil },
+                generateSectionIndexTitle: ((Element, IndexPath) -> String)? = nil) where DataProvider.Element == Element {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.generateSectionHeaderTitle = generateSectionHeaderTitle
+        self.generateSectionFooterTitle = generateSectionFooterTitle
         self.generateSectionIndexTitle = generateSectionIndexTitle
-    }
-    
-    /// Creates a `DynamicHeaderTitlesProvider`.
-    ///
-    /// - Parameters:
-    ///   - dataProvider: the data provider used as source for header titles.
-    ///   - generateSectionHeaderTitles: a closure to transform a Element which is part of the data provider into
-    ///     a single String, which is used as a section header titles.
-    ///   - sectionIndexTitles: all section index titles.
-    public convenience init<DataProvider: DataProviding>(dataProvider: DataProvider, generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String?,
-                            sectionIndexTitles: [String]? = nil) where DataProvider.Element == Element {
-        self.init(dataProvider: dataProvider, generateSectionHeaderTitle: generateSectionHeaderTitle,
-                  generateSectionIndexTitle: { sectionIndexTitles?[$1.section] })
-    }
-    
-    /// Creates a `DynamicHeaderTitlesProvider`.
-    ///
-    /// - Parameters:
-    ///   - dataProvider: the data provider used as source for header titles.
-    ///   - sectionHeaderTitles: all titles used in section headers.
-    ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the data provider
-    ///     into a single String, which is used as a section index titles.
-    public convenience init<DataProvider: DataProviding>(dataProvider: DataProvider, sectionHeaderTitles: [String]? = nil,
-                            generateSectionIndexTitle: @escaping (Element, IndexPath) -> String?) where DataProvider.Element == Element {
-        self.init(dataProvider: dataProvider, generateSectionHeaderTitle: { sectionHeaderTitles?[$1.section] },
-                  generateSectionIndexTitle: generateSectionIndexTitle)
     }
     
     /// Generates a optional section title for a given section.
@@ -102,10 +79,28 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
         return generateSectionHeaderTitle(firstObjectInSection, indexPath)
     }
     
-    private func indexTitle(inSection section: Int) -> String? {
+    /// Generates a optional section footer for a given section
+    ///
+    /// - Parameter section: the section to generate the title for
+    /// - Returns: a section footer title
+    public func titleForFooter(inSection section: Int) -> String? {
         let indexPath = IndexPath(item: 0, section: section)
         let firstObjectInSection = dataProvider.object(at: indexPath)
         
-        return generateSectionIndexTitle(firstObjectInSection, indexPath)
+        return generateSectionFooterTitle(firstObjectInSection, indexPath)
+    }
+    
+    private func indexSectionTitles() -> [String]? {
+        guard let generateSectionIndexTitle = generateSectionIndexTitle else {
+            return nil
+        }
+        let allSections = 0..<dataProvider.numberOfSections()
+        
+        return allSections.map {
+            let indexPath = IndexPath(item: 0, section: $0)
+            let firstObjectInSection = dataProvider.object(at: indexPath)
+            
+            return generateSectionIndexTitle(firstObjectInSection, indexPath)
+        }
     }
 }

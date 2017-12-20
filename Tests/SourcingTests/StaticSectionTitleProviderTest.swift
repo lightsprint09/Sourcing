@@ -20,4 +20,44 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
+import XCTest
+import Sourcing
+
+class StaticSectionTitleProviderTest: XCTestCase {
+    
+    func testStaticIndexTitles() {
+        //Given
+        let sectionIndexTitles = ["SectionIndexTitle"]
+        let sectionTitelProvider = StaticSectionTitlesProvider(sectionIndexTitles: sectionIndexTitles)
+        
+        //When
+        let resultingSectionIndexTitles = sectionTitelProvider.sectionIndexTitles
+        
+        //Then
+        XCTAssertEqual(resultingSectionIndexTitles ?? [], sectionIndexTitles)
+    }
+    
+    func testStaticTitleForHeader() {
+        //Given
+        let headerTiltes = ["SectionIndexTitle"]
+        let sectionTitelProvider = StaticSectionTitlesProvider(sectionHeaderTitles: headerTiltes)
+        
+        //When
+        let headerTitle = sectionTitelProvider.titleForHeader(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(headerTitle, "SectionIndexTitle")
+    }
+    
+    func testStaticFooterForHeader() {
+        //Given
+        let headerTiltes = ["SectionFooterTitle"]
+        let sectionTitelProvider = StaticSectionTitlesProvider(sectionFooterTitles: headerTiltes)
+        
+        //When
+        let footerTitle = sectionTitelProvider.titleForFooter(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(footerTitle, "SectionFooterTitle")
+    }
+}

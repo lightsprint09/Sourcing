@@ -25,33 +25,55 @@ import Sourcing
 
 class DynamicSectionTitleProviderTests: XCTestCase {
     
-    func testGenerateHeaderTitleWithStaticIndexTitles() {
+    func testGenerateHeaderTitle() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
         let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
-                                                               generateSectionHeaderTitle: { (element, _) in element },
-                                                               sectionIndexTitles: ["SectionIndexTitle"])
+                                                               generateSectionHeaderTitle: { (element, _) in element })
         
         //When
         let title = sectionTitelProvider.titleForHeader(inSection: 0)
+        let footer = sectionTitelProvider.titleForFooter(inSection: 0)
+        let sectionIndexTitles = sectionTitelProvider.sectionIndexTitles
         
         //Then
         XCTAssertEqual(title, "SectionTitle")
-        XCTAssertEqual(sectionTitelProvider.sectionIndexTitles?.first, "SectionIndexTitle")
+        XCTAssertNil(footer)
+        XCTAssertNil(sectionIndexTitles)
     }
     
-    func testGenerateSectionIndexTitlesWithStaticSectionHeaderTitles() {
+    func testGenerateSectionIndexTitles() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionIndexTitle"])
         let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
-                                                               sectionHeaderTitles: ["SectionTitle"],
                                                                generateSectionIndexTitle: { (element, _) in element })
+        
         //When
+        let sectionIndexTitles = sectionTitelProvider.sectionIndexTitles
         let title = sectionTitelProvider.titleForHeader(inSection: 0)
+        let footer = sectionTitelProvider.titleForFooter(inSection: 0)
         
         //Then
-        XCTAssertEqual(title, "SectionTitle")
-        XCTAssertEqual(sectionTitelProvider.sectionIndexTitles?.first, "SectionIndexTitle")
+        XCTAssertEqual(sectionIndexTitles?.first, "SectionIndexTitle")
+        XCTAssertNil(title)
+        XCTAssertNil(footer)
 
+    }
+    
+    func testGenerateFooterTitle() {
+        //Given
+        let dataProvider = ArrayDataProvider(rows: ["SectionFooter"])
+        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
+                                                               generateSectionFooterTitle: { (element, _) in element })
+        
+        //When
+        let footer = sectionTitelProvider.titleForFooter(inSection: 0)
+        let title = sectionTitelProvider.titleForHeader(inSection: 0)
+        let sectionIndexTitles = sectionTitelProvider.sectionIndexTitles
+        
+        //Then
+        XCTAssertEqual(footer, "SectionFooter")
+        XCTAssertNil(title)
+        XCTAssertNil(sectionIndexTitles)
     }
 }

@@ -28,15 +28,17 @@ public struct StaticSectionTitlesProvider: SectionTitleProviding {
     public let sectionIndexTitles: [String]?
     
     private let sectionHeaderTitles: [String?]?
+    private let sectionFooterTitles: [String?]?
     
     /// Creates an instace.
     ///
     /// - Parameters:
     ///   - sectionHeaderTitles: static list of section header titles
     ///   - sectionIndexTitles: static list of section index titles
-    public init(sectionHeaderTitles: [String?]? = nil, sectionIndexTitles: [String]? = nil) {
+    public init(sectionHeaderTitles: [String?]? = nil, sectionFooterTitles: [String?]? = nil, sectionIndexTitles: [String]? = nil) {
         self.sectionHeaderTitles = sectionHeaderTitles
         self.sectionIndexTitles = sectionIndexTitles
+        self.sectionFooterTitles = sectionFooterTitles
     }
     
     /// Generates a optional section title for a given section
@@ -45,5 +47,13 @@ public struct StaticSectionTitlesProvider: SectionTitleProviding {
     /// - Returns: a section header title
     public func titleForHeader(inSection section: Int) -> String? {
         return sectionHeaderTitles?[section]
+    }
+    
+    /// Generates a optional section footer for a given section
+    ///
+    /// - Parameter section: the section to generate the title for
+    /// - Returns: a section footer title
+    public func titleForFooter(inSection section: Int) -> String? {
+        return sectionFooterTitles?[section]
     }
 }

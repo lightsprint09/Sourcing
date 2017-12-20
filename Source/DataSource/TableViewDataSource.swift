@@ -74,6 +74,10 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         return sectionTitleProvider?.titleForHeader(inSection: section)
     }
     
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return sectionTitleProvider?.titleForFooter(inSection: section)
+    }
+    
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return dataModificator?.canMoveItem(at: indexPath) ?? false
     }

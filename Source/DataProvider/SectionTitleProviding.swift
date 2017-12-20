@@ -32,4 +32,10 @@ public protocol SectionTitleProviding {
     /// - Parameter section: the section to generate the title for
     /// - Returns: a section header title
     func titleForHeader(inSection section: Int) -> String?
+    
+    /// Generates a optional section footer for a given section
+    ///
+    /// - Parameter section: the section to generate the title for
+    /// - Returns: a section footer title
+    func titleForFooter(inSection section: Int) -> String?
 }
