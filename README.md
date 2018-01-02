@@ -45,7 +45,12 @@ extension TrainCell: CellIdentifierProviding {}
 let trainCell = CellConfiguration<TrainCell>()
 let trains: [Train] = //
 let dataProvider = ArrayDataProvider(rows: trains)
-let dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, cell: trainCell)
+let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: trainCell)
+
+tableView.dataSource = dataSource
+
+//For Updates
+let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
 ```
 ## DataProvider
 A DataProvider encaupsulates you data. Use one of the given DataProviders or implement `DataProviding` to create your own DataProvider.
