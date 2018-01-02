@@ -37,6 +37,7 @@ import UIKit
         public let dataModificator: DataModifying?
        
         private let cellConfigurations: [CellConfiguring]
+        private let supplementaryViewConfigurations: [SupplementaryViewConfiguring]
         
         /// Creates an instance with a data provider and cell configurations
         /// which will be displayed in the collection view.
@@ -47,11 +48,13 @@ import UIKit
         ///   - anyCells: the cell configuration for the collection view cells
         ///   - dataModificator: optional data modifier.
         public init<DataProvider: DataProviding>(dataProvider: DataProvider,
-                        anyCellConfigurations: [CellConfiguring], dataModificator: DataModifying? = nil)
+                        anyCellConfigurations: [CellConfiguring],
+                        anySupplementaryViewConfigurations: [SupplementaryViewConfiguring] = [], dataModificator: DataModifying? = nil)
             where DataProvider.Element == Object {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfigurations = anyCellConfigurations
                 self.dataModificator = dataModificator
+                self.supplementaryViewConfigurations = anySupplementaryViewConfigurations
                 super.init()
         }
         
@@ -100,6 +103,23 @@ import UIKit
         @available(iOS 10.0, *)
         public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
             dataProvider.cancelPrefetchingForItems(at: indexPaths)
+        }
+        
+        private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> SupplementaryViewConfiguring? {
+            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: kind) })
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView,
+                                   viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            let object = dataProvider.object(at: indexPath)
+            let dequeable: SupplementaryViewConfiguring! = supplementaryViewConfiguring(for: object, ofKind: kind)
+            precondition(dequeable != nil, "Unexpected SupplementaryView type of \(kind) for object of type \(object.self) at indexPath \(indexPath)")
+            
+            let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                    withReuseIdentifier: dequeable.reuseIdentifier, for: indexPath)
+            
+            _ = dequeable.configure(supplementaryView, at: indexPath, with: object)
+            return supplementaryView
         }
     }
 
