@@ -60,4 +60,16 @@ class StaticSectionTitleProviderTest: XCTestCase {
         //Then
         XCTAssertEqual(footerTitle, "SectionFooterTitle")
     }
+    
+    func testSectionForSectionIndexTitle() {
+        //Given
+        let headerTiltes = ["SectionFooterTitle"]
+        let sectionTitelProvider = StaticSectionTitlesProvider(sectionFooterTitles: headerTiltes)
+        
+        //When
+        let section = sectionTitelProvider.section(forSectionIndexTitle: "SectionFooterTitle", at: 0)
+        
+        //Then
+        XCTAssertEqual(section, 0)
+    }
 }

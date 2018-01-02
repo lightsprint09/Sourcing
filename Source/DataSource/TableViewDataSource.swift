@@ -65,10 +65,18 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         return cell
     }
     
+    // MARK: Section Index Titles
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return sectionTitleProvider?.sectionIndexTitles
     }
     
+    public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        precondition(self.sectionTitleProvider != nil, "Must not called when sectionTitleProvider is nil")
+        let sectionTitleProvider: SectionTitleProviding! = self.sectionTitleProvider
+        return sectionTitleProvider.section(forSectionIndexTitle: title, at: index)
+    }
+    
+    // MARK: SectionHeader & SectionFooter
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitleProvider?.titleForHeader(inSection: section)
     }
@@ -77,6 +85,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
         return sectionTitleProvider?.titleForFooter(inSection: section)
     }
     
+    // MARK: Editing
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return dataModificator?.canMoveItem(at: indexPath) ?? false
     }

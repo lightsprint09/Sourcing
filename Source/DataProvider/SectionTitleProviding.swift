@@ -27,6 +27,15 @@ public protocol SectionTitleProviding {
      */
     var sectionIndexTitles: [String]? { get }
     
+    /// Asks the data provider to return the index of the section having the given title and section title index.
+    ///
+    /// - Parameters:
+    ///   - sectionIndexTitle: The title as displayed in the section index
+    ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
+    /// - Returns: An index number identifying a section.
+    func section(forSectionIndexTitle sectionIndexTitle: String,
+                   at index: Int) -> Int
+    
     /// Generates a optional section title for a given section
     ///
     /// - Parameter section: the section to generate the title for
@@ -38,4 +47,18 @@ public protocol SectionTitleProviding {
     /// - Parameter section: the section to generate the title for
     /// - Returns: a section footer title
     func titleForFooter(inSection section: Int) -> String?
+}
+
+extension SectionTitleProviding {
+    
+    /// Asks the data provider to return the index of the section having the given title and section title index.
+    ///
+    /// - Parameters:
+    ///   - sectionIndexTitle: The title as displayed in the section index
+    ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
+    /// - Returns: An index number identifying a section.
+    public func section(forSectionIndexTitle sectionIndexTitle: String,
+                        at index: Int) -> Int {
+        return index
+    }
 }

@@ -209,6 +209,20 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(sectionTitle, "bar")
     }
     
+    func testTitleForFooterInSection() {
+        //Given
+        let sectionTitleProvider = StaticSectionTitlesProvider(sectionFooterTitles: ["foo", "bar"])
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
+                                             dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
+        
+        //When
+        let sectionTitle = dataSource.tableView(tableViewMock, titleForFooterInSection: 1)
+        
+        //Then
+        XCTAssertEqual(sectionTitle, "bar")
+    }
+    
     func testSectionIndexHeaders() {
         //Given
         let indexHeaders = ["foo", "bar"]
@@ -224,18 +238,19 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(computedSectionIndexes ?? [], indexHeaders)
     }
     
-    func testTitleForFooterInSection() {
+    func testSectionForSectionIndexTitle() {
         //Given
-        let sectionTitleProvider = StaticSectionTitlesProvider(sectionFooterTitles: ["foo", "bar"])
+        let indexHeaders = ["foo", "bar"]
+        let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
                                              dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
         
         //When
-        let sectionTitle = dataSource.tableView(tableViewMock, titleForFooterInSection: 1)
+        let section = dataSource.tableView(tableViewMock, sectionForSectionIndexTitle: "bar", at: 1)
         
         //Then
-        XCTAssertEqual(sectionTitle, "bar")
+        XCTAssertEqual(section, 1)
     }
-    
+
 }

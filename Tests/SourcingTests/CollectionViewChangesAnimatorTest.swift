@@ -38,12 +38,12 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
     func testInitDeinit() {
         //Given
         let observable = DataProviderObservableMock()
-        var collectionViewChangesAnimator2: CollectionViewChangesAnimator? = CollectionViewChangesAnimator(collectionView: collectionViewMock,
+        var collectionViewChangesAnimator: CollectionViewChangesAnimator? = CollectionViewChangesAnimator(collectionView: collectionViewMock,
                                                                                                            dataProviderObservable: observable)
         XCTAssertNotNil(observable.observer)
         
         //When
-       collectionViewChangesAnimator2 = nil
+       collectionViewChangesAnimator = nil
         
         //Then
         XCTAssertNil(observable.observer)
