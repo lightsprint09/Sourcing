@@ -34,17 +34,17 @@ class BasicCellConfigurationTest: XCTestCase {
     
     let nib = UINib(data: Data(), bundle: nil)
     var configuration: CellConfiguration<UITableViewCellMock<Int>>!
-    let identifier = "cellIdentifier"
+    let identifier = "reuseIdentifier"
     
     func testCellConfigurationInit() {
         //Given
         let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in }
         
         //When
-        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
+        configuration = CellConfiguration(reuseIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
         
         //Then
-        XCTAssertEqual(identifier, configuration.cellIdentifier)
+        XCTAssertEqual(identifier, configuration.reuseIdentifier)
         XCTAssertNotNil(configuration.nib)
     }
     
@@ -56,7 +56,7 @@ class BasicCellConfigurationTest: XCTestCase {
         configuration = CellConfiguration(nib: nib, additionalConfiguration: additionalConfiguration)
         
         //Then
-        XCTAssertEqual(UITableViewCellMock<Int>.cellIdentifier, configuration.cellIdentifier)
+        XCTAssertEqual(UITableViewCellMock<Int>.reuseIdentifier, configuration.reuseIdentifier)
         XCTAssertNotNil(configuration.nib)
     }
     
@@ -66,7 +66,7 @@ class BasicCellConfigurationTest: XCTestCase {
         let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in
             didCallAdditionalConfigurtion = true
         }
-        configuration = CellConfiguration(cellIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
+        configuration = CellConfiguration(reuseIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
         let cell = UITableViewCellMock<Int>()
         
         //When
@@ -80,14 +80,14 @@ class BasicCellConfigurationTest: XCTestCase {
     
     func testCanConfigureCell() {
         //When
-        configuration = CellConfiguration(cellIdentifier: identifier)
+        configuration = CellConfiguration(reuseIdentifier: identifier)
         
         //Then
         XCTAssert(configuration.canConfigureCell(with: 1))
     }
     
-    class BasicCell: CellIdentifierProviding {
-        static var cellIdentifier = "cellIdentifier"
+    class BasicCell: ReuseIdentifierProviding {
+        static var reuseIdentifier = "reuseIdentifier"
     }
     
     func testBasicCanConfigureInit() {
@@ -96,7 +96,7 @@ class BasicCellConfigurationTest: XCTestCase {
         let configuration = BasicCellConfiguration<BasicCell, String>(configuration: { _, _ in })
         
         //Then
-        XCTAssertEqual(configuration.cellIdentifier, "cellIdentifier")
+        XCTAssertEqual(configuration.reuseIdentifier, "reuseIdentifier")
     }
 
 }

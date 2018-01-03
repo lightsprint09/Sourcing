@@ -54,7 +54,7 @@ class UITableViewMock: UITableView {
     var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
     var modifiedSections = ModifiedSections()
 
-    init(mockTableViewCells: [String: UITableViewCell] = ["cellIdentifier": UITableViewCellMock<Int>()]) {
+    init(mockTableViewCells: [String: UITableViewCell] = ["reuseIdentifier": UITableViewCellMock<Int>()]) {
         cellDequeueMock = CellDequeueMock(cells: mockTableViewCells, dequeueCellReuseIdentifiers: [])
         super.init(frame: .zero, style: .plain)
     }

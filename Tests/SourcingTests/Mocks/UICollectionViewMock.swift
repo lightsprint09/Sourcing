@@ -50,7 +50,7 @@ class UICollectionViewMock: UICollectionView {
     var modifiedIndexPaths = ModifiedIndexPaths()
     var modifiedSections = ModifiedSections()
     
-    init(mockCollectionViewCells: [String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
+    init(mockCollectionViewCells: [String: UICollectionViewCell] = ["reuseIdentifier": UICollectionViewCellMock<Int>()]) {
         cellDequeueMock = CellDequeueMock(cells: mockCollectionViewCells, dequeueCellReuseIdentifiers: [])
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }

@@ -45,7 +45,7 @@
 		C66C7B9E1FFB9C1C009B8C78 /* BasicSupplementaryViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66C7B9D1FFB9C1C009B8C78 /* BasicSupplementaryViewConfiguration.swift */; };
 		C6817BA41F8E6BD2008B45F6 /* UITableView+RegisterCelllConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6817BA31F8E6BD2008B45F6 /* UITableView+RegisterCelllConfigurations.swift */; };
 		C6817BA61F8E6F09008B45F6 /* TableViewChangesAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6817BA51F8E6F09008B45F6 /* TableViewChangesAnimator.swift */; };
-		C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */; };
+		C687C1B71E378D5C0089F561 /* ReuseIdentifierProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B61E378D5C0089F561 /* ReuseIdentifierProviding.swift */; };
 		C687C1B91E378E490089F561 /* UITableViewCellMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B81E378E490089F561 /* UITableViewCellMock.swift */; };
 		C687C1BB1E378E940089F561 /* UICollectionViewCellMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1BA1E378E940089F561 /* UICollectionViewCellMock.swift */; };
 		C687C1BD1E378FDC0089F561 /* CellIdentifierProvidingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1BC1E378FDC0089F561 /* CellIdentifierProvidingTest.swift */; };
@@ -124,7 +124,7 @@
 		C66C7B9D1FFB9C1C009B8C78 /* BasicSupplementaryViewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicSupplementaryViewConfiguration.swift; sourceTree = "<group>"; };
 		C6817BA31F8E6BD2008B45F6 /* UITableView+RegisterCelllConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterCelllConfigurations.swift"; sourceTree = "<group>"; };
 		C6817BA51F8E6F09008B45F6 /* TableViewChangesAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewChangesAnimator.swift; sourceTree = "<group>"; };
-		C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellIdentifierProviding.swift; sourceTree = "<group>"; };
+		C687C1B61E378D5C0089F561 /* ReuseIdentifierProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReuseIdentifierProviding.swift; sourceTree = "<group>"; };
 		C687C1B81E378E490089F561 /* UITableViewCellMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCellMock.swift; sourceTree = "<group>"; };
 		C687C1BA1E378E940089F561 /* UICollectionViewCellMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellMock.swift; sourceTree = "<group>"; };
 		C687C1BC1E378FDC0089F561 /* CellIdentifierProvidingTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellIdentifierProvidingTest.swift; sourceTree = "<group>"; };
@@ -358,7 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				9432D26B1CF5ACC800B72986 /* ConfigurableCell.swift */,
-				C687C1B61E378D5C0089F561 /* CellIdentifierProviding.swift */,
+				C687C1B61E378D5C0089F561 /* ReuseIdentifierProviding.swift */,
 				C66C7BA41FFD0A6D009B8C78 /* CellConfiguration */,
 				C66C7BA51FFD0A8A009B8C78 /* CellRegistration */,
 			);
@@ -515,7 +515,7 @@
 				C6F3A0711F95CDEA00F43FA4 /* DynamicSectionTitleProvider.swift in Sources */,
 				C6B92C721EF126E300D059AF /* AnyArrayDataProvider.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellConfiguring.swift in Sources */,
-				C687C1B71E378D5C0089F561 /* CellIdentifierProviding.swift in Sources */,
+				C687C1B71E378D5C0089F561 /* ReuseIdentifierProviding.swift in Sources */,
 				C6F9131A1D506C1200B0535C /* StaticCellConfiguring.swift in Sources */,
 				948E51C31CF8BA0400FFFD62 /* ArrayDataProvider.swift in Sources */,
 				9432D26A1CF5AC7C00B72986 /* CollectionViewDataSource.swift in Sources */,

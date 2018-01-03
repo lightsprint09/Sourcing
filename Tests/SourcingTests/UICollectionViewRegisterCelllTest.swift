@@ -26,14 +26,14 @@ import Sourcing
 
 class UICollectionViewRegisterCelllTest: XCTestCase {
     var collectionViewMock: UICollectionViewMock!
-    let cellIdentifier = "cellIdentifier"
+    let reuseIdentifier = "reuseIdentifier"
     let nib = UINib(data: Data(), bundle: nil)
     var cellConfig: CellConfiguration<UICollectionViewCellMock<Int>>!
     
     override func setUp() {
         super.setUp()
         collectionViewMock = UICollectionViewMock()
-        cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
+        cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier, nib: nib)
     }
     
     func testRegisterMultipleNib() {
@@ -42,7 +42,7 @@ class UICollectionViewRegisterCelllTest: XCTestCase {
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
+        XCTAssertNotNil(collectionViewMock.registerdNibs[reuseIdentifier] as Any)
     }
     
     func testRegisterNib() {
@@ -51,6 +51,6 @@ class UICollectionViewRegisterCelllTest: XCTestCase {
         
         //Then
         XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
+        XCTAssertNotNil(collectionViewMock.registerdNibs[reuseIdentifier] as Any)
     }
 }

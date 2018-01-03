@@ -49,7 +49,7 @@
          */
         func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UICollectionViewCell {
             for cellConfiguration in cellConfigurations where cellConfiguration.nib != nil {
-                register(cellConfiguration.nib, forCellWithReuseIdentifier: cellConfiguration.cellIdentifier)
+                register(cellConfiguration.nib, forCellWithReuseIdentifier: cellConfiguration.reuseIdentifier)
             }
         }
         

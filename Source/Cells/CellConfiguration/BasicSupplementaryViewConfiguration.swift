@@ -21,32 +21,34 @@
 //
 
 import UIKit
-
-public struct StaticSupplementaryViewConfiguration<View: UICollectionReusableView, Object>: SupplementaryViewConfiguring {
-    
-    public let reuseIdentifier: String
-    public let supplementaryElementKind: String
-    public let nib: UINib?
-    
-    private let configuration: ((View, IndexPath) -> Void)?
-    
-    public init(elementKind: String, reuseIdentifier: String, nib: UINib? = nil, configuration: ((View, IndexPath) -> Void)?) {
-        self.supplementaryElementKind = elementKind
-        self.reuseIdentifier = reuseIdentifier
-        self.configuration = configuration
-        self.nib = nib
-    }
-    
-    public func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any) -> AnyObject {
-        if let view = view as? View {
-            configuration?(view, indexPath)
+#if os(iOS) || os(tvOS)
+    public struct StaticSupplementaryViewConfiguration<View: UICollectionReusableView, Object>: SupplementaryViewConfiguring {
+        
+        /// The cellIdentifier which will be used to register and deque the cell.
+        public let reuseIdentifier: String
+        public let supplementaryElementKind: String
+        public let nib: UINib?
+        
+        private let configuration: ((View, IndexPath) -> Void)?
+        
+        public init(elementKind: String, reuseIdentifier: String, nib: UINib? = nil, configuration: ((View, IndexPath) -> Void)?) {
+            self.supplementaryElementKind = elementKind
+            self.reuseIdentifier = reuseIdentifier
+            self.configuration = configuration
+            self.nib = nib
         }
-        return view
+        
+        public func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any) -> AnyObject {
+            if let view = view as? View {
+                configuration?(view, indexPath)
+            }
+            return view
+        }
+        
+        public func canConfigureView(with object: Any, ofKind kind: String) -> Bool {
+            return kind == supplementaryElementKind && object is Object
+        }
     }
-    
-    public func canConfigureView(with object: Any, ofKind kind: String) -> Bool {
-        return kind == supplementaryElementKind && object is Object
-    }
-}
 
-typealias SupplementaryViewConfiguration<View: UICollectionReusableView> = StaticSupplementaryViewConfiguration<View, Any>
+    typealias SupplementaryViewConfiguration<View: UICollectionReusableView> = StaticSupplementaryViewConfiguration<View, Any>
+#endif

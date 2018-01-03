@@ -79,7 +79,7 @@ import UIKit
             
             let cellDequeable: CellConfiguring! = cellDequeableForIndexPath(object)
             precondition(cellDequeable != nil, "Unexpected cell type at \(indexPath) for object of type")
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.reuseIdentifier, for: indexPath)
             cellDequeable.configure(cell, with: object)
             
             return cell

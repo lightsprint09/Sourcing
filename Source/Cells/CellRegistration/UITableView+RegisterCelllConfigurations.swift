@@ -49,7 +49,7 @@
          */
         func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UITableViewCell {
             for cell in cellConfigurations where cell.nib != nil {
-                register(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+                register(cell.nib, forCellReuseIdentifier: cell.reuseIdentifier)
             }
         }
         

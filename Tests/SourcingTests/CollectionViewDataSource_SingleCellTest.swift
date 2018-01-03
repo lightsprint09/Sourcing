@@ -33,7 +33,7 @@ import Sourcing
 // swiftlint:disable force_cast
 class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
-    let cellIdentifier = "cellIdentifier"
+    let reuseIdentifier = "reuseIdentifier"
     
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
@@ -44,7 +44,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         super.setUp()
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         collectionViewMock = UICollectionViewMock()
-        cell = CellConfiguration(cellIdentifier: cellIdentifier)
+        cell = CellConfiguration(reuseIdentifier: reuseIdentifier)
         dataModificator = DataModificatorMock()
     }
 
@@ -79,16 +79,16 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let cellAtIdexPath = dataSource.collectionView(collectionViewMock, cellForItemAt: indexPath)
         
         //Then
-        let mockCell = (collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>)
+        let mockCell = (collectionViewMock.cellDequeueMock.cells[reuseIdentifier] as! UICollectionViewCellMock<Int>)
         XCTAssertEqual(mockCell.configurationCount, 1)
         XCTAssertEqual(mockCell.configuredObject, 10)
-        XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, cellIdentifier)
+        XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, reuseIdentifier)
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
     }
     
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)
+        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = DataProviderMock<Int>()
         
         //When

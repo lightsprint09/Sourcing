@@ -33,6 +33,6 @@ import Sourcing
 class CellIdentifierProvidingTest: XCTestCase {
     func testIdentifier() {
         
-        XCTAssertEqual(UITableViewCellMock<Int>.cellIdentifier, "UITableViewCellMock<Int>")
+        XCTAssertEqual(UITableViewCellMock<Int>.reuseIdentifier, "UITableViewCellMock<Int>")
     }
 }
