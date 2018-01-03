@@ -29,6 +29,7 @@ public protocol SupplementaryViewConfiguring {
     
     var nib: UINib? { get }
     
+    @discardableResult
     func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any) -> AnyObject
     
     func canConfigureView(with object: Any, ofKind: String) -> Bool
