@@ -31,7 +31,7 @@ import UIKit
         
         private let configuration: ((View, IndexPath) -> Void)?
         
-        public init(elementKind: String, reuseIdentifier: String, nib: UINib? = nil, configuration: ((View, IndexPath) -> Void)?) {
+        public init(elementKind: String, reuseIdentifier: String, nib: UINib? = nil, configuration: ((View, IndexPath) -> Void)? = nil) {
             self.supplementaryElementKind = elementKind
             self.reuseIdentifier = reuseIdentifier
             self.configuration = configuration
@@ -50,5 +50,5 @@ import UIKit
         }
     }
 
-    typealias SupplementaryViewConfiguration<View: UICollectionReusableView> = StaticSupplementaryViewConfiguration<View, Any>
+    public typealias SupplementaryViewConfiguration<View: UICollectionReusableView> = StaticSupplementaryViewConfiguration<View, Any>
 #endif

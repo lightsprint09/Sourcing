@@ -24,7 +24,7 @@ import XCTest
 import UIKit
 import Sourcing
 
-class UICollectionViewRegisterCelllTest: XCTestCase {
+class UICollectionViewRegisterCellTest: XCTestCase {
     var collectionViewMock: UICollectionViewMock!
     let reuseIdentifier = "reuseIdentifier"
     let nib = UINib(data: Data(), bundle: nil)

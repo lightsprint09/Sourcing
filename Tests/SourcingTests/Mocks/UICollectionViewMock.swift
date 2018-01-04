@@ -42,6 +42,7 @@ class UICollectionViewMock: UICollectionView {
     }
     
     var registerdNibs = [String: UINib?]()
+    var registeredSupplementaryViews = [String: (String, UINib?)]()
     
     var cellDequeueMock: CellDequeueMock<UICollectionViewCell>
     
@@ -75,6 +76,10 @@ class UICollectionViewMock: UICollectionView {
     
     override func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
         registerdNibs[identifier] = nib
+    }
+    
+    override func register(_ nib: UINib?, forSupplementaryViewOfKind kind: String, withReuseIdentifier identifier: String) {
+        registeredSupplementaryViews[identifier] = (kind, nib)
     }
     
     override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
