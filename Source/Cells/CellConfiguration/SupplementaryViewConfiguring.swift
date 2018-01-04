@@ -30,8 +30,19 @@ import UIKit
         var nib: UINib? { get }
         
         @discardableResult
-        func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any) -> AnyObject
+        func configure(_ view: UICollectionReusableView, at indexPath: IndexPath, with object: Any) -> AnyObject
         
         func canConfigureView(with object: Any, ofKind: String) -> Bool
+    }
+    
+    public protocol StaticSupplementaryViewConfiguring: SupplementaryViewConfiguring {
+        associatedtype View: UICollectionReusableView
+        associatedtype Object
+    }
+    
+    extension StaticSupplementaryViewConfiguring {
+        public func canConfigureView(with object: Any, ofKind kind: String) -> Bool {
+            return kind == supplementaryElementKind && object is Object
+        }
     }
 #endif

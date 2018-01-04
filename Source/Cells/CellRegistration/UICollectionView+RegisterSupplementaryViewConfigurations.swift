@@ -31,7 +31,8 @@
         
         func register<SupplementaryView: SupplementaryViewConfiguring>(supplementaryViewConfigurations: [SupplementaryView]) {
             for supplementaryViewConfiguration in supplementaryViewConfigurations where supplementaryViewConfiguration.nib != nil {
-                register(supplementaryViewConfiguration.nib, forSupplementaryViewOfKind: supplementaryViewConfiguration.supplementaryElementKind, withReuseIdentifier: supplementaryViewConfiguration.reuseIdentifier)
+                register(supplementaryViewConfiguration.nib, forSupplementaryViewOfKind: supplementaryViewConfiguration.supplementaryElementKind,
+                         withReuseIdentifier: supplementaryViewConfiguration.reuseIdentifier)
             }
         }
         

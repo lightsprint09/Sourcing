@@ -86,6 +86,28 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
     }
     
+    func testDequeSupplementaryView() {
+        //Given
+        let elementKind = "elementKind"
+        var configuredObject: Int?
+        var configurationCount = 0
+        let supplemenaryViewConfiguration = BasicSupplementaryViewConfiguration<SupplementaryViewMock, Int>(elementKind: elementKind,
+                                                                                                            configuration: { (_, _, object) in
+            configuredObject = object
+            configurationCount += 1
+        })
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
+                                                  supplementaryViewConfigurations: [supplemenaryViewConfiguration])
+        let indexPath = IndexPath(row: 2, section: 1)
+        
+        //When
+        _ = dataSource.collectionView(collectionViewMock, viewForSupplementaryElementOfKind: elementKind, at: indexPath)
+        
+        //Then
+        XCTAssertEqual(configurationCount, 1)
+        XCTAssertEqual(configuredObject, 10)
+    }
+    
     func testMoveIndexPaths() {
         //Given
         let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier)
@@ -138,7 +160,6 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     }
     
     func testCanMoveCellAtIndexPath() {
-        
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider,
                                                   cellConfiguration: cell, dataModificator: dataModificator)
         //When

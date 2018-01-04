@@ -48,7 +48,7 @@ class BasicCellConfigurationTest: XCTestCase {
         XCTAssertNotNil(configuration.nib)
     }
     
-    func testCellConfigurationInitWithCellIDentifierProviding() {
+    func testCellConfigurationInitWithCellIdentifierProviding() {
         //Given
         let additionalConfiguration = { (object: Int, cell: UITableViewCellMock<Int>) in }
         

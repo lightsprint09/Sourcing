@@ -28,7 +28,7 @@ class SupplementaryViewMock: UICollectionReusableView {
     
 }
 
-class UICollectionViewRegisterSupplementaryViewTest: XCTestCase {
+class CollectionViewSupplementaryViewTest: XCTestCase {
     var collectionViewMock: UICollectionViewMock!
     let reuseIdentifier = "reuseIdentifier"
     let supplementaryKind = "supplementaryKind"
@@ -46,9 +46,9 @@ class UICollectionViewRegisterSupplementaryViewTest: XCTestCase {
         collectionViewMock.register(supplementaryViewConfigurations: [supplemenaryViewConfiguration])
         
         //Then
-        XCTAssertEqual(collectionViewMock.registeredSupplementaryViews.count, 1)
-        XCTAssertEqual(collectionViewMock.registeredSupplementaryViews[reuseIdentifier]?.0, supplementaryKind)
-        XCTAssertNotNil(collectionViewMock.registeredSupplementaryViews[reuseIdentifier]?.1 as Any)
+        XCTAssertEqual(collectionViewMock.registeredReuseableViews.supplementaryViews.count, 1)
+        XCTAssertEqual(collectionViewMock.registeredReuseableViews.supplementaryViews[reuseIdentifier]?.0, supplementaryKind)
+        XCTAssertNotNil(collectionViewMock.registeredReuseableViews.supplementaryViews[reuseIdentifier]?.1 as Any)
     }
     
     func testRegisterNib() {
@@ -56,8 +56,8 @@ class UICollectionViewRegisterSupplementaryViewTest: XCTestCase {
         collectionViewMock.register(supplementaryViewConfiguration: supplemenaryViewConfiguration)
         
         //Then
-        XCTAssertEqual(collectionViewMock.registeredSupplementaryViews.count, 1)
-        XCTAssertEqual(collectionViewMock.registeredSupplementaryViews[reuseIdentifier]?.0, supplementaryKind)
-        XCTAssertNotNil(collectionViewMock.registeredSupplementaryViews[reuseIdentifier]?.1 as Any)
+        XCTAssertEqual(collectionViewMock.registeredReuseableViews.supplementaryViews.count, 1)
+        XCTAssertEqual(collectionViewMock.registeredReuseableViews.supplementaryViews[reuseIdentifier]?.0, supplementaryKind)
+        XCTAssertNotNil(collectionViewMock.registeredReuseableViews.supplementaryViews[reuseIdentifier]?.1 as Any)
     }
 }

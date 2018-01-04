@@ -26,7 +26,7 @@ import Sourcing
 class UITableViewRegisterCellTest: XCTestCase {
     var tableViewMock: UITableViewMock!
     
-    let reuseIdentifier = "reuseIdentifier"
+    let cellIdentifier = "cellIdentifier"
     let nib = UINib(data: Data(), bundle: nil)
     
     override func setUp() {
@@ -36,26 +36,26 @@ class UITableViewRegisterCellTest: XCTestCase {
     
     func testRegisterNib() {
         //Given
-        let cellConfigurations = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier, nib: nib)
+        let cellConfigurations = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: cellIdentifier, nib: nib)
         
         //When
         tableViewMock.register(cellConfiguration: cellConfigurations)
         
         //Then
         XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(tableViewMock.registerdNibs[reuseIdentifier] as Any)
+        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
     }
     
     func testRegisterMultipleNib() {
         //Given
         let cellConfigurations: [CellConfiguration<UITableViewCellMock<Int>>] = [
-            CellConfiguration(reuseIdentifier: reuseIdentifier, nib: nib)]
+            CellConfiguration(reuseIdentifier: cellIdentifier, nib: nib)]
         
         //When
         tableViewMock.register(cellConfigurations: cellConfigurations)
         
         //Then
         XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(tableViewMock.registerdNibs[reuseIdentifier] as Any)
+        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
     }
 }

@@ -153,5 +153,37 @@ import UIKit
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
                 self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations, dataModificator: dataModificator)
         }
+        
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
+        ///   - dataModificator: optional data modifier.
+        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
+            (dataProvider: DataProvider, cellConfiguration: Cell,
+             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
+        }
+        
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
+        ///   - dataModificator: optional data modifier.
+        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
+            (dataProvider: DataProvider, cellConfigurations: [Cell],
+             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
+        }
     }
 #endif

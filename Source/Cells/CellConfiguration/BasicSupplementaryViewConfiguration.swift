@@ -22,33 +22,38 @@
 
 import UIKit
 #if os(iOS) || os(tvOS)
-    public struct StaticSupplementaryViewConfiguration<View: UICollectionReusableView, Object>: SupplementaryViewConfiguring {
+    public struct BasicSupplementaryViewConfiguration<ReuseableView: UICollectionReusableView, ObjectInSection>: StaticSupplementaryViewConfiguring {
+        public typealias View = ReuseableView
+        public typealias Object = ObjectInSection
         
         /// The cellIdentifier which will be used to register and deque the cell.
         public let reuseIdentifier: String
         public let supplementaryElementKind: String
         public let nib: UINib?
         
-        private let configuration: ((View, IndexPath) -> Void)?
+        private let configuration: ((View, IndexPath, Object) -> Void)?
         
-        public init(elementKind: String, reuseIdentifier: String, nib: UINib? = nil, configuration: ((View, IndexPath) -> Void)? = nil) {
+        public init(elementKind: String, reuseIdentifier: String, nib: UINib? = nil, configuration: ((View, IndexPath, Object) -> Void)? = nil) {
             self.supplementaryElementKind = elementKind
             self.reuseIdentifier = reuseIdentifier
             self.configuration = configuration
             self.nib = nib
         }
         
-        public func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any) -> AnyObject {
-            if let view = view as? View {
-                configuration?(view, indexPath)
+        public func configure(_ view: UICollectionReusableView, at indexPath: IndexPath, with object: Any) -> AnyObject {
+            if let view = view as? View, let object = object as? Object {
+                configuration?(view, indexPath, object)
             }
             return view
         }
         
-        public func canConfigureView(with object: Any, ofKind kind: String) -> Bool {
-            return kind == supplementaryElementKind && object is Object
-        }
     }
 
-    public typealias SupplementaryViewConfiguration<View: UICollectionReusableView> = StaticSupplementaryViewConfiguration<View, Any>
+    public typealias SupplementaryViewConfiguration<View: UICollectionReusableView> = BasicSupplementaryViewConfiguration<View, Any>
+    
+    extension BasicSupplementaryViewConfiguration where View: ReuseIdentifierProviding {
+        public init(elementKind: String, nib: UINib? = nil, configuration: ((View, IndexPath, Object) -> Void)? = nil) {
+            self.init(elementKind: elementKind, reuseIdentifier: View.reuseIdentifier, nib: nib, configuration: configuration)
+        }
+    }
 #endif
