@@ -60,30 +60,6 @@ public protocol DataProviding: class {
      */
     func numberOfSections() -> Int
     
-    /// Prefetch items into the data provider
-    ///
-    /// - Parameter indexPaths: a list of indexPaths to prefetch
-    func prefetchItems(at indexPaths: [IndexPath])
-    
-    /// Cancle prefetching of already prefetched items
-    ///
-    /// - Parameter indexPaths:  a list of indexPaths to cancle prefetching
-    func cancelPrefetchingForItems(at indexPaths: [IndexPath])
-    
-}
-
-public extension DataProviding {
-    
-    /// Prefetch items into the data provider
-    ///
-    /// - Parameter indexPaths: a list of indexPaths to prefetch
-    func prefetchItems(at indexPaths: [IndexPath]) { }
-    
-    /// Cancle prefetching of already prefetched items
-    ///
-    /// - Parameter indexPaths:  a list of indexPaths to cancle prefetching
-    func cancelPrefetchingForItems(at indexPaths: [IndexPath]) { }
-
 }
 
 extension DataProviding where Element: Equatable {

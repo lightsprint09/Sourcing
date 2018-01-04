@@ -29,7 +29,7 @@ import UIKit
 
 #if os(iOS) || os(tvOS)
     /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`
-    final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
+    final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource {
         /// The data provider which provides the data to the data source
         public let dataProvider: AnyDataProvider<Object>
         
@@ -88,18 +88,6 @@ import UIKit
                 
         public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
             dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
-        }
-        
-        // MARK: UICollectionViewDataSourcePrefetching
-        
-        @available(iOS 10.0, *)
-        public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-            dataProvider.prefetchItems(at: indexPaths)
-        }
-        
-        @available(iOS 10.0, *)
-        public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-            dataProvider.cancelPrefetchingForItems(at: indexPaths)
         }
     }
 

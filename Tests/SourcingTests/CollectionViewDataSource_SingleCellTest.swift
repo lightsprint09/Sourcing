@@ -89,7 +89,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testMoveIndexPaths() {
         //Given
         let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)
-        let dataProviderMock = DataProviderMock<Int>()
+        let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         
         //When
         let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock,
@@ -101,40 +101,6 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
-    }
-    
-    @available(iOS 10.0, *)
-    func testPrefetchItemsAtIndexPaths() {
-        //Given
-        let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
-        
-        //When
-        let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.collectionView(collectionViewMock, prefetchItemsAt: prefetchedIndexPaths)
-        
-        //Then
-        guard let resultingPrefetchedIndexPaths = dataProviderMock.prefetchedIndexPaths else {
-            return XCTFail("Did not use given prefatch indexPaths")
-        }
-        XCTAssertEqual(resultingPrefetchedIndexPaths, prefetchedIndexPaths)
-    }
-    
-    @available(iOS 10.0, *)
-    func testCenclePrefetchItemsAtIndexPaths() {
-        //Given
-        let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = CollectionViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
-        
-        //When
-        let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.collectionView(collectionViewMock, cancelPrefetchingForItemsAt: canceldIndexPaths)
-        
-        //Then
-        guard let resultingPrefetchedIndexPaths = dataProviderMock.canceledPrefetchedIndexPaths else {
-            return XCTFail("Did not use given prefatch indexPaths")
-        }
-        XCTAssertEqual(resultingPrefetchedIndexPaths, canceldIndexPaths)
     }
     
     func testCanMoveCellAtIndexPath() {

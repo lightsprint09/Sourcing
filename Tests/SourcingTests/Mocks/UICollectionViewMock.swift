@@ -35,12 +35,6 @@ class UICollectionViewMock: UICollectionView {
         set { strongDataSource = newValue }
     }
     
-    private var strongPrefetchDataSource: UICollectionViewDataSourcePrefetching?
-    override var prefetchDataSource: UICollectionViewDataSourcePrefetching? {
-        get { return strongPrefetchDataSource }
-        set { strongPrefetchDataSource = newValue }
-    }
-    
     var registerdNibs = [String: UINib?]()
     
     var cellDequeueMock: CellDequeueMock<UICollectionViewCell>

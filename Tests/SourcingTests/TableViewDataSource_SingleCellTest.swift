@@ -30,7 +30,6 @@ import XCTest
 import UIKit
 import Sourcing
 
-// swiftlint:disable force_cast force_unwrapping
 class TableViewDataSourceSingleCellTest: XCTestCase {
     
     let cellIdentifier = "cellIdentifier"
@@ -95,7 +94,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testMoveIndexPaths() {
         //Given
         let cellConfig = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier)
-        let dataProviderMock = DataProviderMock<Int>()
+        let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         let dataSource = TableViewDataSource(dataProvider: dataProviderMock,
                                              cellConfiguration: cellConfig, dataModificator: dataModificator)
         
@@ -108,32 +107,6 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
         XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
-    }
-    
-    func testPrefetchItemsAtIndexPaths() {
-        //Given
-        let dataProviderMock = DataProviderMock<Int>()
-        let dataSource: UITableViewDataSourcePrefetching = TableViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
-        
-        //When
-        let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.tableView(tableViewMock, prefetchRowsAt: prefetchedIndexPaths)
-        
-        //Then
-        XCTAssertEqual(dataProviderMock.prefetchedIndexPaths!, prefetchedIndexPaths)
-    }
-    
-    func testCenclePrefetchItemsAtIndexPaths() {
-        //Given
-        let dataProviderMock = DataProviderMock<Int>()
-        let dataSource = TableViewDataSource(dataProvider: dataProviderMock, cellConfiguration: cell)
-        
-        //When
-        let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.tableView(tableViewMock, cancelPrefetchingForRowsAt: canceldIndexPaths)
-        
-        //Then
-        XCTAssertEqual(dataProviderMock.canceledPrefetchedIndexPaths!, canceldIndexPaths)
     }
     
     func testCanMoveCellAtIndexPath() {

@@ -32,9 +32,6 @@ final public class AnyDataProvider<Element>: DataProviding {
     private let numberOfItems: (_ inSextion: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
     
-    private let prefetchItemsAtIndexPaths: ([IndexPath]) -> Void
-    private let cancelPrefetchingForItemsAtIndexPaths: ([IndexPath]) -> Void
-    
     /// Type eareses a DataProviding.
     ///
     /// - Parameter dataProvider: the data provider to type erase
@@ -47,12 +44,6 @@ final public class AnyDataProvider<Element>: DataProviding {
         }
         numberOfSectionsCallback = {
             return dataProvider.numberOfSections()
-        }
-        prefetchItemsAtIndexPaths = { indexPaths in
-            dataProvider.prefetchItems(at: indexPaths)
-        }
-        cancelPrefetchingForItemsAtIndexPaths = { indexPaths in
-            dataProvider.cancelPrefetchingForItems(at: indexPaths)
         }
         self.observable = dataProvider.observable
     }
@@ -82,19 +73,5 @@ final public class AnyDataProvider<Element>: DataProviding {
      */
     public func numberOfSections() -> Int {
         return numberOfSectionsCallback()
-    }
-    
-    /// Prefetch items into the data provider
-    ///
-    /// - Parameter indexPaths: a list of indexPaths to prefetch
-    public func prefetchItems(at indexPaths: [IndexPath]) {
-        prefetchItemsAtIndexPaths(indexPaths)
-    }
-    
-    /// Prefetch items into the data provider
-    ///
-    /// - Parameter indexPaths: a list of indexPaths to prefetch
-    public func cancelPrefetchingForItems(at indexPaths: [IndexPath]) {
-        cancelPrefetchingForItemsAtIndexPaths(indexPaths)
     }
 }

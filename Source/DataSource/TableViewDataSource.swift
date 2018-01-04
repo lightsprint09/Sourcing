@@ -10,7 +10,7 @@
 import UIKit
     
 /// `TableViewDataSource` uses data provider and provides the data as a `UITableViewDataSource`
-final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource, UITableViewDataSourcePrefetching {
+final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource {
     /// The data provider which provides the data to the data source
     public let dataProvider: AnyDataProvider<Object>
     
@@ -103,17 +103,6 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource,
             dataModificator.deleteItem(at: indexPath, updateView: true)
         }
     }
-    
-    // MARK: UITableViewDataSourcePrefetching
-    
-    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        dataProvider.prefetchItems(at: indexPaths)
-    }
-    
-    public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        dataProvider.cancelPrefetchingForItems(at: indexPaths)
-    }
-
 }
 
 // MARK: Typesafe initializers
