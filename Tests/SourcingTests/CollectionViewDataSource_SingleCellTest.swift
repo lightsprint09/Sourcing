@@ -33,7 +33,7 @@ import Sourcing
 // swiftlint:disable force_cast
 class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
-    let cellIdentifier = "cellIdentifier"
+    let reuseIdentifier = "reuseIdentifier"
     
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
@@ -44,7 +44,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         super.setUp()
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         collectionViewMock = UICollectionViewMock()
-        cell = CellConfiguration(cellIdentifier: cellIdentifier)
+        cell = CellConfiguration(reuseIdentifier: reuseIdentifier)
         dataModificator = DataModificatorMock()
     }
 
@@ -79,16 +79,38 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let cellAtIdexPath = dataSource.collectionView(collectionViewMock, cellForItemAt: indexPath)
         
         //Then
-        let mockCell = (collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>)
+        let mockCell = (collectionViewMock.cellDequeueMock.cells[reuseIdentifier] as! UICollectionViewCellMock<Int>)
         XCTAssertEqual(mockCell.configurationCount, 1)
         XCTAssertEqual(mockCell.configuredObject, 10)
-        XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, cellIdentifier)
+        XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, reuseIdentifier)
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
+    }
+    
+    func testDequeSupplementaryView() {
+        //Given
+        let elementKind = "elementKind"
+        var configuredObject: Int?
+        var configurationCount = 0
+        let supplemenaryViewConfiguration = BasicSupplementaryViewConfiguration<SupplementaryViewMock, Int>(elementKind: elementKind,
+                                                                                                            configuration: { (_, _, object) in
+            configuredObject = object
+            configurationCount += 1
+        })
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
+                                                  supplementaryViewConfigurations: [supplemenaryViewConfiguration])
+        let indexPath = IndexPath(row: 2, section: 1)
+        
+        //When
+        _ = dataSource.collectionView(collectionViewMock, viewForSupplementaryElementOfKind: elementKind, at: indexPath)
+        
+        //Then
+        XCTAssertEqual(configurationCount, 1)
+        XCTAssertEqual(configuredObject, 10)
     }
     
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier)
+        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = DataProviderMock<Int>()
         
         //When
@@ -138,7 +160,6 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     }
     
     func testCanMoveCellAtIndexPath() {
-        
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider,
                                                   cellConfiguration: cell, dataModificator: dataModificator)
         //When

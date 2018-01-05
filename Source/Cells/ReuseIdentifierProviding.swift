@@ -27,15 +27,15 @@
 //
 
 /// By implementing this the Cell provides its reuse identifiere
-public protocol CellIdentifierProviding {
+public protocol ReuseIdentifierProviding {
     /// Reuse Indentifier of the cell
-    static var cellIdentifier: String { get }
+    static var reuseIdentifier: String { get }
 }
 
-public extension CellIdentifierProviding {
+public extension ReuseIdentifierProviding {
     
     /// Reuse Indentifier of the cell which defaults to the classname
-    static var cellIdentifier: String {
+    static var reuseIdentifier: String {
         return String(describing: self)
     }
     

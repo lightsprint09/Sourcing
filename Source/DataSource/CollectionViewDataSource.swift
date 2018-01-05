@@ -37,6 +37,7 @@ import UIKit
         public let dataModificator: DataModifying?
        
         private let cellConfigurations: [CellConfiguring]
+        private let supplementaryViewConfigurations: [SupplementaryViewConfiguring]
         
         /// Creates an instance with a data provider and cell configurations
         /// which will be displayed in the collection view.
@@ -47,11 +48,13 @@ import UIKit
         ///   - anyCells: the cell configuration for the collection view cells
         ///   - dataModificator: optional data modifier.
         public init<DataProvider: DataProviding>(dataProvider: DataProvider,
-                        anyCellConfigurations: [CellConfiguring], dataModificator: DataModifying? = nil)
+                        anyCellConfigurations: [CellConfiguring],
+                        anySupplementaryViewConfigurations: [SupplementaryViewConfiguring] = [], dataModificator: DataModifying? = nil)
             where DataProvider.Element == Object {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfigurations = anyCellConfigurations
                 self.dataModificator = dataModificator
+                self.supplementaryViewConfigurations = anySupplementaryViewConfigurations
                 super.init()
         }
         
@@ -76,7 +79,7 @@ import UIKit
             
             let cellDequeable: CellConfiguring! = cellDequeableForIndexPath(object)
             precondition(cellDequeable != nil, "Unexpected cell type at \(indexPath) for object of type")
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.cellIdentifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.reuseIdentifier, for: indexPath)
             cellDequeable.configure(cell, with: object)
             
             return cell
@@ -100,6 +103,23 @@ import UIKit
         @available(iOS 10.0, *)
         public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
             dataProvider.cancelPrefetchingForItems(at: indexPaths)
+        }
+        
+        private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> SupplementaryViewConfiguring? {
+            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: kind) })
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView,
+                                   viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            let object = dataProvider.object(at: indexPath)
+            let dequeable: SupplementaryViewConfiguring! = supplementaryViewConfiguring(for: object, ofKind: kind)
+            precondition(dequeable != nil, "Unexpected SupplementaryView type of \(kind) for object of type \(object.self) at indexPath \(indexPath)")
+            
+            let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                    withReuseIdentifier: dequeable.reuseIdentifier, for: indexPath)
+            
+            _ = dequeable.configure(supplementaryView, at: indexPath, with: object)
+            return supplementaryView
         }
     }
 
@@ -132,6 +152,38 @@ import UIKit
             where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
                 self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations, dataModificator: dataModificator)
+        }
+        
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
+        ///   - dataModificator: optional data modifier.
+        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
+            (dataProvider: DataProvider, cellConfiguration: Cell,
+             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
+        }
+        
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
+        ///   - dataModificator: optional data modifier.
+        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
+            (dataProvider: DataProvider, cellConfigurations: [Cell],
+             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
         }
     }
 #endif

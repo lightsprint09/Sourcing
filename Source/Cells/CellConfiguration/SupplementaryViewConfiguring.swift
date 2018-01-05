@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2017 Lukas Schmidt.
+//  Copyright (C) DB Systel GmbH.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -19,31 +19,30 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  UICollectionViewCellMock.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 24.01.17.
-//
 
-import Foundation
 import UIKit
-import Sourcing
-
-class UICollectionViewCellMock<T>: UICollectionViewCell, ConfigurableCell, ReuseIdentifierProviding {
-    var configurationCount = 0
-    var configuredObject: T?
-    
-    init() {
-        super.init(frame: CGRect.zero)
+#if os(iOS) || os(tvOS)
+    public protocol SupplementaryViewConfiguring {
+        
+        var reuseIdentifier: String { get }
+        var supplementaryElementKind: String { get }
+        
+        var nib: UINib? { get }
+        
+        @discardableResult
+        func configure(_ view: UICollectionReusableView, at indexPath: IndexPath, with object: Any) -> AnyObject
+        
+        func canConfigureView(with object: Any, ofKind: String) -> Bool
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        Swift.fatalError("init(coder:) has not been implemented")
+    public protocol StaticSupplementaryViewConfiguring: SupplementaryViewConfiguring {
+        associatedtype View: UICollectionReusableView
+        associatedtype Object
     }
     
-    func configure(with object: T) {
-        configurationCount += 1
-        configuredObject = object
+    extension StaticSupplementaryViewConfiguring {
+        public func canConfigureView(with object: Any, ofKind kind: String) -> Bool {
+            return kind == supplementaryElementKind && object is Object
+        }
     }
-}
+#endif

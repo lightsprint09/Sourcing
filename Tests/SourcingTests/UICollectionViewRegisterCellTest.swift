@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2017 Lukas Schmidt.
+//  Copyright (C) DB Systel GmbH.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -19,31 +19,38 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  UICollectionViewCellMock.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 24.01.17.
-//
 
-import Foundation
+import XCTest
 import UIKit
 import Sourcing
 
-class UICollectionViewCellMock<T>: UICollectionViewCell, ConfigurableCell, ReuseIdentifierProviding {
-    var configurationCount = 0
-    var configuredObject: T?
+class UICollectionViewRegisterCellTest: XCTestCase {
+    var collectionViewMock: UICollectionViewMock!
+    let reuseIdentifier = "reuseIdentifier"
+    let nib = UINib(data: Data(), bundle: nil)
+    var cellConfig: CellConfiguration<UICollectionViewCellMock<Int>>!
     
-    init() {
-        super.init(frame: CGRect.zero)
+    override func setUp() {
+        super.setUp()
+        collectionViewMock = UICollectionViewMock()
+        cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier, nib: nib)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        Swift.fatalError("init(coder:) has not been implemented")
+    func testRegisterMultipleNib() {
+        //When
+        collectionViewMock.register(cellConfigurations: [cellConfig])
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.registeredReuseableViews.nibs.count, 1)
+        XCTAssertNotNil(collectionViewMock.registeredReuseableViews.nibs[reuseIdentifier] as Any)
     }
     
-    func configure(with object: T) {
-        configurationCount += 1
-        configuredObject = object
+    func testRegisterNib() {
+        //When
+        collectionViewMock.register(cellConfiguration: cellConfig)
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.registeredReuseableViews.nibs.count, 1)
+        XCTAssertNotNil(collectionViewMock.registeredReuseableViews.nibs[reuseIdentifier] as Any)
     }
 }

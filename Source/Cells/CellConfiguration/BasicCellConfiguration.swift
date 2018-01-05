@@ -26,13 +26,23 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
     public typealias Cell = CellToConfigure
     public typealias Object = ObjectOfCell
     
-    public let cellIdentifier: String
+    /// The reuse identifier which will be used to register and deque the cell.
+    public let reuseIdentifier: String
     
     #if os(iOS) || os(tvOS)
+    /// The nib which represents the cell
     public let nib: UINib?
     #endif
     private let configuration: (Object, Cell) -> Void
     
+    /**
+     Configures a given cell with an object.
+     
+     - parameter cell: The cell one want to configure.
+     - parameter object: The object which to configure the cell with.
+     
+     - return The configured cell
+     */
     public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
         if let object = object as? Object, let cell = cell as? Cell {
             configuration(object, cell)
@@ -41,14 +51,14 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
     }
     
     #if os(iOS) || os(tvOS)
-    public init(cellIdentifier: String, nib: UINib? = nil, configuration: @escaping (Object, Cell) -> Void) {
-        self.cellIdentifier = cellIdentifier
+    public init(reuseIdentifier: String, nib: UINib? = nil, configuration: @escaping (Object, Cell) -> Void) {
+        self.reuseIdentifier = reuseIdentifier
         self.configuration = configuration
         self.nib = nib
     }
     #else
-    public init(cellIdentifier: String, configuration: @escaping (Object, Cell) -> Void) {
-        self.cellIdentifier = cellIdentifier
+    public init(reuseIdentifier: String, configuration: @escaping (Object, Cell) -> Void) {
+        self.reuseIdentifier = reuseIdentifier
         self.configuration = configuration
     }
     #endif
@@ -57,45 +67,45 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
 #if os(iOS) || os(tvOS)
     
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
-    public init(cellIdentifier: String, nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: cellIdentifier, nib: nib, configuration: { object, cell in
+    public init(reuseIdentifier: String, nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+        self.init(reuseIdentifier: reuseIdentifier, nib: nib, configuration: { object, cell in
             cell.configure(with: object)
             additionalConfiguration?(object, cell)
         })
     }
 }
 
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & CellIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
+extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
     public init(nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
+        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
     }
 }
 
-extension BasicCellConfiguration where CellToConfigure: CellIdentifierProviding {
+extension BasicCellConfiguration where CellToConfigure: ReuseIdentifierProviding {
     public init(configuration: @escaping (Object, Cell) -> Void, nib: UINib? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, nib: nib, configuration: configuration)
+        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, configuration: configuration)
     }
 }
 #else
 
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
-    public init(cellIdentifier: String, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: cellIdentifier, configuration: { object, cell in
+    public init(reuseIdentifier: String, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+        self.init(reuseIdentifier: reuseIdentifier, configuration: { object, cell in
             cell.configure(with: object)
             additionalConfiguration?(object, cell)
         })
     }
 }
 
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & CellIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
+extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
     public init(additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, additionalConfiguration: additionalConfiguration)
+        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, additionalConfiguration: additionalConfiguration)
     }
 }
 
-extension BasicCellConfiguration where CellToConfigure: CellIdentifierProviding {
+extension BasicCellConfiguration where CellToConfigure: ReuseIdentifierProviding {
     public init(configuration: @escaping (Object, Cell) -> Void) {
-        self.init(cellIdentifier: CellToConfigure.cellIdentifier, configuration: configuration)
+        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, configuration: configuration)
     }
 }
 

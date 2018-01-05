@@ -36,7 +36,7 @@ class UITableViewRegisterCellTest: XCTestCase {
     
     func testRegisterNib() {
         //Given
-        let cellConfigurations = CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
+        let cellConfigurations = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: cellIdentifier, nib: nib)
         
         //When
         tableViewMock.register(cellConfiguration: cellConfigurations)
@@ -49,7 +49,7 @@ class UITableViewRegisterCellTest: XCTestCase {
     func testRegisterMultipleNib() {
         //Given
         let cellConfigurations: [CellConfiguration<UITableViewCellMock<Int>>] = [
-            CellConfiguration(cellIdentifier: cellIdentifier, nib: nib)]
+            CellConfiguration(reuseIdentifier: cellIdentifier, nib: nib)]
         
         //When
         tableViewMock.register(cellConfigurations: cellConfigurations)

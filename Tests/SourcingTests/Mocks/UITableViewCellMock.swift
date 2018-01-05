@@ -30,7 +30,7 @@ import Foundation
 import UIKit
 import Sourcing
 
-class UITableViewCellMock<T>: UITableViewCell, ConfigurableCell, CellIdentifierProviding {
+class UITableViewCellMock<T>: UITableViewCell, ConfigurableCell, ReuseIdentifierProviding {
     var configurationCount = 0
     var configuredObject: T?
     

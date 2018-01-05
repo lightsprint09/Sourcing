@@ -20,37 +20,21 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import XCTest
-import UIKit
-import Sourcing
-
-class UICollectionViewRegisterCelllTest: XCTestCase {
-    var collectionViewMock: UICollectionViewMock!
-    let cellIdentifier = "cellIdentifier"
-    let nib = UINib(data: Data(), bundle: nil)
-    var cellConfig: CellConfiguration<UICollectionViewCellMock<Int>>!
+#if os(iOS) || os(tvOS)
+    import UIKit
     
-    override func setUp() {
-        super.setUp()
-        collectionViewMock = UICollectionViewMock()
-        cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier, nib: nib)
-    }
-    
-    func testRegisterMultipleNib() {
-        //When
-        collectionViewMock.register(cellConfigurations: [cellConfig])
+    public extension UICollectionView {
         
-        //Then
-        XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
-    }
-    
-    func testRegisterNib() {
-        //When
-        collectionViewMock.register(cellConfiguration: cellConfig)
+        func register<SupplementaryView: SupplementaryViewConfiguring>(supplementaryViewConfiguration: SupplementaryView) {
+            register(supplementaryViewConfigurations: [supplementaryViewConfiguration])
+        }
         
-        //Then
-        XCTAssertEqual(collectionViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registerdNibs[cellIdentifier] as Any)
+        func register<SupplementaryView: SupplementaryViewConfiguring>(supplementaryViewConfigurations: [SupplementaryView]) {
+            for supplementaryViewConfiguration in supplementaryViewConfigurations where supplementaryViewConfiguration.nib != nil {
+                register(supplementaryViewConfiguration.nib, forSupplementaryViewOfKind: supplementaryViewConfiguration.supplementaryElementKind,
+                         withReuseIdentifier: supplementaryViewConfiguration.reuseIdentifier)
+            }
+        }
+        
     }
-}
+#endif
