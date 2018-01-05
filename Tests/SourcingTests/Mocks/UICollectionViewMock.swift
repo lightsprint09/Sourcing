@@ -40,14 +40,7 @@ class UICollectionViewMock: UICollectionView {
         set { strongDataSource = newValue }
     }
     
-    private var strongPrefetchDataSource: UICollectionViewDataSourcePrefetching?
-    override var prefetchDataSource: UICollectionViewDataSourcePrefetching? {
-        get { return strongPrefetchDataSource }
-        set { strongPrefetchDataSource = newValue }
-    }
-    
     var registeredReuseableViews = RegisteredReuseableViews()
-    
     var cellDequeueMock: CellDequeueMock<UICollectionViewCell>
     
     var executionCount = ExecutionCount()

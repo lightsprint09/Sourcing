@@ -39,11 +39,6 @@ class UITableViewMock: UITableView {
         get { return storedIndexPathForSelectedRow }
         set { storedIndexPathForSelectedRow = newValue }
     }
-    private var strongPrefetchDataSource: UITableViewDataSourcePrefetching?
-    override var prefetchDataSource: UITableViewDataSourcePrefetching? {
-        get { return strongPrefetchDataSource }
-        set { strongPrefetchDataSource = newValue }
-    }
     
     var registerdNibs = [String: UINib?]()
     
