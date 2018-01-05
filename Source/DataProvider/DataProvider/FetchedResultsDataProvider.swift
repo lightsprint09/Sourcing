@@ -20,6 +20,7 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     private let defaultObservable: DefaultDataProviderObservable
     
     var updates: [DataProviderChange.Change] = []
+    private var executesChangeByUserInteraction = false
     
     public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
@@ -35,6 +36,12 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         
         try fetchedResultsController.performFetch()
         defaultObservable.send(updates: .unknown)
+    }
+    
+    public func executeChangeByUserInteraction(execute: () -> Void) {
+        executesChangeByUserInteraction = true
+        execute()
+        executesChangeByUserInteraction = false
     }
     
     public func object(at indexPath: IndexPath) -> Object {
@@ -113,12 +120,12 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         dataProviderDidChangeContents(with: updatesByMoves)
     }
     
-    func dataProviderDidChangeContents(with updates: [DataProviderChange.Change], updateView: Bool = false) {
-//        if !updateView {
-//            whenDataProviderChanged?(updates)
-//        }
-//        dataProviderDidUpdate?(updates)
-        defaultObservable.send(updates: .changes(updates))
+    func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]) {
+        if executesChangeByUserInteraction {
+            defaultObservable.send(updates: .triggeredByUserInteraction(updates))
+        } else {
+            defaultObservable.send(updates: .changes(updates))
+        }
     }
 
 }

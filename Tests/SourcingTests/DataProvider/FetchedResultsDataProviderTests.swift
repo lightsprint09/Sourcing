@@ -51,26 +51,25 @@ class FetchedResultsDataProviderTests: XCTestCase {
         super.setUp()
         managedObjectContext = managedObjectContextForTesting()
         
-        train1 = self.train(id: "1", name: "ICE")
+        train1 = self.train(id: "1", name: "TVG", sortIndex: 0)
         managedObjectContext.insert(train1)
         
-        train2 = self.train(id: "2", name: "ICE")
+        train2 = self.train(id: "2", name: "ICE", sortIndex: 1)
         managedObjectContext.insert(train2)
         
         let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.id), ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
         fetchReuqest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
-                                                              sectionNameKeyPath: "name", cacheName: nil)
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-
+                                                              sectionNameKeyPath: nil, cacheName: nil)
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
     }
     
-    private func train(id: String, name: String) -> CDTrain {
+    private func train(id: String, name: String, sortIndex: Int) -> CDTrain {
         let train = CDTrain.newObject(in: managedObjectContext)
         train.id = id
         train.name = name
+        train.sortIndex = NSNumber(value: sortIndex)
         return train
     }
     
@@ -199,6 +198,17 @@ class FetchedResultsDataProviderTests: XCTestCase {
         } else {
             XCTFail()
         }
+    }
+    
+    func testHandleMoveByUser() {
+        //Given
+        //When
+        train1.sortIndex = NSNumber(value: 0)
+        train2.sortIndex = NSNumber(value: 10)
+        try! train2.managedObjectContext?.save()
+        
+        //Then
+        XCTFail()
     }
     
     func testConflictIndexPathsForMoveUpdate() {
