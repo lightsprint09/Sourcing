@@ -28,6 +28,11 @@
 
 import UIKit
 
+struct RegisteredReuseableViews {
+    var nibs = [String: UINib?]()
+    var supplementaryViews = [String: (String, UINib?)]()
+}
+
 class UICollectionViewMock: UICollectionView {
     private var strongDataSource: UICollectionViewDataSource?
     override var dataSource: UICollectionViewDataSource? {
@@ -35,8 +40,7 @@ class UICollectionViewMock: UICollectionView {
         set { strongDataSource = newValue }
     }
     
-    var registerdNibs = [String: UINib?]()
-    
+    var registeredReuseableViews = RegisteredReuseableViews()
     var cellDequeueMock: CellDequeueMock<UICollectionViewCell>
     
     var executionCount = ExecutionCount()
@@ -44,7 +48,7 @@ class UICollectionViewMock: UICollectionView {
     var modifiedIndexPaths = ModifiedIndexPaths()
     var modifiedSections = ModifiedSections()
     
-    init(mockCollectionViewCells: [String: UICollectionViewCell] = ["cellIdentifier": UICollectionViewCellMock<Int>()]) {
+    init(mockCollectionViewCells: [String: UICollectionViewCell] = ["reuseIdentifier": UICollectionViewCellMock<Int>()]) {
         cellDequeueMock = CellDequeueMock(cells: mockCollectionViewCells, dequeueCellReuseIdentifiers: [])
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -55,6 +59,11 @@ class UICollectionViewMock: UICollectionView {
     
     override func dequeueReusableCell(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> UICollectionViewCell {
         return cellDequeueMock.dequeueWithIdentifier(identifier, forIndexPath: indexPath)
+    }
+    
+    override func dequeueReusableSupplementaryView(ofKind elementKind: String,
+                                                   withReuseIdentifier identifier: String, for indexPath: IndexPath) -> UICollectionReusableView {
+        return SupplementaryViewMock()
     }
     
     private var selectedIndexPaths: [IndexPath]?
@@ -68,7 +77,11 @@ class UICollectionViewMock: UICollectionView {
     }
     
     override func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
-        registerdNibs[identifier] = nib
+        registeredReuseableViews.nibs[identifier] = nib
+    }
+    
+    override func register(_ nib: UINib?, forSupplementaryViewOfKind kind: String, withReuseIdentifier identifier: String) {
+        registeredReuseableViews.supplementaryViews[identifier] = (kind, nib)
     }
     
     override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {

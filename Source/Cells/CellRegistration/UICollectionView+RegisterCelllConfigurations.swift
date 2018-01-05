@@ -23,33 +23,33 @@
 #if os(iOS) || os(tvOS)
     import UIKit
 
-    public extension UITableView {
+    public extension UICollectionView {
         
         /**
-         Registers a nib object containing a cell with the table view under a specified identifier.
-        
-         Before dequeueing any cells, call this method to tell the table
+         Registers a nib object containing a cell with the collection view under a specified identifier.
+         
+         Before dequeueing any cells, call this method to tell the collection
          view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
-         the table view uses the provided information to create a new cell object automatically.
+         the collection view uses the provided information to create a new cell object automatically.
          
          - parameter cellConfiguration: the cell configuration which to register.
          */
-        func register<Cell: StaticCellConfiguring>(cellConfiguration: Cell) where Cell.Cell: UITableViewCell {
+        func register<Cell: StaticCellConfiguring>(cellConfiguration: Cell) where Cell.Cell: UICollectionViewCell {
             register(cellConfigurations: [cellConfiguration])
         }
         
         /**
-         Registers a nib object containing a cell with the table view under a specified identifier.
+         Registers a nib object containing a cell with the collection view under a specified identifier.
          
-         Before dequeueing any cells, call this method to tell the table
+         Before dequeueing any cells, call this method to tell the collection
          view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
-         the table view uses the provided information to create a new cell object automatically.
+         the collection view uses the provided information to create a new cell object automatically.
          
          - parameter cellConfigurations: the cell configurations which to register.
          */
-        func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UITableViewCell {
-            for cell in cellConfigurations where cell.nib != nil {
-                register(cell.nib, forCellReuseIdentifier: cell.cellIdentifier)
+        func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UICollectionViewCell {
+            for cellConfiguration in cellConfigurations where cellConfiguration.nib != nil {
+                register(cellConfiguration.nib, forCellWithReuseIdentifier: cellConfiguration.reuseIdentifier)
             }
         }
         

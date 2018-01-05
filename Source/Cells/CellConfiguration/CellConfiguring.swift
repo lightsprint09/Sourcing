@@ -34,8 +34,10 @@ import UIKit
  `CellConfiguring` is loosly typed, for useage in dynamic Collection/TableViews. Use `StaticCellConfiguring` when possible for more compiler support
 */
 public protocol CellConfiguring {
-    var cellIdentifier: String { get }
+    /// The cellIdentifier which will be used to register and deque the cell.
+    var reuseIdentifier: String { get }
     #if os(iOS) || os(tvOS)
+    /// The nib which represents the cell
     var nib: UINib? { get }
     #endif
     

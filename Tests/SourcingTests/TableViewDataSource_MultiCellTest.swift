@@ -43,10 +43,10 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
     
     func testInitStronglyTypedMultiCell() {
         //Given
-        let cellIdentifier = "cellIdentifier"
+        let reuseIdentifier = "reuseIdentifier"
         let secondCellIdentifier = "cellIdentifier2"
-        let cellConfig: [CellConfiguration<UITableViewCellMock<Int>>] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier),
-                                                                              CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
+        let cellConfig: [CellConfiguration<UITableViewCellMock<Int>>] = [CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier),
+                                                                        CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: secondCellIdentifier)]
         
         //When
         _ = TableViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cellConfigurations: cellConfig)
@@ -55,11 +55,11 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
 
     func testDequeCells() {
         //Given
-        let cellIdentifier = "cellIdentifier"
+        let reuseIdentifier = "reuseIdentifier"
         let secondCellIdentifier = "cellIdentifier2"
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(cellIdentifier: cellIdentifier),
-             CellConfiguration<UITableViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
-        let mockCells = [cellIdentifier: UITableViewCellMock<Int>(), secondCellIdentifier: UITableViewCellMock<String>()]
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier),
+             CellConfiguration<UITableViewCellMock<String>>(reuseIdentifier: secondCellIdentifier)]
+        let mockCells = [reuseIdentifier: UITableViewCellMock<Int>(), secondCellIdentifier: UITableViewCellMock<String>()]
         let tableViewMock = UITableViewMock(mockTableViewCells: mockCells)
         let dataSource = TableViewDataSource(dataProvider: dataProvider, anyCellConfigurations: cellConfig)
 
@@ -68,7 +68,7 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         let stringCell = dataSource.tableView(tableViewMock, cellForRowAt: IndexPath(row: 0, section: 1))
         
         //Then
-        let mockIntCell = tableViewMock.cellDequeueMock.cells[cellIdentifier] as! UITableViewCellMock<Int>
+        let mockIntCell = tableViewMock.cellDequeueMock.cells[reuseIdentifier] as! UITableViewCellMock<Int>
         let mockStringCell = tableViewMock.cellDequeueMock.cells[secondCellIdentifier] as! UITableViewCellMock<String>
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)

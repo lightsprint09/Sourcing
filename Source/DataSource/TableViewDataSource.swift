@@ -59,7 +59,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
         let object = dataProvider.object(at: indexPath)
         let cellDequeable: CellConfiguring! = cellDequeableForIndexPath(object)
         precondition(cellDequeable != nil, "Unexpected cell type at \(indexPath) for object of type")
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellDequeable.cellIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellDequeable.reuseIdentifier, for: indexPath)
         cellDequeable.configure(cell, with: object)
         
         return cell

@@ -42,10 +42,11 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
     
     func testInitStronglyTypedMultiCell() {
         //Given
-        let cellIdentifier = "cellIdentifier"
+        let reuseIdentifier = "reuseIdentifier"
         let secondCellIdentifier = "cellIdentifier2"
-        let cellConfig: [CellConfiguration<UICollectionViewCellMock<Int>>] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
-                                             CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: secondCellIdentifier)]
+        let cellConfig: [CellConfiguration<UICollectionViewCellMock<Int>>] =
+            [CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier),
+                                             CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: secondCellIdentifier)]
         
         //When
         _ = CollectionViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cellConfigurations: cellConfig)
@@ -54,11 +55,11 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
 
     func testDequeCells() {
         //Given
-        let cellIdentifier = "cellIdentifier"
+        let reuseIdentifier = "reuseIdentifier"
         let secondCellIdentifier = "cellIdentifier2"
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(cellIdentifier: cellIdentifier),
-                                             CellConfiguration<UICollectionViewCellMock<String>>(cellIdentifier: secondCellIdentifier)]
-        let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [cellIdentifier: UICollectionViewCellMock<Int>(),
+        let cellConfig: [CellConfiguring] = [CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier),
+                                             CellConfiguration<UICollectionViewCellMock<String>>(reuseIdentifier: secondCellIdentifier)]
+        let collectionViewMock = UICollectionViewMock(mockCollectionViewCells: [reuseIdentifier: UICollectionViewCellMock<Int>(),
                                                                                 secondCellIdentifier: UICollectionViewCellMock<String>()])
         
         //When
@@ -67,7 +68,7 @@ class CollectionViewDataSourceMultiCellTest: XCTestCase {
         let stringCell = dataSource.collectionView(collectionViewMock, cellForItemAt: IndexPath(row: 0, section: 1))
         
         //Then
-        let mockIntCell = collectionViewMock.cellDequeueMock.cells[cellIdentifier] as! UICollectionViewCellMock<Int>
+        let mockIntCell = collectionViewMock.cellDequeueMock.cells[reuseIdentifier] as! UICollectionViewCellMock<Int>
         let mockStringCell = collectionViewMock.cellDequeueMock.cells[secondCellIdentifier] as! UICollectionViewCellMock<String>
         XCTAssertEqual(mockIntCell.configurationCount, 1)
         XCTAssertEqual(mockIntCell.configuredObject, 2)
