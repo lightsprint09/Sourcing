@@ -43,6 +43,8 @@
             self.dataProviderObservable = dataProviderObservable
             dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
                 switch update {
+                case .triggeredByUserInteraction:
+                    return // Do noting. TableView was already animated by user interaction.
                 case .unknown:
                     self?.collectionView.reloadData()
                 case .changes(let updates):

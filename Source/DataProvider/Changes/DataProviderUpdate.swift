@@ -30,6 +30,8 @@ public enum DataProviderChange {
     /// Changes are represented of an Array of change
     case changes([Change])
     
+    case triggeredByUserInteraction([Change])
+    
     public enum Change {
         case insert(IndexPath)
         case update(IndexPath)
