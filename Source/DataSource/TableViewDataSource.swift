@@ -73,7 +73,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         precondition(self.sectionTitleProvider != nil, "Must not called when sectionTitleProvider is nil")
         let sectionTitleProvider: SectionTitleProviding! = self.sectionTitleProvider
-        return sectionTitleProvider.section(forSectionIndexTitle: title, at: index)
+        return sectionTitleProvider.section(forSectionIndexTitle: title, at: index).section
     }
     
     // MARK: SectionHeader & SectionFooter

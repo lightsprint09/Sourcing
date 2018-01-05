@@ -35,6 +35,9 @@ import UIKit
         
         /// Optional data modificator can be used to modify the data providers content
         public let dataModificator: DataModifying?
+        
+        /// Provides section index tiltes.
+        public let sectionIndexTitleProvider: SectionIndexTitleProviding?
        
         private let cellConfigurations: [CellConfiguring]
         private let supplementaryViewConfigurations: [SupplementaryViewConfiguring]
@@ -49,12 +52,14 @@ import UIKit
         ///   - dataModificator: optional data modifier.
         public init<DataProvider: DataProviding>(dataProvider: DataProvider,
                         anyCellConfigurations: [CellConfiguring],
-                        anySupplementaryViewConfigurations: [SupplementaryViewConfiguring] = [], dataModificator: DataModifying? = nil)
+                        anySupplementaryViewConfigurations: [SupplementaryViewConfiguring] = [],
+                        dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfigurations = anyCellConfigurations
                 self.dataModificator = dataModificator
                 self.supplementaryViewConfigurations = anySupplementaryViewConfigurations
+                self.sectionIndexTitleProvider = sectionIndexTitleProvider
                 super.init()
         }
         
@@ -109,6 +114,16 @@ import UIKit
             _ = dequeable.configure(supplementaryView, at: indexPath, with: object)
             return supplementaryView
         }
+        
+        public func indexTitles(for collectionView: UICollectionView) -> [String]? {
+            return sectionIndexTitleProvider?.sectionIndexTitles
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView, indexPathForIndexTitle title: String, at index: Int) -> IndexPath {
+            precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionIndexTitleProvider is nil")
+            let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider
+            return sectionIndexTitleProvider.section(forSectionIndexTitle: title, at: index)
+        }
     }
 
     // MARK: TypesafeInitializers
@@ -122,10 +137,12 @@ import UIKit
         ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
         ///   - dataModificator: optional data modifier.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
-            (dataProvider: DataProvider, cellConfiguration: Cell, dataModificator: DataModifying? = nil)
+            (dataProvider: DataProvider, cellConfiguration: Cell,
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration], dataModificator: dataModificator)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
         }
         
         /// Creates an instance with a data provider and a cell configuration
@@ -136,10 +153,12 @@ import UIKit
         ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
         ///   - dataModificator: optional data modifier.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
-            (dataProvider: DataProvider, cellConfigurations: [Cell], dataModificator: DataModifying? = nil)
+            (dataProvider: DataProvider, cellConfigurations: [Cell],
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations, dataModificator: dataModificator)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
         }
         
         /// Creates an instance with a data provider and a cell configuration
@@ -151,11 +170,13 @@ import UIKit
         ///   - dataModificator: optional data modifier.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
             (dataProvider: DataProvider, cellConfiguration: Cell,
-             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
+             supplementaryViewConfigurations: [SupplementaryConfig],
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
                 self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
-                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations,
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
         }
         
         /// Creates an instance with a data provider and a cell configuration
@@ -167,11 +188,13 @@ import UIKit
         ///   - dataModificator: optional data modifier.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
             (dataProvider: DataProvider, cellConfigurations: [Cell],
-             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
+             supplementaryViewConfigurations: [SupplementaryConfig],
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
                 self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
-                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations,
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
         }
     }
 #endif
