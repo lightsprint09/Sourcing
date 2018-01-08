@@ -25,10 +25,28 @@
     
     public extension UICollectionView {
         
+        /**
+         Registers a nib object containing a supplementary view with the collection view under a specified identifier.
+         
+         Before dequeueing any supplementary views, call this method to tell the collection
+         view how to create new supplementary views. If a supplementary view of the specified type is not currently in a reuse queue,
+         the collection view uses the provided information to create a new supplementary view object automatically.
+         
+         - parameter supplementaryViewConfiguration: the supplementary views configuration which to register.
+         */
         func register<SupplementaryView: SupplementaryViewConfiguring>(supplementaryViewConfiguration: SupplementaryView) {
             register(supplementaryViewConfigurations: [supplementaryViewConfiguration])
         }
         
+        /**
+         Registers a nib object containing a supplementary view with the collection view under a specified identifier.
+         
+         Before dequeueing any supplementary views, call this method to tell the collection
+         view how to create new supplementary views. If a supplementary view of the specified type is not currently in a reuse queue,
+         the collection view uses the provided information to create a new supplementary view object automatically.
+         
+         - parameter supplementaryViewConfigurations: the list of supplementary views configurations which to register.
+         */
         func register<SupplementaryView: SupplementaryViewConfiguring>(supplementaryViewConfigurations: [SupplementaryView]) {
             for supplementaryViewConfiguration in supplementaryViewConfigurations where supplementaryViewConfiguration.nib != nil {
                 register(supplementaryViewConfiguration.nib, forSupplementaryViewOfKind: supplementaryViewConfiguration.supplementaryElementKind,

@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) DB Systel GmbH.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -19,29 +19,16 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  StaticCellConfiguring.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 02.08.16.
-//
 
-/// `StaticCellConfiguring` provides a more static typed cell abstraction. See `CellConfiguring` for basic information
-public protocol StaticCellConfiguring: CellConfiguring {
-    /// The type of object which should be displayed in the cell.
-    associatedtype Object
-    
-    /// The cell which should display the object.
-    associatedtype Cell
-}
+import UIKit
 
-extension StaticCellConfiguring {
-    
-    /// Check if the cell can be used to display this specific object. It compares the static `Self.Object` with the dynamically given `object type`.
-    ///
-    /// - Parameter object: the object to compare to the static `Self.Object`.
-    /// - Returns: if match succeeds
-    public func canConfigureCell(with object: Any) -> Bool {
-        return object is Object
-    }
-}
+/// The supplementary view configuration can decide if it can configure a given suplementary view with an object or not.
+/// If `true` it can configure the view with the object. A configuration can be registered at the collection view with the configurations nib,
+/// reuse identifier and element kind for later dequeuing.
+///
+/// - Note: By conforming to `StaticSupplementaryViewConfiguring` it can be statically proofen that a view and object matches each other.
+/// - Note: Dequeuing a view is not part of configuration.
+/// - SeeAlso: `SupplementaryViewConfiguring`
+/// - SeeAlso: `StaticSupplementaryViewConfiguring`
+/// - SeeAlso: `BasicSupplementaryViewConfiguration`
+public typealias SupplementaryViewConfiguration<View: UICollectionReusableView> = BasicSupplementaryViewConfiguration<View, Any>

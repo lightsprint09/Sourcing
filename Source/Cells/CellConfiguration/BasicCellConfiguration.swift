@@ -22,6 +22,12 @@
 
 import UIKit
 
+/// A cell configuration can decide if it can configure a given cell with an object or not. If `true` it can configure the cell with the object.
+/// A configuration can be registered at the collection view / table view with the configurations nib and reuse identifier for later dequeuing.
+///
+/// - Note: Dequeuing a cell is not part of a configuration.
+/// - SeeAlso: `StaticSupplementaryViewConfiguring`
+/// - SeeAlso: `CellConfiguring`
 public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfiguring, StaticCellConfiguring {
     public typealias Cell = CellToConfigure
     public typealias Object = ObjectOfCell
@@ -43,11 +49,11 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
      
      - return The configured cell
      */
-    public func configure(_ cell: AnyObject, with object: Any) -> AnyObject {
-        if let object = object as? Object, let cell = cell as? Cell {
-            configuration(object, cell)
+    public func configure(_ cell: AnyObject, with object: Any) {
+        guard let object = object as? Object, let cell = cell as? Cell else {
+            return
         }
-        return cell
+        configuration(object, cell)
     }
     
     #if os(iOS) || os(tvOS)
@@ -80,12 +86,6 @@ extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & Reuse
         self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
     }
 }
-
-extension BasicCellConfiguration where CellToConfigure: ReuseIdentifierProviding {
-    public init(configuration: @escaping (Object, Cell) -> Void, nib: UINib? = nil) {
-        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, configuration: configuration)
-    }
-}
 #else
 
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
@@ -100,12 +100,6 @@ extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellTo
 extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
     public init(additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
         self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, additionalConfiguration: additionalConfiguration)
-    }
-}
-
-extension BasicCellConfiguration where CellToConfigure: ReuseIdentifierProviding {
-    public init(configuration: @escaping (Object, Cell) -> Void) {
-        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, configuration: configuration)
     }
 }
 

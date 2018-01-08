@@ -22,25 +22,29 @@
 
 import UIKit
 #if os(iOS) || os(tvOS)
-    public protocol SupplementaryViewConfiguring {
-        
-        var reuseIdentifier: String { get }
-        var supplementaryElementKind: String { get }
-        
-        var nib: UINib? { get }
-        
-        @discardableResult
-        func configure(_ view: UICollectionReusableView, at indexPath: IndexPath, with object: Any) -> AnyObject
-        
-        func canConfigureView(with object: Any, ofKind: String) -> Bool
-    }
-    
+    /// The supplementary view configuration can decide if it can configure a given suplementary view with an object or not.
+    /// If `true` it can configure the view with the object. A configuration can be registered at the collection view with the configurations nib,
+    /// reuse identifier and element kind for later dequeuing.
+    ///
+    /// - Note: By conforming to `StaticSupplementaryViewConfiguring` it can be statically proofen that a view and object matches each other.
+    /// - SeeAlso: `SupplementaryViewConfiguring`
     public protocol StaticSupplementaryViewConfiguring: SupplementaryViewConfiguring {
+        /// The supplementary view type which should be configured.
         associatedtype View: UICollectionReusableView
+        /// The Object type which should confihure the supplementary view.
         associatedtype Object
     }
-    
+
     extension StaticSupplementaryViewConfiguring {
+        
+        /// Default implementation for all static supplementary view configurations.
+        /// It uses the static View type and matches it dynamically to the given object type.
+        /// If they match and element kind is equal as well, `canConfigureView` reponds with `true`.
+        ///
+        /// - Parameters:
+        ///   - object: object which gets dynamically compared to `Self.View`
+        ///   - kind: element kind which should match with `supplementaryElementKind`
+        /// - Returns: if matching succeeded
         public func canConfigureView(with object: Any, ofKind kind: String) -> Bool {
             return kind == supplementaryElementKind && object is Object
         }

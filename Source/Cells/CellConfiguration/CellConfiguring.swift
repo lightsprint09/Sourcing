@@ -27,17 +27,18 @@
 //
 import UIKit
 
-/**
-`CellConfiguring` provides functionality to register the a nib to the TableView or Collection with a given cellIdentifier. 
- When no nib is provided the default storyboard cell implementation is used.
- 
- `CellConfiguring` is loosly typed, for useage in dynamic Collection/TableViews. Use `StaticCellConfiguring` when possible for more compiler support
-*/
+/// A cell configuration can decide if it can configure a given cell with an object or not. If `true` it can configure the cell with the object.
+/// A configuration can be registered at the collection view / table view with the configurations nib and reuse identifier for later dequeuing.
+///
+/// - Note: Dequeuing a cell is not part of a configuration.
+/// - Note: `CellConfiguring` is loosly typed, for useage in dynamic Collection/TableViews. Use `StaticCellConfiguring` when possible for more compiler support.
+/// - SeeAlso: `StaticSupplementaryViewConfiguring`
 public protocol CellConfiguring {
     /// The cellIdentifier which will be used to register and deque the cell.
     var reuseIdentifier: String { get }
+    
     #if os(iOS) || os(tvOS)
-    /// The nib which represents the cell
+    /// The nib which visualy represents the cell.
     var nib: UINib? { get }
     #endif
     
@@ -55,9 +56,6 @@ public protocol CellConfiguring {
      
      - parameter cell: The cell one want to configure.
      - parameter object: The object which to configure the cell with.
-     
-     - return The configured cell
-     */
-    @discardableResult
-    func configure(_ cell: AnyObject, with object: Any) -> AnyObject
+    */
+    func configure(_ cell: AnyObject, with object: Any)
 }

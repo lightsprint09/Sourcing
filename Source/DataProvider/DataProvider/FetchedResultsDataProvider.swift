@@ -23,7 +23,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     private let defaultObservable: DefaultDataProviderObservable
     
     var updates: [DataProviderChange.Change] = []
-    private var executesChangeByUserInteraction = false
+    private var performsViewUnrelatedChange = false
     
     /// Creates an instance of `FetchedResultsDataProvider` backed by a `NSFetchedResultsController`. Performs a fetch to populate the data.
     ///
@@ -55,9 +55,9 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     ///
     /// - Parameter execute: block to perform the changes in.
     public func performNonUIRelevantChanges(_ execute: () -> Void) {
-        executesChangeByUserInteraction = true
+        performsViewUnrelatedChange = true
         execute()
-        executesChangeByUserInteraction = false
+        performsViewUnrelatedChange = false
     }
     
     /// Returns an object for a given index path.
@@ -152,7 +152,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]) {
-        if executesChangeByUserInteraction {
+        if performsViewUnrelatedChange {
             defaultObservable.send(updates: .viewUnrelatedChanges(updates))
         } else {
             defaultObservable.send(updates: .changes(updates))
