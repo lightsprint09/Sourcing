@@ -8,7 +8,7 @@ Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources
 
 ## Documentation
 
-Read the [docs][https://lightsprint09.github.io/Sourcing/]. Generated with [jazzy](https://github.com/realm/jazzy). Hosted by [GitHub Pages](https://pages.github.com).
+Read the [docs](https://lightsprint09.github.io/Sourcing/). Generated with [jazzy](https://github.com/realm/jazzy). Hosted by [GitHub Pages](https://pages.github.com).
 
 
 ## Quick Demo
