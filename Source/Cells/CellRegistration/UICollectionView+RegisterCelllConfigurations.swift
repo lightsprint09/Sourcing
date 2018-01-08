@@ -34,8 +34,8 @@
          
          - parameter cellConfiguration: the cell configuration which to register.
          */
-        func register<Cell: StaticCellConfiguring>(cellConfiguration: Cell) where Cell.Cell: UICollectionViewCell {
-            register(cellConfigurations: [cellConfiguration])
+        func register<Cell: StaticReuseableViewConfiguring>(reuseableViewConfiguration: Cell) where Cell.View: UICollectionReusableView {
+            register(reuseableViewConfigurations: [reuseableViewConfiguration])
         }
         
         /**
@@ -47,9 +47,16 @@
          
          - parameter cellConfigurations: the cell configurations which to register.
          */
-        func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UICollectionViewCell {
-            for cellConfiguration in cellConfigurations where cellConfiguration.nib != nil {
-                register(cellConfiguration.nib, forCellWithReuseIdentifier: cellConfiguration.reuseIdentifier)
+        func register<Cell: StaticReuseableViewConfiguring>(reuseableViewConfigurations: [Cell]) where Cell.View: UICollectionReusableView {
+            for reuseableViewConfiguration in reuseableViewConfigurations where reuseableViewConfiguration.nib != nil {
+                switch reuseableViewConfiguration.type {
+                case .cell:
+                    register(reuseableViewConfiguration.nib, forCellWithReuseIdentifier: reuseableViewConfiguration.reuseIdentifier)
+                case .supplementaryView(let kind):
+                    register(reuseableViewConfiguration.nib, forSupplementaryViewOfKind: kind,
+                             withReuseIdentifier: reuseableViewConfiguration.reuseIdentifier)
+                }
+                
             }
         }
         

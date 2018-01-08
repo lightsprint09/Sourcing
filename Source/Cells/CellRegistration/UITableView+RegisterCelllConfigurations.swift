@@ -34,7 +34,7 @@
          
          - parameter cellConfiguration: the cell configuration which to register.
          */
-        func register<Cell: StaticCellConfiguring>(cellConfiguration: Cell) where Cell.Cell: UITableViewCell {
+        func register<Cell: StaticReuseableViewConfiguring>(cellConfiguration: Cell) where Cell.View: UITableViewCell {
             register(cellConfigurations: [cellConfiguration])
         }
         
@@ -47,7 +47,7 @@
          
          - parameter cellConfigurations: the cell configurations which to register.
          */
-        func register<Cell: StaticCellConfiguring>(cellConfigurations: [Cell]) where Cell.Cell: UITableViewCell {
+        func register<Cell: StaticReuseableViewConfiguring>(cellConfigurations: [Cell]) where Cell.View: UITableViewCell {
             for cell in cellConfigurations where cell.nib != nil {
                 register(cell.nib, forCellReuseIdentifier: cell.reuseIdentifier)
             }

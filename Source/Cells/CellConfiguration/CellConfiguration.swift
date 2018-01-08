@@ -32,4 +32,4 @@
 /// - Note: Dequeuing a cell is not part of a configuration.
 /// - SeeAlso: `StaticSupplementaryViewConfiguring`
 /// - SeeAlso: `CellConfiguring`
-public typealias CellConfiguration<Cell: ConfigurableCell> = BasicCellConfiguration<Cell, Cell.ObjectToConfigure>
+public typealias CellConfiguration<Cell: ConfigurableCell> = BasicReuseableViewConfiguration<Cell, Cell.ObjectToConfigure>

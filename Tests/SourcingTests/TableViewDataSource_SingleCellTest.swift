@@ -37,13 +37,13 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
     var tableViewMock: UITableViewMock!
-    var cell: CellConfiguration<UITableViewCellMock<Int>>!
+    var cell: BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>!
     
     override func setUp() {
         super.setUp()
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         tableViewMock = UITableViewMock()
-        cell = CellConfiguration(reuseIdentifier: reuseIdentifier)
+        cell = BasicReuseableViewConfiguration(reuseIdentifier: reuseIdentifier)
         dataModificator = DataModificatorMock()
     }
     
@@ -73,10 +73,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDequeCells() {
         //Given
-        var didCallAdditionalConfigurtion = false
-        let cell = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier, nib: nil, additionalConfiguration: { _, _ in
-            didCallAdditionalConfigurtion = true
-        })
+        let cell = BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier, nib: nil)
         
         //When
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
@@ -88,12 +85,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(UITableViewCellMock.configuredObject, 10)
         XCTAssertEqual(tableViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, reuseIdentifier)
         XCTAssertTrue(cellForGivenRow is UITableViewCellMock<Int>)
-        XCTAssertTrue(didCallAdditionalConfigurtion)
     }
     
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier)
+        let cellConfig = BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         let dataSource = TableViewDataSource(dataProvider: dataProviderMock,
                                              cellConfiguration: cellConfig, dataModificator: dataModificator)

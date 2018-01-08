@@ -45,8 +45,8 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         //Given
         let reuseIdentifier = "reuseIdentifier"
         let secondCellIdentifier = "cellIdentifier2"
-        let cellConfig: [CellConfiguration<UITableViewCellMock<Int>>] = [CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier),
-                                                                        CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: secondCellIdentifier)]
+        let cellConfig: [BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>] = [.init(reuseIdentifier: reuseIdentifier),
+                                                                        .init(reuseIdentifier: secondCellIdentifier)]
         
         //When
         _ = TableViewDataSource(dataProvider: ArrayDataProvider(sections: [[2], [2]]), cellConfigurations: cellConfig)
@@ -57,8 +57,8 @@ class TableViewDataSourceMultiCellTest: XCTestCase {
         //Given
         let reuseIdentifier = "reuseIdentifier"
         let secondCellIdentifier = "cellIdentifier2"
-        let cellConfig: [CellConfiguring] = [CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier),
-             CellConfiguration<UITableViewCellMock<String>>(reuseIdentifier: secondCellIdentifier)]
+        let cellConfig: [ReuseableViewConfiguring] = [BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier),
+             BasicReuseableViewConfiguration<UITableViewCellMock<String>, String>(reuseIdentifier: secondCellIdentifier)]
         let mockCells = [reuseIdentifier: UITableViewCellMock<Int>(), secondCellIdentifier: UITableViewCellMock<String>()]
         let tableViewMock = UITableViewMock(mockTableViewCells: mockCells)
         let dataSource = TableViewDataSource(dataProvider: dataProvider, anyCellConfigurations: cellConfig)

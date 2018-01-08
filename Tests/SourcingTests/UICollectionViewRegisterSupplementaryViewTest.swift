@@ -33,17 +33,18 @@ class CollectionViewSupplementaryViewTest: XCTestCase {
     let reuseIdentifier = "reuseIdentifier"
     let supplementaryKind = "supplementaryKind"
     let nib = UINib(data: Data(), bundle: nil)
-    var supplemenaryViewConfiguration: SupplementaryViewConfiguration<SupplementaryViewMock>!
+    var supplemenaryViewConfiguration: BasicReuseableViewConfiguration<SupplementaryViewMock, Int>!
     
     override func setUp() {
         super.setUp()
         collectionViewMock = UICollectionViewMock()
-        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind, reuseIdentifier: reuseIdentifier, nib: nib)
+        supplemenaryViewConfiguration = BasicReuseableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
+                                                                                                    type: .supplementaryView(kind: supplementaryKind), nib: nib)
     }
     
     func testRegisterMultipleNib() {
         //When
-        collectionViewMock.register(supplementaryViewConfigurations: [supplemenaryViewConfiguration])
+        collectionViewMock.register(reuseableViewConfigurations: [supplemenaryViewConfiguration])
         
         //Then
         XCTAssertEqual(collectionViewMock.registeredReuseableViews.supplementaryViews.count, 1)
@@ -53,7 +54,7 @@ class CollectionViewSupplementaryViewTest: XCTestCase {
     
     func testRegisterNib() {
         //When
-        collectionViewMock.register(supplementaryViewConfiguration: supplemenaryViewConfiguration)
+        collectionViewMock.register(reuseableViewConfiguration: supplemenaryViewConfiguration)
         
         //Then
         XCTAssertEqual(collectionViewMock.registeredReuseableViews.supplementaryViews.count, 1)

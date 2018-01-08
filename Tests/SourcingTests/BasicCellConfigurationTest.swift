@@ -70,7 +70,7 @@ class BasicCellConfigurationTest: XCTestCase {
         let cell = UITableViewCellMock<Int>()
         
         //When
-        _ = configuration.configure(cell, with: 100)
+        _ = configuration.configure(cell, at: IndexPath(row: 0, section: 0), with: 100)
         
         //Then
         XCTAssertTrue(didCallAdditionalConfigurtion)
@@ -83,7 +83,7 @@ class BasicCellConfigurationTest: XCTestCase {
         configuration = CellConfiguration(reuseIdentifier: identifier)
         
         //Then
-        XCTAssert(configuration.canConfigureCell(with: 1))
+        XCTAssert(configuration.canConfigureView(with: 1, ofKind: nil))
     }
     
     class BasicCell: ReuseIdentifierProviding {
@@ -93,7 +93,7 @@ class BasicCellConfigurationTest: XCTestCase {
     func testBasicCanConfigureInit() {
         //Given
        
-        let configuration = BasicCellConfiguration<BasicCell, String>(configuration: { _, _ in })
+        let configuration = BasicReuseableViewConfiguration<BasicCell, String>(configuration: { _, _, _ in })
         
         //Then
         XCTAssertEqual(configuration.reuseIdentifier, "reuseIdentifier")

@@ -38,13 +38,13 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
     var collectionViewMock: UICollectionViewMock!
-    var cell: CellConfiguration<UICollectionViewCellMock<Int>>!
+    var cell: BasicReuseableViewConfiguration<UICollectionViewCellMock<Int>, Int>!
     
     override func setUp() {
         super.setUp()
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         collectionViewMock = UICollectionViewMock()
-        cell = CellConfiguration(reuseIdentifier: reuseIdentifier)
+        cell = BasicReuseableViewConfiguration(reuseIdentifier: reuseIdentifier)
         dataModificator = DataModificatorMock()
     }
 
@@ -91,8 +91,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let elementKind = "elementKind"
         var configuredObject: Int?
         var configurationCount = 0
-        let supplemenaryViewConfiguration = BasicSupplementaryViewConfiguration<SupplementaryViewMock, Int>(elementKind: elementKind,
-                                                                                                            configuration: { (_, _, object) in
+        
+        let supplemenaryViewConfiguration = BasicReuseableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
+                                                                                                        type: .supplementaryView(kind: elementKind), configuration: { (_, _, object) in
             configuredObject = object
             configurationCount += 1
         })
@@ -134,7 +135,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier)
+        let cellConfig = BasicReuseableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         
         //When

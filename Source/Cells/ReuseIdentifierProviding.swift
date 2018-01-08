@@ -40,23 +40,3 @@ public extension ReuseIdentifierProviding {
     }
     
 }
-#if os(iOS) || os(tvOS)
-    extension BasicSupplementaryViewConfiguration where View: ReuseIdentifierProviding {
-        
-        public init(elementKind: String, nib: UINib? = nil, configuration: ((View, IndexPath, Object) -> Void)? = nil) {
-            self.init(elementKind: elementKind, reuseIdentifier: View.reuseIdentifier, nib: nib, configuration: configuration)
-        }
-    }
-    
-    extension BasicCellConfiguration where CellToConfigure: ReuseIdentifierProviding {
-        public init(configuration: @escaping (Object, Cell) -> Void, nib: UINib? = nil) {
-            self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, configuration: configuration)
-        }
-    }
-#else
-    extension BasicCellConfiguration where CellToConfigure: ReuseIdentifierProviding {
-        public init(configuration: @escaping (Object, Cell) -> Void) {
-            self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, configuration: configuration)
-        }
-    }
-#endif

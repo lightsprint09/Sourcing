@@ -26,78 +26,79 @@ import Sourcing
 
 extension SupplementaryViewMock: ReuseIdentifierProviding { }
 
-class SupplementaryViewConfigurationTest: XCTestCase {
-    
-    let nib = UINib(data: Data(), bundle: nil)
-    let identifier = "reuseIdentifier"
-    let supplementaryKind = "supplementaryKind"
-    var supplemenaryViewConfiguration: SupplementaryViewConfiguration<SupplementaryViewMock>!
-    
-    func testCellConfigurationInit() {
-        //Given
-        let configuration = { (cell: SupplementaryViewMock, indexPath: IndexPath, object: Any) in }
-        
-        //When
-        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
-                                                                       reuseIdentifier: identifier, nib: nib, configuration: configuration)
-        
-        //Then
-        XCTAssertEqual(supplemenaryViewConfiguration.reuseIdentifier, identifier)
-        XCTAssertNotNil(supplemenaryViewConfiguration.nib)
-    }
-    
-    func testCellConfigurationInitWithCellIdentifierProviding() {
-        //Given
-        let configuration = { (cell: SupplementaryViewMock, indexPath: IndexPath, object: Any) in }
+//class SupplementaryViewConfigurationTest: XCTestCase {
+//    
+//    let nib = UINib(data: Data(), bundle: nil)
+//    let identifier = "reuseIdentifier"
+//    let supplementaryKind = "supplementaryKind"
+//    var supplemenaryViewConfiguration: SupplementaryViewConfiguration<SupplementaryViewMock>!
+//    
+//    func testCellConfigurationInit() {
+//        //Given
+//        let configuration = { (cell: SupplementaryViewMock, indexPath: IndexPath, object: Any) in }
+//        
+//        //When
+//        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
+//                                                                       reuseIdentifier: identifier, nib: nib, configuration: configuration)
+//        
+//        //Then
+//        XCTAssertEqual(supplemenaryViewConfiguration.reuseIdentifier, identifier)
+//        XCTAssertNotNil(supplemenaryViewConfiguration.nib)
+//    }
+//    
+//    func testCellConfigurationInitWithCellIdentifierProviding() {
+//        //Given
+//        let configuration = { (cell: SupplementaryViewMock, indexPath: IndexPath, object: Any) in }
+//
+//        //When
+//        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
+//                                                                       nib: nib, configuration: configuration)
+//
+//        //Then
+//        XCTAssertEqual(supplemenaryViewConfiguration.reuseIdentifier, "SupplementaryViewMock")
+//        XCTAssertNotNil(supplemenaryViewConfiguration.nib)
+//    }
+//
+//    func testConfigureCell() {
+//        //Given
+//        var didCallConfigurtion = false
+//        let configuration = { (cell: SupplementaryViewMock, indexPath: IndexPath, object: Any) in
+//            didCallConfigurtion = true
+//        }
+//        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
+//                                                                       reuseIdentifier: identifier, nib: nib, configuration: configuration)
+//        let supplementaryView = SupplementaryViewMock()
+//
+//        //When
+//        _ = supplemenaryViewConfiguration.configure(supplementaryView, at: IndexPath(row: 0, section: 0), with: 10)
+//
+//        //Then
+//        XCTAssertTrue(didCallConfigurtion)
+//    }
+//
+//    func testCanConfigureCell() {
+//        //Given
+//        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
+//                                                                       reuseIdentifier: identifier, nib: nib)
+//        
+//        //When
+//        let canConfigure = supplemenaryViewConfiguration.canConfigureView(with: 1, ofKind: supplementaryKind)
+//
+//        //Then
+//        XCTAssert(canConfigure)
+//    }
+//    
+//    func testStatCanConfigurateStatic() {
+//        //Given
+//        let supplemenaryViewConfiguration = BasicSupplementaryViewConfiguration<SupplementaryViewMock, String>(elementKind: supplementaryKind,
+//                                                                       reuseIdentifier: identifier, nib: nib)
+//        
+//        //When
+//        let canConfigure = supplemenaryViewConfiguration.canConfigureView(with: 1, ofKind: supplementaryKind)
+//        
+//        //Then
+//        XCTAssertFalse(canConfigure)
+//    }
+//    
+//}
 
-        //When
-        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
-                                                                       nib: nib, configuration: configuration)
-
-        //Then
-        XCTAssertEqual(supplemenaryViewConfiguration.reuseIdentifier, "SupplementaryViewMock")
-        XCTAssertNotNil(supplemenaryViewConfiguration.nib)
-    }
-
-    func testConfigureCell() {
-        //Given
-        var didCallConfigurtion = false
-        let configuration = { (cell: SupplementaryViewMock, indexPath: IndexPath, object: Any) in
-            didCallConfigurtion = true
-        }
-        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
-                                                                       reuseIdentifier: identifier, nib: nib, configuration: configuration)
-        let supplementaryView = SupplementaryViewMock()
-
-        //When
-        _ = supplemenaryViewConfiguration.configure(supplementaryView, at: IndexPath(row: 0, section: 0), with: 10)
-
-        //Then
-        XCTAssertTrue(didCallConfigurtion)
-    }
-
-    func testCanConfigureCell() {
-        //Given
-        supplemenaryViewConfiguration = SupplementaryViewConfiguration(elementKind: supplementaryKind,
-                                                                       reuseIdentifier: identifier, nib: nib)
-        
-        //When
-        let canConfigure = supplemenaryViewConfiguration.canConfigureView(with: 1, ofKind: supplementaryKind)
-
-        //Then
-        XCTAssert(canConfigure)
-    }
-    
-    func testStatCanConfigurateStatic() {
-        //Given
-        let supplemenaryViewConfiguration = BasicSupplementaryViewConfiguration<SupplementaryViewMock, String>(elementKind: supplementaryKind,
-                                                                       reuseIdentifier: identifier, nib: nib)
-        
-        //When
-        let canConfigure = supplemenaryViewConfiguration.canConfigureView(with: 1, ofKind: supplementaryKind)
-        
-        //Then
-        XCTAssertFalse(canConfigure)
-    }
-    
-}
