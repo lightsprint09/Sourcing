@@ -34,14 +34,12 @@ class CDTrainCell: UITableViewCell, ConfigurableCell, ReuseIdentifierProviding {
 func managedObjectContextForTesting() -> NSManagedObjectContext {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     
-    let model = NSManagedObjectModel.mergedModel(from: Bundle.allBundles)
-    context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model!)
-    try! context.persistentStoreCoordinator?.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
+    let model: NSManagedObjectModel! = NSManagedObjectModel.mergedModel(from: Bundle.allBundles)
+    context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+    try! context.persistentStoreCoordinator?.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil)
     
     return context
 }
-
-
 
 class FetchedResultsTableViewController: UITableViewController {
     
@@ -50,7 +48,7 @@ class FetchedResultsTableViewController: UITableViewController {
     var train2: CDTrain!
     var fetchedResultsController: NSFetchedResultsController<CDTrain>!
     var dataProvider: FetchedResultsDataProvider<CDTrain>!
-    var dataModificator: CoreDataModificator<CDTrain>!
+    var dataModificator: FetchedResultsControllerModificator<CDTrain>!
     var dataSource: TableViewDataSource<CDTrain>!
     var dataSourceChangeAnimator: TableViewChangesAnimator!
     
@@ -80,7 +78,7 @@ class FetchedResultsTableViewController: UITableViewController {
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
                                                               sectionNameKeyPath: nil, cacheName: nil)
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        dataModificator = CoreDataModificator(dataProvider: dataProvider, move: { source, destination in
+        dataModificator = FetchedResultsControllerModificator(dataProvider: dataProvider, move: { source, destination in
             source.0.sortIndex = NSNumber(value: destination.1.row)
             destination.0.sortIndex = NSNumber(value: source.1.row)
             try! self.managedObjectContext.save()

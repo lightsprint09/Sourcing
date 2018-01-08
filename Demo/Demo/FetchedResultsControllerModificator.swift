@@ -10,11 +10,11 @@ import Foundation
 import CoreData
 import Sourcing
 
-class CoreDataModificator<T: NSManagedObject>: DataModifying {
+class FetchedResultsControllerModificator<T: NSManagedObject>: DataModifying {
     let dataProvider: FetchedResultsDataProvider<T>
-    let move: (_ from:(T, IndexPath), _ to:(T, IndexPath)) -> Void
+    let move: (_ from: (T, IndexPath), _ to: (T, IndexPath)) -> Void
     
-    init(dataProvider: FetchedResultsDataProvider<T>, move: @escaping (_ from:(T, IndexPath), _ to:(T, IndexPath)) -> Void) {
+    init(dataProvider: FetchedResultsDataProvider<T>, move: @escaping (_ from: (T, IndexPath), _ to: (T, IndexPath)) -> Void) {
         self.dataProvider = dataProvider
         self.move = move
     }
@@ -26,16 +26,21 @@ class CoreDataModificator<T: NSManagedObject>: DataModifying {
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool) {
         let objectFrom = dataProvider.object(at: sourceIndexPath)
         let objectTo = dataProvider.object(at: destinationIndexPath)
-        dataProvider.executeChangeByUserInteraction {
+        if updateView {
             move((objectFrom, sourceIndexPath), (objectTo, destinationIndexPath))
-        }        
+        } else {
+            dataProvider.executeChangeByUserInteraction {
+                move((objectFrom, sourceIndexPath), (objectTo, destinationIndexPath))
+            }
+        }
+        
     }
     
     func canDeleteItem(at indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func deleteItem(at indexPath: IndexPath, updateView: Bool) {
+    func deleteItem(at indexPath: IndexPath) {
         let managedObjectContext = dataProvider.fetchedResultsController.managedObjectContext
         let object = dataProvider.fetchedResultsController.object(at: indexPath)
         managedObjectContext.delete(object)

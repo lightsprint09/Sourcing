@@ -52,8 +52,7 @@ class DataModificatorMock: DataModifying {
         return canDeleteItemAt
     }
     
-    func deleteItem(at indexPath: IndexPath, updateView: Bool) {
+    func deleteItem(at indexPath: IndexPath) {
         deletedIndexPath = indexPath
-        triggeredByUserInteraction = updateView
     }
 }

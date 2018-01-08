@@ -84,7 +84,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         let deleteIndexPath = IndexPath(item: 0, section: 0)
         
         //When
-        arrayDataModifier.deleteItem(at: deleteIndexPath, updateView: false)
+        arrayDataModifier.deleteItem(at: deleteIndexPath)
         
         //Then
         let destinationObject = dataProvider.object(at: deleteIndexPath)

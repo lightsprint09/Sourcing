@@ -48,9 +48,7 @@ public protocol DataModifying {
     ///
     /// - Parameters:
     ///   - indexPath: the indexPath you want to delete
-    ///   - updateView: pass `true` if the action was triggered by UITableView's /UICollectionView delegate and the state of
-    ///     the view has already been updated
-    func deleteItem(at indexPath: IndexPath, updateView: Bool)
+    func deleteItem(at indexPath: IndexPath)
     
     /// Checks wethere item at an indexPath can be deleted
     ///

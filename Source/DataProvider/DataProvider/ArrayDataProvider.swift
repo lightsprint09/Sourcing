@@ -71,6 +71,7 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
         self.content = sections
         defaultObservable = DefaultDataProviderObservable()
     }
+    
     /**
      Reconfigures the dataSource with new data.
      

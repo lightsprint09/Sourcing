@@ -202,13 +202,26 @@ class FetchedResultsDataProviderTests: XCTestCase {
     
     func testHandleMoveByUser() {
         //Given
+        let oldIndexPath = IndexPath(row: 0, section: 0)
+        let newIndexPath = IndexPath(row: 1, section: 0)
+        var capturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver(observer: { change in
+            capturedChange = change
+        })
+        
         //When
-        train1.sortIndex = NSNumber(value: 0)
-        train2.sortIndex = NSNumber(value: 10)
-        try! train2.managedObjectContext?.save()
+        dataProvider.executeChangeByUserInteraction {
+            dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                    didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+            dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        }
         
         //Then
-        XCTFail()
+        if case .triggeredByUserInteraction(let changes)? = capturedChange {
+            XCTAssertEqual(changes.count, 1)
+        } else {
+            XCTFail("Must be triggeredByUserInteraction")
+        }
     }
     
     func testConflictIndexPathsForMoveUpdate() {

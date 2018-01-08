@@ -84,11 +84,9 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     ///
     /// - Parameters:
     ///   - indexPath: the indexPath you want to delete
-    ///   - updateView: pass `true` if the action was triggered by UITableView's /UICollectionView delegate and the state of
-    ///     the view has already been updated
-    public func deleteItem(at indexPath: IndexPath, updateView: Bool = false) {
+    public func deleteItem(at indexPath: IndexPath) {
         var content = dataProvider.content
         content[indexPath.section].remove(at: indexPath.item)
-        dataProvider.reconfigure(with: content, change: .changes([.delete(indexPath)]), updateView: updateView)
+        dataProvider.reconfigure(with: content, change: .changes([.delete(indexPath)]))
     }
 }

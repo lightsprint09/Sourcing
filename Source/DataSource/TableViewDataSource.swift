@@ -100,7 +100,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if let dataModificator = dataModificator, editingStyle == .delete {
-            dataModificator.deleteItem(at: indexPath, updateView: true)
+            dataModificator.deleteItem(at: indexPath)
         }
     }
 }

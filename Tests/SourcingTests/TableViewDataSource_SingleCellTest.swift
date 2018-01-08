@@ -165,7 +165,6 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         
         //Then
         XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
-        XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
     }
     
     func testTitleForHeaderInSection() {
