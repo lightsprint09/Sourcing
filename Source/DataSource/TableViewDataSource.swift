@@ -9,23 +9,29 @@
 #if os(iOS) || os(tvOS)
 import UIKit
     
-/// `TableViewDataSource` uses data provider and provides the data as a `UITableViewDataSource`
+/// `TableViewDataSource` uses data provider and provides the data as a `UITableViewDataSource`.
+///
+/// - SeeAlso: `UITableViewDataSource`
 final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource {
-    /// The data provider which provides the data to the data source
+    /// The data provider which provides the data to the data source.
     public let dataProvider: AnyDataProvider<Object>
     
-    /// Provides section header titles and section index titles
+    /// Provides section header titles and section index titles.
     public let sectionTitleProvider: SectionTitleProviding?
     
-    /// Optional data modificator can be used to modify the data providers content
+    /// Data modificator can be used to modify the data providers content.
     public let dataModificator: DataModifying?
     
     private let cellConfigurations: [CellConfiguring]
     
     /// Creates an instance with a data provider and cell configurations
-    /// which will be displayed in the collection view.
+    /// which will be displayed in the table view.
     ///
     /// - Note: This initializer is loosly typed. If you just display one cell, use the strongly typed initializer.
+    ///
+    /// - SeeAlso: `DataProviding`
+    /// - SeeAlso: `CellConfiguring`
+    ///
     /// - Parameters:
     ///   - dataProvider: the data provider which provides data to the data source
     ///   - anyCellConfigurations: the cell configurations for the table view cells
@@ -105,11 +111,14 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     }
 }
 
-// MARK: Typesafe initializers
-
 public extension TableViewDataSource {
+    // MARK: Typesafe initializers
+    
     /// Creates an instance with a data provider and cell configuration
     /// which will be displayed in the collection view.
+    ///
+    /// - SeeAlso: `DataProviding`
+    /// - SeeAlso: `StaticCellConfiguring`
     ///
     /// - Parameters:
     ///   - dataProvider: the data provider which provides data to the data source.
@@ -126,6 +135,9 @@ public extension TableViewDataSource {
     
     /// Creates an instance with a data provider and cell configurations
     /// which will be displayed in the collection view.
+    ///
+    /// - SeeAlso: `DataProviding`
+    /// - SeeAlso: `StaticCellConfiguring`
     ///
     /// - Parameters:
     ///   - dataProvider: the data provider which provides data to the data source.

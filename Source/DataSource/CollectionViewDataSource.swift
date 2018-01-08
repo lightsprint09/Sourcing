@@ -28,12 +28,14 @@
 import UIKit
 
 #if os(iOS) || os(tvOS)
-    /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`
+    /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`.
+    ///
+    /// - SeeAlso: `UICollectionViewDataSource`
     final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource {
-        /// The data provider which provides the data to the data source
+        /// The data provider which provides the data to the data source.
         public let dataProvider: AnyDataProvider<Object>
         
-        /// Optional data modificator can be used to modify the data providers content
+        /// Data modificator can be used to modify the data providers content.
         public let dataModificator: DataModifying?
         
         /// Provides section index tiltes.
@@ -46,10 +48,15 @@ import UIKit
         /// which will be displayed in the collection view.
         ///
         /// - Note: This initializer is loosly typed. If you just display one cell, use the strongly typed initializer.
-        /// - Parameters:
-        ///   - dataProvider: the data provider which provides data to the data source
-        ///   - anyCells: the cell configuration for the collection view cells
-        ///   - dataModificator: optional data modifier.
+        ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `CellConfiguring`
+        ///
+        ///   - dataProvider: the data provider which provides data to the data source.
+        ///   - anyCells: the cell configuration for the collection view cells.
+        ///   - anySupplementaryViewConfigurations: the supplementary view configurations for the collection view supplementary views. Defaults to `[]`.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         public init<DataProvider: DataProviding>(dataProvider: DataProvider,
                         anyCellConfigurations: [CellConfiguring],
                         anySupplementaryViewConfigurations: [SupplementaryViewConfiguring] = [],
@@ -132,10 +139,14 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
+        ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
+        ///   - cellConfiguration: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
             (dataProvider: DataProvider, cellConfiguration: Cell,
              dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
@@ -148,10 +159,14 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
+        ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
+        ///   - cellConfigurations: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
             (dataProvider: DataProvider, cellConfigurations: [Cell],
              dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
@@ -164,10 +179,16 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
+        /// - SeeAlso: `StaticSupplementaryViewConfiguring`
+        ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
+        ///   - cellConfiguration: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
+        ///   - supplementaryViewConfigurations: the supplementary view configurations for the collection view supplementary views.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
             (dataProvider: DataProvider, cellConfiguration: Cell,
              supplementaryViewConfigurations: [SupplementaryConfig],
@@ -182,10 +203,16 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
+        /// - SeeAlso: `StaticSupplementaryViewConfiguring`
+        ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
+        ///   - cellConfigurations: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
+        ///   - supplementaryViewConfigurations: the supplementary view configurations for the collection view supplementary views.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
             (dataProvider: DataProvider, cellConfigurations: [Cell],
              supplementaryViewConfigurations: [SupplementaryConfig],
