@@ -30,7 +30,8 @@ public enum DataProviderChange {
     /// Changes are represented of an Array of change
     case changes([Change])
     
-    case triggeredByUserInteraction([Change])
+    /// Changes which are not related to a view or which should not be updated in a view because sombody else takes care of updating them.
+    case viewUnrelatedChanges([Change])
     
     public enum Change {
         case insert(IndexPath)

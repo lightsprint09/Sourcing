@@ -123,6 +123,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
+        XCTAssertFalse(dataModificator.updateView ?? true)
     }
     
     func testCanMoveCellAtIndexPath() {

@@ -90,7 +90,7 @@ import UIKit
         }
                 
         public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-            dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
+            dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: false)
         }
         
         private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> SupplementaryViewConfiguring? {

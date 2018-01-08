@@ -54,7 +54,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     /// when the view is already in the correct state.
     ///
     /// - Parameter execute: block to perform the changes in.
-    public func executeChangeByUserInteraction(execute: () -> Void) {
+    public func performNonUIRelevantChanges(_ execute: () -> Void) {
         executesChangeByUserInteraction = true
         execute()
         executesChangeByUserInteraction = false
@@ -153,7 +153,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]) {
         if executesChangeByUserInteraction {
-            defaultObservable.send(updates: .triggeredByUserInteraction(updates))
+            defaultObservable.send(updates: .viewUnrelatedChanges(updates))
         } else {
             defaultObservable.send(updates: .changes(updates))
         }

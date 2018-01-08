@@ -15,7 +15,7 @@ class TrainCell: UITableViewCell, ConfigurableCell, ReuseIdentifierProviding {
     }
 }
 
-class ViewController: UITableViewController {
+class PlainArrayViewController: UITableViewController {
 
     var dataProvider = ArrayDataProvider(sections: [["IC", "ICE"], ["TGV"], ["Eurostar"]])
     var dataModificator: ArrayDataProviderModifier<String>!

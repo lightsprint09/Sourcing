@@ -106,7 +106,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
-        XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
+        XCTAssertFalse(dataModificator.updateView ?? true)
     }
     
     func testCanMoveCellAtIndexPath() {

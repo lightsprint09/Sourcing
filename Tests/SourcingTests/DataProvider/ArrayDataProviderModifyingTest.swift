@@ -87,7 +87,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         let destinationObject = dataProvider.object(at: destinationIndexPath)
         XCTAssertEqual(destinationObject, 1)
         XCTAssert(didNotifyTableView)
-        if case .triggeredByUserInteraction? = change {
+        if case .viewUnrelatedChanges? = change {
             
         } else {
             XCTFail("Must be triggeredByUserInteraction")

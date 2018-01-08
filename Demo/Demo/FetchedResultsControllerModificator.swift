@@ -23,17 +23,23 @@ class FetchedResultsControllerModificator<T: NSManagedObject>: DataModifying {
         return true
     }
     
+    /// Moves item from sourceIndexPath to destinationIndexPath
+    ///
+    /// - Parameters:
+    ///   - sourceIndexPath: Source's IndexPath
+    ///   - destinationIndexPath: Destination's IndexPath
+    ///   - updateView: determins if the view should be updated.
+    ///                 Pass `false` if someone else take care of updating the change into the view
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool) {
         let objectFrom = dataProvider.object(at: sourceIndexPath)
         let objectTo = dataProvider.object(at: destinationIndexPath)
         if updateView {
             move((objectFrom, sourceIndexPath), (objectTo, destinationIndexPath))
         } else {
-            dataProvider.executeChangeByUserInteraction {
+            dataProvider.performNonUIRelevantChanges {
                 move((objectFrom, sourceIndexPath), (objectTo, destinationIndexPath))
             }
         }
-        
     }
     
     func canDeleteItem(at indexPath: IndexPath) -> Bool {

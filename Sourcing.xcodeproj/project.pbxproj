@@ -55,7 +55,7 @@
 		C68BCBC11D59F02700C5E720 /* ArrayDataProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */; };
 		C68BCBC61D5A1DE100C5E720 /* UITableViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */; };
 		C68BCBCC1D5B048200C5E720 /* BasicCellConfigurationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */; };
-		C696D4CB1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift */; };
+		C696D4CB1F9E0FD5005FD3B6 /* ArrayDataProviderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifier.swift */; };
 		C6AC23AF1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */; };
 		C6B92C721EF126E300D059AF /* AnyArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B92C711EF126E300D059AF /* AnyArrayDataProvider.swift */; };
 		C6B92C741EF127FC00D059AF /* AnyArrayDataProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B92C731EF127FC00D059AF /* AnyArrayDataProviderTest.swift */; };
@@ -101,9 +101,9 @@
 		945ABE871E0D731D001B42CE /* TableViewDataSource_MultiCellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource_MultiCellTest.swift; sourceTree = "<group>"; };
 		948E51C21CF8BA0400FFFD62 /* ArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
 		94C903261E1D206200C0C56A /* FetchedResultsDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsDataProviderTests.swift; sourceTree = "<group>"; };
-		94C903281E1D20D300C0C56A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; name = DataModel.xcdatamodel; path = ../../../Demo/Demo/DataModel.xcdatamodel; sourceTree = "<group>"; };
-		94C9032A1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CDTrain+CoreDataProperties.swift"; path = "../../../Demo/Demo/CDTrain+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		94C9032B1E1D20E500C0C56A /* CDTrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CDTrain.swift; path = ../../../Demo/Demo/CDTrain.swift; sourceTree = "<group>"; };
+		94C903281E1D20D300C0C56A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; name = DataModel.xcdatamodel; path = ../../../Demo/Demo/Model/DataModel.xcdatamodel; sourceTree = "<group>"; };
+		94C9032A1E1D20E500C0C56A /* CDTrain+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CDTrain+CoreDataProperties.swift"; path = "../../../Demo/Demo/Model/CDTrain+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		94C9032B1E1D20E500C0C56A /* CDTrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CDTrain.swift; path = ../../../Demo/Demo/Model/CDTrain.swift; sourceTree = "<group>"; };
 		94EBCFCB1E1A481500184FD5 /* AnyDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDataProvider.swift; sourceTree = "<group>"; };
 		94EBCFCD1E1A4A4B00184FD5 /* AnyDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDataProviderTests.swift; sourceTree = "<group>"; };
 		C6021BBA1F98BAEA00767F85 /* UITableViewRegisterCellTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewRegisterCellTest.swift; sourceTree = "<group>"; };
@@ -136,7 +136,7 @@
 		C68BCBC01D59F02700C5E720 /* ArrayDataProviderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderTest.swift; sourceTree = "<group>"; };
 		C68BCBC51D5A1DE100C5E720 /* UITableViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewMock.swift; sourceTree = "<group>"; };
 		C68BCBCB1D5B048200C5E720 /* BasicCellConfigurationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCellConfigurationTest.swift; sourceTree = "<group>"; };
-		C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderModifying.swift; sourceTree = "<group>"; };
+		C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDataProviderModifier.swift; sourceTree = "<group>"; };
 		C6AC23AE1D6EC127002917B0 /* CollectionViewDataSource_MultiCellTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource_MultiCellTest.swift; sourceTree = "<group>"; };
 		C6B92C711EF126E300D059AF /* AnyArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyArrayDataProvider.swift; sourceTree = "<group>"; };
 		C6B92C731EF127FC00D059AF /* AnyArrayDataProviderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyArrayDataProviderTest.swift; sourceTree = "<group>"; };
@@ -270,7 +270,7 @@
 				C6E163761F8F764500ED9F1D /* DataProviderObservable.swift */,
 				C61699B01FE011640061EA11 /* DefaultDataProviderObservable.swift */,
 				C63610A41E40714C00417B45 /* DataModifying.swift */,
-				C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift */,
+				C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifier.swift */,
 			);
 			path = Changes;
 			sourceTree = "<group>";
@@ -526,7 +526,7 @@
 				C6FE99921E4DEEA800B02B17 /* BasicCellConfiguration.swift in Sources */,
 				C6F3A0721F95CDEA00F43FA4 /* SectionTitleProviding.swift in Sources */,
 				C63610A51E40714C00417B45 /* DataModifying.swift in Sources */,
-				C696D4CB1F9E0FD5005FD3B6 /* ArrayDataProviderModifying.swift in Sources */,
+				C696D4CB1F9E0FD5005FD3B6 /* ArrayDataProviderModifier.swift in Sources */,
 				C6F3A0711F95CDEA00F43FA4 /* DynamicSectionTitleProvider.swift in Sources */,
 				C6B92C721EF126E300D059AF /* AnyArrayDataProvider.swift in Sources */,
 				9432D2791CF5AE2000B72986 /* CellConfiguring.swift in Sources */,

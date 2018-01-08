@@ -62,15 +62,7 @@ class FetchedResultsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        managedObjectContext = managedObjectContextForTesting()
-        
-        train1 = self.train(id: "1", name: "TVG", sortIndex: 0)
-        managedObjectContext.insert(train1)
-        
-        train2 = self.train(id: "2", name: "ICE", sortIndex: 1)
-        managedObjectContext.insert(train2)
-        managedObjectContext.insert(self.train(id: "3", name: "IC", sortIndex: 2))
+        setupCoreData()
         
         let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: false)
@@ -91,6 +83,17 @@ class FetchedResultsTableViewController: UITableViewController {
         
         dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
         
+    }
+    
+    func setupCoreData() {
+        managedObjectContext = managedObjectContextForTesting()
+        
+        train1 = self.train(id: "1", name: "TVG", sortIndex: 0)
+        managedObjectContext.insert(train1)
+        
+        train2 = self.train(id: "2", name: "ICE", sortIndex: 1)
+        managedObjectContext.insert(train2)
+        managedObjectContext.insert(self.train(id: "3", name: "IC", sortIndex: 2))
     }
     
 }

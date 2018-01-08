@@ -61,16 +61,16 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: Source's IndexPath
     ///   - destinationIndexPath: Destination's IndexPath
-    ///   - updateView: pass `true` if the action was triggered by UITableView's delegate and the state of
-    ///     the tableView has already been updated
-    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = false) {
+    ///   - updateView: determins if the view should be updated.
+    ///                 Pass `false` if someone else take care of updating the change into the view
+    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = true) {
         let soureElement = dataProvider.object(at: sourceIndexPath)
         var content = dataProvider.content
         content[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         content[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderChange.Change.move(sourceIndexPath, destinationIndexPath)
-        let chnages: DataProviderChange = updateView ? .changes([update]) : .triggeredByUserInteraction([update])
-        dataProvider.reconfigure(with: content, change: chnages, updateView: updateView)
+        let chnages: DataProviderChange = updateView ? .changes([update]) : .viewUnrelatedChanges([update])
+        dataProvider.reconfigure(with: content, change: chnages)
     }
     
     /// Checks wethere item at an indexPath can be deleted

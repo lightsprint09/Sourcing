@@ -210,14 +210,14 @@ class FetchedResultsDataProviderTests: XCTestCase {
         })
         
         //When
-        dataProvider.executeChangeByUserInteraction {
+        dataProvider.performNonUIRelevantChanges {
             dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
                                     didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
             dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
         }
         
         //Then
-        if case .triggeredByUserInteraction(let changes)? = capturedChange {
+        if case .viewUnrelatedChanges(let changes)? = capturedChange {
             XCTAssertEqual(changes.count, 1)
         } else {
             XCTFail("Must be triggeredByUserInteraction")

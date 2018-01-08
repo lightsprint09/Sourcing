@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C688F5C11FFF6137000A4B06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C688F5C01FFF6137000A4B06 /* AppDelegate.swift */; };
-		C688F5C31FFF6137000A4B06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C688F5C21FFF6137000A4B06 /* ViewController.swift */; };
+		C688F5C31FFF6137000A4B06 /* PlainArrayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C688F5C21FFF6137000A4B06 /* PlainArrayViewController.swift */; };
 		C688F5C61FFF6137000A4B06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C688F5C41FFF6137000A4B06 /* Main.storyboard */; };
 		C688F5C81FFF6137000A4B06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C688F5C71FFF6137000A4B06 /* Assets.xcassets */; };
 		C688F5CB1FFF6137000A4B06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C688F5C91FFF6137000A4B06 /* LaunchScreen.storyboard */; };
@@ -23,7 +23,7 @@
 /* Begin PBXFileReference section */
 		C688F5BD1FFF6137000A4B06 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C688F5C01FFF6137000A4B06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C688F5C21FFF6137000A4B06 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C688F5C21FFF6137000A4B06 /* PlainArrayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainArrayViewController.swift; sourceTree = "<group>"; };
 		C688F5C51FFF6137000A4B06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C688F5C71FFF6137000A4B06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C688F5CA1FFF6137000A4B06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -68,12 +68,10 @@
 		C688F5BF1FFF6137000A4B06 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				C688F5E5200349E0000A4B06 /* Model */,
 				C688F5E31FFF8D7C000A4B06 /* FetchedResultsControllerModificator.swift */,
-				C688F5DD1FFF8B7F000A4B06 /* DataModel.xcdatamodel */,
-				C688F5DF1FFF8B89000A4B06 /* CDTrain+CoreDataProperties.swift */,
-				C688F5DE1FFF8B89000A4B06 /* CDTrain.swift */,
 				C688F5C01FFF6137000A4B06 /* AppDelegate.swift */,
-				C688F5C21FFF6137000A4B06 /* ViewController.swift */,
+				C688F5C21FFF6137000A4B06 /* PlainArrayViewController.swift */,
 				C688F5DB1FFF8B5F000A4B06 /* FetchedResultsTableViewController.swift */,
 				C688F5C41FFF6137000A4B06 /* Main.storyboard */,
 				C688F5C71FFF6137000A4B06 /* Assets.xcassets */,
@@ -89,6 +87,16 @@
 				C688F5DA1FFF61D5000A4B06 /* Sourcing.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C688F5E5200349E0000A4B06 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C688F5DD1FFF8B7F000A4B06 /* DataModel.xcdatamodel */,
+				C688F5DF1FFF8B89000A4B06 /* CDTrain+CoreDataProperties.swift */,
+				C688F5DE1FFF8B89000A4B06 /* CDTrain.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,7 +173,7 @@
 			files = (
 				C688F5E21FFF8CBC000A4B06 /* DataModel.xcdatamodel in Sources */,
 				C688F5E41FFF8D7C000A4B06 /* FetchedResultsControllerModificator.swift in Sources */,
-				C688F5C31FFF6137000A4B06 /* ViewController.swift in Sources */,
+				C688F5C31FFF6137000A4B06 /* PlainArrayViewController.swift in Sources */,
 				C688F5E11FFF8B89000A4B06 /* CDTrain+CoreDataProperties.swift in Sources */,
 				C688F5E01FFF8B89000A4B06 /* CDTrain.swift in Sources */,
 				C688F5DC1FFF8B5F000A4B06 /* FetchedResultsTableViewController.swift in Sources */,
