@@ -69,7 +69,8 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
         content[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         content[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderChange.Change.move(sourceIndexPath, destinationIndexPath)
-        dataProvider.reconfigure(with: content, change: .triggeredByUserInteraction([update]), updateView: updateView)
+        let chnages: DataProviderChange = updateView ? .changes([update]) : .triggeredByUserInteraction([update])
+        dataProvider.reconfigure(with: content, change: chnages, updateView: updateView)
     }
     
     /// Checks wethere item at an indexPath can be deleted

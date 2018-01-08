@@ -26,4 +26,4 @@
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-public typealias CellConfiguration<Cell: ConfigurableCell> = BasicCellConfiguration<Cell, Cell.DataSource>
+public typealias CellConfiguration<Cell: ConfigurableCell> = BasicCellConfiguration<Cell, Cell.ObjectToConfigure>

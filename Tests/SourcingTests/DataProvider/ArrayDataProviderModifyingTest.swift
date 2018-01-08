@@ -55,6 +55,32 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
         //When
+        arrayDataModifier.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
+        
+        //Then
+        let destinationObject = dataProvider.object(at: destinationIndexPath)
+        XCTAssertEqual(destinationObject, 1)
+        XCTAssert(didNotifyTableView)
+        if case .changes? = change {
+            
+        } else {
+            XCTFail("Must be changes")
+        }
+    }
+    
+    func testMoveItemFromToTriggeredByUserInteraction() {
+        //Given
+        var didNotifyTableView = false
+        var change: DataProviderChange?
+        _ = dataProvider.observable.addObserver(observer: { changes in
+            didNotifyTableView = true
+            change = changes
+            
+        })
+        let sourceIndexPath = IndexPath(item: 0, section: 0)
+        let destinationIndexPath = IndexPath(item: 1, section: 0)
+        
+        //When
         arrayDataModifier.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: false)
         
         //Then
@@ -69,7 +95,6 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     }
     
     func testCanDelteItems() {
-        
         //When
         arrayDataModifier.canDeleteItems = true
         

@@ -26,9 +26,7 @@
 //  Created by Lukas Schmidt on 02.08.16.
 //
 
-/**
- `StaticCellConfiguring` provides a more static typed cell abstraction. See `CellConfiguring` for basic information
- */
+/// `StaticCellConfiguring` provides a more static typed cell abstraction. See `CellConfiguring` for basic information
 public protocol StaticCellConfiguring: CellConfiguring {
     
     associatedtype Object

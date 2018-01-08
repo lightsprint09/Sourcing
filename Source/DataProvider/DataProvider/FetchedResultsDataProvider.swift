@@ -9,10 +9,13 @@
 import Foundation
 import CoreData
 
-open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
+/// `FetchedResultsDataProvider` uses a `NSFetchedResultsController` as a backing store to transform it into a data provider.
+public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
     
+    /// The fetched results controller which backs the data provider.
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
+    /// An observable where one can subscribe to changes of the data provider.
     public var observable: DataProviderObservable {
         return defaultObservable
     }
@@ -22,6 +25,10 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
     var updates: [DataProviderChange.Change] = []
     private var executesChangeByUserInteraction = false
     
+    /// Creates an instance of `FetchedResultsDataProvider` backed by a `NSFetchedResultsController`. Performs a fetch to populate the data.
+    ///
+    /// - Parameter fetchedResultsController: the fetched results controller which backs the data provider.
+    /// - Throws: if fetching fails.
     public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
         self.defaultObservable = DefaultDataProviderObservable()
@@ -30,6 +37,10 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         try fetchedResultsController.performFetch()
     }
     
+    /// Reconfigure the `NSFetchedResultsController` with a new fetch request. This will refetch all objects.
+    ///
+    /// - Parameter configure: a block to perform the reconfiguration in.
+    /// - Throws: if fetching fails
     public func reconfigure(with configure: (NSFetchedResultsController<Object>) -> Void) throws {
         NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
         configure(fetchedResultsController)
@@ -37,25 +48,45 @@ open class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, N
         try fetchedResultsController.performFetch()
         defaultObservable.send(updates: .unknown)
     }
-    
+
+    /// Perform changes to you model object, which won`t result in an updated view.
+    /// This can be helpful to perform a move operation,
+    /// when the view is already in the correct state.
+    ///
+    /// - Parameter execute: block to perform the changes in.
     public func executeChangeByUserInteraction(execute: () -> Void) {
         executesChangeByUserInteraction = true
         execute()
         executesChangeByUserInteraction = false
     }
     
+    /// Returns an object for a given index path.
+    ///
+    /// - Parameter indexPath: the index path to get the object for.
+    /// - Returns: the object at the given index path.
     public func object(at indexPath: IndexPath) -> Object {
         return fetchedResultsController.object(at: indexPath)
     }
     
+    /// Returns the number of items in a given section.
+    ///
+    /// - Parameter section: the section.
+    /// - Returns: number of items in the given section.
     public func numberOfItems(inSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
+    /// Return the number of sections.
+    ///
+    /// - Returns: the number of sections.
     public func numberOfSections() -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
     
+    /// Returns the index path of an object if it is contains in the data provider.
+    ///
+    /// - Parameter object: the object to get the index path for.
+    /// - Returns: the index path for the given object.
     public func indexPath(for object: Object) -> IndexPath? {
         return fetchedResultsController.indexPath(forObject: object)
     }

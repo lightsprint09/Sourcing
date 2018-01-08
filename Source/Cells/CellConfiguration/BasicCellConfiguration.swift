@@ -66,7 +66,7 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
 
 #if os(iOS) || os(tvOS)
     
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
+extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.ObjectToConfigure == ObjectOfCell {
     public init(reuseIdentifier: String, nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
         self.init(reuseIdentifier: reuseIdentifier, nib: nib, configuration: { object, cell in
             cell.configure(with: object)
@@ -75,7 +75,7 @@ extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellTo
     }
 }
 
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
+extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.ObjectToConfigure == ObjectOfCell {
     public init(nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
         self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
     }

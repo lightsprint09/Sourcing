@@ -31,7 +31,7 @@ public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
         return capturedContents()
     }
     
-    /// An observable where you can list on changes for the data provider.
+    /// An observable where one can subscribe to changes of the data provider.
     public let observable: DataProviderObservable
     
     /// Type ereases a give `ArrayDataProviding`.

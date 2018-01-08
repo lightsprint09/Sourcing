@@ -26,7 +26,7 @@
 //  Created by Lukas Schmidt on 24.01.17.
 //
 
-/// By implementing this the Cell provides its reuse identifiere
+/// By implementing this the cell provides its reuse identifiere.
 public protocol ReuseIdentifierProviding {
     /// Reuse Indentifier of the cell
     static var reuseIdentifier: String { get }
@@ -34,7 +34,7 @@ public protocol ReuseIdentifierProviding {
 
 public extension ReuseIdentifierProviding {
     
-    /// Reuse Indentifier of the cell which defaults to the classname
+    /// Reuse Indentifier of the cell which defaults to the classname.
     static var reuseIdentifier: String {
         return String(describing: self)
     }

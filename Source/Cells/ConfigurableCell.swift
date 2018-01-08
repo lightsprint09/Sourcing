@@ -20,15 +20,13 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-/**
- By implementing `ConfigurableCell` the cell provides the functionality to display the specified object.
- */
+ /// By implementing `ConfigurableCell` the cell provides the functionality to display the specified object.
 public protocol ConfigurableCell {
-    associatedtype DataSource
+    associatedtype ObjectToConfigure
     /**
      Configure the cells view with the given object
      
      - parameter object: The object to configure the cell with.
      */
-    func configure(with object: DataSource)
+    func configure(with object: ObjectToConfigure)
 }

@@ -37,30 +37,51 @@ public protocol ArrayDataProviding: DataProviding {
 }
 
 public extension ArrayDataProviding {
-    /**
-     Returns the object for a given indexPath.
-     
-     - parameter indexPath: the indexPath
-     */
+    
+    /// Returns an object for a given index path.
+    ///
+    /// - Parameter indexPath: the index path to get the object for.
+    /// - Returns: the object at the given index path.
     public func object(at indexPath: IndexPath) -> Element {
         return content[indexPath.section][indexPath.item]
     }
     
-    /**
-     Returns number of items for a given section.
-     
-     - return: number of items
-     */
+    /// Returns the number of items in a given section.
+    ///
+    /// - Parameter section: the section.
+    /// - Returns: number of items in the given section.
     public func numberOfItems(inSection section: Int) -> Int {
         return content[section].count
     }
     
-    /**
-     Returns number of sections
-     
-     - return: number of sections
-     */
+    /// Return the number of sections.
+    ///
+    /// - Returns: the number of sections.
     public func numberOfSections() -> Int {
         return content.count
     }
 }
+
+extension ArrayDataProviding where Element: Equatable {
+
+    /**
+     Returns the indexPath for a given object.
+
+     - parameter object: the object to find the indexPath for.
+     - return: the indexPath of the object, if available.
+     */
+    public func indexPath(for object: Element) -> IndexPath? {
+        for section in  0..<numberOfSections() {
+            for item in 0..<numberOfItems(inSection: section) {
+                let indexPath = IndexPath(item: item, section: section)
+                let lookedUpObject = self.object(at: indexPath)
+                if lookedUpObject == object {
+                    return indexPath
+                }
+            }
+        }
+
+        return nil
+    }
+}
+
