@@ -51,8 +51,8 @@ import UIKit
         /// - Parameters:
         ///   - elementKind: the element kind of the supplementary view
         ///   - reuseIdentifier: the reuse identifier kind of the supplementary view
-        ///   - nib: the nib which represents the view visually. Defaults to nil.
-        ///   - configuration: configuration block to configure the view after dequeing. Defaults to nil.
+        ///   - nib: the nib which represents the view visually. Defaults to `nil`.
+        ///   - configuration: configuration block to configure the view after dequeing. Defaults to `nil`.
         public init(elementKind: String, reuseIdentifier: String, nib: UINib? = nil, configuration: ((View, IndexPath, Object) -> Void)? = nil) {
             self.supplementaryElementKind = elementKind
             self.reuseIdentifier = reuseIdentifier

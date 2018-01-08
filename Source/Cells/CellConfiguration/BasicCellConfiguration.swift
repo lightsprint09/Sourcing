@@ -57,12 +57,24 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
     }
     
     #if os(iOS) || os(tvOS)
+    
+    /// Creates an instance of `BasicCellConfiguration`.
+    ///
+    /// - Parameters:
+    ///   - reuseIdentifier: the reuse identifier for registering & dequeuing cells
+    ///   - nib: the nib which represents the cell visually. Defaults to `nil`.
+    ///   - configuration: a block to configure the cell with the given object.
     public init(reuseIdentifier: String, nib: UINib? = nil, configuration: @escaping (Object, Cell) -> Void) {
         self.reuseIdentifier = reuseIdentifier
         self.configuration = configuration
         self.nib = nib
     }
     #else
+    /// Creates an instance of `BasicCellConfiguration`.
+    ///
+    /// - Parameters:
+    ///   - reuseIdentifier: the reuse identifier for registering & dequeuing cells
+    ///   - configuration: a block to configure the cell with the given object.
     public init(reuseIdentifier: String, configuration: @escaping (Object, Cell) -> Void) {
         self.reuseIdentifier = reuseIdentifier
         self.configuration = configuration
@@ -71,36 +83,64 @@ public struct BasicCellConfiguration<CellToConfigure, ObjectOfCell>: CellConfigu
 }
 
 #if os(iOS) || os(tvOS)
-    
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.ObjectToConfigure == ObjectOfCell {
-    public init(reuseIdentifier: String, nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(reuseIdentifier: reuseIdentifier, nib: nib, configuration: { object, cell in
-            cell.configure(with: object)
-            additionalConfiguration?(object, cell)
-        })
-    }
-}
 
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.ObjectToConfigure == ObjectOfCell {
-    public init(nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
+    /// Creates an instance of `BasicCellConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
+    ///
+    /// - SeeAlso: `ConfigurableCell`
+    /// - Parameters:
+    ///   - reuseIdentifier: the reuse identifier for registering & dequeuing cells
+    ///   - nib: the nib which represents the cell visually. Defaults to `nil`.
+    ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
+    extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.ObjectToConfigure == ObjectOfCell {
+        public init(reuseIdentifier: String, nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+            self.init(reuseIdentifier: reuseIdentifier, nib: nib, configuration: { object, cell in
+                cell.configure(with: object)
+                additionalConfiguration?(object, cell)
+            })
+        }
     }
-}
+    
+    /// Creates an instance of `BasicCellConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
+    /// In addition it uses the `ReuseIdentifierProviding` as a reuse identifier.
+    ///
+    /// - SeeAlso: `ConfigurableCell`
+    /// - SeeAlso: `ReuseIdentifierProviding`
+    /// - Parameters:
+    ///   - nib: the nib which represents the cell visually. Defaults to `nil`.
+    ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
+    extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.ObjectToConfigure == ObjectOfCell {
+        public init(nib: UINib? = nil, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+            self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, nib: nib, additionalConfiguration: additionalConfiguration)
+        }
+    }
 #else
 
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.DataSource == ObjectOfCell {
-    public init(reuseIdentifier: String, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(reuseIdentifier: reuseIdentifier, configuration: { object, cell in
-            cell.configure(with: object)
-            additionalConfiguration?(object, cell)
-        })
+    /// Creates an instance of `BasicCellConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
+    ///
+    /// - SeeAlso: `ConfigurableCell`
+    /// - Parameters:
+    ///   - reuseIdentifier: the reuse identifier for registering & dequeuing cells
+    ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
+    extension BasicCellConfiguration where CellToConfigure: ConfigurableCell, CellToConfigure.ObjectToConfigure == ObjectOfCell {
+        public init(reuseIdentifier: String, additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+            self.init(reuseIdentifier: reuseIdentifier, configuration: { object, cell in
+                cell.configure(with: object)
+                additionalConfiguration?(object, cell)
+            })
+        }
     }
-}
 
-extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.DataSource == ObjectOfCell {
-    public init(additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
-        self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, additionalConfiguration: additionalConfiguration)
+    /// Creates an instance of `BasicCellConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
+    /// In addition it uses the `ReuseIdentifierProviding` as a reuse identifier.
+    ///
+    /// - SeeAlso: `ConfigurableCell`
+    /// - SeeAlso: `ReuseIdentifierProviding`
+    /// - Parameters:
+    ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
+    extension BasicCellConfiguration where CellToConfigure: ConfigurableCell & ReuseIdentifierProviding, CellToConfigure.ObjectToConfigure == ObjectOfCell {
+        public init(additionalConfiguration: ((Object, Cell) -> Void)? = nil) {
+            self.init(reuseIdentifier: CellToConfigure.reuseIdentifier, additionalConfiguration: additionalConfiguration)
+        }
     }
-}
 
 #endif
