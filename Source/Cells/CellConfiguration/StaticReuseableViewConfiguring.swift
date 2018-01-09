@@ -20,36 +20,39 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-/// The supplementary view configuration can decide if it can configure a given suplementary view with an object or not.
-/// If `true` it can configure the view with the object. A configuration can be registered at the collection view with the configurations nib,
-/// reuse identifier and element kind for later dequeuing.
-///
-/// - Note: By conforming to `StaticSupplementaryViewConfiguring` it can be statically proofen that a view and object matches each other.
-/// - SeeAlso: `SupplementaryViewConfiguring`
-public protocol StaticReuseableViewConfiguring: ReuseableViewConfiguring {
-    /// The supplementary view type which should be configured.
-    associatedtype View
-    /// The Object type which should confihure the supplementary view.
-    associatedtype Object
-}
-
-extension StaticReuseableViewConfiguring {
-    
-    /// Default implementation for all static supplementary view configurations.
-    /// It uses the static View type and matches it dynamically to the given object type.
-    /// If they match and element kind is equal as well, `canConfigureView` reponds with `true`.
+#if os(iOS) || os(tvOS)
+    /// The reusable view configuration can decide if it can configure a given view with an object or not.
+    /// If matching, it is able to configure the view with the object. A configuration can be registered at the collection view or table view
+    /// with the configurations nib, reuse identifier and element kind for later dequeuing.
     ///
-    /// - Parameters:
-    ///   - object: object which gets dynamically compared to `Self.View`
-    ///   - kind: element kind which should match with `supplementaryElementKind`
-    /// - Returns: if matching succeeded
-    public func canConfigureView(with object: Any, ofKind kind: String?) -> Bool {
-        switch type {
-        case .cell:
-            return object is Object
-        case .supplementaryView(let supplementaryElementKind):
-            return kind == supplementaryElementKind && object is Object
-        }
-        
+    /// - Note: By conforming to `StaticReuseableViewConfiguring` it can be statically proofen that a view and object matches each other.
+    /// - SeeAlso: `ReuseableViewConfiguring`
+    public protocol StaticReuseableViewConfiguring: ReuseableViewConfiguring {
+        /// The reusable view type which should be configured.
+        associatedtype View
+        /// The Object type which should configure the reusable view.
+        associatedtype Object
     }
-}
+
+    extension StaticReuseableViewConfiguring {
+        
+        /// Default implementation for all static reusable view configurations.
+        /// It uses the static view type and matches it dynamically to the given object type.
+        /// If they match and element kind is equal as well, `canConfigureView` reponds with `true`.
+        /// Patameter `kind` will only be used for comparison when view type is `.supplementaryView`.
+        ///
+        /// - Parameters:
+        ///   - object: object which gets dynamically compared to `Self.View`
+        ///   - kind: element kind which should match with `supplementaryElementKind`
+        /// - Returns: if matching succeeded
+        public func canConfigureView(with object: Any, ofKind kind: String?) -> Bool {
+            switch type {
+            case .cell:
+                return object is Object
+            case .supplementaryView(let supplementaryElementKind):
+                return kind == supplementaryElementKind && object is Object
+            }
+            
+        }
+    }
+#endif

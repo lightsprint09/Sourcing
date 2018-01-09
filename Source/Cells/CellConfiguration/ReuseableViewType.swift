@@ -20,7 +20,12 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+/// Defines of what type a reuseable view is
+///
+/// - SeeAlso: `ReuseableViewConfiguring`
 public enum ReuseableViewType {
+    /// A cell. For example a table view or collection view cell
     case cell
+    /// A supplementaryView in a collection view
     case supplementaryView(kind: String)
 }

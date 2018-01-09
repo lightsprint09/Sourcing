@@ -22,35 +22,38 @@
 
 import UIKit
 
-/// A supplementary view configuration can decide if it can configure a given suplementary view with an object or not.
-/// If `true` it can configure the view with the object. A configuration can be registered at the collection view with the configurations nib,
-/// reuse identifier and element kind for later dequeuing.
-///
-/// - Note: Dequeuing a view is not part of configuration.
-/// - SeeAlso: `StaticSupplementaryViewConfiguring`
-public protocol ReuseableViewConfiguring {
-    
-    /// The reuse identifier which will be used to register and deque the cell.
-    var reuseIdentifier: String { get }
-    /// the element kind of the supplementary view.
-    var type: ReuseableViewType { get }
-    
-    /// The nib which visualy represents supplementary view.
-    var nib: UINib? { get }
-    
-    /// Configures the given view with the index path and the object.
+#if os(iOS) || os(tvOS)
+    // The reusable view configuration can decide if it can configure a given view with an object or not.
+    /// If matching, it is able to configure the view with the object. A configuration can be registered at the collection view or table view
+    /// with the configurations nib, reuse identifier and element kind for later dequeuing.
     ///
-    /// - Parameters:
-    ///   - view: the view to configure
-    ///   - indexPath: index path of the view
-    ///   - object: the object which relates to the view
-    func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any)
-    
-    /// Decide if `Self` can configure a view with a given object and a kind.
-    ///
-    /// - Parameters:
-    ///   - object: the object.
-    ///   - ofKind: the kind.
-    /// - Returns: if `Self` can configure the view.
-    func canConfigureView(with object: Any, ofKind: String?) -> Bool
-}
+    /// - Note: Dequeuing a view is not part of configuration.
+    /// - SeeAlso: `StaticReuseableViewConfiguring`
+    /// - SeeAlso: `ReuseableViewConfiguration`
+    public protocol ReuseableViewConfiguring {
+        
+        /// The reuse identifier which will be used to register and deque the view.
+        var reuseIdentifier: String { get }
+        /// the type of theview.
+        var type: ReuseableViewType { get }
+        
+        /// The nib which visualy represents view.
+        var nib: UINib? { get }
+        
+        /// Configures the given view with at the index path with the object.
+        ///
+        /// - Parameters:
+        ///   - view: the view to configure
+        ///   - indexPath: index path of the view
+        ///   - object: the object which relates to the view
+        func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any)
+        
+        /// Decide if `Self` can configure a view with a given object and a kind.
+        ///
+        /// - Parameters:
+        ///   - object: the object.
+        ///   - ofKind: the kind.
+        /// - Returns: if `Self` can configure the view.
+        func canConfigureView(with object: Any, ofKind: String?) -> Bool
+    }
+#endif

@@ -23,9 +23,9 @@
 import UIKit
 
 #if os(iOS) || os(tvOS)
-    /// The supplementary view configuration can decide if it can configure a given suplementary view with an object or not.
-    /// If `true` it can configure the view with the object. A configuration can be registered at the collection view with the configurations nib,
-    /// reuse identifier and element kind for later dequeuing.
+    /// The reusable view configuration can decide if it can configure a given view with an object or not.
+    /// If matching, it is able to configure the view with the object. A configuration can be registered at the collection view or table view
+    /// with the configurations nib, reuse identifier and element kind for later dequeuing.
     ///
     /// - Note: By conforming to `StaticSupplementaryViewConfiguring` it can be statically proofen that a view and object matches each other.
     /// - Note: Dequeuing a view is not part of configuration.
@@ -40,7 +40,7 @@ import UIKit
         public let reuseIdentifier: String
         public var type: ReuseableViewType
         
-        /// The nib which visualy represents supplementary view.
+        /// The nib which visualy represents view.
         public let nib: UINib?
         
         public let configuration: ((View, IndexPath, Object) -> Void)?
@@ -52,7 +52,7 @@ import UIKit
             self.configuration = configuration
         }
         
-        /// Configures the given view with the index path and the object.
+        /// Configures the given view with at the index path with the object.
         ///
         /// - Parameters:
         ///   - view: the view to configure

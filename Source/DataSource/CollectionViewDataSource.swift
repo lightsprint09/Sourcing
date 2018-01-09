@@ -54,7 +54,7 @@ import UIKit
         ///
         ///   - dataProvider: the data provider which provides data to the data source.
         ///   - anyCells: the cell configuration for the collection view cells.
-        ///   - anySupplementaryViewConfigurations: the supplementary view configurations for the collection view supplementary views. Defaults to `[]`.
+        ///   - anySupplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views. Defaults to `[]`.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         public init<DataProvider: DataProviding>(dataProvider: DataProvider,
@@ -186,7 +186,7 @@ import UIKit
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
         ///   - cellConfiguration: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
-        ///   - supplementaryViewConfigurations: the supplementary view configurations for the collection view supplementary views.
+        ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         convenience init<Cell: StaticReuseableViewConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticReuseableViewConfiguring>
@@ -210,7 +210,7 @@ import UIKit
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
         ///   - cellConfigurations: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
-        ///   - supplementaryViewConfigurations: the supplementary view configurations for the collection view supplementary views.
+        ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         convenience init<Cell: StaticReuseableViewConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticReuseableViewConfiguring>
