@@ -3,33 +3,21 @@ matrix:
     - os: osx
       osx_image: xcode9.2
       language: objective-c
-      env: "iOS Swift 3.2/4.0"
-      script:
-        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=iOS Simulator,name=iPhone SE,OS=latest' test -enableCodeCoverage YES | xcpretty
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
-    - os: osx
-      osx_image: xcode9.2
-      language: objective-c
-      env: "watchOS"
-      script:
-        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=watchOS Simulator,name=Apple Watch Series 2 - 38mm' build | xcpretty
-    - os: osx
-      osx_image: xcode9.2
-      language: objective-c
-      env: "tvOS"
-      script:
-        - set -o pipefail && xcodebuild -scheme Sourcing -destination 'platform=tvOS Simulator,name=Apple TV,OS=latest' test -enableCodeCoverage NO | xcpretty
-    - os: osx
-      osx_image: xcode9.2
-      language: objective-c
-      env: "Carthage"
+      env: "macOS"
       before_install:
         - gem install jazzy
       script:
+        - set -o pipefail && xcodebuild -scheme Sourcing -destination "platform=tvOS Simulator,name=Apple TV" test | xcpretty
+        - set -o pipefail && xcodebuild -scheme Sourcing -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" build | xcpretty
+        - set -o pipefail && xcodebuild -scheme Sourcing -destination "platform=iOS Simulator,name=iPhone SE" test | xcpretty
         - carthage build --no-skip-current
+        - jazzy --clean --author "DBSystel" --github_url https://github.com/dbsystel/DBNetworkStack --module DBNetworkStack --output docs
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
       deploy:
         provider: pages
         local_dir: ${TRAVIS_BUILD_DIR}/docs
         skip_cleanup: true
         github_token: $GITHUB_TOKEN
+        on:
+          branch: master
