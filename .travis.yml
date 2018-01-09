@@ -24,5 +24,12 @@ matrix:
       osx_image: xcode9.2
       language: objective-c
       env: "Carthage"
+      before_install:
+        - gem install jazzy
       script:
         - carthage build --no-skip-current
+      deploy:
+        provider: pages
+        local_dir: ${TRAVIS_BUILD_DIR}/docs
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
