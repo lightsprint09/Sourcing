@@ -30,16 +30,17 @@ class SupplementaryViewMock: UICollectionReusableView {
 
 class CollectionViewSupplementaryViewTest: XCTestCase {
     var collectionViewMock: UICollectionViewMock!
-    let reuseIdentifier = "reuseIdentifier"
+    let reuseIdentifier = "SupplementaryViewMock"
     let supplementaryKind = "supplementaryKind"
     let nib = UINib(data: Data(), bundle: nil)
-    var supplemenaryViewConfiguration: BasicReuseableViewConfiguration<SupplementaryViewMock, Int>!
+    var supplemenaryViewConfiguration: ReuseableViewConfiguration<SupplementaryViewMock, Int>!
     
     override func setUp() {
         super.setUp()
         collectionViewMock = UICollectionViewMock()
-        supplemenaryViewConfiguration = BasicReuseableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
-                                                                                                    type: .supplementaryView(kind: supplementaryKind), nib: nib)
+        let viewType = ReuseableViewType.supplementaryView(kind: supplementaryKind)
+        supplemenaryViewConfiguration = ReuseableViewConfiguration<SupplementaryViewMock, Int>(type: viewType, nib: nib,
+                                                                                               configuration: { _, _ , _  in })
     }
     
     func testRegisterMultipleNib() {

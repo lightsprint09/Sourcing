@@ -25,11 +25,12 @@
 //
 //  Created by Lukas Schmidt on 02.08.16.
 //
-
-/// A cell configuration can decide if it can configure a given cell with an object or not. If `true` it can configure the cell with the object.
-/// A configuration can be registered at the collection view / table view with the configurations nib and reuse identifier for later dequeuing.
-///
-/// - Note: Dequeuing a cell is not part of a configuration.
-/// - SeeAlso: `StaticSupplementaryViewConfiguring`
-/// - SeeAlso: `CellConfiguring`
-public typealias CellConfiguration<Cell: ConfigurableCell> = BasicReuseableViewConfiguration<Cell, Cell.ObjectToConfigure>
+#if os(iOS) || os(tvOS)
+    /// A cell configuration can decide if it can configure a given cell with an object or not. If `true` it can configure the cell with the object.
+    /// A configuration can be registered at the collection view / table view with the configurations nib and reuse identifier for later dequeuing.
+    ///
+    /// - Note: Dequeuing a cell is not part of a configuration.
+    /// - SeeAlso: `StaticSupplementaryViewConfiguring`
+    /// - SeeAlso: `CellConfiguring`
+    public typealias CellConfiguration<Cell: ConfigurableCell> = ReuseableViewConfiguration<Cell, Cell.ObjectToConfigure>
+#endif

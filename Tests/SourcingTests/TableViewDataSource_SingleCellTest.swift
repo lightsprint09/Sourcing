@@ -37,13 +37,13 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
     var tableViewMock: UITableViewMock!
-    var cell: BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>!
+    var cell: ReuseableViewConfiguration<UITableViewCellMock<Int>, Int>!
     
     override func setUp() {
         super.setUp()
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         tableViewMock = UITableViewMock()
-        cell = BasicReuseableViewConfiguration(reuseIdentifier: reuseIdentifier)
+        cell = ReuseableViewConfiguration(reuseIdentifier: reuseIdentifier)
         dataModificator = DataModificatorMock()
     }
     
@@ -73,7 +73,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDequeCells() {
         //Given
-        let cell = BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier, nib: nil)
+        let cell = ReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier, nib: nil)
         
         //When
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
@@ -89,7 +89,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = BasicReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let cellConfig = ReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         let dataSource = TableViewDataSource(dataProvider: dataProviderMock,
                                              cellConfiguration: cellConfig, dataModificator: dataModificator)

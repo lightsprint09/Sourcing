@@ -22,11 +22,6 @@
 
 import UIKit
 
-public enum ReuseableViewType {
-    case cell
-    case supplementaryView(kind: String)
-}
-
 /// A supplementary view configuration can decide if it can configure a given suplementary view with an object or not.
 /// If `true` it can configure the view with the object. A configuration can be registered at the collection view with the configurations nib,
 /// reuse identifier and element kind for later dequeuing.
