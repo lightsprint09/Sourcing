@@ -40,7 +40,7 @@ import UIKit
         /// The nib which visualy represents view.
         var nib: UINib? { get }
         
-        /// Configures the given view with at the index path with the object.
+        /// Configures the given view with at the index path with the given object.
         ///
         /// - Parameters:
         ///   - view: the view to configure

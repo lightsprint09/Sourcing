@@ -23,10 +23,9 @@
  /// By implementing `ConfigurableCell` the cell provides the functionality to display the specified object.
 public protocol ConfigurableCell {
     associatedtype ObjectToConfigure
-    /**
-     Configure the cells view with the given object
-     
-     - parameter object: The object to configure the cell with.
-     */
+    
+    /// Configure the cells view with the given object
+    ///
+    /// - Parameter object: The object to configure the cell with.
     func configure(with object: ObjectToConfigure)
 }

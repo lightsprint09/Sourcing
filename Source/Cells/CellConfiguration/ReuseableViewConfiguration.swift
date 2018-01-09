@@ -43,8 +43,16 @@ import UIKit
         /// The nib which visualy represents view.
         public let nib: UINib?
         
+        /// A block to configure the view with given object at the given index path.
         public let configuration: ((View, IndexPath, Object) -> Void)?
         
+        /// Creates an instance of `BasicCellConfiguration`.
+        ///
+        /// - Parameters:
+        ///   - reuseIdentifier: the reuse identifier for registering & dequeuing views
+        ///   - type: the type of the reuseable view
+        ///   - nib: the nib which visualy represents view. Defaults to `nil`.
+        ///   - configuration: a block to configure the view with given object at the given index path.
         public init(reuseIdentifier: String, type: ReuseableViewType, nib: UINib? = nil, configuration: ((View, IndexPath, Object) -> Void)?) {
             self.reuseIdentifier = reuseIdentifier
             self.type = type
@@ -52,7 +60,7 @@ import UIKit
             self.configuration = configuration
         }
         
-        /// Configures the given view with at the index path with the object.
+        /// Configures the given view with at the index path with the given object.
         ///
         /// - Parameters:
         ///   - view: the view to configure
@@ -66,13 +74,14 @@ import UIKit
         }
     }
     
-    /// Creates an instance of `BasicCellConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
+    /// Creates an instance of `BasicCellConfiguration`.
+    /// Uses the protocol implementation of `ConfigurableCell.configure` for configuration.
     ///
     /// - SeeAlso: `ConfigurableCell`
     /// - Parameters:
-    ///   - reuseIdentifier: the reuse identifier for registering & dequeuing cells
+    ///   - type: the type of the reuseable view. Defaults to `.cell`.
     ///   - nib: the nib which represents the cell visually. Defaults to `nil`.
-    ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
+    ///   - configuration: a block to configure the view with given object at the given index path.
     extension ReuseableViewConfiguration where ReuseableView: ReuseIdentifierProviding {
         public init(type: ReuseableViewType = .cell, nib: UINib? = nil, configuration: @escaping ((ReuseableView, IndexPath, Object) -> Void)) {
             self.reuseIdentifier = ReuseableView.reuseIdentifier
@@ -86,7 +95,8 @@ import UIKit
     ///
     /// - SeeAlso: `ConfigurableCell`
     /// - Parameters:
-    ///   - reuseIdentifier: the reuse identifier for registering & dequeuing cells
+    ///   - reuseIdentifier: the reuse identifier for registering & dequeuing views.
+    ///   - type: the type of the reuseable view. Defaults to `.cell`
     ///   - nib: the nib which represents the cell visually. Defaults to `nil`.
     ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
     extension ReuseableViewConfiguration where ReuseableView: ConfigurableCell, ReuseableView.ObjectToConfigure == Object {
@@ -108,6 +118,7 @@ import UIKit
     /// - SeeAlso: `ConfigurableCell`
     /// - SeeAlso: `ReuseIdentifierProviding`
     /// - Parameters:
+    ///   - type: the type of the reuseable view. Defaults to `.cell`
     ///   - nib: the nib which represents the cell visually. Defaults to `nil`.
     ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
     extension ReuseableViewConfiguration where ReuseableView: ConfigurableCell & ReuseIdentifierProviding, ReuseableView.ObjectToConfigure == Object {

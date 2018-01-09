@@ -93,7 +93,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         var configurationCount = 0
         
         let supplemenaryViewConfiguration = ReuseableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
-                                                                                                        type: .supplementaryView(kind: elementKind), configuration: { (_, _, object) in
+                                                        type: .supplementaryView(kind: elementKind), configuration: { (_, _, object) in
             configuredObject = object
             configurationCount += 1
         })

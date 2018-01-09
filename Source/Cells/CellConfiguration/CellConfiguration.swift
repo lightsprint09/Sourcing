@@ -19,12 +19,7 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  CellConfiguration.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 02.08.16.
-//
+
 #if os(iOS) || os(tvOS)
     /// A cell configuration can decide if it can configure a given cell with an object or not. If `true` it can configure the cell with the object.
     /// A configuration can be registered at the collection view / table view with the configurations nib and reuse identifier for later dequeuing.

@@ -40,7 +40,7 @@ class CollectionViewSupplementaryViewTest: XCTestCase {
         collectionViewMock = UICollectionViewMock()
         let viewType = ReuseableViewType.supplementaryView(kind: supplementaryKind)
         supplemenaryViewConfiguration = ReuseableViewConfiguration<SupplementaryViewMock, Int>(type: viewType, nib: nib,
-                                                                                               configuration: { _, _ , _  in })
+                                                                                               configuration: { _, _, _ in })
     }
     
     func testRegisterMultipleNib() {
