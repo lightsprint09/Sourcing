@@ -8,11 +8,11 @@ Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources
 
 ## Documentation
 
-Read the [docs](https://lightsprint09.github.io/Sourcing/). Generated with [jazzy](https://github.com/realm/jazzy). Hosted by [GitHub Pages](https://pages.github.com).
+Read the [docs](https://lightsprint09.github.io/Sourcing). Generated with [jazzy](https://github.com/realm/jazzy). Hosted by [GitHub Pages](https://pages.github.com).
 
 
 ## Quick Demo
-Setting up your Cell by implementing `ConfigurableCell` & `CellIdentifierProviding`.
+Setting up your Cell by implementing `ConfigurableCell` & `ReuseIdentifierProviding`.
 ```swift
 import Sourcing
 
@@ -28,21 +28,21 @@ class TrainCell: UITableViewCell, ConfigurableCell {
 extension TrainCell: CellIdentifierProviding {}
 
 let trainCell = CellConfiguration<TrainCell>()
-let trains: [Train] = //
-let dataProvider = ArrayDataProvider(rows: trains)
+let fetchResultsController: NSFetchedResultsController<Train> = //
+let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchResultsController)
 let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: trainCell)
 
 tableView.dataSource = dataSource
 
-//For Updates
+//Add this sync data changes to the table view.
 let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
 ```
 
 ## Requirements
 
 - iOS 9.3+
-- Xcode 8.0+
-- Swift 3.0
+- Xcode 9.0+
+- Swift 4.0
 
 ## Installation
 
