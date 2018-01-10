@@ -24,7 +24,7 @@ import XCTest
 import UIKit
 import Sourcing
 
-class SupplementaryViewMock: UICollectionReusableView {
+class SupplementaryViewMock: UICollectionReusableView, ReuseIdentifierProviding {
     
 }
 
