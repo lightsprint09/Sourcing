@@ -42,8 +42,8 @@
         /// Patameter `kind` will only be used for comparison when view type is `.supplementaryView`.
         ///
         /// - Parameters:
+        ///   - kind: element kind which should match with `supplementaryElementKind`.
         ///   - object: object which gets dynamically compared to `Self.View`
-        ///   - kind: element kind which should match with `supplementaryElementKind`
         /// - Returns: if matching succeeded
         public func canConfigureView(ofKind kind: String?, with object: Any) -> Bool {
             switch type {
