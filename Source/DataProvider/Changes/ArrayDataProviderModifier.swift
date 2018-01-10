@@ -48,7 +48,7 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
         self.canDeleteItems = canDeleteItems
     }
     
-    /// Checks wethere item at an indexPath can be moved
+    /// Checks whether item at an indexPath can be moved
     ///
     /// - Parameter indexPath: the indexPath to check for if it can be moved
     /// - Returns: if the item can be moved
@@ -69,8 +69,8 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
         content[sourceIndexPath.section].remove(at: sourceIndexPath.item)
         content[destinationIndexPath.section].insert(soureElement, at: destinationIndexPath.item)
         let update = DataProviderChange.Change.move(sourceIndexPath, destinationIndexPath)
-        let chnages: DataProviderChange = updateView ? .changes([update]) : .viewUnrelatedChanges([update])
-        dataProvider.reconfigure(with: content, change: chnages)
+        let changes: DataProviderChange = updateView ? .changes([update]) : .viewUnrelatedChanges([update])
+        dataProvider.reconfigure(with: content, change: changes)
     }
     
     /// Checks wethere item at an indexPath can be deleted
