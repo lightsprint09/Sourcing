@@ -48,7 +48,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     }
     
     private func cellDequeableForIndexPath(_ object: Object) -> ReuseableViewConfiguring? {
-        return cellConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: nil) })
+        return cellConfigurations.first(where: { $0.canConfigureView(ofKind: nil, with: object) })
     }
     
     // MARK: UITableViewDataSource
