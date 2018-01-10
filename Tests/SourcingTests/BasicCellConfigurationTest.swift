@@ -83,7 +83,7 @@ class BasicCellConfigurationTest: XCTestCase {
         configuration = CellConfiguration(reuseIdentifier: identifier)
         
         //Then
-        XCTAssert(configuration.canConfigureView(with: 1, ofKind: nil))
+        XCTAssert(configuration.canConfigureView(ofKind: nil, with: 1))
     }
     
     class BasicCell: ReuseIdentifierProviding {

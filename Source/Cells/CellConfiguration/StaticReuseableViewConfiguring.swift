@@ -45,7 +45,7 @@
         ///   - object: object which gets dynamically compared to `Self.View`
         ///   - kind: element kind which should match with `supplementaryElementKind`
         /// - Returns: if matching succeeded
-        public func canConfigureView(with object: Any, ofKind kind: String?) -> Bool {
+        public func canConfigureView(ofKind kind: String?, with object: Any) -> Bool {
             switch type {
             case .cell:
                 return object is Object

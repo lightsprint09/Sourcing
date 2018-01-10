@@ -54,6 +54,6 @@ import UIKit
         ///   - object: the object.
         ///   - ofKind: the kind.
         /// - Returns: if `Self` can configure the view.
-        func canConfigureView(with object: Any, ofKind: String?) -> Bool
+        func canConfigureView(ofKind: String?, with object: Any) -> Bool
     }
 #endif

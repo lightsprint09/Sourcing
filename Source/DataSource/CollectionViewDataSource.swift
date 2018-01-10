@@ -73,7 +73,7 @@ import UIKit
         // MARK: Private
         
         private func cellDequeableForIndexPath(_ object: Object) -> ReuseableViewConfiguring? {
-            return cellConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: nil) })
+            return cellConfigurations.first(where: { $0.canConfigureView(ofKind: nil, with: object) })
         }
         
         // MARK: UICollectionViewDataSource
@@ -106,7 +106,7 @@ import UIKit
         }
         
         private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> ReuseableViewConfiguring? {
-            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: kind) })
+            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(ofKind: kind, with: object) })
         }
         
         public func collectionView(_ collectionView: UICollectionView,
