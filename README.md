@@ -4,7 +4,7 @@
 
 # Sourcing
 
-Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift. It helps you to seperate concerns and keep ViewControllers light. By operating on data providers replaceing your view implementation it is easy to at any time.
+Typesafe and flexible abstraction for TableView &amp; CollectionView DataSources written in Swift. It helps you to seperate concerns and keep ViewControllers light. By operating on data providers replacing your view implementation is easy at any time.
 
 ## Documentation
 
