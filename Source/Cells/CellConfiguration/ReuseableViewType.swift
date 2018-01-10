@@ -20,29 +20,12 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
-#if os(iOS) || os(tvOS)
-    public protocol SupplementaryViewConfiguring {
-        
-        var reuseIdentifier: String { get }
-        var supplementaryElementKind: String { get }
-        
-        var nib: UINib? { get }
-        
-        @discardableResult
-        func configure(_ view: UICollectionReusableView, at indexPath: IndexPath, with object: Any) -> AnyObject
-        
-        func canConfigureView(with object: Any, ofKind: String) -> Bool
-    }
-    
-    public protocol StaticSupplementaryViewConfiguring: SupplementaryViewConfiguring {
-        associatedtype View: UICollectionReusableView
-        associatedtype Object
-    }
-    
-    extension StaticSupplementaryViewConfiguring {
-        public func canConfigureView(with object: Any, ofKind kind: String) -> Bool {
-            return kind == supplementaryElementKind && object is Object
-        }
-    }
-#endif
+/// Defines of what type a reuseable view is
+///
+/// - SeeAlso: `ReuseableViewConfiguring`
+public enum ReuseableViewType {
+    /// A cell. For example a table view or collection view cell
+    case cell
+    /// A supplementaryView in a collection view
+    case supplementaryView(kind: String)
+}

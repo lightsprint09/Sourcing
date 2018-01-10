@@ -38,13 +38,13 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
     var collectionViewMock: UICollectionViewMock!
-    var cell: CellConfiguration<UICollectionViewCellMock<Int>>!
+    var cell: ReuseableViewConfiguration<UICollectionViewCellMock<Int>, Int>!
     
     override func setUp() {
         super.setUp()
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         collectionViewMock = UICollectionViewMock()
-        cell = CellConfiguration(reuseIdentifier: reuseIdentifier)
+        cell = ReuseableViewConfiguration(reuseIdentifier: reuseIdentifier)
         dataModificator = DataModificatorMock()
     }
 
@@ -91,8 +91,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let elementKind = "elementKind"
         var configuredObject: Int?
         var configurationCount = 0
-        let supplemenaryViewConfiguration = BasicSupplementaryViewConfiguration<SupplementaryViewMock, Int>(elementKind: elementKind,
-                                                                                                            configuration: { (_, _, object) in
+        
+        let supplemenaryViewConfiguration = ReuseableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
+                                                        type: .supplementaryView(kind: elementKind), configuration: { (_, _, object) in
             configuredObject = object
             configurationCount += 1
         })
@@ -108,9 +109,33 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(configuredObject, 10)
     }
     
+    func testIndexTitles() {
+        //Given
+        let indexTitles = StaticSectionTitlesProvider(sectionIndexTitles: ["First"])
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitleProvider: indexTitles)
+        
+        //When
+        let computedIndexTitles = dataSource.indexTitles(for: collectionViewMock)
+        XCTAssertNotNil(computedIndexTitles)
+    }
+    
+    func testSectionForSectionIndexTitle() {
+        //Given
+        let indexHeaders = ["foo", "bar"]
+        let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitleProvider: sectionTitleProvider)
+        
+        //When
+        let indexPath = dataSource.collectionView(collectionViewMock, indexPathForIndexTitle: "bar", at: 1)
+        
+        //Then
+        XCTAssertEqual(indexPath.section, 1)
+    }
+    
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier)
+        let cellConfig = ReuseableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         
         //When
@@ -123,6 +148,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
+        XCTAssertFalse(dataModificator.updateView ?? true)
     }
     
     func testCanMoveCellAtIndexPath() {

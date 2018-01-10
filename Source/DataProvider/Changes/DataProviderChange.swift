@@ -1,5 +1,5 @@
 //
-//  Copyright (C) DB Systel GmbH.
+//  Copyright (C) 2016 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -20,21 +20,27 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-#if os(iOS) || os(tvOS)
-    import UIKit
+import Foundation
+
+/// Discribes a change inse a DataProvider
+public enum DataProviderChange {
+    /// Some contents change, but the change cant be described.
+    /// It is recommended to do a whole reload here.
+    case unknown
+    /// Changes are represented of an Array of change
+    case changes([Change])
     
-    public extension UICollectionView {
+    /// Changes which are not related to a view or which should not be updated in a view because sombody else takes care of updating them.
+    case viewUnrelatedChanges([Change])
+    
+    public enum Change {
+        case insert(IndexPath)
+        case update(IndexPath)
+        case move(IndexPath, IndexPath)
+        case delete(IndexPath)
         
-        func register<SupplementaryView: SupplementaryViewConfiguring>(supplementaryViewConfiguration: SupplementaryView) {
-            register(supplementaryViewConfigurations: [supplementaryViewConfiguration])
-        }
-        
-        func register<SupplementaryView: SupplementaryViewConfiguring>(supplementaryViewConfigurations: [SupplementaryView]) {
-            for supplementaryViewConfiguration in supplementaryViewConfigurations where supplementaryViewConfiguration.nib != nil {
-                register(supplementaryViewConfiguration.nib, forSupplementaryViewOfKind: supplementaryViewConfiguration.supplementaryElementKind,
-                         withReuseIdentifier: supplementaryViewConfiguration.reuseIdentifier)
-            }
-        }
-        
+        case insertSection(Int)
+        case deleteSection(Int)
+        case moveSection(Int, Int)
     }
-#endif
+}

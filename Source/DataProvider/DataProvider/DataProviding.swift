@@ -31,56 +31,28 @@ import Foundation
 /// `DataProviding` provides the data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
 /// It is generic over Object, which is the kind of data it provides.
 public protocol DataProviding: class {
-    /**
-     Element is the kind of data `DataProviding` provides.
-     */
+    
+     /// Element is the kind of data `DataProviding` provides.
     associatedtype Element
     
-    /// An observable where you can list on changes for the data provider.
+    /// An observable where one can subscribe to changes of the data provider.
     var observable: DataProviderObservable { get }
     
-    /**
-     Returns the object for a given indexPath.
-     
-     - parameter indexPath: the indexPath
-     */
+    /// Returns an object for a given index path.
+    ///
+    /// - Parameter indexPath: the index path to get the object for.
+    /// - Returns: the object at the given index path.
     func object(at indexPath: IndexPath) -> Element
     
-    /**
-     Returns number of items for a given section.
-     
-     - return: number of items
-     */
+    /// Returns the number of items in a given section.
+    ///
+    /// - Parameter section: the section.
+    /// - Returns: number of items in the given section.
     func numberOfItems(inSection section: Int) -> Int
     
-    /**
-     Returns number of sections
-     
-     - return: number of sections
-     */
+    /// Return the number of sections.
+    ///
+    /// - Returns: the number of sections.
     func numberOfSections() -> Int
     
-}
-
-extension DataProviding where Element: Equatable {
-    
-    /**
-     Returns the indexPath for a given object.
-     
-     - parameter object: the object to find the indexPath for.
-     - return: the indexPath of the object, if available.
-     */
-    public func indexPath(for object: Element) -> IndexPath? {
-        for section in  0..<numberOfSections() {
-            for item in 0..<numberOfItems(inSection: section) {
-                let indexPath = IndexPath(item: item, section: section)
-                let lookedUpObject = self.object(at: indexPath)
-                if lookedUpObject == object {
-                    return indexPath
-                }
-            }
-        }
-        
-        return nil
-    }
 }

@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2016 Lukas Schmidt.
+//  Copyright (C) 2018 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a
 //  copy of this software and associated documentation files (the "Software"),
@@ -20,12 +20,16 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-#if os(iOS) || os(tvOS)
-    /// A cell configuration can decide if it can configure a given cell with an object or not. If `true` it can configure the cell with the object.
-    /// A configuration can be registered at the collection view / table view with the configurations nib and reuse identifier for later dequeuing.
-    ///
-    /// - Note: Dequeuing a cell is not part of a configuration.
-    /// - SeeAlso: `StaticSupplementaryViewConfiguring`
-    /// - SeeAlso: `CellConfiguring`
-    public typealias CellConfiguration<Cell: ConfigurableCell> = ReuseableViewConfiguration<Cell, Cell.ObjectToConfigure>
-#endif
+import Foundation
+import CoreData
+
+extension CDTrain {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<CDTrain> {
+        return NSFetchRequest<CDTrain>(entityName: "CDTrain")
+    }
+
+    @NSManaged var id: String
+    @NSManaged var name: String
+    @NSManaged var sortIndex: NSNumber
+}

@@ -39,7 +39,7 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
     /// The content which is provided by the data provider
     public var content: [[Element]]
     
-    /// An observable where you can list on changes for the data provider.
+    /// An observable where one can subscribe to changes of the data provider.
     public var observable: DataProviderObservable {
         return defaultObservable
     }
@@ -52,8 +52,6 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
      Creates an instance of `ArrayDataProvider` with a flat collection which results a single section.
      
      - parameter rows: single section of data.
-     - parameter sectionTitle: title for the section. nil by default.
-     - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
     public convenience init<Rows: Collection>(rows: Rows)
         where Rows.Iterator.Element == Element {
@@ -64,38 +62,35 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
      Creates an instance of`ArrayDataProvider` with an 2D array which results in a multiple sections.
      
      - parameter sections: 2D array.
-     - parameter sectionTitles: titles for the sections. nil by default.
-     - parameter dataProviderDidUpdate: handler for recieving updates when datasource chnages. nil by default.
      */
     public init(sections: [[Element]]) {
         self.content = sections
         defaultObservable = DefaultDataProviderObservable()
     }
+    
     /**
      Reconfigures the dataSource with new data.
      
      - parameter array: flat array.
-     - parameter updates: diff of the new data.
-     - parameter updateView: flag if the change of data is already set in the TableView.
+     - parameter change: diff of the new data.
     */
-    public func reconfigure<Rows: Collection>(with rows: Rows, change: DataProviderChange = .unknown, updateView: Bool = true)
+    public func reconfigure<Rows: Collection>(with rows: Rows, change: DataProviderChange = .unknown)
         where Rows.Iterator.Element == Element {
-        reconfigure(with: [Array(rows)], change: change, updateView: updateView)
+        reconfigure(with: [Array(rows)], change: change)
     }
     
     /**
      Reconfigures the dataSource with new data.
      
      - parameter array: 2D array.
-     - parameter updates: diff of the new data.
-     - parameter updateView: flag if the change of data is already set in the view.
+     - parameter change: diff of the new data.
      */
-    public func reconfigure(with array: [[Element]], change: DataProviderChange = .unknown, updateView: Bool = true) {
+    public func reconfigure(with array: [[Element]], change: DataProviderChange = .unknown) {
         self.content = array
-        dataProviderDidChangeContets(with: change, updateView: updateView)
+        dataProviderDidChangeContets(with: change)
     }
     
-    private func dataProviderDidChangeContets(with updates: DataProviderChange, updateView: Bool = true) {
+    private func dataProviderDidChangeContets(with updates: DataProviderChange) {
         defaultObservable.send(updates: updates)
     }
     

@@ -37,13 +37,13 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     var dataModificator: DataModificatorMock!
     var tableViewMock: UITableViewMock!
-    var cell: CellConfiguration<UITableViewCellMock<Int>>!
+    var cell: ReuseableViewConfiguration<UITableViewCellMock<Int>, Int>!
     
     override func setUp() {
         super.setUp()
         dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         tableViewMock = UITableViewMock()
-        cell = CellConfiguration(reuseIdentifier: reuseIdentifier)
+        cell = ReuseableViewConfiguration(reuseIdentifier: reuseIdentifier)
         dataModificator = DataModificatorMock()
     }
     
@@ -73,10 +73,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDequeCells() {
         //Given
-        var didCallAdditionalConfigurtion = false
-        let cell = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier, nib: nil, additionalConfiguration: { _, _ in
-            didCallAdditionalConfigurtion = true
-        })
+        let cell = ReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier, nib: nil)
         
         //When
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
@@ -88,12 +85,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(UITableViewCellMock.configuredObject, 10)
         XCTAssertEqual(tableViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, reuseIdentifier)
         XCTAssertTrue(cellForGivenRow is UITableViewCellMock<Int>)
-        XCTAssertTrue(didCallAdditionalConfigurtion)
     }
     
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: reuseIdentifier)
+        let cellConfig = ReuseableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         let dataSource = TableViewDataSource(dataProvider: dataProviderMock,
                                              cellConfiguration: cellConfig, dataModificator: dataModificator)
@@ -106,7 +102,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertEqual(dataModificator.sourceIndexPath, fromIndexPath)
         XCTAssertEqual(dataModificator.destinationIndexPath, toIndexPath)
-        XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
+        XCTAssertFalse(dataModificator.updateView ?? true)
     }
     
     func testCanMoveCellAtIndexPath() {
@@ -165,7 +161,6 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         
         //Then
         XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
-        XCTAssert(dataModificator.triggeredByUserInteraction ?? false)
     }
     
     func testTitleForHeaderInSection() {
@@ -173,7 +168,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let sectionTitleProvider = StaticSectionTitlesProvider(sectionHeaderTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                         dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
+                                         sectionTitleProvider: sectionTitleProvider)
         
         //When
         let sectionTitle = dataSource.tableView(tableViewMock, titleForHeaderInSection: 1)
@@ -187,7 +182,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let sectionTitleProvider = StaticSectionTitlesProvider(sectionFooterTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
+                                             sectionTitleProvider: sectionTitleProvider)
         
         //When
         let sectionTitle = dataSource.tableView(tableViewMock, titleForFooterInSection: 1)
@@ -202,7 +197,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
+                                             sectionTitleProvider: sectionTitleProvider)
         
         //When
         let computedSectionIndexes = dataSource.sectionIndexTitles(for: tableViewMock)
@@ -217,7 +212,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
+                                             sectionTitleProvider: sectionTitleProvider)
         
         //When
         let section = dataSource.tableView(tableViewMock, sectionForSectionIndexTitle: "bar", at: 1)

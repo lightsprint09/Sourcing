@@ -36,12 +36,12 @@ class DataModificatorMock: DataModifying {
     var sourceIndexPath: IndexPath?
     var destinationIndexPath: IndexPath?
     var deletedIndexPath: IndexPath?
-    var triggeredByUserInteraction: Bool?
+    var updateView: Bool?
     
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool) {
         self.sourceIndexPath = sourceIndexPath
         self.destinationIndexPath = destinationIndexPath
-        triggeredByUserInteraction = updateView
+        self.updateView = updateView
     }
     
     func canMoveItem(at indexPath: IndexPath) -> Bool {
@@ -52,8 +52,7 @@ class DataModificatorMock: DataModifying {
         return canDeleteItemAt
     }
     
-    func deleteItem(at indexPath: IndexPath, updateView: Bool) {
+    func deleteItem(at indexPath: IndexPath) {
         deletedIndexPath = indexPath
-        triggeredByUserInteraction = updateView
     }
 }

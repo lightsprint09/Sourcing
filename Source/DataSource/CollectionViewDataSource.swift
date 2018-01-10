@@ -28,40 +28,52 @@
 import UIKit
 
 #if os(iOS) || os(tvOS)
-    /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`
+    /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`.
+    ///
+    /// - SeeAlso: `UICollectionViewDataSource`
     final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource {
-        /// The data provider which provides the data to the data source
+        /// The data provider which provides the data to the data source.
         public let dataProvider: AnyDataProvider<Object>
         
-        /// Optional data modificator can be used to modify the data providers content
+        /// Data modificator can be used to modify the data providers content.
         public let dataModificator: DataModifying?
+        
+        /// Provides section index tiltes.
+        public let sectionIndexTitleProvider: SectionIndexTitleProviding?
        
-        private let cellConfigurations: [CellConfiguring]
-        private let supplementaryViewConfigurations: [SupplementaryViewConfiguring]
+        private let cellConfigurations: [ReuseableViewConfiguring]
+        private let supplementaryViewConfigurations: [ReuseableViewConfiguring]
         
         /// Creates an instance with a data provider and cell configurations
         /// which will be displayed in the collection view.
         ///
         /// - Note: This initializer is loosly typed. If you just display one cell, use the strongly typed initializer.
-        /// - Parameters:
-        ///   - dataProvider: the data provider which provides data to the data source
-        ///   - anyCells: the cell configuration for the collection view cells
-        ///   - dataModificator: optional data modifier.
+        ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `CellConfiguring`
+        ///
+        ///   - dataProvider: the data provider which provides data to the data source.
+        ///   - anyCells: the cell configuration for the collection view cells.
+        ///   - anySupplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views. Defaults to `[]`.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
         public init<DataProvider: DataProviding>(dataProvider: DataProvider,
-                        anyCellConfigurations: [CellConfiguring],
-                        anySupplementaryViewConfigurations: [SupplementaryViewConfiguring] = [], dataModificator: DataModifying? = nil)
+                        anyCellConfigurations: [ReuseableViewConfiguring],
+                        anySupplementaryViewConfigurations: [ReuseableViewConfiguring] = [],
+                        dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfigurations = anyCellConfigurations
                 self.dataModificator = dataModificator
                 self.supplementaryViewConfigurations = anySupplementaryViewConfigurations
+                self.sectionIndexTitleProvider = sectionIndexTitleProvider
                 super.init()
         }
         
         // MARK: Private
         
-        private func cellDequeableForIndexPath(_ object: Object) -> CellConfiguring? {
-            return cellConfigurations.first(where: { $0.canConfigureCell(with: object) })
+        private func cellDequeableForIndexPath(_ object: Object) -> ReuseableViewConfiguring? {
+            return cellConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: nil) })
         }
         
         // MARK: UICollectionViewDataSource
@@ -77,10 +89,10 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            let cellDequeable: CellConfiguring! = cellDequeableForIndexPath(object)
+            let cellDequeable: ReuseableViewConfiguring! = cellDequeableForIndexPath(object)
             precondition(cellDequeable != nil, "Unexpected cell type at \(indexPath) for object of type")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellDequeable.reuseIdentifier, for: indexPath)
-            cellDequeable.configure(cell, with: object)
+            cellDequeable.configure(cell, at: indexPath, with: object)
             
             return cell
         }
@@ -90,17 +102,17 @@ import UIKit
         }
                 
         public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-            dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
+            dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: false)
         }
         
-        private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> SupplementaryViewConfiguring? {
+        private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> ReuseableViewConfiguring? {
             return supplementaryViewConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: kind) })
         }
         
         public func collectionView(_ collectionView: UICollectionView,
                                    viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             let object = dataProvider.object(at: indexPath)
-            let dequeable: SupplementaryViewConfiguring! = supplementaryViewConfiguring(for: object, ofKind: kind)
+            let dequeable: ReuseableViewConfiguring! = supplementaryViewConfiguring(for: object, ofKind: kind)
             precondition(dequeable != nil, "Unexpected SupplementaryView type of \(kind) for object of type \(object.self) at indexPath \(indexPath)")
             
             let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
@@ -108,6 +120,16 @@ import UIKit
             
             _ = dequeable.configure(supplementaryView, at: indexPath, with: object)
             return supplementaryView
+        }
+        
+        public func indexTitles(for collectionView: UICollectionView) -> [String]? {
+            return sectionIndexTitleProvider?.sectionIndexTitles
+        }
+        
+        public func collectionView(_ collectionView: UICollectionView, indexPathForIndexTitle title: String, at index: Int) -> IndexPath {
+            precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionIndexTitleProvider is nil")
+            let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider
+            return sectionIndexTitleProvider.section(forSectionIndexTitle: title, at: index)
         }
     }
 
@@ -117,61 +139,89 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
-        /// - Parameters:
-        ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
-        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
-            (dataProvider: DataProvider, cellConfiguration: Cell, dataModificator: DataModifying? = nil)
-            where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
-                let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration], dataModificator: dataModificator)
-        }
-        
-        /// Creates an instance with a data provider and a cell configuration
-        /// which will be displayed in the collection view.
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
         ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
-        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding>
-            (dataProvider: DataProvider, cellConfigurations: [Cell], dataModificator: DataModifying? = nil)
-            where DataProvider.Element == Object, Cell.Object == Object, Cell.Cell: UICollectionViewCell {
-                let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations, dataModificator: dataModificator)
-        }
-        
-        /// Creates an instance with a data provider and a cell configuration
-        /// which will be displayed in the collection view.
-        ///
-        /// - Parameters:
-        ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cell: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
-        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
+        ///   - cellConfiguration: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
+        convenience init<Cell: StaticReuseableViewConfiguring, DataProvider: DataProviding>
             (dataProvider: DataProvider, cellConfiguration: Cell,
-             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
-            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
                 self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
-                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
         }
         
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
+        ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
-        ///   - cells: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
-        ///   - dataModificator: optional data modifier.
-        convenience init<Cell: StaticCellConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticSupplementaryViewConfiguring>
+        ///   - cellConfigurations: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
+        convenience init<Cell: StaticReuseableViewConfiguring, DataProvider: DataProviding>
             (dataProvider: DataProvider, cellConfigurations: [Cell],
-             supplementaryViewConfigurations: [SupplementaryConfig], dataModificator: DataModifying? = nil)
-            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.Cell: UICollectionViewCell {
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
                 let typeErasedDataProvider = AnyDataProvider(dataProvider)
                 self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
-                          anySupplementaryViewConfigurations: supplementaryViewConfigurations, dataModificator: dataModificator)
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
+        }
+        
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
+        /// - SeeAlso: `StaticSupplementaryViewConfiguring`
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cellConfiguration: the cell configuration for the collection view cell which must support displaying the contents of the data provider.
+        ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
+        convenience init<Cell: StaticReuseableViewConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticReuseableViewConfiguring>
+            (dataProvider: DataProvider, cellConfiguration: Cell,
+             supplementaryViewConfigurations: [SupplementaryConfig],
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations,
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
+        }
+        
+        /// Creates an instance with a data provider and a cell configuration
+        /// which will be displayed in the collection view.
+        ///
+        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `StaticCellConfiguring`
+        /// - SeeAlso: `StaticSupplementaryViewConfiguring`
+        ///
+        /// - Parameters:
+        ///   - dataProvider: the data provider which provides data to the data source
+        ///   - cellConfigurations: the cell configurations for the collection view cells which must support displaying the contents of the data provider.
+        ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
+        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
+        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
+        convenience init<Cell: StaticReuseableViewConfiguring, DataProvider: DataProviding, SupplementaryConfig: StaticReuseableViewConfiguring>
+            (dataProvider: DataProvider, cellConfigurations: [Cell],
+             supplementaryViewConfigurations: [SupplementaryConfig],
+             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
+                let typeErasedDataProvider = AnyDataProvider(dataProvider)
+                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
+                          anySupplementaryViewConfigurations: supplementaryViewConfigurations,
+                          dataModificator: dataModificator, sectionIndexTitleProvider: sectionIndexTitleProvider)
         }
     }
 #endif

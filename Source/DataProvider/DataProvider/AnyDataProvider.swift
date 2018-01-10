@@ -25,7 +25,7 @@ import Foundation
 /// Type eareses a DataProviding.
 final public class AnyDataProvider<Element>: DataProviding {
     
-    /// An observable where you can list on changes for the data provider.
+    /// An observable where one can subscribe to changes of the data provider.
     public var observable: DataProviderObservable
 
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Element
@@ -48,29 +48,25 @@ final public class AnyDataProvider<Element>: DataProviding {
         self.observable = dataProvider.observable
     }
     
-    /**
-     Returns the object for a given indexPath.
-     
-     - parameter indexPath: the indexPath
-     */
+    /// Returns an object for a given index path.
+    ///
+    /// - Parameter indexPath: the index path to get the object for.
+    /// - Returns: the object at the given index path.
     public func object(at indexPath: IndexPath) -> Element {
         return objectAtIndexPath(indexPath)
     }
     
-    /**
-     Returns number of items for a given section.
-     
-     - return: number of items
-     */
+    /// Returns the number of items in a given section.
+    ///
+    /// - Parameter section: the section.
+    /// - Returns: number of items in the given section.
     public func numberOfItems(inSection section: Int) -> Int {
         return numberOfItems(section)
     }
     
-    /**
-     Returns number of sections
-     
-     - return: number of sections
-     */
+    /// Return the number of sections.
+    ///
+    /// - Returns: the number of sections.
     public func numberOfSections() -> Int {
         return numberOfSectionsCallback()
     }

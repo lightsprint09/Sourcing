@@ -45,7 +45,38 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     func testMoveItemFromTo() {
         //Given
         var didNotifyTableView = false
-        _ = dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
+        var change: DataProviderChange?
+        _ = dataProvider.observable.addObserver(observer: { changes in
+            didNotifyTableView = true
+            change = changes
+            
+        })
+        let sourceIndexPath = IndexPath(item: 0, section: 0)
+        let destinationIndexPath = IndexPath(item: 1, section: 0)
+        
+        //When
+        arrayDataModifier.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: true)
+        
+        //Then
+        let destinationObject = dataProvider.object(at: destinationIndexPath)
+        XCTAssertEqual(destinationObject, 1)
+        XCTAssert(didNotifyTableView)
+        if case .changes? = change {
+            
+        } else {
+            XCTFail("Must be changes")
+        }
+    }
+    
+    func testMoveItemFromToTriggeredByUserInteraction() {
+        //Given
+        var didNotifyTableView = false
+        var change: DataProviderChange?
+        _ = dataProvider.observable.addObserver(observer: { changes in
+            didNotifyTableView = true
+            change = changes
+            
+        })
         let sourceIndexPath = IndexPath(item: 0, section: 0)
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
@@ -56,10 +87,14 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         let destinationObject = dataProvider.object(at: destinationIndexPath)
         XCTAssertEqual(destinationObject, 1)
         XCTAssert(didNotifyTableView)
+        if case .viewUnrelatedChanges? = change {
+            
+        } else {
+            XCTFail("Must be triggeredByUserInteraction")
+        }
     }
     
     func testCanDelteItems() {
-        
         //When
         arrayDataModifier.canDeleteItems = true
         
@@ -74,7 +109,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         let deleteIndexPath = IndexPath(item: 0, section: 0)
         
         //When
-        arrayDataModifier.deleteItem(at: deleteIndexPath, updateView: false)
+        arrayDataModifier.deleteItem(at: deleteIndexPath)
         
         //Then
         let destinationObject = dataProvider.object(at: deleteIndexPath)

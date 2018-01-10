@@ -34,8 +34,8 @@ public protocol DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: Source's IndexPath
     ///   - destinationIndexPath: Destination's IndexPath
-    ///   - updateView: pass `true` if the action was triggered by UITableView's delegate and the state of
-    ///     the tableView has already been updated
+    ///   - updateView: determins if the view should be updated.
+    ///                 Pass `false` if someone else take care of updating the change into the view
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool)
     
     /// Checks wethere item at an indexPath can be moved
@@ -48,9 +48,7 @@ public protocol DataModifying {
     ///
     /// - Parameters:
     ///   - indexPath: the indexPath you want to delete
-    ///   - updateView: pass `true` if the action was triggered by UITableView's /UICollectionView delegate and the state of
-    ///     the view has already been updated
-    func deleteItem(at indexPath: IndexPath, updateView: Bool)
+    func deleteItem(at indexPath: IndexPath)
     
     /// Checks wethere item at an indexPath can be deleted
     ///

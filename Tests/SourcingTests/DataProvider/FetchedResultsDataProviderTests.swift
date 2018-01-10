@@ -51,26 +51,25 @@ class FetchedResultsDataProviderTests: XCTestCase {
         super.setUp()
         managedObjectContext = managedObjectContextForTesting()
         
-        train1 = self.train(id: "1", name: "ICE")
+        train1 = self.train(id: "1", name: "TVG", sortIndex: 0)
         managedObjectContext.insert(train1)
         
-        train2 = self.train(id: "2", name: "ICE")
+        train2 = self.train(id: "2", name: "ICE", sortIndex: 1)
         managedObjectContext.insert(train2)
         
         let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.id), ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
         fetchReuqest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
-                                                              sectionNameKeyPath: "name", cacheName: nil)
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-
+                                                              sectionNameKeyPath: nil, cacheName: nil)
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
     }
     
-    private func train(id: String, name: String) -> CDTrain {
+    private func train(id: String, name: String, sortIndex: Int) -> CDTrain {
         let train = CDTrain.newObject(in: managedObjectContext)
         train.id = id
         train.name = name
+        train.sortIndex = NSNumber(value: sortIndex)
         return train
     }
     
@@ -198,6 +197,30 @@ class FetchedResultsDataProviderTests: XCTestCase {
             XCTAssertEqual(newIndexPath, newMovedIndexPath)
         } else {
             XCTFail()
+        }
+    }
+    
+    func testHandleMoveByUser() {
+        //Given
+        let oldIndexPath = IndexPath(row: 0, section: 0)
+        let newIndexPath = IndexPath(row: 1, section: 0)
+        var capturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver(observer: { change in
+            capturedChange = change
+        })
+        
+        //When
+        dataProvider.performNonUIRelevantChanges {
+            dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
+                                    didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+            dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        }
+        
+        //Then
+        if case .viewUnrelatedChanges(let changes)? = capturedChange {
+            XCTAssertEqual(changes.count, 1)
+        } else {
+            XCTFail("Must be triggeredByUserInteraction")
         }
     }
     

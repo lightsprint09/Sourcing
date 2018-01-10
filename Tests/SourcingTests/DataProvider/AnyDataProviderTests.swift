@@ -46,28 +46,6 @@ class AnyDataProvidingTests: XCTestCase {
         XCTAssertEqual(object, 1)
     }
     
-    func testIndexPathForContainingObject() {
-        //Given
-        dataProvider = AnyDataProvider(ArrayDataProvider(sections: [[1, 2], [3, 4]]))
-        
-        //When
-        let indexPath = dataProvider.indexPath(for: 1)
-        
-        //Then
-        XCTAssertEqual(indexPath, IndexPath(item: 0, section: 0))
-    }
-    
-    func testIndexPathForNotContainingObject() {
-        //Given
-        dataProvider = AnyDataProvider(ArrayDataProvider(sections: [[1, 2], [3, 4]]))
-        
-        //When
-        let indexPath = dataProvider.indexPath(for: 5)
-        
-        //Then
-        XCTAssertNil(indexPath)
-    }
-    
     func testCallUpdate() {
         var didUpdateDataSource = false
         //Given
