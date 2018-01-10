@@ -56,4 +56,15 @@ public struct StaticSectionTitlesProvider: SectionTitleProviding {
     public func titleForFooter(inSection section: Int) -> String? {
         return sectionFooterTitles?[section]
     }
+    
+    /// Asks the data provider to return the index of the section having the given title and section title index.
+    ///
+    /// - Parameters:
+    ///   - sectionIndexTitle: The title as displayed in the section index
+    ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
+    /// - Returns: An index number identifying a section.
+    public func indexPath(forSectionIndexTitle sectionIndexTitle: String,
+                          at index: Int) -> IndexPath {
+        return IndexPath(item: 0, section: index)
+    }
 }

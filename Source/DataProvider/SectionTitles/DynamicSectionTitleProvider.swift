@@ -91,6 +91,17 @@ public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
         return generateSectionFooterTitle(firstObjectInSection, indexPath)
     }
     
+    /// Asks the data provider to return the index of the section having the given title and section title index.
+    ///
+    /// - Parameters:
+    ///   - sectionIndexTitle: The title as displayed in the section index
+    ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
+    /// - Returns: An index number identifying a section.
+    public func indexPath(forSectionIndexTitle sectionIndexTitle: String,
+                   at index: Int) -> IndexPath {
+        return IndexPath(item: 0, section: index)
+    }
+    
     private func indexSectionTitles() -> [String]? {
         guard let generateSectionIndexTitle = generateSectionIndexTitle else {
             return nil

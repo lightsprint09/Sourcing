@@ -129,7 +129,7 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, indexPathForIndexTitle title: String, at index: Int) -> IndexPath {
             precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionIndexTitleProvider is nil")
             let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider
-            return sectionIndexTitleProvider.section(forSectionIndexTitle: title, at: index)
+            return sectionIndexTitleProvider.indexPath(forSectionIndexTitle: title, at: index)
         }
     }
 

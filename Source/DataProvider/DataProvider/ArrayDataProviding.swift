@@ -84,4 +84,3 @@ extension ArrayDataProviding where Element: Equatable {
         return nil
     }
 }
-
