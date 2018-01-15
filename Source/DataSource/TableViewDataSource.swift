@@ -48,7 +48,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     }
     
     private func cellDequeableForIndexPath(_ object: Object) -> ReuseableViewConfiguring? {
-        return cellConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: nil) })
+        return cellConfigurations.first(where: { $0.canConfigureView(ofKind: nil, with: object) })
     }
     
     // MARK: UITableViewDataSource
@@ -81,7 +81,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         precondition(self.sectionTitleProvider != nil, "Must not called when sectionTitleProvider is nil")
         let sectionTitleProvider: SectionTitleProviding! = self.sectionTitleProvider
-        return sectionTitleProvider.section(forSectionIndexTitle: title, at: index).section
+        return sectionTitleProvider.indexPath(forSectionIndexTitle: title, at: index).section
     }
     
     // MARK: SectionHeader & SectionFooter

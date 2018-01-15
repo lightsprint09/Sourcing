@@ -67,7 +67,7 @@ class StaticSectionTitleProviderTest: XCTestCase {
         let sectionTitelProvider = StaticSectionTitlesProvider(sectionFooterTitles: headerTiltes)
         
         //When
-        let indexPath = sectionTitelProvider.section(forSectionIndexTitle: "SectionFooterTitle", at: 0)
+        let indexPath = sectionTitelProvider.indexPath(forSectionIndexTitle: "SectionFooterTitle", at: 0)
         
         //Then
         XCTAssertEqual(indexPath.section, 0)

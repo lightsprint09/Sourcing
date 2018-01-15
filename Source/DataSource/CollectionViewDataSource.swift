@@ -73,7 +73,7 @@ import UIKit
         // MARK: Private
         
         private func cellDequeableForIndexPath(_ object: Object) -> ReuseableViewConfiguring? {
-            return cellConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: nil) })
+            return cellConfigurations.first(where: { $0.canConfigureView(ofKind: nil, with: object) })
         }
         
         // MARK: UICollectionViewDataSource
@@ -106,7 +106,7 @@ import UIKit
         }
         
         private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> ReuseableViewConfiguring? {
-            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(with: object, ofKind: kind) })
+            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(ofKind: kind, with: object) })
         }
         
         public func collectionView(_ collectionView: UICollectionView,
@@ -129,7 +129,7 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, indexPathForIndexTitle title: String, at index: Int) -> IndexPath {
             precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionIndexTitleProvider is nil")
             let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider
-            return sectionIndexTitleProvider.section(forSectionIndexTitle: title, at: index)
+            return sectionIndexTitleProvider.indexPath(forSectionIndexTitle: title, at: index)
         }
     }
 
