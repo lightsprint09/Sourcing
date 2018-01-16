@@ -49,9 +49,8 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         defaultObservable.send(updates: .unknown)
     }
 
-    /// Perform changes to you model object, which won`t result in an updated view.
-    /// This can be helpful to perform a move operation,
-    /// when the view is already in the correct state.
+    /// Perform changes to your model object, which won`t result in an updated view.
+    /// This can be helpful when performing a move operation when the view is already in the correct state.
     ///
     /// - Parameter execute: block to perform the changes in.
     public func performNonUIRelevantChanges(_ execute: () -> Void) {

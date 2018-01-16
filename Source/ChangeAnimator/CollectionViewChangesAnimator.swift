@@ -78,7 +78,7 @@
         
         /// Animates multiple insert, delete, reload, and move operations as a group.
         ///
-        /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to reload all content.
+        /// - Parameter updates: All updates you want to execute. Pass `nil` to reload all content.
         private func process(updates: [DataProviderChange.Change]) {
             collectionView.performBatchUpdates({
                 updates.forEach(self.process)
