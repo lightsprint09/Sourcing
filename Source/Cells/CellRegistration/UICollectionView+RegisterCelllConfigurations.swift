@@ -34,8 +34,8 @@
          
          - parameter cellConfiguration: the cell configuration which to register.
          */
-        func register<Cell: StaticReuseableViewConfiguring>(reuseableViewConfiguration: Cell) where Cell.View: UICollectionReusableView {
-            register(reuseableViewConfigurations: [reuseableViewConfiguration])
+        func register<Cell: StaticReusableViewConfiguring>(ReusableViewConfiguration: Cell) where Cell.View: UICollectionReusableView {
+            register(ReusableViewConfigurations: [ReusableViewConfiguration])
         }
         
         /**
@@ -47,14 +47,14 @@
          
          - parameter cellConfigurations: the cell configurations which to register.
          */
-        func register<Cell: StaticReuseableViewConfiguring>(reuseableViewConfigurations: [Cell]) where Cell.View: UICollectionReusableView {
-            for reuseableViewConfiguration in reuseableViewConfigurations where reuseableViewConfiguration.nib != nil {
-                switch reuseableViewConfiguration.type {
+        func register<Cell: StaticReusableViewConfiguring>(ReusableViewConfigurations: [Cell]) where Cell.View: UICollectionReusableView {
+            for ReusableViewConfiguration in ReusableViewConfigurations where ReusableViewConfiguration.nib != nil {
+                switch ReusableViewConfiguration.type {
                 case .cell:
-                    register(reuseableViewConfiguration.nib, forCellWithReuseIdentifier: reuseableViewConfiguration.reuseIdentifier)
+                    register(ReusableViewConfiguration.nib, forCellWithReuseIdentifier: ReusableViewConfiguration.reuseIdentifier)
                 case .supplementaryView(let kind):
-                    register(reuseableViewConfiguration.nib, forSupplementaryViewOfKind: kind,
-                             withReuseIdentifier: reuseableViewConfiguration.reuseIdentifier)
+                    register(ReusableViewConfiguration.nib, forSupplementaryViewOfKind: kind,
+                             withReuseIdentifier: ReusableViewConfiguration.reuseIdentifier)
                 }
                 
             }

@@ -36,8 +36,8 @@
         /// Creates an instance and starts listening for changes to animate them into the collection view
         ///
         /// - Parameters:
-        ///   - collectionView: the collection view which should be animated
-        ///   - dataProviderObservable: observable for listing to changes of a data provider
+        ///   - collectionView: the collection view to be animated
+        ///   - dataProviderObservable: observable for listening to changes of a data provider
         public init(collectionView: UICollectionView, dataProviderObservable: DataProviderObservable) {
             self.collectionView = collectionView
             self.dataProviderObservable = dataProviderObservable
@@ -78,7 +78,7 @@
         
         /// Animates multiple insert, delete, reload, and move operations as a group.
         ///
-        /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to relaod all content.
+        /// - Parameter updates: All updates you want to execute. Pass `nil` if you want to reload all content.
         private func process(updates: [DataProviderChange.Change]) {
             collectionView.performBatchUpdates({
                 updates.forEach(self.process)

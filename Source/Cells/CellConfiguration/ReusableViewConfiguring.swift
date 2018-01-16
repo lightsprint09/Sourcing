@@ -28,14 +28,14 @@ import UIKit
     /// with the configurations nib, reuse identifier and element kind for later dequeuing.
     ///
     /// - Note: Dequeuing a view is not part of configuration.
-    /// - SeeAlso: `StaticReuseableViewConfiguring`
-    /// - SeeAlso: `ReuseableViewConfiguration`
-    public protocol ReuseableViewConfiguring {
+    /// - SeeAlso: `StaticReusableViewConfiguring`
+    /// - SeeAlso: `ReusableViewConfiguration`
+    public protocol ReusableViewConfiguring {
         
         /// The reuse identifier which will be used to register and deque the view.
         var reuseIdentifier: String { get }
         /// the type of theview.
-        var type: ReuseableViewType { get }
+        var type: ReusableViewType { get }
         
         /// The nib which visualy represents view.
         var nib: UINib? { get }

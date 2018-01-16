@@ -28,7 +28,7 @@
 
 import UIKit
 
-struct RegisteredReuseableViews {
+struct RegisteredReusableViews {
     var nibs = [String: UINib?]()
     var supplementaryViews = [String: (String, UINib?)]()
 }
@@ -40,7 +40,7 @@ class UICollectionViewMock: UICollectionView {
         set { strongDataSource = newValue }
     }
     
-    var registeredReuseableViews = RegisteredReuseableViews()
+    var registeredReusableViews = RegisteredReusableViews()
     var cellDequeueMock: CellDequeueMock<UICollectionViewCell>
     
     var executionCount = ExecutionCount()
@@ -77,11 +77,11 @@ class UICollectionViewMock: UICollectionView {
     }
     
     override func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
-        registeredReuseableViews.nibs[identifier] = nib
+        registeredReusableViews.nibs[identifier] = nib
     }
     
     override func register(_ nib: UINib?, forSupplementaryViewOfKind kind: String, withReuseIdentifier identifier: String) {
-        registeredReuseableViews.supplementaryViews[identifier] = (kind, nib)
+        registeredReusableViews.supplementaryViews[identifier] = (kind, nib)
     }
     
     override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {

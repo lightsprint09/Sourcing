@@ -24,7 +24,7 @@ class PlainArrayViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let cellConfig = BasicReuseableViewConfiguration<TrainCell, String>()
+        let cellConfig = BasicReusableViewConfiguration<TrainCell, String>()
         dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true, canDeleteItems: true)
         dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cellConfig, dataModificator: dataModificator)
         tableView.dataSource = dataSource

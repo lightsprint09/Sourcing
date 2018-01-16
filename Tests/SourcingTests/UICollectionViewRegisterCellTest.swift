@@ -38,19 +38,19 @@ class UICollectionViewRegisterCellTest: XCTestCase {
     
     func testRegisterMultipleNib() {
         //When
-        collectionViewMock.register(reuseableViewConfigurations: [cellConfig])
+        collectionViewMock.register(ReusableViewConfigurations: [cellConfig])
         
         //Then
-        XCTAssertEqual(collectionViewMock.registeredReuseableViews.nibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registeredReuseableViews.nibs[reuseIdentifier] as Any)
+        XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)
+        XCTAssertNotNil(collectionViewMock.registeredReusableViews.nibs[reuseIdentifier] as Any)
     }
     
     func testRegisterNib() {
         //When
-        collectionViewMock.register(reuseableViewConfiguration: cellConfig)
+        collectionViewMock.register(ReusableViewConfiguration: cellConfig)
         
         //Then
-        XCTAssertEqual(collectionViewMock.registeredReuseableViews.nibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registeredReuseableViews.nibs[reuseIdentifier] as Any)
+        XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)
+        XCTAssertNotNil(collectionViewMock.registeredReusableViews.nibs[reuseIdentifier] as Any)
     }
 }
