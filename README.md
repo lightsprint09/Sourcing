@@ -27,10 +27,10 @@ class TrainCell: UITableViewCell, ConfigurableCell {
 //If your reuse identifier is the same a the class name
 extension TrainCell: CellIdentifierProviding {}
 
-let trainCell = CellConfiguration<TrainCell>()
+let trainCellConfiguration = CellConfiguration<TrainCell>()
 let fetchResultsController: NSFetchedResultsController<Train> = //
 let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchResultsController)
-let dataSource = TableViewDataSource(dataProvider: dataProvider, cell: trainCell)
+let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: trainCellConfiguration)
 
 tableView.dataSource = dataSource
 
