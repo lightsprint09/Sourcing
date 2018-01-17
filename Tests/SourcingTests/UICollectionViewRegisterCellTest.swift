@@ -38,7 +38,7 @@ class UICollectionViewRegisterCellTest: XCTestCase {
     
     func testRegisterMultipleNib() {
         //When
-        collectionViewMock.register(ReusableViewConfigurations: [cellConfig])
+        collectionViewMock.register(reusableViewConfigurations: [cellConfig])
         
         //Then
         XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)
@@ -47,7 +47,7 @@ class UICollectionViewRegisterCellTest: XCTestCase {
     
     func testRegisterNib() {
         //When
-        collectionViewMock.register(ReusableViewConfiguration: cellConfig)
+        collectionViewMock.register(reusableViewConfiguration: cellConfig)
         
         //Then
         XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)

@@ -34,8 +34,8 @@
          
          - parameter cellConfiguration: the cell configuration which to register.
          */
-        func register<Cell: StaticReusableViewConfiguring>(ReusableViewConfiguration: Cell) where Cell.View: UICollectionReusableView {
-            register(ReusableViewConfigurations: [ReusableViewConfiguration])
+        func register<Cell: StaticReusableViewConfiguring>(reusableViewConfiguration: Cell) where Cell.View: UICollectionReusableView {
+            register(reusableViewConfigurations: [reusableViewConfiguration])
         }
         
         /**
@@ -47,14 +47,14 @@
          
          - parameter cellConfigurations: the cell configurations which to register.
          */
-        func register<Cell: StaticReusableViewConfiguring>(ReusableViewConfigurations: [Cell]) where Cell.View: UICollectionReusableView {
-            for ReusableViewConfiguration in ReusableViewConfigurations where ReusableViewConfiguration.nib != nil {
-                switch ReusableViewConfiguration.type {
+        func register<Cell: StaticReusableViewConfiguring>(reusableViewConfigurations: [Cell]) where Cell.View: UICollectionReusableView {
+            for reusableViewConfiguration in reusableViewConfigurations where reusableViewConfiguration.nib != nil {
+                switch reusableViewConfiguration.type {
                 case .cell:
-                    register(ReusableViewConfiguration.nib, forCellWithReuseIdentifier: ReusableViewConfiguration.reuseIdentifier)
+                    register(reusableViewConfiguration.nib, forCellWithReuseIdentifier: reusableViewConfiguration.reuseIdentifier)
                 case .supplementaryView(let kind):
-                    register(ReusableViewConfiguration.nib, forSupplementaryViewOfKind: kind,
-                             withReuseIdentifier: ReusableViewConfiguration.reuseIdentifier)
+                    register(reusableViewConfiguration.nib, forSupplementaryViewOfKind: kind,
+                             withReuseIdentifier: reusableViewConfiguration.reuseIdentifier)
                 }
                 
             }
