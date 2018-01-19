@@ -67,7 +67,7 @@
 		C6EE5B54200494AC00AA8E47 /* StaticReuseableViewConfiguring.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE5B53200494AB00AA8E47 /* StaticReuseableViewConfiguring.swift */; };
 		C6EE5B5620049A8B00AA8E47 /* ReuseableViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE5B5520049A8B00AA8E47 /* ReuseableViewType.swift */; };
 		C6F3A0711F95CDEA00F43FA4 /* DynamicSectionTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3A06E1F95CDE900F43FA4 /* DynamicSectionTitleProvider.swift */; };
-		C6F3A0721F95CDEA00F43FA4 /* SectionTitleProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3A06F1F95CDEA00F43FA4 /* SectionTitleProviding.swift */; };
+		C6F3A0721F95CDEA00F43FA4 /* SectionHeaderProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3A06F1F95CDEA00F43FA4 /* SectionHeaderProviding.swift */; };
 		C6F3A0731F95CDEA00F43FA4 /* StaticSectionTitlesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3A0701F95CDEA00F43FA4 /* StaticSectionTitlesProvider.swift */; };
 		C6F913181D506BC800B0535C /* DataProviderChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F913171D506BC800B0535C /* DataProviderChange.swift */; };
 /* End PBXBuildFile section */
@@ -146,7 +146,7 @@
 		C6EE5B53200494AB00AA8E47 /* StaticReuseableViewConfiguring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticReuseableViewConfiguring.swift; sourceTree = "<group>"; };
 		C6EE5B5520049A8B00AA8E47 /* ReuseableViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableViewType.swift; sourceTree = "<group>"; };
 		C6F3A06E1F95CDE900F43FA4 /* DynamicSectionTitleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSectionTitleProvider.swift; sourceTree = "<group>"; };
-		C6F3A06F1F95CDEA00F43FA4 /* SectionTitleProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitleProviding.swift; sourceTree = "<group>"; };
+		C6F3A06F1F95CDEA00F43FA4 /* SectionHeaderProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderProviding.swift; sourceTree = "<group>"; };
 		C6F3A0701F95CDEA00F43FA4 /* StaticSectionTitlesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticSectionTitlesProvider.swift; sourceTree = "<group>"; };
 		C6F913171D506BC800B0535C /* DataProviderChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProviderChange.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -274,7 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				C6F3A06E1F95CDE900F43FA4 /* DynamicSectionTitleProvider.swift */,
-				C6F3A06F1F95CDEA00F43FA4 /* SectionTitleProviding.swift */,
+				C6F3A06F1F95CDEA00F43FA4 /* SectionHeaderProviding.swift */,
 				C6F3A0701F95CDEA00F43FA4 /* StaticSectionTitlesProvider.swift */,
 				C688F5B21FFF51D1000A4B06 /* SectionIndexTitleProviding.swift */,
 			);
@@ -518,7 +518,7 @@
 				C6817BA41F8E6BD2008B45F6 /* UITableView+RegisterCelllConfigurations.swift in Sources */,
 				C61699B11FE011640061EA11 /* DefaultDataProviderObservable.swift in Sources */,
 				C688F5EE2003C314000A4B06 /* ReuseableViewConfiguration.swift in Sources */,
-				C6F3A0721F95CDEA00F43FA4 /* SectionTitleProviding.swift in Sources */,
+				C6F3A0721F95CDEA00F43FA4 /* SectionHeaderProviding.swift in Sources */,
 				C63610A51E40714C00417B45 /* DataModifying.swift in Sources */,
 				C696D4CB1F9E0FD5005FD3B6 /* ArrayDataProviderModifier.swift in Sources */,
 				C6F3A0711F95CDEA00F43FA4 /* DynamicSectionTitleProvider.swift in Sources */,
@@ -637,8 +637,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -689,9 +691,11 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -707,7 +711,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.Sourcing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -716,8 +719,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -733,7 +734,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.Sourcing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -741,8 +741,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
