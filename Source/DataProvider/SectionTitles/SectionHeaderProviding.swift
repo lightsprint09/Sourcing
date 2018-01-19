@@ -20,8 +20,8 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-/// Providing section header titles and section index titles.
-public protocol SectionTitleProviding: SectionIndexTitleProviding {
+/// Providing section header titles.
+public protocol SectionHeaderProviding {
     
     /// Generates a optional section title for a given section
     ///
