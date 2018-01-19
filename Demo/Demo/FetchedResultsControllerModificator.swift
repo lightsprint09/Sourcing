@@ -28,7 +28,7 @@ class FetchedResultsControllerModificator<T: NSManagedObject>: DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: Source's IndexPath
     ///   - destinationIndexPath: Destination's IndexPath
-    ///   - updateView: determins if the view should be updated.
+    ///   - updateView: determines if the view should be updated.
     ///                 Pass `false` if someone else take care of updating the change into the view
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool) {
         let objectFrom = dataProvider.object(at: sourceIndexPath)

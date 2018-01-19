@@ -15,7 +15,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     /// The fetched results controller which backs the data provider.
     public let fetchedResultsController: NSFetchedResultsController<Object>
     
-    /// An observable where one can subscribe to changes of the data provider.
+    /// An observable where one can subscribe to changes of data provider.
     public var observable: DataProviderObservable {
         return defaultObservable
     }
@@ -27,7 +27,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     /// Creates an instance of `FetchedResultsDataProvider` backed by a `NSFetchedResultsController`. Performs a fetch to populate the data.
     ///
-    /// - Parameter fetchedResultsController: the fetched results controller which backs the data provider.
+    /// - Parameter fetchedResultsController: the fetched results controller backing the data provider.
     /// - Throws: if fetching fails.
     public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
@@ -39,7 +39,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     /// Reconfigure the `NSFetchedResultsController` with a new fetch request. This will refetch all objects.
     ///
-    /// - Parameter configure: a block to perform the reconfiguration in.
+    /// - Parameter configure: a block to perform the reconfiguration.
     /// - Throws: if fetching fails
     public func reconfigure(with configure: (NSFetchedResultsController<Object>) -> Void) throws {
         NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
@@ -50,7 +50,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
 
     /// Perform changes to your model object, which won`t result in an updated view.
-    /// This can be helpful when performing a move operation when the view is already in the correct state.
+    /// This can be helpful when performing a move operation amnd if the view is already in the correct state.
     ///
     /// - Parameter execute: block to perform the changes in.
     public func performNonUIRelevantChanges(_ execute: () -> Void) {

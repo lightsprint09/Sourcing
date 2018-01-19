@@ -30,7 +30,7 @@ public protocol DataProviderObservable: class {
     /// Can be use to animate changes in a TableView or in any other view hirachy.
     ///
     /// - Parameter observer: gets called when updates are available. If nil the DataProvider could
-    /// not calculate the updates, but new data is availabe. Reload you complete view when this happens.
+    /// not calculate the updates, but new data is available. Reload your view when this happens.
     
     /// To unregister call ``
     /// - Returns: An opaque object to act as the observer.

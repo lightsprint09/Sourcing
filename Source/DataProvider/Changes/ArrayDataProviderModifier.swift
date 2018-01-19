@@ -36,10 +36,10 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     
     private let dataProvider: ArrayDataProvider<Element>
     
-    /// Creates an `ArrayDataProvider` instace.
+    /// Creates an `ArrayDataProvider` instance.
     ///
     /// - Parameters:
-    ///   - dataProvider: the data provider which should be modiefiable
+    ///   - dataProvider: the data provider which should be modifiable
     ///   - canMoveItems: Flag if items can be moved by the data source.
     ///   - canDeleteItems: Flag if items can be deleted by the data source.
     public init(dataProvider: ArrayDataProvider<Element>, canMoveItems: Bool = false, canDeleteItems: Bool = false) {
@@ -61,7 +61,7 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: Source's IndexPath
     ///   - destinationIndexPath: Destination's IndexPath
-    ///   - updateView: determins if the view should be updated.
+    ///   - updateView: determines if the view should be updated.
     ///                 Pass `false` if someone else take care of updating the change into the view
     public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = true) {
         let soureElement = dataProvider.object(at: sourceIndexPath)
@@ -84,7 +84,7 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     /// Deleted item at a given indexPath
     ///
     /// - Parameters:
-    ///   - indexPath: the indexPath you want to delete
+    ///   - indexPath: the indexPath to delete
     public func deleteItem(at indexPath: IndexPath) {
         var content = dataProvider.content
         content[indexPath.section].remove(at: indexPath.item)

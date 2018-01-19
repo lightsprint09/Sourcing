@@ -30,7 +30,7 @@ public enum DataProviderChange {
     /// Changes are represented of an Array of change
     case changes([Change])
     
-    /// Changes which are not related to a view or which should not be updated in a view because somebody else takes care of updating them.
+    /// Changes which are not related to a view or which should not be updated in a view because somebody else has taken care of updating them.
     case viewUnrelatedChanges([Change])
     
     public enum Change {

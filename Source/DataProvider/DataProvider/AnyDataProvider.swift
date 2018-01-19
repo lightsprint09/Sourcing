@@ -25,7 +25,7 @@ import Foundation
 /// Type erases a DataProviding.
 final public class AnyDataProvider<Element>: DataProviding {
     
-    /// An observable where one can subscribe to changes of the data provider.
+    /// An observable where one can subscribe to changes of data provider.
     public var observable: DataProviderObservable
 
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Element

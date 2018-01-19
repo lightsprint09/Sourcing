@@ -47,7 +47,7 @@ import UIKit
         /// Creates an instance with a data provider and cell configurations
         /// which will be displayed in the collection view.
         ///
-        /// - Note: This initializer is loosly typed. If you just display one cell, use the strongly typed initializer.
+        /// - Note: This initializer is loosely typed. If you just display one cell, use the strongly typed initializer.
         ///
         /// - SeeAlso: `DataProviding`
         /// - SeeAlso: `CellConfiguring`

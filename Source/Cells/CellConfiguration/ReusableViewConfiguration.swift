@@ -27,7 +27,7 @@ import UIKit
     /// If matching, it is able to configure the view with the object. A configuration can be registered at the collection view or table view
     /// with the configurations nib, reuse identifier and element kind for later dequeuing.
     ///
-    /// - Note: By conforming to `StaticSupplementaryViewConfiguring` it can be statically proofen that a view and object matches each other.
+    /// - Note: By conforming to `StaticSupplementaryViewConfiguring` it can be statically proven that a view and object matches each other.
     /// - Note: Dequeuing a view is not part of configuration.
     /// - SeeAlso: `SupplementaryViewConfiguring`
     /// - SeeAlso: `StaticSupplementaryViewConfiguring`

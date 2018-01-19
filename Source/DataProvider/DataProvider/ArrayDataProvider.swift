@@ -39,7 +39,7 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
     /// The content which is provided by the data provider
     public var content: [[Element]]
     
-    /// An observable where one can subscribe to changes of the data provider.
+    /// An observable where one can subscribe to changes of data provider.
     public var observable: DataProviderObservable {
         return defaultObservable
     }
