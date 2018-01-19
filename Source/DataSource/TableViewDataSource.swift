@@ -16,13 +16,16 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     /// The data provider which provides the data to the data source.
     public let dataProvider: AnyDataProvider<Object>
     
-    /// Provides section header titles and section index titles.
-    public let sectionTitleProvider: SectionTitleProviding?
+    /// Provides section header titles.
+    public var sectionHeaderProvider: SectionHeaderProviding?
+    
+    /// Provides section index titles.
+    public var sectionIndexTitleProvider: SectionIndexTitleProviding?
     
     /// Data modificator can be used to modify the data providers content.
     public let dataModificator: DataModifying?
     
-    private let cellConfigurations: [ReusableViewConfiguring]
+    private let cellConfigurations: [ReuseableViewConfiguring]
     
     /// Creates an instance with a data provider and cell configurations
     /// which will be displayed in the table view.
@@ -38,16 +41,18 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
     ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
     public init<TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider,
-          anyCellConfigurations: [ReusableViewConfiguring], dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
+          anyCellConfigurations: [ReuseableViewConfiguring], dataModificator: DataModifying? = nil,
+          sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
                 where TypedDataProvider.Element == Object {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.dataModificator = dataModificator
         self.cellConfigurations = anyCellConfigurations
-        self.sectionTitleProvider = sectionTitleProvider
+        self.sectionHeaderProvider = sectionTitleProvider
+        self.sectionIndexTitleProvider = sectionTitleProvider
         super.init()
     }
     
-    private func cellDequeableForIndexPath(_ object: Object) -> ReusableViewConfiguring? {
+    private func cellDequeableForIndexPath(_ object: Object) -> ReuseableViewConfiguring? {
         return cellConfigurations.first(where: { $0.canConfigureView(ofKind: nil, with: object) })
     }
     
@@ -63,7 +68,7 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     /// :nodoc:
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = dataProvider.object(at: indexPath)
-        let cellDequeable: ReusableViewConfiguring! = cellDequeableForIndexPath(object)
+        let cellDequeable: ReuseableViewConfiguring! = cellDequeableForIndexPath(object)
         precondition(cellDequeable != nil, "Unexpected cell type at \(indexPath) for object of type")
         let cell = tableView.dequeueReusableCell(withIdentifier: cellDequeable.reuseIdentifier, for: indexPath)
         cellDequeable.configure(cell, at: indexPath, with: object)
@@ -74,25 +79,25 @@ final public class TableViewDataSource<Object>: NSObject, UITableViewDataSource 
     // MARK: Section Index Titles
     /// :nodoc:
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sectionTitleProvider?.sectionIndexTitles
+        return sectionIndexTitleProvider?.sectionIndexTitles
     }
     
     /// :nodoc:
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        precondition(self.sectionTitleProvider != nil, "Must not called when sectionTitleProvider is nil")
-        let sectionTitleProvider: SectionTitleProviding! = self.sectionTitleProvider
-        return sectionTitleProvider.indexPath(forSectionIndexTitle: title, at: index).section
+        precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionTitleProvider is nil")
+        let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider
+        return sectionIndexTitleProvider.indexPath(forSectionIndexTitle: title, at: index).section
     }
     
     // MARK: SectionHeader & SectionFooter
     /// :nodoc:
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitleProvider?.titleForHeader(inSection: section)
+        return sectionHeaderProvider?.titleForHeader(inSection: section)
     }
     
     /// :nodoc:
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return sectionTitleProvider?.titleForFooter(inSection: section)
+        return sectionHeaderProvider?.titleForFooter(inSection: section)
     }
     
     // MARK: Editing
@@ -133,8 +138,8 @@ public extension TableViewDataSource {
     ///   - cellConfiguration: the cell configuration for the table view cell.
     ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
     ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
-    convenience init<Cell: StaticReusableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfiguration: Cell,
-                     dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
+    convenience init<Cell: StaticReuseableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfiguration: Cell,
+                     dataModificator: DataModifying? = nil, sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
@@ -152,8 +157,8 @@ public extension TableViewDataSource {
     ///   - cellConfigurations: the cell configurations for the table view cells.
     ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
     ///   - sectionTitleProvider: provides section header titles and section index titles.
-    convenience init<Cell: StaticReusableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfigurations: [Cell],
-                     dataModificator: DataModifying? = nil, sectionTitleProvider: SectionTitleProviding? = nil)
+    convenience init<Cell: StaticReuseableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfigurations: [Cell],
+                     dataModificator: DataModifying? = nil, sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
         where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
             let typeErasedDataProvider = AnyDataProvider(dataProvider)
             self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,

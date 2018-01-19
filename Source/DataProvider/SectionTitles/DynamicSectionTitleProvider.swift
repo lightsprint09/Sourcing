@@ -36,7 +36,7 @@
  ```
  
  */
-public final class DynamicSectionTitleProvider<Element>: SectionTitleProviding {
+public final class DynamicSectionTitleProvider<Element>: SectionIndexTitleProviding, SectionHeaderProviding {
     /**
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
