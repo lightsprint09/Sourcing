@@ -19,12 +19,6 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  CellIdentifierProvidingTest.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 24.01.17.
-//
 
 import XCTest
 import UIKit

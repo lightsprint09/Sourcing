@@ -19,19 +19,14 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  MultiCellCollectionViewDataSource.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 02.08.16.
-//
+
 import UIKit
 
 #if os(iOS) || os(tvOS)
     /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`.
     ///
     /// - SeeAlso: `UICollectionViewDataSource`
-    final public class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource {
+    public final class CollectionViewDataSource<Object>: NSObject, UICollectionViewDataSource {
         /// The data provider which provides the data to the data source.
         public let dataProvider: AnyDataProvider<Object>
         
@@ -76,16 +71,22 @@ import UIKit
             return cellConfigurations.first(where: { $0.canConfigureView(ofKind: nil, with: object) })
         }
         
-        // MARK: UICollectionViewDataSource
+        private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> ReusableViewConfiguring? {
+            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(ofKind: kind, with: object) })
+        }
         
+        // MARK: UICollectionViewDataSource
+        /// :nodoc:
         public func numberOfSections(in collectionView: UICollectionView) -> Int {
             return dataProvider.numberOfSections()
         }
         
+        /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return dataProvider.numberOfItems(inSection: section)
         }
         
+        /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let object = dataProvider.object(at: indexPath)
             
@@ -97,18 +98,17 @@ import UIKit
             return cell
         }
         
+        /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
             return dataModificator?.canMoveItem(at: indexPath) ?? false
         }
-                
+        
+        /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
             dataModificator?.moveItemAt(sourceIndexPath: sourceIndexPath, to: destinationIndexPath, updateView: false)
         }
         
-        private func supplementaryViewConfiguring(for object: Object, ofKind kind: String ) -> ReusableViewConfiguring? {
-            return supplementaryViewConfigurations.first(where: { $0.canConfigureView(ofKind: kind, with: object) })
-        }
-        
+        /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView,
                                    viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             let object = dataProvider.object(at: indexPath)
@@ -122,10 +122,12 @@ import UIKit
             return supplementaryView
         }
         
+        /// :nodoc:
         public func indexTitles(for collectionView: UICollectionView) -> [String]? {
             return sectionIndexTitleProvider?.sectionIndexTitles
         }
         
+        /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView, indexPathForIndexTitle title: String, at index: Int) -> IndexPath {
             precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionIndexTitleProvider is nil")
             let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider

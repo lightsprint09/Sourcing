@@ -19,17 +19,13 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  DataProviding.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 02.08.16.
-//
 
 import Foundation
 
 /// `DataProviding` provides data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
 /// It is generic over Object, which is the kind of data it provides.
+///
+/// - SeeAlso: `AnyDataProvider`
 public protocol DataProviding: class {
     
      /// Element is the kind of data `DataProviding` provides.

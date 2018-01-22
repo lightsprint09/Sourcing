@@ -24,8 +24,8 @@ class TrainCell: UITableViewCell, ConfigurableCell {
    }
 }
 
-//If your reuse identifier is the same a the class name
-extension TrainCell: CellIdentifierProviding {}
+//If the reuse identifier is the same as the class name.
+extension TrainCell: ReuseIdentifierProviding {}
 
 let trainCellConfiguration = CellConfiguration<TrainCell>()
 let fetchResultsController: NSFetchedResultsController<Train> = //
@@ -34,7 +34,7 @@ let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfigurati
 
 tableView.dataSource = dataSource
 
-//Add this sync data changes to the table view.
+//Add this to sync data changes to the table view.
 let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
 ```
 

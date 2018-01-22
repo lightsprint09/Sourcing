@@ -19,12 +19,6 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  Sourcing.h
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 02.08.16.
-//
 
 #import <UIKit/UIKit.h>
 

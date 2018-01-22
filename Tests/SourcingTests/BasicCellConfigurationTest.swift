@@ -19,12 +19,6 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  CellConfigurationTest.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 10.08.16.
-//
 
 import XCTest
 import UIKit

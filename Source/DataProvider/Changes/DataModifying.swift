@@ -19,12 +19,6 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  DataModifying.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 31.01.17.
-//
 
 import Foundation
 

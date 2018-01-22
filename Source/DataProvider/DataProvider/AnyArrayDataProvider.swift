@@ -21,7 +21,9 @@
 //
 
 import Foundation
-/// Type eraser for `ArrayDataProviding`. This can be helpful to build conecpts like filtering, sorting ontop of array data provider
+/// Type eraser for `ArrayDataProviding`. This can be helpful to build conecpts like filtering, sorting ontop of array data provider.
+///
+/// - SeeAlso: `ArrayDataProviding`
 public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
     public typealias Element = ContentElement
     private let capturedContents: () -> [[Element]]

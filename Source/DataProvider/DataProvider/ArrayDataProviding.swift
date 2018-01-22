@@ -19,18 +19,13 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
-//
-//  ArrayDataProviding.swift
-//  Sourcing
-//
-//  Created by Lukas Schmidt on 29.08.16.
-//
 
 import Foundation
 
-/**
- `ArrayDataProvider` provides interface for data provides which rely on Array as internal data structure.
- */
+/// `ArrayDataProvider` provides interface for data provides which rely on Array as internal data structure.
+///
+/// - SeeAlso: `ArrayDataProvider`
+/// - SeeAlso: `AnyArrayDataProvider`
 public protocol ArrayDataProviding: DataProviding {
     /// The content which is provided by the data provider
     var content: [[Element]] { get }
