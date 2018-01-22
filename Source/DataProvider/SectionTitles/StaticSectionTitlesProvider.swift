@@ -30,7 +30,7 @@ public struct StaticSectionTitlesProvider: SectionIndexTitleProviding, SectionHe
     private let sectionHeaderTitles: [String?]?
     private let sectionFooterTitles: [String?]?
     
-    /// Creates an instace.
+    /// Creates an instance.
     ///
     /// - Parameters:
     ///   - sectionHeaderTitles: static list of section header titles

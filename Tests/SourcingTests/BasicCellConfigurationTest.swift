@@ -93,7 +93,7 @@ class BasicCellConfigurationTest: XCTestCase {
     func testBasicCanConfigureInit() {
         //Given
        
-        let configuration = ReuseableViewConfiguration<BasicCell, String>(configuration: { _, _, _ in })
+        let configuration = ReusableViewConfiguration<BasicCell, String>(configuration: { _, _, _ in })
         
         //Then
         XCTAssertEqual(configuration.reuseIdentifier, "reuseIdentifier")

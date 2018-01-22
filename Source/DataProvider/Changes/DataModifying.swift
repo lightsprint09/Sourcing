@@ -34,7 +34,7 @@ public protocol DataModifying {
     /// - Parameters:
     ///   - sourceIndexPath: Source's IndexPath
     ///   - destinationIndexPath: Destination's IndexPath
-    ///   - updateView: determins if the view should be updated.
+    ///   - updateView: determines if the view should be updated.
     ///                 Pass `false` if someone else take care of updating the change into the view
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool)
     
@@ -47,7 +47,7 @@ public protocol DataModifying {
     /// Deleted item at a given indexPath
     ///
     /// - Parameters:
-    ///   - indexPath: the indexPath you want to delete
+    ///   - indexPath: the indexPath to delete
     func deleteItem(at indexPath: IndexPath)
     
     /// Checks wethere item at an indexPath can be deleted

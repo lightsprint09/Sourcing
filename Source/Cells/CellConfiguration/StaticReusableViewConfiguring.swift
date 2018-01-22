@@ -25,16 +25,16 @@
     /// If matching, it is able to configure the view with the object. A configuration can be registered at the collection view or table view
     /// with the configurations nib, reuse identifier and element kind for later dequeuing.
     ///
-    /// - Note: By conforming to `StaticReuseableViewConfiguring` it can be statically proofen that a view and object matches each other.
-    /// - SeeAlso: `ReuseableViewConfiguring`
-    public protocol StaticReuseableViewConfiguring: ReuseableViewConfiguring {
+    /// - Note: By conforming to `StaticReusableViewConfiguring` it can be statically proven that a view and object matches each other.
+    /// - SeeAlso: `ReusableViewConfiguring`
+    public protocol StaticReusableViewConfiguring: ReusableViewConfiguring {
         /// The reusable view type which should be configured.
         associatedtype View
         /// The Object type which should configure the reusable view.
         associatedtype Object
     }
 
-    extension StaticReuseableViewConfiguring {
+    extension StaticReusableViewConfiguring {
         
         /// Default implementation for all static reusable view configurations.
         /// It uses the static view type and matches it dynamically to the given object type.

@@ -27,5 +27,5 @@
     /// - Note: Dequeuing a cell is not part of a configuration.
     /// - SeeAlso: `StaticSupplementaryViewConfiguring`
     /// - SeeAlso: `CellConfiguring`
-    public typealias CellConfiguration<Cell: ConfigurableCell> = ReuseableViewConfiguration<Cell, Cell.ObjectToConfigure>
+    public typealias CellConfiguration<Cell: ConfigurableCell> = ReusableViewConfiguration<Cell, Cell.ObjectToConfigure>
 #endif
