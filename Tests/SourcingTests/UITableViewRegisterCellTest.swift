@@ -39,7 +39,7 @@ class UITableViewRegisterCellTest: XCTestCase {
         let cellConfigurations = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: cellIdentifier, nib: nib)
         
         //When
-        tableViewMock.register(cellConfiguration: cellConfigurations)
+        tableViewMock.register(cellConfigurations)
         
         //Then
         XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
@@ -52,7 +52,7 @@ class UITableViewRegisterCellTest: XCTestCase {
             CellConfiguration(reuseIdentifier: cellIdentifier, nib: nib)]
         
         //When
-        tableViewMock.register(cellConfigurations: cellConfigurations)
+        tableViewMock.register(cellConfigurations)
         
         //Then
         XCTAssertEqual(tableViewMock.registerdNibs.count, 1)

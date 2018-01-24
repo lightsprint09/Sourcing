@@ -45,7 +45,7 @@ class CollectionViewSupplementaryViewTest: XCTestCase {
     
     func testRegisterMultipleNib() {
         //When
-        collectionViewMock.register(reusableViewConfigurations: [supplemenaryViewConfiguration])
+        collectionViewMock.register([supplemenaryViewConfiguration])
         
         //Then
         XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews.count, 1)
@@ -55,7 +55,7 @@ class CollectionViewSupplementaryViewTest: XCTestCase {
     
     func testRegisterNib() {
         //When
-        collectionViewMock.register(reusableViewConfiguration: supplemenaryViewConfiguration)
+        collectionViewMock.register(supplemenaryViewConfiguration)
         
         //Then
         XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews.count, 1)
