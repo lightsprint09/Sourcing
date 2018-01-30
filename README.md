@@ -233,7 +233,7 @@ let cellConfiguration = CellConfiguration<TrainCell>() //No need to provide a ce
 Specify the following in your `Cartfile`:
 
 ```ogdl
-github "lightsprint09/sourcing" ~> 2.1
+github "lightsprint09/sourcing" ~> 2.4.3
 ```
 ## Contributing
 See CONTRIBUTING for details.
