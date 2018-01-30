@@ -102,8 +102,8 @@ extension DataProviding where Element: Equatable {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
-                let o = self.object(at: indexPath)
-                if o == object {
+                let matchingObject = self.object(at: indexPath)
+                if matchingObject == object {
                     return indexPath
                 }
             }

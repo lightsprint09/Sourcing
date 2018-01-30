@@ -303,14 +303,14 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
                                                                                          dataProvider: dataProviderMock, cell: cell)
         
         //When
-        let prefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.collectionView(realCollectionView, prefetchItemsAt: prefetchedIndexPaths)
+        let expectedPrefetchedIndexPaths = [IndexPath(row: 0, section: 0)]
+        dataSource.collectionView(realCollectionView, prefetchItemsAt: expectedPrefetchedIndexPaths)
         
         //Then
-        guard let x = dataProviderMock.prefetchedIndexPaths else {
+        guard let prefetchedIndexPaths = dataProviderMock.prefetchedIndexPaths else {
             return XCTFail()
         }
-        XCTAssertEqual(x, prefetchedIndexPaths)
+        XCTAssertEqual(prefetchedIndexPaths, expectedPrefetchedIndexPaths)
     }
     
     @available(iOS 10.0, *)
@@ -321,14 +321,14 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
                                                                                     dataProvider: dataProviderMock, cell: cell)
         
         //When
-        let canceldIndexPaths = [IndexPath(row: 0, section: 0)]
-        dataSource.collectionView(realCollectionView, cancelPrefetchingForItemsAt: canceldIndexPaths)
+        let expectedCanceldIndexPaths = [IndexPath(row: 0, section: 0)]
+        dataSource.collectionView(realCollectionView, cancelPrefetchingForItemsAt: expectedCanceldIndexPaths)
         
         //Then
-        guard let x = dataProviderMock.canceledPrefetchedIndexPaths else {
+        guard let prefetchedIndexPaths = dataProviderMock.canceledPrefetchedIndexPaths else {
             return XCTFail()
         }
-        XCTAssertEqual(x, canceldIndexPaths)
+        XCTAssertEqual(prefetchedIndexPaths, expectedCanceldIndexPaths)
     }
     
     func testCanMoveCellAtIndexPath() {
