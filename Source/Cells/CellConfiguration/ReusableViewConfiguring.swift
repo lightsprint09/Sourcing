@@ -22,38 +22,32 @@
 
 import UIKit
 
-#if os(iOS) || os(tvOS)
-    // The reusable view configuration can decide if it can configure a given view with an object or not.
-    /// If matching, it is able to configure the view with the object. A configuration can be registered at the collection view or table view
-    /// with the configurations nib, reuse identifier and element kind for later dequeuing.
+// The reusable view configuration can decide if it can configure a given view with an object or not.
+/// If matching, it is able to configure the view with the object.
+///
+/// - Note: Dequeuing a view is not part of configuration.
+/// - SeeAlso: `StaticReusableViewConfiguring`
+/// - SeeAlso: `ReusableViewConfiguration`
+public protocol ReusableViewConfiguring {
+    
+    /// The reuse identifier which will be used to register and deque the view.
+    var reuseIdentifier: String { get }
+    /// the type of theview.
+    var type: ReusableViewType { get }
+    
+    /// Configures the given view with at the index path with the given object.
     ///
-    /// - Note: Dequeuing a view is not part of configuration.
-    /// - SeeAlso: `StaticReusableViewConfiguring`
-    /// - SeeAlso: `ReusableViewConfiguration`
-    public protocol ReusableViewConfiguring {
-        
-        /// The reuse identifier which will be used to register and deque the view.
-        var reuseIdentifier: String { get }
-        /// the type of theview.
-        var type: ReusableViewType { get }
-        
-        /// The nib which visualy represents view.
-        var nib: UINib? { get }
-        
-        /// Configures the given view with at the index path with the given object.
-        ///
-        /// - Parameters:
-        ///   - view: the view to configure
-        ///   - indexPath: index path of the view
-        ///   - object: the object which relates to the view
-        func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any)
-        
-        /// Decide if `Self` can configure a view with a given object and a kind.
-        ///
-        /// - Parameters:
-        ///   - ofKind: the kind.
-        ///   - object: the object.
-        /// - Returns: if `Self` can configure the view.
-        func canConfigureView(ofKind: String?, with object: Any) -> Bool
-    }
-#endif
+    /// - Parameters:
+    ///   - view: the view to configure
+    ///   - indexPath: index path of the view
+    ///   - object: the object which relates to the view
+    func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any)
+    
+    /// Decide if `Self` can configure a view with a given object and a kind.
+    ///
+    /// - Parameters:
+    ///   - ofKind: the kind.
+    ///   - object: the object.
+    /// - Returns: if `Self` can configure the view.
+    func canConfigureView(ofKind: String?, with object: Any) -> Bool
+}

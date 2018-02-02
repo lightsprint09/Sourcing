@@ -67,7 +67,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDequeCells() {
         //Given
-        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier, nib: nil)
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         
         //When
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
