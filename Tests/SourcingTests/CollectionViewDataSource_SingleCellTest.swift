@@ -92,7 +92,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
             configurationCount += 1
         })
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                                  supplementaryViewConfigurations: [supplemenaryViewConfiguration])
+                                                  supplementaryViewConfiguration: supplemenaryViewConfiguration)
         let indexPath = IndexPath(row: 2, section: 1)
         
         //When

@@ -72,14 +72,6 @@ class BasicCellConfigurationTest: XCTestCase {
         XCTAssertEqual(cell.configuredObject, 100)
     }
     
-    func testCanConfigureCell() {
-        //When
-        configuration = CellConfiguration(reuseIdentifier: identifier)
-        
-        //Then
-        XCTAssert(configuration.canConfigureView(ofKind: nil, with: 1))
-    }
-    
     class BasicCell: ReuseIdentifierProviding {
         static var reuseIdentifier = "reuseIdentifier"
     }

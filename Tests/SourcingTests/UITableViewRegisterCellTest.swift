@@ -23,39 +23,40 @@
 import XCTest
 import Sourcing
 
-class UITableViewRegisterCellTest: XCTestCase {
-    var tableViewMock: UITableViewMock!
-    
-    let cellIdentifier = "cellIdentifier"
-    let nib = UINib(data: Data(), bundle: nil)
-    
-    override func setUp() {
-        super.setUp()
-        tableViewMock = UITableViewMock()
-    }
-    
-    func testRegisterNib() {
-        //Given
-        let cellConfigurations = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: cellIdentifier, nib: nib)
-        
-        //When
-        tableViewMock.register(cellConfigurations)
-        
-        //Then
-        XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
-    }
-    
-    func testRegisterMultipleNib() {
-        //Given
-        let cellConfigurations: [CellConfiguration<UITableViewCellMock<Int>>] = [
-            CellConfiguration(reuseIdentifier: cellIdentifier, nib: nib)]
-        
-        //When
-        tableViewMock.register(cellConfigurations)
-        
-        //Then
-        XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
-        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
-    }
-}
+//class UITableViewRegisterCellTest: XCTestCase {
+//    var tableViewMock: UITableViewMock!
+//    
+//    let cellIdentifier = "cellIdentifier"
+//    let nib = UINib(data: Data(), bundle: nil)
+//    
+//    override func setUp() {
+//        super.setUp()
+//        tableViewMock = UITableViewMock()
+//    }
+//    
+//    func testRegisterNib() {
+//        //Given
+//        let cellConfigurations = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: cellIdentifier, nib: nib)
+//        
+//        //When
+//        tableViewMock.register(cellConfigurations)
+//        
+//        //Then
+//        XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
+//        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
+//    }
+//    
+//    func testRegisterMultipleNib() {
+//        //Given
+//        let cellConfigurations: [CellConfiguration<UITableViewCellMock<Int>>] = [
+//            CellConfiguration(reuseIdentifier: cellIdentifier, nib: nib)]
+//        
+//        //When
+//        tableViewMock.register(cellConfigurations)
+//        
+//        //Then
+//        XCTAssertEqual(tableViewMock.registerdNibs.count, 1)
+//        XCTAssertNotNil(tableViewMock.registerdNibs[cellIdentifier] as Any)
+//    }
+//}
+

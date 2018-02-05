@@ -24,33 +24,34 @@ import XCTest
 import UIKit
 import Sourcing
 
-class UICollectionViewRegisterCellTest: XCTestCase {
-    var collectionViewMock: UICollectionViewMock!
-    let reuseIdentifier = "reuseIdentifier"
-    let nib = UINib(data: Data(), bundle: nil)
-    var cellConfig: CellConfiguration<UICollectionViewCellMock<Int>>!
-    
-    override func setUp() {
-        super.setUp()
-        collectionViewMock = UICollectionViewMock()
-        cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier, nib: nib)
-    }
-    
-    func testRegisterMultipleNib() {
-        //When
-        collectionViewMock.register([cellConfig])
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registeredReusableViews.nibs[reuseIdentifier] as Any)
-    }
-    
-    func testRegisterNib() {
-        //When
-        collectionViewMock.register(cellConfig)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)
-        XCTAssertNotNil(collectionViewMock.registeredReusableViews.nibs[reuseIdentifier] as Any)
-    }
-}
+//class UICollectionViewRegisterCellTest: XCTestCase {
+//    var collectionViewMock: UICollectionViewMock!
+//    let reuseIdentifier = "reuseIdentifier"
+//    let nib = UINib(data: Data(), bundle: nil)
+//    var cellConfig: CellConfiguration<UICollectionViewCellMock<Int>>!
+//    
+//    override func setUp() {
+//        super.setUp()
+//        collectionViewMock = UICollectionViewMock()
+//        cellConfig = CellConfiguration<UICollectionViewCellMock<Int>>(reuseIdentifier: reuseIdentifier, nib: nib)
+//    }
+//    
+//    func testRegisterMultipleNib() {
+//        //When
+//        collectionViewMock.register([cellConfig])
+//        
+//        //Then
+//        XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)
+//        XCTAssertNotNil(collectionViewMock.registeredReusableViews.nibs[reuseIdentifier] as Any)
+//    }
+//    
+//    func testRegisterNib() {
+//        //When
+//        collectionViewMock.register(cellConfig)
+//        
+//        //Then
+//        XCTAssertEqual(collectionViewMock.registeredReusableViews.nibs.count, 1)
+//        XCTAssertNotNil(collectionViewMock.registeredReusableViews.nibs[reuseIdentifier] as Any)
+//    }
+//}
+

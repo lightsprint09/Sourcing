@@ -32,6 +32,11 @@ import UIKit
     /// - SeeAlso: `ReusableViewConfiguration`
     public protocol ReusableViewConfiguring {
         
+        /// The reusable view type which should be configured.
+        associatedtype View
+        /// The Object type which should configure the reusable view.
+        associatedtype Object
+        
         /// The reuse identifier which will be used to register and deque the view.
         var reuseIdentifier: String { get }
         /// the type of theview.
@@ -46,14 +51,7 @@ import UIKit
         ///   - view: the view to configure
         ///   - indexPath: index path of the view
         ///   - object: the object which relates to the view
-        func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any)
+        func configure(_ view: View, at indexPath: IndexPath, with object: Object)
         
-        /// Decide if `Self` can configure a view with a given object and a kind.
-        ///
-        /// - Parameters:
-        ///   - ofKind: the kind.
-        ///   - object: the object.
-        /// - Returns: if `Self` can configure the view.
-        func canConfigureView(ofKind: String?, with object: Any) -> Bool
     }
 #endif

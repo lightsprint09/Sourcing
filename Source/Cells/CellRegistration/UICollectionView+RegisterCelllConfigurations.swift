@@ -20,45 +20,46 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-#if os(iOS) || os(tvOS)
-    import UIKit
+//#if os(iOS) || os(tvOS)
+//    import UIKit
+//
+//    public extension UICollectionView {
+//        
+//        /**
+//         Registers a nib object containing a cell with the collection view under a specified identifier.
+//         
+//         Before dequeueing any cells, call this method to tell the collection
+//         view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
+//         the collection view uses the provided information to create a new cell object automatically.
+//         
+//         - parameter cellConfiguration: the cell configuration which to register.
+//         */
+//        func register<Cell: StaticReusableViewConfiguring>(_ reusableViewConfiguration: Cell) where Cell.View: UICollectionReusableView {
+//            register([reusableViewConfiguration])
+//        }
+//        
+//        /**
+//         Registers a nib object containing a cell with the collection view under a specified identifier.
+//         
+//         Before dequeueing any cells, call this method to tell the collection
+//         view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
+//         the collection view uses the provided information to create a new cell object automatically.
+//         
+//         - parameter cellConfigurations: the cell configurations which to register.
+//         */
+//        func register<Cell: StaticReusableViewConfiguring>(_ reusableViewConfigurations: [Cell]) where Cell.View: UICollectionReusableView {
+//            for reusableViewConfiguration in reusableViewConfigurations where reusableViewConfiguration.nib != nil {
+//                switch reusableViewConfiguration.type {
+//                case .cell:
+//                    register(reusableViewConfiguration.nib, forCellWithReuseIdentifier: reusableViewConfiguration.reuseIdentifier)
+//                case .supplementaryView(let kind):
+//                    register(reusableViewConfiguration.nib, forSupplementaryViewOfKind: kind,
+//                             withReuseIdentifier: reusableViewConfiguration.reuseIdentifier)
+//                }
+//                
+//            }
+//        }
+//        
+//    }
+//#endif
 
-    public extension UICollectionView {
-        
-        /**
-         Registers a nib object containing a cell with the collection view under a specified identifier.
-         
-         Before dequeueing any cells, call this method to tell the collection
-         view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
-         the collection view uses the provided information to create a new cell object automatically.
-         
-         - parameter cellConfiguration: the cell configuration which to register.
-         */
-        func register<Cell: StaticReusableViewConfiguring>(_ reusableViewConfiguration: Cell) where Cell.View: UICollectionReusableView {
-            register([reusableViewConfiguration])
-        }
-        
-        /**
-         Registers a nib object containing a cell with the collection view under a specified identifier.
-         
-         Before dequeueing any cells, call this method to tell the collection
-         view how to create new cells. If a cell of the specified type is not currently in a reuse queue,
-         the collection view uses the provided information to create a new cell object automatically.
-         
-         - parameter cellConfigurations: the cell configurations which to register.
-         */
-        func register<Cell: StaticReusableViewConfiguring>(_ reusableViewConfigurations: [Cell]) where Cell.View: UICollectionReusableView {
-            for reusableViewConfiguration in reusableViewConfigurations where reusableViewConfiguration.nib != nil {
-                switch reusableViewConfiguration.type {
-                case .cell:
-                    register(reusableViewConfiguration.nib, forCellWithReuseIdentifier: reusableViewConfiguration.reuseIdentifier)
-                case .supplementaryView(let kind):
-                    register(reusableViewConfiguration.nib, forSupplementaryViewOfKind: kind,
-                             withReuseIdentifier: reusableViewConfiguration.reuseIdentifier)
-                }
-                
-            }
-        }
-        
-    }
-#endif

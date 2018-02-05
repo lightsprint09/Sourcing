@@ -20,6 +20,24 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
+    let reuseIdentifier: String
+    
+    let type: ReusableViewType
+    
+    let nib: UINib?
+    
+    let configureClosure: (View, IndexPath, Object) -> Void
+    
+    func configure(_ view: View, at indexPath: IndexPath, with object: Object) {
+        configureClosure(view, indexPath, object)
+    }
+    
+    
+    
+    
+}
+
 #if os(iOS) || os(tvOS)
     import UIKit
 
@@ -39,35 +57,31 @@
         /// Data modificator can be used to modify the data providers content.
         public let dataModificator: DataModifying?
         
-        private let cellConfigurations: [ReusableViewConfiguring]
+        private let cellConfiguration: AnyReusableViewConfiguring<UITableViewCell, Object>
+        // MARK: Typesafe initializers
         
-        /// Creates an instance with a data provider and cell configurations
-        /// which will be displayed in the table view.
-        ///
-        /// - Note: This initializer is loosely typed. If you just display one cell, use the strongly typed initializer.
+        /// Creates an instance with a data provider and cell configuration
+        /// which will be displayed in the collection view.
         ///
         /// - SeeAlso: `DataProviding`
-        /// - SeeAlso: `CellConfiguring`
+        /// - SeeAlso: `StaticCellConfiguring`
         ///
         /// - Parameters:
-        ///   - dataProvider: the data provider which provides data to the data source
-        ///   - anyCellConfigurations: the cell configurations for the table view cells
+        ///   - dataProvider: the data provider which provides data to the data source.
+        ///   - cellConfiguration: the cell configuration for the table view cell.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
-        public init<TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider,
-              anyCellConfigurations: [ReusableViewConfiguring], dataModificator: DataModifying? = nil,
-              sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
-                    where TypedDataProvider.Element == Object {
-            self.dataProvider = AnyDataProvider(dataProvider)
-            self.dataModificator = dataModificator
-            self.cellConfigurations = anyCellConfigurations
-            self.sectionHeaderProvider = sectionTitleProvider
-            self.sectionIndexTitleProvider = sectionTitleProvider
-            super.init()
-        }
-        
-        private func cellDequeableForIndexPath(_ object: Object) -> ReusableViewConfiguring? {
-            return cellConfigurations.first(where: { $0.canConfigureView(ofKind: nil, with: object) })
+        public init<Cell: ReusableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfiguration: Cell,
+                                                                                          dataModificator: DataModifying? = nil, sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
+            where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
+                self.dataProvider = AnyDataProvider(dataProvider)
+                self.dataModificator = dataModificator
+                self.cellConfiguration = AnyReusableViewConfiguring(reuseIdentifier: cellConfiguration.reuseIdentifier, type: cellConfiguration.type, nib: cellConfiguration.nib, configureClosure: { (cell, indexPath, object) in
+                    cellConfiguration.configure(cell as! Cell.View, at: indexPath, with: object)
+                })
+                self.sectionHeaderProvider = sectionTitleProvider
+                self.sectionIndexTitleProvider = sectionTitleProvider
+                super.init()
         }
         
         // MARK: UITableViewDataSource
@@ -84,10 +98,9 @@
         /// :nodoc:
         public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let object = dataProvider.object(at: indexPath)
-            let cellDequeable: ReusableViewConfiguring! = cellDequeableForIndexPath(object)
-            precondition(cellDequeable != nil, "Unexpected cell type at \(indexPath) for object of type")
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellDequeable.reuseIdentifier, for: indexPath)
-            cellDequeable.configure(cell, at: indexPath, with: object)
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellConfiguration.reuseIdentifier, for: indexPath)
+            cellConfiguration.configure(cell, at: indexPath, with: object)
             
             return cell
         }
@@ -137,48 +150,6 @@
             if let dataModificator = dataModificator, editingStyle == .delete {
                 dataModificator.deleteItem(at: indexPath)
             }
-        }
-    }
-
-    public extension TableViewDataSource {
-        // MARK: Typesafe initializers
-        
-        /// Creates an instance with a data provider and cell configuration
-        /// which will be displayed in the collection view.
-        ///
-        /// - SeeAlso: `DataProviding`
-        /// - SeeAlso: `StaticCellConfiguring`
-        ///
-        /// - Parameters:
-        ///   - dataProvider: the data provider which provides data to the data source.
-        ///   - cellConfiguration: the cell configuration for the table view cell.
-        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
-        ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
-        convenience init<Cell: StaticReusableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfiguration: Cell,
-                         dataModificator: DataModifying? = nil, sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
-            where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
-                let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: [cellConfiguration],
-                          dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
-        }
-        
-        /// Creates an instance with a data provider and cell configurations
-        /// which will be displayed in the collection view.
-        ///
-        /// - SeeAlso: `DataProviding`
-        /// - SeeAlso: `StaticCellConfiguring`
-        ///
-        /// - Parameters:
-        ///   - dataProvider: the data provider which provides data to the data source.
-        ///   - cellConfigurations: the cell configurations for the table view cells.
-        ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
-        ///   - sectionTitleProvider: provides section header titles and section index titles.
-        convenience init<Cell: StaticReusableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfigurations: [Cell],
-                         dataModificator: DataModifying? = nil, sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
-            where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
-                let typeErasedDataProvider = AnyDataProvider(dataProvider)
-                self.init(dataProvider: typeErasedDataProvider, anyCellConfigurations: cellConfigurations,
-                          dataModificator: dataModificator, sectionTitleProvider: sectionTitleProvider)
         }
     }
 

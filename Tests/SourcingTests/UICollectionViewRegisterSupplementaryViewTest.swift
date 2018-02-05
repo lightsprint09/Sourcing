@@ -28,38 +28,39 @@ class SupplementaryViewMock: UICollectionReusableView, ReuseIdentifierProviding 
     
 }
 
-class CollectionViewSupplementaryViewTest: XCTestCase {
-    var collectionViewMock: UICollectionViewMock!
-    let reuseIdentifier = "SupplementaryViewMock"
-    let supplementaryKind = "supplementaryKind"
-    let nib = UINib(data: Data(), bundle: nil)
-    var supplemenaryViewConfiguration: ReusableViewConfiguration<SupplementaryViewMock, Int>!
-    
-    override func setUp() {
-        super.setUp()
-        collectionViewMock = UICollectionViewMock()
-        let viewType = ReusableViewType.supplementaryView(kind: supplementaryKind)
-        supplemenaryViewConfiguration = ReusableViewConfiguration<SupplementaryViewMock, Int>(type: viewType, nib: nib,
-                                                                                               configuration: { _, _, _ in })
-    }
-    
-    func testRegisterMultipleNib() {
-        //When
-        collectionViewMock.register([supplemenaryViewConfiguration])
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews.count, 1)
-        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.0, supplementaryKind)
-        XCTAssertNotNil(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.1 as Any)
-    }
-    
-    func testRegisterNib() {
-        //When
-        collectionViewMock.register(supplemenaryViewConfiguration)
-        
-        //Then
-        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews.count, 1)
-        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.0, supplementaryKind)
-        XCTAssertNotNil(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.1 as Any)
-    }
-}
+//class CollectionViewSupplementaryViewTest: XCTestCase {
+//    var collectionViewMock: UICollectionViewMock!
+//    let reuseIdentifier = "SupplementaryViewMock"
+//    let supplementaryKind = "supplementaryKind"
+//    let nib = UINib(data: Data(), bundle: nil)
+//    var supplemenaryViewConfiguration: ReusableViewConfiguration<SupplementaryViewMock, Int>!
+//    
+//    override func setUp() {
+//        super.setUp()
+//        collectionViewMock = UICollectionViewMock()
+//        let viewType = ReusableViewType.supplementaryView(kind: supplementaryKind)
+//        supplemenaryViewConfiguration = ReusableViewConfiguration<SupplementaryViewMock, Int>(type: viewType, nib: nib,
+//                                                                                               configuration: { _, _, _ in })
+//    }
+//    
+//    func testRegisterMultipleNib() {
+//        //When
+//        collectionViewMock.register([supplemenaryViewConfiguration])
+//        
+//        //Then
+//        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews.count, 1)
+//        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.0, supplementaryKind)
+//        XCTAssertNotNil(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.1 as Any)
+//    }
+//    
+//    func testRegisterNib() {
+//        //When
+//        collectionViewMock.register(supplemenaryViewConfiguration)
+//        
+//        //Then
+//        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews.count, 1)
+//        XCTAssertEqual(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.0, supplementaryKind)
+//        XCTAssertNotNil(collectionViewMock.registeredReusableViews.supplementaryViews[reuseIdentifier]?.1 as Any)
+//    }
+//}
+

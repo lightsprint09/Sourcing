@@ -31,7 +31,7 @@ import UIKit
     /// - Note: Dequeuing a view is not part of configuration.
     /// - SeeAlso: `SupplementaryViewConfiguring`
     /// - SeeAlso: `StaticSupplementaryViewConfiguring`
-    public struct ReusableViewConfiguration<ReusableView, ObjectInSection>: StaticReusableViewConfiguring {
+    public struct ReusableViewConfiguration<ReusableView, ObjectInSection>: ReusableViewConfiguring {
         
         public typealias View = ReusableView
         public typealias Object = ObjectInSection
@@ -66,10 +66,7 @@ import UIKit
         ///   - view: the view to configure
         ///   - indexPath: index path of the view
         ///   - object: the object which relates to the view
-        public func configure(_ view: AnyObject, at indexPath: IndexPath, with object: Any) {
-            guard let view = view as? View, let object = object as? Object else {
-                return
-            }
+        public func configure(_ view: View, at indexPath: IndexPath, with object: Object) {
             configuration?(view, indexPath, object)
         }
     }
