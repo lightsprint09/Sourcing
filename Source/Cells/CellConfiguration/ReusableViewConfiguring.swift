@@ -22,37 +22,30 @@
 
 import UIKit
 
-#if os(iOS) || os(tvOS)
-    // The reusable view configuration can decide if it can configure a given view with an object or not.
-    /// If matching, it is able to configure the view with the object. A configuration can be registered at the collection view or table view
-    /// with the configurations nib, reuse identifier and element kind for later dequeuing.
+// The reusable view configuration can decide if it can configure a given view with an object or not.
+/// If matching, it is able to configure the view with the object.
+///
+/// - Note: Dequeuing a view is not part of configuration.
+/// - SeeAlso: `StaticReusableViewConfiguring`
+/// - SeeAlso: `ReusableViewConfiguration`
+public protocol ReusableViewConfiguring {
+    
+    /// The reusable view type which should be configured.
+    associatedtype View
+    /// The Object type which should configure the reusable view.
+    associatedtype Object
+    
+    /// the type of theview.
+    var type: ReusableViewType { get }
+    
+    /// The reuse identifier which will be used to register and deque the view.
+    func reuseIdentifier(for object: Object) -> String
+    
+    /// Configures the given view with at the index path with the given object.
     ///
-    /// - Note: Dequeuing a view is not part of configuration.
-    /// - SeeAlso: `StaticReusableViewConfiguring`
-    /// - SeeAlso: `ReusableViewConfiguration`
-    public protocol ReusableViewConfiguring {
-        
-        /// The reusable view type which should be configured.
-        associatedtype View
-        /// The Object type which should configure the reusable view.
-        associatedtype Object
-        
-        /// the type of theview.
-        var type: ReusableViewType { get }
-        
-        /// The nib which visualy represents view.
-        var nib: UINib? { get }
-        
-        /// Configures the given view with at the index path with the given object.
-        ///
-        /// - Parameters:
-        ///   - view: the view to configure
-        ///   - indexPath: index path of the view
-        ///   - object: the object which relates to the view
-        func configure(_ view: View, at indexPath: IndexPath, with object: Object)
-        
-        /// The reuse identifier which will be used to register and deque the view.
-        func reuseIdentifier(for object: Object) -> String
-        
-    }
-#endif
+    /// - Parameters:
+    ///   - view: the view to configure
+    ///   - indexPath: index path of the view
+    ///   - object: the object which relates to the view
+    func configure(_ view: View, at indexPath: IndexPath, with object: Object)
+}

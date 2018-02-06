@@ -20,10 +20,8 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
+struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {    
     let type: ReusableViewType
-    
-    let nib: UINib?
     
     let configureClosure: (View, IndexPath, Object) -> Void
     
@@ -31,7 +29,6 @@ struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
     
     init<Config: ReusableViewConfiguring>(_ configuration: Config) where Config.Object == Object {
         self.type = configuration.type
-        self.nib = configuration.nib
         self.reuseIdentifierClosure = { configuration.reuseIdentifier(for: $0) }
         self.configureClosure = { view, indexPath, object in
             guard let view = view as? Config.View else {

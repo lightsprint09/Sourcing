@@ -26,7 +26,6 @@ import Sourcing
 
 class BasicCellConfigurationTest: XCTestCase {
     
-    let nib = UINib(data: Data(), bundle: nil)
     var configuration: CellConfiguration<UITableViewCellMock<Int>>!
     let identifier = "reuseIdentifier"
     
@@ -35,11 +34,10 @@ class BasicCellConfigurationTest: XCTestCase {
         let additionalConfiguration = { (view: UITableViewCellMock<Int>, indexPath: IndexPath, object: Int) in }
         
         //When
-        configuration = CellConfiguration(reuseIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
+        configuration = CellConfiguration(reuseIdentifier: identifier, additionalConfiguration: additionalConfiguration)
         
         //Then
         XCTAssertEqual(identifier, configuration.reuseIdentifier(for: 0))
-        XCTAssertNotNil(configuration.nib)
     }
     
     func testCellConfigurationInitWithCellIdentifierProviding() {
@@ -47,11 +45,10 @@ class BasicCellConfigurationTest: XCTestCase {
         let additionalConfiguration = { (view: UITableViewCellMock<Int>, indexPath: IndexPath, object: Int) in }
         
         //When
-        configuration = CellConfiguration(nib: nib, additionalConfiguration: additionalConfiguration)
+        configuration = CellConfiguration(additionalConfiguration: additionalConfiguration)
         
         //Then
         XCTAssertEqual(UITableViewCellMock<Int>.reuseIdentifier, configuration.reuseIdentifier(for: 0))
-        XCTAssertNotNil(configuration.nib)
     }
     
     func testConfigureCell() {
@@ -60,7 +57,7 @@ class BasicCellConfigurationTest: XCTestCase {
         let additionalConfiguration = { (view: UITableViewCellMock<Int>, indexPath: IndexPath, object: Int) in
             didCallAdditionalConfigurtion = true
         }
-        configuration = CellConfiguration(reuseIdentifier: identifier, nib: nib, additionalConfiguration: additionalConfiguration)
+        configuration = CellConfiguration(reuseIdentifier: identifier, additionalConfiguration: additionalConfiguration)
         let cell = UITableViewCellMock<Int>()
         
         //When
@@ -78,7 +75,6 @@ class BasicCellConfigurationTest: XCTestCase {
     
     func testBasicCanConfigureInit() {
         //Given
-       
         let configuration = ReusableViewConfiguration<BasicCell, String>(configuration: { _, _, _ in })
         
         //Then
