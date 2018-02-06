@@ -76,7 +76,7 @@ class FetchedResultsTableViewController: UITableViewController {
             try! self.managedObjectContext.save()
         })
         
-        let cellConfig = BasicReusableViewConfiguration<CDTrainCell, CDTrain>()
+        let cellConfig = ReusableViewConfiguration<CDTrainCell, CDTrain>()
         dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cellConfig, dataModificator: dataModificator)
         tableView.dataSource = dataSource
         tableView.setEditing(true, animated: true)

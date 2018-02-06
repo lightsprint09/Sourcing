@@ -59,13 +59,9 @@ import UIKit
              dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
-                self.cellConfiguration = AnyReusableViewConfiguring(reuseIdentifier: cellConfiguration.reuseIdentifier, type: cellConfiguration.type, nib: cellConfiguration.nib, configureClosure: { (cell, indexPath, object) in
-                    cellConfiguration.configure(cell as! Cell.View, at: indexPath, with: object)
-                })
+                self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator
-                self.supplementaryViewConfiguration = AnyReusableViewConfiguring(reuseIdentifier: supplementaryViewConfiguration.reuseIdentifier, type: supplementaryViewConfiguration.type, nib: supplementaryViewConfiguration.nib, configureClosure: { (cell, indexPath, object) in
-                    supplementaryViewConfiguration.configure(cell as! SupplementaryConfig.View, at: indexPath, with: object)
-                })
+                self.supplementaryViewConfiguration = AnyReusableViewConfiguring(supplementaryViewConfiguration)
                 self.sectionIndexTitleProvider = sectionIndexTitleProvider
                 super.init()
         }
@@ -88,10 +84,7 @@ import UIKit
                                                                     sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
-                self.cellConfiguration = AnyReusableViewConfiguring(reuseIdentifier: cellConfiguration.reuseIdentifier,
-                                                                    type: cellConfiguration.type, nib: cellConfiguration.nib, configureClosure: { (cell, indexPath, object) in
-                    cellConfiguration.configure(cell as! Cell.View, at: indexPath, with: object)
-                })
+                self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator
                 self.supplementaryViewConfiguration = nil
                 self.sectionIndexTitleProvider = sectionIndexTitleProvider
@@ -113,7 +106,7 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellConfiguration.reuseIdentifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellConfiguration.reuseIdentifier(for: object), for: indexPath)
             cellConfiguration.configure(cell, at: indexPath, with: object)
             
             return cell
@@ -138,7 +131,7 @@ import UIKit
             let object = dataProvider.object(at: indexPath)
             
             let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                withReuseIdentifier: supplementaryViewConfiguration.reuseIdentifier,
+                                                                                withReuseIdentifier: supplementaryViewConfiguration.reuseIdentifier(for: object),
                                                                                 for: indexPath)
             
             supplementaryViewConfiguration.configure(supplementaryView, at: indexPath, with: object)

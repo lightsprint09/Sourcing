@@ -37,7 +37,7 @@ import UIKit
         public typealias Object = ObjectInSection
         
         /// The reuse identifier which will be used to register and deque the cell.
-        public let reuseIdentifier: String
+        private let reuseIdentifier: String
         public var type: ReusableViewType
         
         /// The nib which visualy represents view.
@@ -68,6 +68,10 @@ import UIKit
         ///   - object: the object which relates to the view
         public func configure(_ view: View, at indexPath: IndexPath, with object: Object) {
             configuration?(view, indexPath, object)
+        }
+        
+        public func reuseIdentifier(for object: ObjectInSection) -> String {
+            return reuseIdentifier
         }
     }
     

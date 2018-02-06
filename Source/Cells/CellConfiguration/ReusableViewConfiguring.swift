@@ -37,8 +37,6 @@ import UIKit
         /// The Object type which should configure the reusable view.
         associatedtype Object
         
-        /// The reuse identifier which will be used to register and deque the view.
-        var reuseIdentifier: String { get }
         /// the type of theview.
         var type: ReusableViewType { get }
         
@@ -52,6 +50,9 @@ import UIKit
         ///   - indexPath: index path of the view
         ///   - object: the object which relates to the view
         func configure(_ view: View, at indexPath: IndexPath, with object: Object)
+        
+        /// The reuse identifier which will be used to register and deque the view.
+        func reuseIdentifier(for object: Object) -> String
         
     }
 #endif

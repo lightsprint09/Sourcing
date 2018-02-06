@@ -21,20 +21,34 @@
 //
 
 struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
-    let reuseIdentifier: String
-    
     let type: ReusableViewType
     
     let nib: UINib?
     
     let configureClosure: (View, IndexPath, Object) -> Void
     
+    let reuseIdentifierClosure: (Object) -> String
+    
+    init<Config: ReusableViewConfiguring>(_ configuration: Config) where Config.Object == Object {
+        self.type = configuration.type
+        self.nib = configuration.nib
+        self.reuseIdentifierClosure = { configuration.reuseIdentifier(for: $0) }
+        self.configureClosure = { view, indexPath, object in
+            guard let view = view as? Config.View else {
+                fatalError()
+            }
+            configuration.configure(view, at: indexPath, with: object)
+            
+        }
+    }
+    
     func configure(_ view: View, at indexPath: IndexPath, with object: Object) {
         configureClosure(view, indexPath, object)
     }
     
-    
-    
+    func reuseIdentifier(for object: Object) -> String {
+        return reuseIdentifierClosure(object)
+    }
     
 }
 
@@ -76,9 +90,7 @@ struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
             where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.dataModificator = dataModificator
-                self.cellConfiguration = AnyReusableViewConfiguring(reuseIdentifier: cellConfiguration.reuseIdentifier, type: cellConfiguration.type, nib: cellConfiguration.nib, configureClosure: { (cell, indexPath, object) in
-                    cellConfiguration.configure(cell as! Cell.View, at: indexPath, with: object)
-                })
+                self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.sectionHeaderProvider = sectionTitleProvider
                 self.sectionIndexTitleProvider = sectionTitleProvider
                 super.init()
@@ -99,7 +111,7 @@ struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
         public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellConfiguration.reuseIdentifier, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellConfiguration.reuseIdentifier(for: object), for: indexPath)
             cellConfiguration.configure(cell, at: indexPath, with: object)
             
             return cell
