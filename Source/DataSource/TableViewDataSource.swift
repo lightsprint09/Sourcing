@@ -20,35 +20,6 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {    
-    let type: ReusableViewType
-    
-    let configureClosure: (View, IndexPath, Object) -> Void
-    
-    let reuseIdentifierClosure: (Object) -> String
-    
-    init<Config: ReusableViewConfiguring>(_ configuration: Config) where Config.Object == Object {
-        self.type = configuration.type
-        self.reuseIdentifierClosure = { configuration.reuseIdentifier(for: $0) }
-        self.configureClosure = { view, indexPath, object in
-            guard let view = view as? Config.View else {
-                fatalError()
-            }
-            configuration.configure(view, at: indexPath, with: object)
-            
-        }
-    }
-    
-    func configure(_ view: View, at indexPath: IndexPath, with object: Object) {
-        configureClosure(view, indexPath, object)
-    }
-    
-    func reuseIdentifier(for object: Object) -> String {
-        return reuseIdentifierClosure(object)
-    }
-    
-}
-
 #if os(iOS) || os(tvOS)
     import UIKit
 
