@@ -68,7 +68,8 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
 
 class PlainArrayViewController: UITableViewController {
 
-    var dataProvider = ArrayDataProvider<JouneyItem>(rows: [.station(Station(name: "Frankfurt", distance: 200)), .train(Train(name: "ICE 4")), .station(Station(name: "Frankfurt", distance: 200))])
+    var dataProvider = ArrayDataProvider<JouneyItem>(rows: [.station(Station(name: "Frankfurt", distance: 200)),
+                                                        .train(Train(name: "ICE 4")), .station(Station(name: "Frankfurt", distance: 200))])
     var dataModificator: ArrayDataProviderModifier<JouneyItem>!
     var dataSource: TableViewDataSource<JouneyItem>!
     var dataSourceChangeAnimator: TableViewChangesAnimator!

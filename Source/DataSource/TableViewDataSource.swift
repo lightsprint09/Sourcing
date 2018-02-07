@@ -40,7 +40,6 @@
         public let dataModificator: DataModifying?
         
         private let cellConfiguration: AnyReusableViewConfiguring<UITableViewCell, Object>
-        // MARK: Typesafe initializers
         
         /// Creates an instance with a data provider and cell configuration
         /// which will be displayed in the collection view.
@@ -53,14 +52,16 @@
         ///   - cellConfiguration: the cell configuration for the table view cell.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
-        public init<Cell: ReusableViewConfiguring, TypedDataProvider: DataProviding>(dataProvider: TypedDataProvider, cellConfiguration: Cell,
-                                                                                          dataModificator: DataModifying? = nil, sectionTitleProvider: (SectionHeaderProviding & SectionIndexTitleProviding)? = nil)
-            where TypedDataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
+        public init<Cell: ReusableViewConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cellConfiguration: Cell,
+                                                                                dataModificator: DataModifying? = nil,
+                                                                                sectionHeaderProvider: SectionHeaderProviding? = nil,
+                                                                                sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+            where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.dataModificator = dataModificator
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
-                self.sectionHeaderProvider = sectionTitleProvider
-                self.sectionIndexTitleProvider = sectionTitleProvider
+                self.sectionHeaderProvider = sectionHeaderProvider
+                self.sectionIndexTitleProvider = sectionIndexTitleProvider
                 super.init()
         }
         
@@ -79,7 +80,8 @@
         public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellConfiguration.reuseIdentifier(for: object), for: indexPath)
+            let reuseIdentifier = cellConfiguration.reuseIdentifier(for: object)
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             cellConfiguration.configure(cell, at: indexPath, with: object)
             
             return cell

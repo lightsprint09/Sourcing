@@ -20,24 +20,23 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
+import Foundation
 
 /// The reusable view configuration can decide if it can configure a given view with an object or not.
 /// If matching, it is able to configure the view with the object. It knows the reuse identifier of the cell
 ///
-/// - Note: By conforming to `StaticSupplementaryViewConfiguring` it can be statically proven that a view and object matches each other.
 /// - Note: Dequeuing a view is not part of configuration.
-/// - SeeAlso: `SupplementaryViewConfiguring`
-/// - SeeAlso: `StaticSupplementaryViewConfiguring`
 public struct ReusableViewConfiguration<View, Object>: ReusableViewConfiguring {
     /// The reuse identifier which will be used to register and deque the cell.
     public let reuseIdentifier: String
+    
+    /// The type of the cell.
     public var type: ReusableViewType
     
     /// A block to configure the view with given object at the given index path.
     public let configuration: ((View, IndexPath, Object) -> Void)?
     
-    /// Creates an instance of `BasicCellConfiguration`.
+    /// Creates an instance of `ReusableViewConfiguration`.
     ///
     /// - Parameters:
     ///   - reuseIdentifier: the reuse identifier for registering & dequeuing views
@@ -59,12 +58,16 @@ public struct ReusableViewConfiguration<View, Object>: ReusableViewConfiguring {
         configuration?(view, indexPath, object)
     }
     
+    /// The reuse identifier which will be used deque the view.
+    ///
+    /// - Parameter object: the object
+    /// - Returns: reuse identifier which fits to object
     public func reuseIdentifier(for object: Object) -> String {
         return reuseIdentifier
     }
 }
 
-/// Creates an instance of `BasicCellConfiguration`.
+/// Creates an instance of `ReusableViewConfiguration`.
 /// Uses the protocol implementation of `ConfigurableCell.configure` for configuration.
 ///
 /// - SeeAlso: `ConfigurableCell`
@@ -79,7 +82,7 @@ extension ReusableViewConfiguration where View: ReuseIdentifierProviding {
     }
 }
 
-/// Creates an instance of `BasicCellConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
+/// Creates an instance of `ReusableViewConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
 ///
 /// - SeeAlso: `ConfigurableCell`
 /// - Parameters:
@@ -98,7 +101,7 @@ extension ReusableViewConfiguration where View: ConfigurableCell, View.ObjectToC
     }
 }
 
-/// Creates an instance of `BasicCellConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
+/// Creates an instance of `ReusableViewConfiguration`. And using the protocol implementation of `ConfigurableCell.configure` for configuration.
 /// In addition it uses the `ReuseIdentifierProviding` as a reuse identifier.
 ///
 /// - SeeAlso: `ConfigurableCell`

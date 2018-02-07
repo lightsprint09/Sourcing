@@ -44,8 +44,7 @@ import UIKit
         /// which will be displayed in the collection view.
         ///
         /// - SeeAlso: `DataProviding`
-        /// - SeeAlso: `StaticCellConfiguring`
-        /// - SeeAlso: `StaticSupplementaryViewConfiguring`
+        /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
@@ -70,8 +69,7 @@ import UIKit
         /// which will be displayed in the collection view.
         ///
         /// - SeeAlso: `DataProviding`
-        /// - SeeAlso: `StaticCellConfiguring`
-        /// - SeeAlso: `StaticSupplementaryViewConfiguring`
+        /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source
@@ -106,7 +104,8 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellConfiguration.reuseIdentifier(for: object), for: indexPath)
+            let reuseIdentifier = cellConfiguration.reuseIdentifier(for: object)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
             cellConfiguration.configure(cell, at: indexPath, with: object)
             
             return cell
@@ -129,9 +128,9 @@ import UIKit
                 fatalError("Must provide supplemetary view configuration")
             }
             let object = dataProvider.object(at: indexPath)
-            
+            let reuseIdentifier = supplementaryViewConfiguration.reuseIdentifier(for: object)
             let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                withReuseIdentifier: supplementaryViewConfiguration.reuseIdentifier(for: object),
+                                                                                withReuseIdentifier: reuseIdentifier,
                                                                                 for: indexPath)
             
             supplementaryViewConfiguration.configure(supplementaryView, at: indexPath, with: object)

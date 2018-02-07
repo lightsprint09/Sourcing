@@ -24,7 +24,7 @@ import XCTest
 import UIKit
 import Sourcing
 
-class BasicCellConfigurationTest: XCTestCase {
+class ReusableViewConfigurationTest: XCTestCase {
     
     var configuration: CellConfiguration<UITableViewCellMock<Int>>!
     let identifier = "reuseIdentifier"
@@ -61,7 +61,7 @@ class BasicCellConfigurationTest: XCTestCase {
         let cell = UITableViewCellMock<Int>()
         
         //When
-        _ = configuration.configure(cell, at: IndexPath(row: 0, section: 0), with: 100)
+        configuration.configure(cell, at: IndexPath(row: 0, section: 0), with: 100)
         
         //Then
         XCTAssertTrue(didCallAdditionalConfigurtion)

@@ -38,7 +38,10 @@ public protocol ReusableViewConfiguring {
     /// the type of theview.
     var type: ReusableViewType { get }
     
-    /// The reuse identifier which will be used to register and deque the view.
+    /// The reuse identifier which will be used deque the view.
+    ///
+    /// - Parameter object: the object
+    /// - Returns: reuse identifier which fits to object
     func reuseIdentifier(for object: Object) -> String
     
     /// Configures the given view with at the index path with the given object.

@@ -25,9 +25,9 @@ import Foundation
 struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
     let type: ReusableViewType
     
-    let configureClosure: (View, IndexPath, Object) -> Void
+    private let configureClosure: (View, IndexPath, Object) -> Void
     
-    let reuseIdentifierClosure: (Object) -> String
+    private let reuseIdentifierClosure: (Object) -> String
     
     init<Config: ReusableViewConfiguring>(_ configuration: Config) where Config.Object == Object {
         self.type = configuration.type

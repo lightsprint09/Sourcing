@@ -36,7 +36,7 @@ func managedObjectContextForTesting() -> NSManagedObjectContext {
     
     let model: NSManagedObjectModel! = NSManagedObjectModel.mergedModel(from: Bundle.allBundles)
     context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-    try! context.persistentStoreCoordinator?.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil)
+    _ = try? context.persistentStoreCoordinator?.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil)
     
     return context
 }
@@ -69,11 +69,11 @@ class FetchedResultsTableViewController: UITableViewController {
         fetchReuqest.sortDescriptors = [sortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
                                                               sectionNameKeyPath: nil, cacheName: nil)
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+        dataProvider = try? FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         dataModificator = FetchedResultsControllerModificator(dataProvider: dataProvider, move: { source, destination in
             source.0.sortIndex = NSNumber(value: destination.1.row)
             destination.0.sortIndex = NSNumber(value: source.1.row)
-            try! self.managedObjectContext.save()
+            try? self.managedObjectContext.save()
         })
         
         let cellConfig = ReusableViewConfiguration<CDTrainCell, CDTrain>()
