@@ -26,7 +26,6 @@ import UIKit
 /// If matching, it is able to configure the view with the object.
 ///
 /// - Note: Dequeuing a view is not part of configuration.
-/// - SeeAlso: `StaticReusableViewConfiguring`
 /// - SeeAlso: `ReusableViewConfiguration`
 public protocol ReusableViewConfiguring {
     
@@ -35,10 +34,11 @@ public protocol ReusableViewConfiguring {
     /// The Object type which should configure the reusable view.
     associatedtype Object
     
-    /// the type of theview.
+    /// The type of the reusable view.
     var type: ReusableViewType { get }
     
-    /// The reuse identifier which will be used deque the view.
+    /// The reuse identifier for the given object
+    /// which will be used deque the view.
     ///
     /// - Parameter object: the object
     /// - Returns: reuse identifier which fits to object
