@@ -20,36 +20,35 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-/// The reusable view configuration can decide if it can configure a given view with an object or not.
+import UIKit
+
+// The reusable view configuration can decide if it can configure a given view with an object or not.
 /// If matching, it is able to configure the view with the object.
 ///
-/// - Note: By conforming to `StaticReusableViewConfiguring` it can be statically proven that a view and object matches each other.
-/// - SeeAlso: `ReusableViewConfiguring`
-public protocol StaticReusableViewConfiguring: ReusableViewConfiguring {
+/// - Note: Dequeuing a view is not part of configuration.
+/// - SeeAlso: `ReusableViewConfiguration`
+public protocol ReusableViewConfiguring {
+    
     /// The reusable view type which should be configured.
     associatedtype View
     /// The Object type which should configure the reusable view.
     associatedtype Object
-}
-
-extension StaticReusableViewConfiguring {
     
-    /// Default implementation for all static reusable view configurations.
-    /// It uses the static view type and matches it dynamically to the given object type.
-    /// If they match and element kind is equal as well, `canConfigureView` reponds with `true`.
-    /// Patameter `kind` will only be used for comparison when view type is `.supplementaryView`.
+    /// The type of the reusable view.
+    var type: ReusableViewType { get }
+    
+    /// The reuse identifier for the given object
+    /// which will be used deque the view.
+    ///
+    /// - Parameter object: the object
+    /// - Returns: reuse identifier which fits to object
+    func reuseIdentifier(for object: Object) -> String
+    
+    /// Configures the given view with at the index path with the given object.
     ///
     /// - Parameters:
-    ///   - kind: element kind which should match with `supplementaryElementKind`.
-    ///   - object: object which gets dynamically compared to `Self.View`
-    /// - Returns: if matching succeeded
-    public func canConfigureView(ofKind kind: String?, with object: Any) -> Bool {
-        switch type {
-        case .cell:
-            return object is Object
-        case .supplementaryView(let supplementaryElementKind):
-            return kind == supplementaryElementKind && object is Object
-        }
-        
-    }
+    ///   - view: the view to configure
+    ///   - indexPath: index path of the view
+    ///   - object: the object which relates to the view
+    func configure(_ view: View, at indexPath: IndexPath, with object: Object)
 }

@@ -30,13 +30,13 @@
  let dataProvider: ArrayDataPrvoider<Train> = //
  
  //Use type name as a section header and shortname as a section index title.
- let sectionTitleProvider = DynamicSectionTitleProvider<Train>(dataProvider: dataProvider,
+ let sectionTitleProvider = DynamicSectionTitles<Train>(dataProvider: dataProvider,
                                 generateSectionHeaderTitle: { train, _ in return train.type.name }, 
                                 generateSectionIndexTitle: { train, _ in return train.type.shortName })
  ```
  
  */
-public final class DynamicSectionTitleProvider<Element>: SectionIndexTitleProviding, SectionHeaderProviding {
+public final class DynamicSectionTitles<Element>: SectionIndexTitles, SectionHeaders {
     /**
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */

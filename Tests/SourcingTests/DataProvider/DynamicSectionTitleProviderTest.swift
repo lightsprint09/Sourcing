@@ -23,12 +23,12 @@
 import XCTest
 import Sourcing
 
-class DynamicSectionTitleProviderTests: XCTestCase {
+class DynamicSectionTitlesTests: XCTestCase {
     
     func testGenerateHeaderTitle() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
-        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionTitles(dataProvider: dataProvider,
                                                                generateSectionHeaderTitle: { (element, _) in element })
         
         //When
@@ -45,7 +45,7 @@ class DynamicSectionTitleProviderTests: XCTestCase {
     func testGenerateSectionIndexTitles() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionIndexTitle"])
-        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionTitles(dataProvider: dataProvider,
                                                                generateSectionIndexTitle: { (element, _) in element })
         
         //When
@@ -63,7 +63,7 @@ class DynamicSectionTitleProviderTests: XCTestCase {
     func testGenerateFooterTitle() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionFooter"])
-        let sectionTitelProvider = DynamicSectionTitleProvider(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionTitles(dataProvider: dataProvider,
                                                                generateSectionFooterTitle: { (element, _) in element })
         
         //When

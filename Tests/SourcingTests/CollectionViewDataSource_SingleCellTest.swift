@@ -92,7 +92,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
             configurationCount += 1
         })
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                                  supplementaryViewConfigurations: [supplemenaryViewConfiguration])
+                                                  supplementaryViewConfiguration: supplemenaryViewConfiguration)
         let indexPath = IndexPath(row: 2, section: 1)
         
         //When
@@ -105,8 +105,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testIndexTitles() {
         //Given
-        let indexTitles = StaticSectionTitlesProvider(sectionIndexTitles: ["First"])
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitleProvider: indexTitles)
+        let indexTitles = StaticSectionTitles(sectionIndexTitles: ["First"])
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: indexTitles)
         
         //When
         let computedIndexTitles = dataSource.indexTitles(for: collectionViewMock)
@@ -116,9 +116,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     func testSectionForSectionIndexTitle() {
         //Given
         let indexHeaders = ["foo", "bar"]
-        let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
+        let sectionTitleProvider = StaticSectionTitles(sectionIndexTitles: indexHeaders)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitleProvider: sectionTitleProvider)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: sectionTitleProvider)
         
         //When
         let indexPath = dataSource.collectionView(collectionViewMock, indexPathForIndexTitle: "bar", at: 1)
