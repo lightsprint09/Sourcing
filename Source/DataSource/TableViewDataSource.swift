@@ -45,7 +45,7 @@
         /// which will be displayed in the collection view.
         ///
         /// - SeeAlso: `DataProviding`
-        /// - SeeAlso: `StaticCellConfiguring`
+        /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:
         ///   - dataProvider: the data provider which provides data to the data source.

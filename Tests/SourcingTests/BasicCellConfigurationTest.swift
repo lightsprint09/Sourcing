@@ -57,7 +57,7 @@ class ReusableViewConfigurationTest: XCTestCase {
         let additionalConfiguration = { (view: UITableViewCellMock<Int>, indexPath: IndexPath, object: Int) in
             didCallAdditionalConfigurtion = true
         }
-        configuration = CellConfiguration(reuseIdentifier: identifier, additionalConfiguration: additionalConfiguration)
+        configuration = CellConfiguration(additionalConfiguration: additionalConfiguration)
         let cell = UITableViewCellMock<Int>()
         
         //When

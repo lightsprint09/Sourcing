@@ -22,37 +22,6 @@
 
 import Foundation
 
-public protocol CollectionDataProvider: DataProviding {
-    /// The content which is provided by the data provider
-    var content: AnyCollection<AnyCollection<Element>> { get }
-}
-
-public extension CollectionDataProvider {
-    
-    /// Returns an object for a given index path.
-    ///
-    /// - Parameter indexPath: the index path to get the object for.
-    /// - Returns: the object at the given index path.
-    public func object(at indexPath: IndexPath) -> Element {
-        return content[AnyIndex(indexPath.section)][AnyIndex(indexPath.item)]
-    }
-    
-    /// Returns the number of items in a given section.
-    ///
-    /// - Parameter section: the section.
-    /// - Returns: number of items in the given section.
-    public func numberOfItems(inSection section: Int) -> Int {
-        return Int(content[AnyIndex(section)].count)
-    }
-    
-    /// Return the number of sections.
-    ///
-    /// - Returns: the number of sections.
-    public func numberOfSections() -> Int {
-        return Int(content.count)
-    }
-}
-
 /// `ArrayDataProvider` provides interface for data provides which rely on Array as internal data structure.
 ///
 /// - SeeAlso: `ArrayDataProvider`
