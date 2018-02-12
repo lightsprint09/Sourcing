@@ -164,10 +164,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
-        let sectionTitleProvider = StaticSectionTitlesProvider(sectionHeaderTitles: ["foo", "bar"])
+        let sectionTitleProvider = StaticSectionTitles(sectionHeaderTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                         sectionHeaderProvider: sectionTitleProvider)
+                                         sectionHeaders: sectionTitleProvider)
         
         //When
         let sectionTitle = dataSource.tableView(tableViewMock, titleForHeaderInSection: 1)
@@ -178,10 +178,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForFooterInSection() {
         //Given
-        let sectionTitleProvider = StaticSectionTitlesProvider(sectionFooterTitles: ["foo", "bar"])
+        let sectionTitleProvider = StaticSectionTitles(sectionFooterTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             sectionHeaderProvider: sectionTitleProvider)
+                                             sectionHeaders: sectionTitleProvider)
         
         //When
         let sectionTitle = dataSource.tableView(tableViewMock, titleForFooterInSection: 1)
@@ -193,10 +193,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testSectionIndexTitles() {
         //Given
         let indexHeaders = ["foo", "bar"]
-        let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
+        let sectionTitleProvider = StaticSectionTitles(sectionIndexTitles: indexHeaders)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             sectionIndexTitleProvider: sectionTitleProvider)
+                                             sectionIndexTitles: sectionTitleProvider)
         
         //When
         let computedSectionIndexes = dataSource.sectionIndexTitles(for: tableViewMock)
@@ -208,10 +208,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testSectionForSectionIndexTitle() {
         //Given
         let indexHeaders = ["foo", "bar"]
-        let sectionTitleProvider = StaticSectionTitlesProvider(sectionIndexTitles: indexHeaders)
+        let sectionTitleProvider = StaticSectionTitles(sectionIndexTitles: indexHeaders)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             sectionIndexTitleProvider: sectionTitleProvider)
+                                             sectionIndexTitles: sectionTitleProvider)
         
         //When
         let section = dataSource.tableView(tableViewMock, sectionForSectionIndexTitle: "bar", at: 1)

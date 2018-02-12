@@ -28,7 +28,7 @@ class StaticSectionTitleProviderTest: XCTestCase {
     func testStaticIndexTitles() {
         //Given
         let sectionIndexTitles = ["SectionIndexTitle"]
-        let sectionTitelProvider = StaticSectionTitlesProvider(sectionIndexTitles: sectionIndexTitles)
+        let sectionTitelProvider = StaticSectionTitles(sectionIndexTitles: sectionIndexTitles)
         
         //When
         let resultingSectionIndexTitles = sectionTitelProvider.sectionIndexTitles
@@ -40,7 +40,7 @@ class StaticSectionTitleProviderTest: XCTestCase {
     func testStaticTitleForHeader() {
         //Given
         let headerTiltes = ["SectionIndexTitle"]
-        let sectionTitelProvider = StaticSectionTitlesProvider(sectionHeaderTitles: headerTiltes)
+        let sectionTitelProvider = StaticSectionTitles(sectionHeaderTitles: headerTiltes)
         
         //When
         let headerTitle = sectionTitelProvider.titleForHeader(inSection: 0)
@@ -52,7 +52,7 @@ class StaticSectionTitleProviderTest: XCTestCase {
     func testStaticFooterForHeader() {
         //Given
         let headerTiltes = ["SectionFooterTitle"]
-        let sectionTitelProvider = StaticSectionTitlesProvider(sectionFooterTitles: headerTiltes)
+        let sectionTitelProvider = StaticSectionTitles(sectionFooterTitles: headerTiltes)
         
         //When
         let footerTitle = sectionTitelProvider.titleForFooter(inSection: 0)
@@ -64,7 +64,7 @@ class StaticSectionTitleProviderTest: XCTestCase {
     func testSectionForSectionIndexTitle() {
         //Given
         let headerTiltes = ["SectionFooterTitle"]
-        let sectionTitelProvider = StaticSectionTitlesProvider(sectionFooterTitles: headerTiltes)
+        let sectionTitelProvider = StaticSectionTitles(sectionFooterTitles: headerTiltes)
         
         //When
         let indexPath = sectionTitelProvider.indexPath(forSectionIndexTitle: "SectionFooterTitle", at: 0)

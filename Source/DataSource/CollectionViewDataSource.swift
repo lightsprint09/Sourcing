@@ -34,7 +34,7 @@ import UIKit
         public let dataModificator: DataModifying?
         
         /// Provides section index tiltes.
-        public let sectionIndexTitleProvider: SectionIndexTitleProviding?
+        public let sectionIndexTitles: SectionIndexTitles?
        
         private let cellConfiguration: AnyReusableViewConfiguring<UICollectionViewCell, Object>
         
@@ -51,17 +51,17 @@ import UIKit
         ///   - cellConfiguration: the cell configuration for the collection view cell for displaying the contents of the data provider.
         ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
-        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
+        ///   - sectionIndexTitles: provides section index titles. Defaults to `nil`.
         public init<Cell: ReusableViewConfiguring, DataProvider: DataProviding, SupplementaryConfig: ReusableViewConfiguring>
             (dataProvider: DataProvider, cellConfiguration: Cell,
              supplementaryViewConfiguration: SupplementaryConfig,
-             dataModificator: DataModifying? = nil, sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+             dataModificator: DataModifying? = nil, sectionIndexTitles: SectionIndexTitles? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator
                 self.supplementaryViewConfiguration = AnyReusableViewConfiguring(supplementaryViewConfiguration)
-                self.sectionIndexTitleProvider = sectionIndexTitleProvider
+                self.sectionIndexTitles = sectionIndexTitles
                 super.init()
         }
         
@@ -76,16 +76,16 @@ import UIKit
         ///   - cellConfiguration: the cell configuration for the collection view cell for displaying the contents of the data provider.
         ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
-        ///   - sectionIndexTitleProvider: provides section index titles. Defaults to `nil`.
+        ///   - sectionIndexTitles: provides section index titles. Defaults to `nil`.
         public init<Cell: ReusableViewConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cellConfiguration: Cell,
                                                                     dataModificator: DataModifying? = nil,
-                                                                    sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+                                                                    sectionIndexTitles: SectionIndexTitles? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator
                 self.supplementaryViewConfiguration = nil
-                self.sectionIndexTitleProvider = sectionIndexTitleProvider
+                self.sectionIndexTitles = sectionIndexTitles
                 super.init()
         }
         
@@ -139,14 +139,14 @@ import UIKit
         
         /// :nodoc:
         public func indexTitles(for collectionView: UICollectionView) -> [String]? {
-            return sectionIndexTitleProvider?.sectionIndexTitles
+            return sectionIndexTitles?.sectionIndexTitles
         }
         
         /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView, indexPathForIndexTitle title: String, at index: Int) -> IndexPath {
-            precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionIndexTitleProvider is nil")
-            let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider
-            return sectionIndexTitleProvider.indexPath(forSectionIndexTitle: title, at: index)
+            precondition(self.sectionIndexTitles != nil, "Must not called when sectionIndexTitles is nil")
+            let sectionIndexTitles: SectionIndexTitles! = self.sectionIndexTitles
+            return sectionIndexTitles.indexPath(forSectionIndexTitle: title, at: index)
         }
     }
 #endif

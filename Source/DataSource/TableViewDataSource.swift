@@ -31,10 +31,10 @@
         public let dataProvider: AnyDataProvider<Object>
         
         /// Provides section header titles.
-        public var sectionHeaderProvider: SectionHeaderProviding?
+        public var sectionHeaders: SectionHeaders?
         
         /// Provides section index titles.
-        public var sectionIndexTitleProvider: SectionIndexTitleProviding?
+        public var sectionIndexTitles: SectionIndexTitles?
         
         /// Data modificator can be used to modify the data providers content.
         public let dataModificator: DataModifying?
@@ -54,14 +54,14 @@
         ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
         public init<Cell: ReusableViewConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cellConfiguration: Cell,
                                                                                 dataModificator: DataModifying? = nil,
-                                                                                sectionHeaderProvider: SectionHeaderProviding? = nil,
-                                                                                sectionIndexTitleProvider: SectionIndexTitleProviding? = nil)
+                                                                                sectionHeaders: SectionHeaders? = nil,
+                                                                                sectionIndexTitles: SectionIndexTitles? = nil)
             where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.dataModificator = dataModificator
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
-                self.sectionHeaderProvider = sectionHeaderProvider
-                self.sectionIndexTitleProvider = sectionIndexTitleProvider
+                self.sectionHeaders = sectionHeaders
+                self.sectionIndexTitles = sectionIndexTitles
                 super.init()
         }
         
@@ -90,25 +90,25 @@
         // MARK: Section Index Titles
         /// :nodoc:
         public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-            return sectionIndexTitleProvider?.sectionIndexTitles
+            return sectionIndexTitles?.sectionIndexTitles
         }
         
         /// :nodoc:
         public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-            precondition(self.sectionIndexTitleProvider != nil, "Must not called when sectionTitleProvider is nil")
-            let sectionIndexTitleProvider: SectionIndexTitleProviding! = self.sectionIndexTitleProvider
-            return sectionIndexTitleProvider.indexPath(forSectionIndexTitle: title, at: index).section
+            precondition(self.sectionIndexTitles != nil, "Must not called when sectionIndexTitles is nil")
+            let sectionIndexTitles: SectionIndexTitles! = self.sectionIndexTitles
+            return sectionIndexTitles.indexPath(forSectionIndexTitle: title, at: index).section
         }
         
         // MARK: SectionHeader & SectionFooter
         /// :nodoc:
         public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-            return sectionHeaderProvider?.titleForHeader(inSection: section)
+            return sectionHeaders?.titleForHeader(inSection: section)
         }
         
         /// :nodoc:
         public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-            return sectionHeaderProvider?.titleForFooter(inSection: section)
+            return sectionHeaders?.titleForFooter(inSection: section)
         }
         
         // MARK: Editing

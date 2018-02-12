@@ -23,7 +23,7 @@
 import Foundation
 
 /// Generates section header titles and section index titles by using the given array of strings.
-public struct StaticSectionTitlesProvider: SectionIndexTitleProviding, SectionHeaderProviding {
+public struct StaticSectionTitles: SectionIndexTitles, SectionHeaders {
     /// All sectionIndexTitles
     public let sectionIndexTitles: [String]?
     
