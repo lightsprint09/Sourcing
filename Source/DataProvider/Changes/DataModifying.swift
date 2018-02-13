@@ -44,6 +44,8 @@ public protocol DataModifying {
     ///   - indexPath: the indexPath to delete
     func deleteItem(at indexPath: IndexPath)
     
+    func insertItem(at indexPath: IndexPath)
+    
     /// Checks wethere item at an indexPath can be deleted
     ///
     /// - Parameter indexPath: the indexPath to check for if it can be deleted

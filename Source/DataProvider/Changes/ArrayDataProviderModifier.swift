@@ -36,16 +36,19 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     
     private let dataProvider: ArrayDataProvider<Element>
     
+    private let createElement: (() -> Element)?
+    
     /// Creates an `ArrayDataProvider` instance.
     ///
     /// - Parameters:
     ///   - dataProvider: the data provider which should be modifiable
     ///   - canMoveItems: Flag if items can be moved by the data source.
     ///   - canDeleteItems: Flag if items can be deleted by the data source.
-    public init(dataProvider: ArrayDataProvider<Element>, canMoveItems: Bool = false, canDeleteItems: Bool = false) {
+    public init(dataProvider: ArrayDataProvider<Element>, canMoveItems: Bool = false, canDeleteItems: Bool = false, createElement: (() -> Element)? = nil) {
         self.dataProvider = dataProvider
         self.canMoveItems = canMoveItems
         self.canDeleteItems = canDeleteItems
+        self.createElement = createElement
     }
     
     /// Checks whether item at an indexPath can be moved
@@ -89,5 +92,15 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
         var content = dataProvider.content
         content[indexPath.section].remove(at: indexPath.item)
         dataProvider.reconfigure(with: content, change: .changes([.delete(indexPath)]))
+    }
+    
+    public func insertItem(at indexPath: IndexPath) {
+        guard let createElement = createElement else {
+            return
+        }
+        var content = dataProvider.content
+        let newElement = createElement()
+        content[indexPath.section].insert(newElement, at: indexPath.item)
+        dataProvider.reconfigure(with: content, change: .changes([.insert(indexPath)]))
     }
 }

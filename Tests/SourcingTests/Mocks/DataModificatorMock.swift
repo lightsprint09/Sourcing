@@ -30,6 +30,7 @@ class DataModificatorMock: DataModifying {
     var sourceIndexPath: IndexPath?
     var destinationIndexPath: IndexPath?
     var deletedIndexPath: IndexPath?
+    var insertedIndexPath: IndexPath?
     var updateView: Bool?
     
     func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool) {
@@ -48,5 +49,9 @@ class DataModificatorMock: DataModifying {
     
     func deleteItem(at indexPath: IndexPath) {
         deletedIndexPath = indexPath
+    }
+    
+    func insertItem(at indexPath: IndexPath) {
+        insertedIndexPath = indexPath
     }
 }

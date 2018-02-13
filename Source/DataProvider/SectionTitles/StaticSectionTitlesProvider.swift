@@ -22,9 +22,9 @@
 
 import Foundation
 
-/// Generates section header titles and section index titles by using the given array of strings.
+/// Generates section header titles, footer titles and section index titles by using the given array of strings.
 public struct StaticSectionTitles: SectionIndexTitles, SectionHeaders {
-    /// All sectionIndexTitles
+    /// All section index titles.
     public let sectionIndexTitles: [String]?
     
     private let sectionHeaderTitles: [String?]?
@@ -33,8 +33,9 @@ public struct StaticSectionTitles: SectionIndexTitles, SectionHeaders {
     /// Creates an instance.
     ///
     /// - Parameters:
-    ///   - sectionHeaderTitles: static list of section header titles
-    ///   - sectionIndexTitles: static list of section index titles
+    ///   - sectionHeaderTitles: static list of section header titles.
+    ///   - sectionFooterTitles: static list of section footer titles.
+    ///   - sectionIndexTitles: static list of section index titles.
     public init(sectionHeaderTitles: [String?]? = nil, sectionFooterTitles: [String?]? = nil, sectionIndexTitles: [String]? = nil) {
         self.sectionHeaderTitles = sectionHeaderTitles
         self.sectionIndexTitles = sectionIndexTitles

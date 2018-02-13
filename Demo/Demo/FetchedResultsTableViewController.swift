@@ -44,9 +44,8 @@ func managedObjectContextForTesting() -> NSManagedObjectContext {
 class FetchedResultsTableViewController: UITableViewController {
     
     var managedObjectContext: NSManagedObjectContext!
-    var train1: CDTrain!
-    var train2: CDTrain!
     var fetchedResultsController: NSFetchedResultsController<CDTrain>!
+    
     var dataProvider: FetchedResultsDataProvider<CDTrain>!
     var dataModificator: FetchedResultsControllerModificator<CDTrain>!
     var dataSource: TableViewDataSource<CDTrain>!
@@ -88,10 +87,10 @@ class FetchedResultsTableViewController: UITableViewController {
     func setupCoreData() {
         managedObjectContext = managedObjectContextForTesting()
         
-        train1 = self.train(id: "1", name: "TVG", sortIndex: 0)
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0)
         managedObjectContext.insert(train1)
         
-        train2 = self.train(id: "2", name: "ICE", sortIndex: 1)
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1)
         managedObjectContext.insert(train2)
         managedObjectContext.insert(self.train(id: "3", name: "IC", sortIndex: 2))
     }
