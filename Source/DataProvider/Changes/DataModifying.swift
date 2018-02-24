@@ -40,10 +40,12 @@ public protocol DataModifying {
     
     /// Deleted item at a given indexPath
     ///
-    /// - Parameters:
-    ///   - indexPath: the indexPath to delete
+    /// - Parameter: indexPath: the indexPath to delete
     func deleteItem(at indexPath: IndexPath)
     
+    /// Inserts an element at given indexPath
+    ///
+    /// - Parameter: indexPath: the indexPath to insert
     func insertItem(at indexPath: IndexPath)
     
     /// Checks wethere item at an indexPath can be deleted

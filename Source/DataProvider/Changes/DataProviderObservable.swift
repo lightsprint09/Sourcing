@@ -34,7 +34,7 @@ public protocol DataProviderObservable: class {
     
     /// To unregister call ``
     /// - Returns: An opaque object to act as the observer.
-    func addObserver(observer: @escaping  (DataProviderChange) -> Void) -> NSObjectProtocol
+    func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol
     
     /// Removes given observer from the receiver’s dispatch table.
     ///

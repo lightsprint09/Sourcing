@@ -94,6 +94,9 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
         dataProvider.reconfigure(with: content, change: .changes([.delete(indexPath)]))
     }
     
+    /// Inserts an element at given indexPath
+    ///
+    /// - Parameter: indexPath: the indexPath to insert
     public func insertItem(at indexPath: IndexPath) {
         guard let createElement = createElement else {
             return

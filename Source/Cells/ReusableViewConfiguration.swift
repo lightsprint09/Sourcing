@@ -42,7 +42,7 @@ public struct ReusableViewConfiguration<View, Object>: ReusableViewConfiguring {
     ///   - reuseIdentifier: the reuse identifier for registering & dequeuing views
     ///   - type: the type of the Reusable view
     ///   - configuration: a block to configure the view with given object at the given index path.
-    public init(reuseIdentifier: String, type: ReusableViewType, configuration: ((View, IndexPath, Object) -> Void)?) {
+    public init(reuseIdentifier: String, type: ReusableViewType = .cell, configuration: ((View, IndexPath, Object) -> Void)?) {
         self.reuseIdentifier = reuseIdentifier
         self.type = type
         self.configuration = configuration

@@ -28,7 +28,7 @@ public protocol ReuseIdentifierProviding {
 
 public extension ReuseIdentifierProviding {
     
-    /// Reuse indentifier of the cell which defaults to the classname.
+    /// Reuse indentifier of the view which defaults to the classname.
     static var reuseIdentifier: String {
         return String(describing: self)
     }
