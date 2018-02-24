@@ -52,4 +52,8 @@ class FetchedResultsControllerModificator<T: NSManagedObject>: DataModifying {
         managedObjectContext.delete(object)
         _ = try? managedObjectContext.save()
     }
+    
+    func insertItem(at indexPath: IndexPath) {
+        fatalError("Unimplemented")
+    }
 }

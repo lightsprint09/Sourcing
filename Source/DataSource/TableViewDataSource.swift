@@ -129,8 +129,16 @@
         
         /// :nodoc:
         public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-            if let dataModificator = dataModificator, editingStyle == .delete {
+            guard let dataModificator = dataModificator else {
+                return
+            }
+            switch editingStyle {
+            case .delete:
                 dataModificator.deleteItem(at: indexPath)
+            case .insert:
+                dataModificator.insertItem(at: indexPath)
+            default:
+                return
             }
         }
     }

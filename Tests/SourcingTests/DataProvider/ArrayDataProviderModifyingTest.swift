@@ -116,4 +116,19 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         XCTAssertEqual(destinationObject, 2)
         XCTAssert(didNotifyTableView)
     }
+    func testInsertItemAtIndexPath() {
+        //Given
+        arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider, createElement: { 7 })
+        var didNotifyTableView = false
+        _ = dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
+        let insertedIndexPath = IndexPath(item: 0, section: 0)
+        
+        //When
+        arrayDataModifier.insertItem(at: insertedIndexPath)
+        
+        //Then
+        let destinationObject = dataProvider.object(at: insertedIndexPath)
+        XCTAssertEqual(destinationObject, 7)
+        XCTAssert(didNotifyTableView)
+    }
 }

@@ -162,6 +162,18 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(dataModificator.deletedIndexPath, deletedIndexPath)
     }
     
+    func testInsertCell() {
+        //Given
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, dataModificator: dataModificator)
+        let insertedIndexPath = IndexPath(row: 0, section: 0)
+        
+        //When
+        dataSource.tableView(tableViewMock, commit: .insert, forRowAt: insertedIndexPath)
+        
+        //Then
+        XCTAssertEqual(dataModificator.insertedIndexPath, insertedIndexPath)
+    }
+    
     func testTitleForHeaderInSection() {
         //Given
         let sectionTitleProvider = StaticSectionTitles(sectionHeaderTitles: ["foo", "bar"])

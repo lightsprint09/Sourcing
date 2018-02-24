@@ -21,8 +21,8 @@
 //
 
 /** 
- Generates section header titles and section index titles by fetching the first
- element of a section and transforms it with a given closure into  header titles & section index titles.
+ Generates section index titles by fetching the first
+ element of a section and transforms it with a given closure into a section index titles.
  
  **Example**
  ```swift
@@ -30,13 +30,12 @@
  let dataProvider: ArrayDataPrvoider<Train> = //
  
  //Use type name as a section header and shortname as a section index title.
- let sectionTitleProvider = DynamicSectionTitles<Train>(dataProvider: dataProvider,
-                                generateSectionHeaderTitle: { train, _ in return train.type.name }, 
+ let sectionTitleProvider = DynamicSectionIndexTitles<Train>(dataProvider: dataProvider,
                                 generateSectionIndexTitle: { train, _ in return train.type.shortName })
  ```
  
  */
-public final class DynamicSectionTitles<Element>: SectionIndexTitles, SectionHeaders {
+public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
     /**
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
@@ -45,50 +44,18 @@ public final class DynamicSectionTitles<Element>: SectionIndexTitles, SectionHea
     }
     
     private let dataProvider: AnyDataProvider<Element>
-    private let generateSectionHeaderTitle: (Element, IndexPath) -> String?
-    private let generateSectionFooterTitle: (Element, IndexPath) -> String?
-    private let generateSectionIndexTitle: ((Element, IndexPath) -> String)?
+    private let generateSectionIndexTitle: ((Element, IndexPath) -> String)
     
     /// Creates a `DynamicHeaderTitlesProvider`.
     ///
     /// - Parameters:
     ///   - dataProvider: the data provider used as source for header titles.
-    ///   - generateSectionHeaderTitles: a closure to transform a Element which is part of
-    ///     the data provider into a single String, which is used as a section header titles.
-    ///   - generateSectionFooterTitle: a closure to transform a Element which is part of
-    ///     the data provider into a single String, which is used as a section footer titles.
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
     ///     data provider into a single String, which is used as a section index titles.
     public init<DataProvider: DataProviding>(dataProvider: DataProvider,
-                                             generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in return nil },
-                                             generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in return nil },
-                                             generateSectionIndexTitle: ((Element, IndexPath) -> String)? = nil) where DataProvider.Element == Element {
+                                             generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String)) where DataProvider.Element == Element {
         self.dataProvider = AnyDataProvider(dataProvider)
-        self.generateSectionHeaderTitle = generateSectionHeaderTitle
-        self.generateSectionFooterTitle = generateSectionFooterTitle
         self.generateSectionIndexTitle = generateSectionIndexTitle
-    }
-    
-    /// Generates a optional section title for a given section.
-    ///
-    /// - Parameter section: the section to generate the title for.
-    /// - Returns: a section header title.
-    public func titleForHeader(inSection section: Int) -> String? {
-        let indexPath = IndexPath(item: 0, section: section)
-        let firstObjectInSection = dataProvider.object(at: indexPath)
-        
-        return generateSectionHeaderTitle(firstObjectInSection, indexPath)
-    }
-    
-    /// Generates a optional section footer for a given section
-    ///
-    /// - Parameter section: the section to generate the title for
-    /// - Returns: a section footer title
-    public func titleForFooter(inSection section: Int) -> String? {
-        let indexPath = IndexPath(item: 0, section: section)
-        let firstObjectInSection = dataProvider.object(at: indexPath)
-        
-        return generateSectionFooterTitle(firstObjectInSection, indexPath)
     }
     
     /// Asks the data provider to return the index of the section having the given title and section title index.
@@ -103,9 +70,6 @@ public final class DynamicSectionTitles<Element>: SectionIndexTitles, SectionHea
     }
     
     private func indexSectionTitles() -> [String]? {
-        guard let generateSectionIndexTitle = generateSectionIndexTitle else {
-            return nil
-        }
         let allSections = 0..<dataProvider.numberOfSections()
         
         return allSections.map {

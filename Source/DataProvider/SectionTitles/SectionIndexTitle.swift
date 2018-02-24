@@ -23,9 +23,8 @@ import Foundation
 
 /// Providing section index titles.
 public protocol SectionIndexTitles {
-    /**
-     Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
-     */
+    
+    /// Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`.
     var sectionIndexTitles: [String]? { get }
     
     /// Asks the data provider to return the index of the section having the given title and section title index.
