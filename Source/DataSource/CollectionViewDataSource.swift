@@ -104,7 +104,7 @@ import UIKit
         public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            let reuseIdentifier = cellConfiguration.reuseIdentifier(for: object)
+            let reuseIdentifier = cellConfiguration.reuseIdentifier(for: object, ofType: .cell)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
             cellConfiguration.configure(cell, at: indexPath, with: object)
             
@@ -128,7 +128,7 @@ import UIKit
                 fatalError("Must provide supplemetary view configuration")
             }
             let object = dataProvider.object(at: indexPath)
-            let reuseIdentifier = supplementaryViewConfiguration.reuseIdentifier(for: object)
+            let reuseIdentifier = supplementaryViewConfiguration.reuseIdentifier(for: object, ofType: .supplementaryView(kind: kind))
             let supplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                 withReuseIdentifier: reuseIdentifier,
                                                                                 for: indexPath)
