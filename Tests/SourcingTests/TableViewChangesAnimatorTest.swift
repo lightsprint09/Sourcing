@@ -32,7 +32,9 @@ final class TableViewChangesAnimatorTest: XCTestCase {
     override func setUp() {
         super.setUp()
         tableViewMock = UITableViewMock()
-        tableViewChangesAnimator = TableViewChangesAnimator(tableView: tableViewMock, dataProviderObservable: observable)
+        let configuration = TableViewChangesAnimator.Configuration(insert: .none, update: .none, move: .none,
+                                                                delete: .none, insertSection: .none, deleteSection: .none)
+        tableViewChangesAnimator = TableViewChangesAnimator(tableView: tableViewMock, dataProviderObservable: observable, configuration: configuration)
     }
     
     func testInitDeinit() {
@@ -73,6 +75,7 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
+        XCTAssertEqual(tableViewMock.executedRowAnimations.first, UITableViewRowAnimation.none)
     }
     
     func testProcessUpdatesDelete() {
@@ -89,6 +92,7 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
+        XCTAssertEqual(tableViewMock.executedRowAnimations.first, UITableViewRowAnimation.none)
     }
     
     func testProcessUpdatesMove() {
@@ -121,6 +125,7 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
+        XCTAssertEqual(tableViewMock.executedRowAnimations.first, UITableViewRowAnimation.none)
     }
     
     func testProcessUpdatesInsertSection() {
@@ -136,6 +141,7 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
+        XCTAssertEqual(tableViewMock.executedRowAnimations.first, UITableViewRowAnimation.none)
     }
     
     func testProcessUpdatesDeleteSection() {
@@ -151,6 +157,7 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
+        XCTAssertEqual(tableViewMock.executedRowAnimations.first, UITableViewRowAnimation.none)
     }
     
     func testProcessUpdatesMoveSection() {
