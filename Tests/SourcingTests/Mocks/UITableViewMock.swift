@@ -42,6 +42,7 @@ class UITableViewMock: UITableView {
     
     var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
     var modifiedSections = ModifiedSections()
+    var executedRowAnimations = [UITableViewRowAnimation]()
 
     init(mockTableViewCells: [String: UITableViewCell] = ["reuseIdentifier": UITableViewCellMock<Int>()]) {
         cellDequeueMock = CellDequeueMock(cells: mockTableViewCells, dequeueCellReuseIdentifiers: [])
@@ -72,24 +73,29 @@ class UITableViewMock: UITableView {
         executionCount.endUpdates += 1
     }
     
-    override func insertRows(at indexPaths: [IndexPath], with withRowAnimation: UITableViewRowAnimation) {
+    override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
         modifiedIndexPaths.inserted = indexPaths
+        executedRowAnimations.append(animation)
     }
     
-    override func deleteRows(at indexPaths: [IndexPath], with withRowAnimation: UITableViewRowAnimation) {
+    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
         modifiedIndexPaths.deleted = indexPaths
+        executedRowAnimations.append(animation)
     }
     
     override public func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
         modifiedIndexPaths.reloaded = indexPaths
+        executedRowAnimations.append(animation)
     }
     
-    override func insertSections(_ sections: IndexSet, with withRowAnimation: UITableViewRowAnimation) {
+    override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
         modifiedSections.inserted = sections
+        executedRowAnimations.append(animation)
     }
     
-    override func deleteSections(_ sections: IndexSet, with withRowAnimation: UITableViewRowAnimation) {
+    override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
         modifiedSections.deleted = sections
+        executedRowAnimations.append(animation)
     }
     
     override func moveSection(_ section: Int, toSection newSection: Int) {

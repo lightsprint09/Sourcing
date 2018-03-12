@@ -33,15 +33,38 @@
         
         private var dataPrvoiderObserver: NSObjectProtocol!
         private let tableView: UITableView
+        private let configuration: Configuration
+        
+        public struct Configuration {
+            let insert: UITableViewRowAnimation
+            let update: UITableViewRowAnimation
+            let move: UITableViewRowAnimation
+            let delete: UITableViewRowAnimation
+            let insertSection: UITableViewRowAnimation
+            let deleteSection: UITableViewRowAnimation
+            
+            public init(insert: UITableViewRowAnimation = .automatic, update: UITableViewRowAnimation = .automatic,
+                        move: UITableViewRowAnimation = .automatic, delete: UITableViewRowAnimation = .automatic,
+                        insertSection: UITableViewRowAnimation = .automatic, deleteSection: UITableViewRowAnimation = .automatic) {
+                self.insert = insert
+                self.update = update
+                self.move = move
+                self.delete = delete
+                self.insertSection = insertSection
+                self.deleteSection = deleteSection
+            }
+        }
         
         /// Creates an instance and starts listening for changes to animate them into the table view.
         ///
         /// - Parameters:
         ///   - collectionView: the table view which should be animated
         ///   - dataProviderObservable: observable for listing to changes of a data provider
-        public init(tableView: UITableView, dataProviderObservable: DataProviderObservable) {
+        public init(tableView: UITableView, dataProviderObservable: DataProviderObservable,
+                    configuration: Configuration = Configuration()) {
             self.tableView = tableView
             self.dataProviderObservable = dataProviderObservable
+            self.configuration = configuration
             dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
                 switch update {
                 case .viewUnrelatedChanges:
@@ -61,17 +84,17 @@
         private func process(update: DataProviderChange.Change) {
             switch update {
             case .insert(let indexPath):
-                tableView.insertRows(at: [indexPath], with: .automatic)
+                tableView.insertRows(at: [indexPath], with: configuration.insert)
             case .update(let indexPath):
-                tableView.reloadRows(at: [indexPath], with: .automatic)
+                tableView.reloadRows(at: [indexPath], with: configuration.update)
             case .move(let indexPath, let newIndexPath):
                 tableView.moveRow(at: indexPath, to: newIndexPath)
             case .delete(let indexPath):
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.deleteRows(at: [indexPath], with: configuration.delete)
             case .insertSection(let sectionIndex):
-                tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+                tableView.insertSections(IndexSet(integer: sectionIndex), with: configuration.insertSection)
             case .deleteSection(let sectionIndex):
-                tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+                tableView.deleteSections(IndexSet(integer: sectionIndex), with: configuration.deleteSection)
             case .moveSection(let indexPath, let newIndexPath):
                 tableView.moveSection(indexPath, toSection: newIndexPath)
             }
