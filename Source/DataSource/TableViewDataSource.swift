@@ -52,11 +52,11 @@
         ///   - cellConfiguration: the cell configuration for the table view cell.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
-        public init<Cell: ReusableViewConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cellConfiguration: Cell,
+        public init<Cell: ReusableViewConfiguring, D: DataProvider>(dataProvider: D, cellConfiguration: Cell,
                                                                                 dataModificator: DataModifying? = nil,
                                                                                 sectionHeaders: SectionHeaders? = nil,
                                                                                 sectionIndexTitles: SectionIndexTitles? = nil)
-            where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
+            where D.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.dataModificator = dataModificator
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)

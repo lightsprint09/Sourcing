@@ -24,8 +24,9 @@ import Foundation
 /// Type eraser for `ArrayDataProviding`. This can be helpful to build conecpts like filtering, sorting ontop of array data provider.
 ///
 /// - SeeAlso: `ArrayDataProviding`
-public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
+public final class AnyCollectionDataProvider<ContentElement>: CollectionDataProvider {
     public typealias Element = ContentElement
+    
     private let capturedContents: () -> [[Element]]
     
     /// The content which is provided by the data provider
@@ -39,9 +40,10 @@ public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
     /// Type ereases a give `ArrayDataProviding`.
     ///
     /// - Parameter dataProvider: the data provider to type erase.
-    public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
+    public init<C: CollectionDataProvider>(_ dataProvider: C) where C.Container.Element.Element == Element {
         capturedContents = {
-            return dataProvider.content
+            let innerColections = dataProvider.content.map { Array($0) }
+            return Array(innerColections)
         }
         self.observable = dataProvider.observable
     }

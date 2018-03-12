@@ -27,7 +27,7 @@ import Foundation
  
  - seealso: `ArrayDataProviding`
  */
-public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
+public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
     public typealias Element = ContentElement
     
     /// The content which is provided by the data provider

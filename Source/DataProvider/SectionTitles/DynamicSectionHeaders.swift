@@ -52,10 +52,10 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     ///   - generateSectionFooterTitle: a closure to transform a Element which is part of
     ///     the data provider into a single String, which is used as a section footer titles.
     ///     Defaults to a closure which generates `nil` values.
-    public init<DataProvider: DataProviding>(dataProvider: DataProvider,
+    public init<D: DataProvider>(dataProvider: D,
                                              generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil },
                                              generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil })
-                                                where DataProvider.Element == Element {
+                                                where D.Element == Element {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.generateSectionHeaderTitle = generateSectionHeaderTitle
         self.generateSectionFooterTitle = generateSectionFooterTitle

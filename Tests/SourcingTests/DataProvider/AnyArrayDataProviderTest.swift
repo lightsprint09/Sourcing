@@ -32,17 +32,17 @@ class AnyArrayDataProviderTest: XCTestCase {
         let arrayDataProvider = ArrayDataProvider(rows: contents)
 
         //When
-        let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
+        let anyArrayDataProvider = AnyCollectionDataProvider(arrayDataProvider)
 
         //Then
-        XCTAssertEqual(anyArrayDataProvider.content.first ?? [], contents)
+        XCTAssertEqual(Array(anyArrayDataProvider.content.first!), contents)
     }
 
     func testSetWhenDataProviderChanged() {
         //Given
         let contents = ["ICE", "TGV"]
         let arrayDataProvider = ArrayDataProvider(rows: contents)
-        let anyArrayDataProvider = AnyArrayDataProvider(arrayDataProvider)
+        let anyArrayDataProvider = AnyCollectionDataProvider(arrayDataProvider)
 
         //When
         var calledWhenChanges = false

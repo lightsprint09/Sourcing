@@ -26,7 +26,7 @@ import Foundation
 /// It is generic over Object, which is the kind of data it provides.
 ///
 /// - SeeAlso: `AnyDataProvider`
-public protocol DataProviding: class {
+public protocol DataProvider: class {
     
      /// Element is the kind of data `DataProviding` provides.
     associatedtype Element

@@ -24,7 +24,7 @@ import Foundation
 import CoreData
 
 /// `FetchedResultsDataProvider` uses a `NSFetchedResultsController` as a backing store to transform it into a data provider.
-public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
+public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProvider {
     
     /// The fetched results controller which backs the data provider.
     public let fetchedResultsController: NSFetchedResultsController<Object>

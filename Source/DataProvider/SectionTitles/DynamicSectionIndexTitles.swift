@@ -52,8 +52,8 @@ public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
     ///   - dataProvider: the data provider used as source for header titles.
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
     ///     data provider into a single String, which is used as a section index titles.
-    public init<DataProvider: DataProviding>(dataProvider: DataProvider,
-                                             generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String)) where DataProvider.Element == Element {
+    public init<D: DataProvider>(dataProvider: D,
+                                             generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String)) where D.Element == Element {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.generateSectionIndexTitle = generateSectionIndexTitle
     }

@@ -25,7 +25,7 @@ import Foundation
 /// Type erases a DataProviding.
 ///
 /// - SeeAlso: `DataProviding`
-public final class AnyDataProvider<Element>: DataProviding {
+public final class AnyDataProvider<Element>: DataProvider {
     
     /// An observable where one can subscribe to changes of the data provider.
     public var observable: DataProviderObservable
@@ -37,7 +37,7 @@ public final class AnyDataProvider<Element>: DataProviding {
     /// Type erases a DataProviding.
     ///
     /// - Parameter dataProvider: the data provider to type erase
-    public init<DataProvider: DataProviding>(_ dataProvider: DataProvider) where Element == DataProvider.Element {
+    public init<D: DataProvider>(_ dataProvider: D) where Element == D.Element {
         objectAtIndexPath = { indexPath in
             return dataProvider.object(at: indexPath)
         }
