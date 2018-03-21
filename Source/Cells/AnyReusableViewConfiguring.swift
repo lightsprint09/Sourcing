@@ -27,14 +27,14 @@ struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
     let type: ReusableViewType
     
     private let configureClosure: (View, IndexPath, Object) -> Void
-    private let reuseIdentifierClosure: (Object) -> String
+    private let reuseIdentifierClosure: (Object, ReusableViewType) -> String
     
     /// Creatse an erased `ReusableViewConfiguring`
     ///
     /// - Parameter configuration: the configurate which should be type erased.
     init<Configuration: ReusableViewConfiguring>(_ configuration: Configuration) where Configuration.Object == Object {
         self.type = configuration.type
-        self.reuseIdentifierClosure = { configuration.reuseIdentifier(for: $0) }
+        self.reuseIdentifierClosure = { configuration.reuseIdentifier(for: $0, ofType: $1) }
         self.configureClosure = { view, indexPath, object in
             guard let view = view as? Configuration.View else {
                 fatalError()
@@ -58,8 +58,8 @@ struct AnyReusableViewConfiguring<View, Object>: ReusableViewConfiguring {
     ///
     /// - Parameter object: the object
     /// - Returns: reuse identifier which fits to object
-    func reuseIdentifier(for object: Object) -> String {
-        return reuseIdentifierClosure(object)
+    func reuseIdentifier(for object: Object, ofType type: ReusableViewType) -> String {
+        return reuseIdentifierClosure(object, type)
     }
     
 }

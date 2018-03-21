@@ -38,7 +38,6 @@ enum JouneyItem {
 }
 
 struct JourneyCellConfiguration: ReusableViewConfiguring {
-    
     let type: ReusableViewType = .cell
     
     let nib: UINib?
@@ -56,7 +55,7 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
         
     }
     
-    func reuseIdentifier(for item: JouneyItem) -> String {
+    func reuseIdentifier(for item: JouneyItem, ofType type: ReusableViewType) -> String {
         switch item {
         case .station:
             return "StationCell"

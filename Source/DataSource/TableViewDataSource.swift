@@ -80,7 +80,7 @@
         public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let object = dataProvider.object(at: indexPath)
             
-            let reuseIdentifier = cellConfiguration.reuseIdentifier(for: object)
+            let reuseIdentifier = cellConfiguration.reuseIdentifier(for: object, ofType: .cell)
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             cellConfiguration.configure(cell, at: indexPath, with: object)
             
