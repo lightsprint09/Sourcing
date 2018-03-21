@@ -37,6 +37,42 @@ class AnyArrayDataProviderTest: XCTestCase {
         //Then
         XCTAssertEqual(Array(anyArrayDataProvider.content.first!), contents)
     }
+    
+    func testNumberOfItemsInSection() {
+        //Given
+        let contents = ["ICE", "TGV"]
+        let arrayDataProvider = ArrayDataProvider(rows: contents)
+        
+        //When
+        let numberItems = AnyCollectionDataProvider(arrayDataProvider).numberOfItems(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(numberItems, 2)
+    }
+    
+    func testNumberOfSections() {
+        //Given
+        let contents = ["ICE", "TGV"]
+        let arrayDataProvider = ArrayDataProvider(rows: contents)
+        
+        //When
+        let numberOfSections = AnyCollectionDataProvider(arrayDataProvider).numberOfSections()
+        
+        //Then
+        XCTAssertEqual(numberOfSections, 1)
+    }
+    
+    func testObjectAtIndexPath() {
+        //Given
+        let contents = ["ICE", "TGV"]
+        let arrayDataProvider = ArrayDataProvider(rows: contents)
+        
+        //When
+        let object = AnyCollectionDataProvider(arrayDataProvider).object(at: IndexPath(item: 0, section: 0))
+        
+        //Then
+        XCTAssertEqual(object, "ICE")
+    }
 
     func testSetWhenDataProviderChanged() {
         //Given

@@ -23,7 +23,7 @@
 import XCTest
 import Sourcing
 
-class AnyDataProvidingTests: XCTestCase {
+class AnyDataProviderTests: XCTestCase {
     var dataProvider: AnyDataProvider<Int>!
     
     func testNumberOfSections() {

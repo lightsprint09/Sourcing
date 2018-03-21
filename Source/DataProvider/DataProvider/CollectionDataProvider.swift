@@ -21,12 +21,11 @@
 //
 
 import Foundation
-//let c = Collection
 /// `CollectionDataProvider` provides an interface for data providers which rely on a collection as internal data structure.
-/// By conforming to this protocol you get most of the `DataProviding` requirements already implemented.
+/// By conforming to this protocol you get most of the `DataProvider` requirements already implemented.
 ///
 /// - SeeAlso: `ArrayDataProvider`
-/// - SeeAlso: `AnyArrayDataProvider`
+/// - SeeAlso: `AnyCollectionDataProvider`
 public protocol CollectionDataProvider: DataProvider {
     associatedtype Container: Swift.Collection where Self.Container.Element: Collection, Self.Container.Element.Element == Self.Element
     
@@ -34,10 +33,17 @@ public protocol CollectionDataProvider: DataProvider {
     var content: Container { get }
 }
 
+public extension CollectionDataProvider {
+    /// Return the number of sections.
+    ///
+    /// - Returns: the number of sections.
+    public func numberOfSections() -> Int {
+        return content.count
+    }
+}
+
 public extension CollectionDataProvider where Container.Index == Int,
-                                            Container.Element.Index == Int,
-                                            Container.IndexDistance == Int,
-                                            Container.Element.IndexDistance == Int {
+                                            Container.Element.Index == Int {
     
     /// Returns an object for a given index path.
     ///
@@ -53,13 +59,6 @@ public extension CollectionDataProvider where Container.Index == Int,
     /// - Returns: number of items in the given section.
     public func numberOfItems(inSection section: Int) -> Int {
         return content[section].count
-    }
-
-    /// Return the number of sections.
-    ///
-    /// - Returns: the number of sections.
-    public func numberOfSections() -> Int {
-        return content.count
     }
 }
 
@@ -85,4 +84,3 @@ extension CollectionDataProvider where Element: Equatable {
         return nil
     }
 }
-

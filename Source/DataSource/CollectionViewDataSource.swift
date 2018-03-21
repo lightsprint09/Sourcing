@@ -43,7 +43,7 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
-        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `DataProvider`
         /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:
@@ -68,7 +68,7 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
-        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `DataProvider`
         /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:

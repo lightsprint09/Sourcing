@@ -23,9 +23,9 @@
 import Foundation
 
 /**
- `ArrayDataProvider` provides basic implementation to map arrays to a `DataProviding`.
+ `ArrayDataProvider` provides basic implementation to map arrays to a `DataProvider`.
  
- - seealso: `ArrayDataProviding`
+ - seealso: `CollectionDataProvider`
  */
 public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
     public typealias Element = ContentElement

@@ -44,7 +44,7 @@
         /// Creates an instance with a data provider and cell configuration
         /// which will be displayed in the collection view.
         ///
-        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `DataProvider`
         /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:

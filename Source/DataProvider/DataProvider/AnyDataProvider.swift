@@ -22,9 +22,9 @@
 
 import Foundation
 
-/// Type erases a DataProviding.
+/// Type erases a DataProvider.
 ///
-/// - SeeAlso: `DataProviding`
+/// - SeeAlso: `DataProvider`
 public final class AnyDataProvider<Element>: DataProvider {
     
     /// An observable where one can subscribe to changes of the data provider.
@@ -34,7 +34,7 @@ public final class AnyDataProvider<Element>: DataProvider {
     private let numberOfItems: (_ inSextion: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
     
-    /// Type erases a DataProviding.
+    /// Type erases a DataProvider.
     ///
     /// - Parameter dataProvider: the data provider to type erase
     public init<D: DataProvider>(_ dataProvider: D) where Element == D.Element {
