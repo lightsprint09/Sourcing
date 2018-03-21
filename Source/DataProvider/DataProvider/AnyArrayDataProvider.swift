@@ -32,7 +32,7 @@ public final class AnyCollectionDataProvider<ContentElement>: CollectionDataProv
     /// - Parameter indexPath: the index path to get the object for.
     /// - Returns: the object at the given index path.
     public func object(at indexPath: IndexPath) -> Element {
-        return content[AnyIndex(indexPath.section)][AnyIndex(indexPath.item)]
+        return elementAtIndexPath(indexPath)
     }
     
     /// Returns the number of items in a given section.
@@ -40,10 +40,20 @@ public final class AnyCollectionDataProvider<ContentElement>: CollectionDataProv
     /// - Parameter section: the section.
     /// - Returns: number of items in the given section.
     public func numberOfItems(inSection section: Int) -> Int {
-        return content[AnyIndex(section)].count
+        return numberOfItemsInSection(section)
+    }
+    
+    /// Return the number of sections.
+    ///
+    /// - Returns: the number of sections.
+    public func numberOfSections() -> Int {
+        return content.count
     }
     
     private let capturedContents: () -> AnyCollection<AnyCollection<Element>>
+    private let elementAtIndexPath: (IndexPath) -> Element
+    private let numberOfItemsInSection: (Int) -> Int
+    private let numberOfSectionCaptured: () -> Int
     
     /// The content which is provided by the data provider
     public var content: AnyCollection<AnyCollection<Element>> {
@@ -59,9 +69,16 @@ public final class AnyCollectionDataProvider<ContentElement>: CollectionDataProv
     public init<C: CollectionDataProvider>(_ dataProvider: C) where C.Element == Element {
         capturedContents = {
             let content = dataProvider.content
-            let innerColections = content.map { AnyCollection($0) }
+            let innerColections = content.lazy.map { AnyCollection($0) }
             return AnyCollection(innerColections)
         }
+        elementAtIndexPath = { indexPath in
+            return dataProvider.object(at: indexPath)
+        }
+        numberOfItemsInSection = { section in
+            return dataProvider.numberOfItems(inSection: section)
+        }
+        numberOfSectionCaptured = { dataProvider.numberOfSections() }
         self.observable = dataProvider.observable
     }
 }

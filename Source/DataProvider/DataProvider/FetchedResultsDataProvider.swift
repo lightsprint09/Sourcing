@@ -141,21 +141,21 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        let updatesIndexPaths = updates.flatMap { update -> IndexPath? in
+        let updatesIndexPaths = updates.compactMap { update -> IndexPath? in
             switch update {
             case .update(let indexPath):
                 return indexPath
             default: return nil
             }
         }
-        updates = updates.flatMap { update -> DataProviderChange.Change? in
+        updates = updates.compactMap { update -> DataProviderChange.Change? in
             if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
                return nil
             }
             return update
         }
         dataProviderDidChangeContents(with: updates)
-        let updatesByMoves = updates.flatMap { operation -> DataProviderChange.Change? in
+        let updatesByMoves = updates.compactMap { operation -> DataProviderChange.Change? in
             if case .move(_, let newIndexPath) = operation {
                 return .update(newIndexPath)
             }
