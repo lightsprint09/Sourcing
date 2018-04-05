@@ -36,7 +36,7 @@ class AnyArrayDataProviderTest: XCTestCase {
 
         //Then
         guard let section = anyArrayDataProvider.content.first else {
-            XCTFail()
+            XCTFail("Needs a first section")
             return
         }
         XCTAssertEqual(Array(section), contents)

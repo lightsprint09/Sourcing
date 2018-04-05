@@ -118,11 +118,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .insert(let updatedIndexPath) = dataProvider.updates.first! {
-            XCTAssertEqual(indexPath, updatedIndexPath)
-        } else {
-            XCTFail()
-        }
+        XCTAssertEqual(dataProvider.updates.first, .insert(indexPath))
     }
     
     func testHandleUpdate() {
@@ -135,11 +131,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .update(let updatedIndexPath)? = dataProvider.updates.first {
-            XCTAssertEqual(indexPath, updatedIndexPath)
-        } else {
-            XCTFail()
-        }
+        XCTAssertEqual(dataProvider.updates.first, .update(indexPath))
     }
     
     func testHandleInsertSection() {
@@ -152,11 +144,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .insertSection(let updatedSection)? = dataProvider.updates.first {
-            XCTAssertEqual(section, updatedSection)
-        } else {
-            XCTFail()
-        }
+        XCTAssertEqual(dataProvider.updates.first, .insertSection(section))
     }
     
     func testHandleDeleteSection() {
@@ -169,11 +157,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .deleteSection(let updatedSection)? = dataProvider.updates.first {
-            XCTAssertEqual(section, updatedSection)
-        } else {
-            XCTFail()
-        }
+        XCTAssertEqual(dataProvider.updates.first, .deleteSection(section))
     }
     
     func testHandleMove() {
@@ -187,22 +171,15 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .move(let updatedIndexPath, let newMovedIndexPath)? = dataProvider.updates.first {
-            XCTAssertEqual(oldIndexPath, updatedIndexPath)
-            XCTAssertEqual(newIndexPath, newMovedIndexPath)
-        } else {
-            XCTFail()
-        }
+        XCTAssertEqual(dataProvider.updates.first, .move(oldIndexPath, newIndexPath))
     }
     
     func testHandleMoveByUser() {
         //Given
         let oldIndexPath = IndexPath(row: 0, section: 0)
         let newIndexPath = IndexPath(row: 1, section: 0)
-        var capturedChange: DataProviderChange?
-        _ = dataProvider.observable.addObserver(observer: { change in
-            capturedChange = change
-        })
+        var capturedChanges = [DataProviderChange]()
+        _ = dataProvider.observable.addObserver { capturedChanges.append($0) }
         
         //When
         dataProvider.performNonUIRelevantChanges {
@@ -212,11 +189,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         }
         
         //Then
-        if case .viewUnrelatedChanges(let changes)? = capturedChange {
-            XCTAssertEqual(changes.count, 1)
-        } else {
-            XCTFail("Must be triggeredByUserInteraction")
-        }
+        XCTAssertEqual(capturedChanges, [.viewUnrelatedChanges([.move(oldIndexPath, newIndexPath)]), .viewUnrelatedChanges([.update(newIndexPath)])])
     }
     
     func testConflictIndexPathsForMoveUpdate() {
@@ -237,19 +210,6 @@ class FetchedResultsDataProviderTests: XCTestCase {
         if case .move? = dataProvider.updates.first {
             XCTFail()
         }
-    }
-    
-    func testProcessUpdates() {
-        //Given
-        var didUpdateDataSource = false
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        _ = dataProvider.observable.addObserver(observer: { _ in didUpdateDataSource = true })
-        
-        //When
-        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
-        
-        //Then
-        XCTAssert(didUpdateDataSource)
     }
     
     func testProcessUpdatesForMoveChange() {
@@ -322,14 +282,10 @@ class FetchedResultsDataProviderTests: XCTestCase {
     
     func testProcessUpdatesForUpdateChange() {
         //Given
-        var updateIndexPath = IndexPath()
+        var catpturedChange: DataProviderChange?
         
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        _ = dataProvider.observable.addObserver { change in
-            if case .changes(let updates) = change, case .update(let indexPath)? = updates.first {
-                updateIndexPath = indexPath
-            }
-        }
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         let indexPath = IndexPath(row: 1, section: 0)
         dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
@@ -339,7 +295,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
         dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
         
         //Then
-        XCTAssertEqual(updateIndexPath, indexPath)
+        XCTAssertEqual(catpturedChange, .changes([.update(indexPath)]))
     }
     
     func testWillChangeContent() {
@@ -355,7 +311,6 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
          XCTAssert(dataProvider.updates.isEmpty)
-       
     }
 
     func testHandleDelete() {
@@ -368,10 +323,6 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //Then
         XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .delete(let updatedIndexPath)? = dataProvider.updates.first {
-            XCTAssertEqual(deletedIndexPath, updatedIndexPath)
-        } else {
-            XCTFail()
-        }
+        XCTAssertEqual(dataProvider.updates.first, .delete(deletedIndexPath))
     }
 }

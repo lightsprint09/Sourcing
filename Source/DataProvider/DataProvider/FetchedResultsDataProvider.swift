@@ -165,6 +165,9 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]) {
+        if updates.isEmpty {
+            return
+        }
         if performsViewUnrelatedChange {
             defaultObservable.send(updates: .viewUnrelatedChanges(updates))
         } else {
