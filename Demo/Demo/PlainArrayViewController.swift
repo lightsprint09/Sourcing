@@ -32,7 +32,7 @@ struct Train {
     let name: String
 }
 
-enum JouneyItem {
+enum JourneyItem {
     case train(Train)
     case station(Station)
 }
@@ -42,7 +42,7 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
     
     let nib: UINib?
     
-    func configure(_ cell: UITableViewCell, at indexPath: IndexPath, with item: JouneyItem) {
+    func configure(_ cell: UITableViewCell, at indexPath: IndexPath, with item: JourneyItem) {
         switch (item, cell) {
         case (.station(let station), let cell as StationCell):
             cell.configure(with: station)
@@ -52,10 +52,9 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
         case (_, _):
             fatalError("Missing cell Type")
         }
-        
     }
     
-    func reuseIdentifier(for item: JouneyItem, ofType type: ReusableViewType) -> String {
+    func reuseIdentifier(for item: JourneyItem, ofType type: ReusableViewType) -> String {
         switch item {
         case .station:
             return "StationCell"
@@ -67,10 +66,10 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
 
 class PlainArrayViewController: UITableViewController {
 
-    var dataProvider = ArrayDataProvider<JouneyItem>(rows: [.station(Station(name: "Frankfurt", distance: 200)),
+    var dataProvider = ArrayDataProvider<JourneyItem>(rows: [.station(Station(name: "Frankfurt", distance: 200)),
                                                         .train(Train(name: "ICE 4")), .station(Station(name: "Frankfurt", distance: 200))])
-    var dataModificator: ArrayDataProviderModifier<JouneyItem>!
-    var dataSource: TableViewDataSource<JouneyItem>!
+    var dataModificator: ArrayDataProviderModifier<JourneyItem>!
+    var dataSource: TableViewDataSource<JourneyItem>!
     var dataSourceChangeAnimator: TableViewChangesAnimator!
     
     override func viewDidLoad() {

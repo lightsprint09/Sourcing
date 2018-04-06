@@ -47,7 +47,7 @@ public final class AnyCollectionDataProvider<ContentElement>: CollectionDataProv
     ///
     /// - Returns: the number of sections.
     public func numberOfSections() -> Int {
-        return content.count
+        return numberOfSectionCaptured()
     }
     
     private let capturedContents: () -> AnyCollection<AnyCollection<Element>>

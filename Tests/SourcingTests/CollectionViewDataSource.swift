@@ -105,8 +105,8 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testIndexTitles() {
         //Given
-        let indexTitles = StaticSectionTitles(sectionIndexTitles: ["First"])
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: indexTitles)
+        let sectionIndexTitles = ["First"]
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: sectionIndexTitles)
         
         //When
         let computedIndexTitles = dataSource.indexTitles(for: collectionViewMock)
@@ -115,10 +115,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testSectionForSectionIndexTitle() {
         //Given
-        let indexHeaders = ["foo", "bar"]
-        let sectionTitleProvider = StaticSectionTitles(sectionIndexTitles: indexHeaders)
+        let sectionIndexTitles = ["foo", "bar"]
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: sectionTitleProvider)
+        let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: sectionIndexTitles)
         
         //When
         let indexPath = dataSource.collectionView(collectionViewMock, indexPathForIndexTitle: "bar", at: 1)

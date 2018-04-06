@@ -28,13 +28,23 @@ class StaticSectionTitleProviderTest: XCTestCase {
     func testStaticIndexTitles() {
         //Given
         let sectionIndexTitles = ["SectionIndexTitle"]
-        let sectionTitelProvider = StaticSectionTitles(sectionIndexTitles: sectionIndexTitles)
         
         //When
-        let resultingSectionIndexTitles = sectionTitelProvider.sectionIndexTitles
+        let resultingSectionIndexTitles = sectionIndexTitles.sectionIndexTitles
         
         //Then
-        XCTAssertEqual(resultingSectionIndexTitles ?? [], sectionIndexTitles)
+        XCTAssertEqual(resultingSectionIndexTitles, sectionIndexTitles)
+    }
+    
+    func testSectionForSectionIndexTitle() {
+        //Given
+        let sectionIndexTitles = ["SectionFooterTitle"]
+        
+        //When
+        let indexPath = sectionIndexTitles.indexPath(forSectionIndexTitle: "SectionFooterTitle", at: 0)
+        
+        //Then
+        XCTAssertEqual(indexPath.section, 0)
     }
     
     func testStaticTitleForHeader() {
@@ -60,16 +70,5 @@ class StaticSectionTitleProviderTest: XCTestCase {
         //Then
         XCTAssertEqual(footerTitle, "SectionFooterTitle")
     }
-    
-    func testSectionForSectionIndexTitle() {
-        //Given
-        let headerTiltes = ["SectionFooterTitle"]
-        let sectionTitelProvider = StaticSectionTitles(sectionFooterTitles: headerTiltes)
-        
-        //When
-        let indexPath = sectionTitelProvider.indexPath(forSectionIndexTitle: "SectionFooterTitle", at: 0)
-        
-        //Then
-        XCTAssertEqual(indexPath.section, 0)
-    }
+
 }
