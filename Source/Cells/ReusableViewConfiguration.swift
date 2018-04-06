@@ -62,7 +62,7 @@ public struct ReusableViewConfiguration<View, Object>: ReusableViewConfiguring {
     ///
     /// - Parameter object: the object
     /// - Returns: reuse identifier which fits to object
-    public func reuseIdentifier(for object: Object) -> String {
+    public func reuseIdentifier(for object: Object, ofType type: ReusableViewType) -> String {
         return reuseIdentifier
     }
 }

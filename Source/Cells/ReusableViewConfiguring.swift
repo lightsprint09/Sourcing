@@ -20,7 +20,6 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
 
 // The reusable view configuration can decide if it can configure a given view with an object or not.
 /// If matching, it is able to configure the view with the object.
@@ -42,7 +41,7 @@ public protocol ReusableViewConfiguring {
     ///
     /// - Parameter object: the object
     /// - Returns: reuse identifier which fits to object
-    func reuseIdentifier(for object: Object) -> String
+    func reuseIdentifier(for object: Object, ofType type: ReusableViewType) -> String
     
     /// Configures the given view with at the index path with the given object.
     ///
