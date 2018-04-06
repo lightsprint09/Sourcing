@@ -98,7 +98,7 @@ class AnyArrayDataProviderTest: XCTestCase {
     func testPerformanceOfObjectAtIndex() {
         //Given
         let contents = repeatElement("ICE", count: 1000000)
-        let arrayDataProvider = ArrayDataProvider(rows: contents)
+        let arrayDataProvider = ArrayDataProvider(rows: Array(contents))
         let anyArrayDataProvider = AnyCollectionDataProvider(arrayDataProvider)
         
         //When
@@ -113,7 +113,7 @@ class AnyArrayDataProviderTest: XCTestCase {
     func testPerformanceOfObjectAtIndexBAseline() {
         //Given
         let contents = repeatElement("ICE", count: 1000000)
-        let arrayDataProvider = ArrayDataProvider(rows: contents)
+        let arrayDataProvider = ArrayDataProvider(rows: Array(contents))
         
         //When
         measure {

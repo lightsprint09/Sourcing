@@ -67,18 +67,18 @@ public final class AnyCollectionDataProvider<ContentElement>: CollectionDataProv
     ///
     /// - Parameter dataProvider: the data provider to type erase.
     public init<C: CollectionDataProvider>(_ dataProvider: C) where C.Element == Element {
-        capturedContents = {
+        self.capturedContents = {
             let content = dataProvider.content
             let innerColections = content.lazy.map { AnyCollection($0) }
             return AnyCollection(innerColections)
         }
-        elementAtIndexPath = { indexPath in
+        self.elementAtIndexPath = { indexPath in
             return dataProvider.object(at: indexPath)
         }
-        numberOfItemsInSection = { section in
+        self.numberOfItemsInSection = { section in
             return dataProvider.numberOfItems(inSection: section)
         }
-        numberOfSectionCaptured = { dataProvider.numberOfSections() }
+        self.numberOfSectionCaptured = { dataProvider.numberOfSections() }
         self.observable = dataProvider.observable
     }
 }

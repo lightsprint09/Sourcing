@@ -47,9 +47,8 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
      
      - parameter rows: single section of data.
      */
-    public convenience init<Rows: Collection>(rows: Rows)
-        where Rows.Iterator.Element == Element {
-        self.init(sections: [Array(rows)])
+    public convenience init(rows: [Element]) {
+        self.init(sections: [rows])
     }
     
     /**
@@ -68,9 +67,8 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
      - parameter array: flat array.
      - parameter change: diff of the new data.
     */
-    public func reconfigure<Rows: Collection>(with rows: Rows, change: DataProviderChange = .unknown)
-        where Rows.Iterator.Element == Element {
-        reconfigure(with: [Array(rows)], change: change)
+    public func reconfigure(with rows: [Element], change: DataProviderChange = .unknown) {
+        reconfigure(with: [rows], change: change)
     }
     
     /**
@@ -84,8 +82,8 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
         dataProviderDidChangeContets(with: change)
     }
     
-    private func dataProviderDidChangeContets(with updates: DataProviderChange) {
-        defaultObservable.send(updates: updates)
+    private func dataProviderDidChangeContets(with change: DataProviderChange) {
+        defaultObservable.send(updates: change)
     }
     
 }
