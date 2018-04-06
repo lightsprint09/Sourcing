@@ -24,7 +24,7 @@ import XCTest
 import CoreData
 @testable import Sourcing
 
-// swiftlint:disable force_cast force_try force_unwrapping xctfail_message
+// swiftlint:disable force_cast force_try force_unwrapping
 class FetchedResultsDataProviderTests: XCTestCase {
     func managedObjectContextForTesting() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -39,7 +39,8 @@ class FetchedResultsDataProviderTests: XCTestCase {
     var managedObjectContext: NSManagedObjectContext!
     var train1: CDTrain!
     var train2: CDTrain!
-    var fetchedResultsController: NSFetchedResultsController<CDTrain>!
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
+    var typedFetchedResultsController: NSFetchedResultsController<CDTrain>!
     var dataProvider: FetchedResultsDataProvider<CDTrain>!
     
     override func setUp() {
@@ -55,9 +56,11 @@ class FetchedResultsDataProviderTests: XCTestCase {
         let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
         fetchReuqest.sortDescriptors = [sortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+        typedFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
                                                               sectionNameKeyPath: nil, cacheName: nil)
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: typedFetchedResultsController)
+        
+        self.fetchedResultsController = typedFetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>
     }
     
     private func train(id: String, name: String, sortIndex: Int) -> CDTrain {
@@ -97,81 +100,73 @@ class FetchedResultsDataProviderTests: XCTestCase {
     }
     
     func testReconfigureFetchRequest() {
-        var didUpdate = false
-        _ = dataProvider.observable.addObserver(observer: { _ in
-            didUpdate = true
-        })
+        //Given
+        var catpturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
+        
+        //When
         try? dataProvider.reconfigure(with: { _ in
             
         })
         
-        XCTAssert(didUpdate)
+        //Then
+        XCTAssertEqual(catpturedChange, .unknown)
     }
     
     func testHandleInsert() {
         //Given
         let indexPath = IndexPath(row: 0, section: 0)
+        var catpturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: nil, for: .insert, newIndexPath: indexPath)
+        dataProvider.controller(fetchedResultsController, didChange: 1, at: nil, for: .insert, newIndexPath: indexPath)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
         
         //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
-        XCTAssertEqual(dataProvider.updates.first, .insert(indexPath))
+        XCTAssertEqual(catpturedChange, .changes([.insert(indexPath)]))
     }
     
     func testHandleUpdate() {
         //Given
         let indexPath = IndexPath(row: 0, section: 0)
+        var catpturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: indexPath, for: .update, newIndexPath: nil)
+        dataProvider.controller(fetchedResultsController, didChange: 1, at: indexPath, for: .update, newIndexPath: nil)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
         
         //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
-        XCTAssertEqual(dataProvider.updates.first, .update(indexPath))
+        XCTAssertEqual(catpturedChange, .changes([.update(indexPath)]))
     }
     
     func testHandleInsertSection() {
         //Given
         let section = 0
+        var catpturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .insert)
+        dataProvider.controller(fetchedResultsController, didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .insert)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
         
         //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
-        XCTAssertEqual(dataProvider.updates.first, .insertSection(section))
+        XCTAssertEqual(catpturedChange, .changes([.insertSection(section)]))
     }
     
     func testHandleDeleteSection() {
         //Given
         let section = 0
+        var catpturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .delete)
+        dataProvider.controller(fetchedResultsController, didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .delete)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
         
         //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
-        XCTAssertEqual(dataProvider.updates.first, .deleteSection(section))
-    }
-    
-    func testHandleMove() {
-        //Given
-        let oldIndexPath = IndexPath(row: 0, section: 0)
-        let newIndexPath = IndexPath(row: 1, section: 0)
-        
-        //When
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
-        
-        //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
-        XCTAssertEqual(dataProvider.updates.first, .move(oldIndexPath, newIndexPath))
+        XCTAssertEqual(catpturedChange, .changes([.deleteSection(section)]))
     }
     
     func testHandleMoveByUser() {
@@ -183,146 +178,78 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //When
         dataProvider.performNonUIRelevantChanges {
-            dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                    didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
-            dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+            dataProvider.controller(fetchedResultsController, didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+            dataProvider.controllerDidChangeContent(fetchedResultsController)
         }
         
         //Then
         XCTAssertEqual(capturedChanges, [.viewUnrelatedChanges([.move(oldIndexPath, newIndexPath)]), .viewUnrelatedChanges([.update(newIndexPath)])])
     }
     
-    func testConflictIndexPathsForMoveUpdate() {
-        //Given
-        let updateIndexPath = IndexPath(row: 1, section: 0)
-        let oldIndexPath = IndexPath(row: 0, section: 0)
-        let newIndexPath = IndexPath(row: 1, section: 0)
-        
-        //When
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: updateIndexPath, for: .update, newIndexPath: nil)
-        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
-        
-        //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
-        if case .move? = dataProvider.updates.first {
-            XCTFail()
-        }
-    }
-    
     func testProcessUpdatesForMoveChange() {
         //Given
-        var updateIndexPath = IndexPath()
-        var moveIndexPaths = [IndexPath]()
+        var changes = [DataProviderChange]()
         
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        _ = dataProvider.observable.addObserver { change in
-            if case .changes(let updates) = change {
-                for update in updates {
-                    switch update {
-                    case .update(let indexPath):
-                        updateIndexPath = indexPath
-                    case .move(let indexPath, let newIndexPath):
-                        moveIndexPaths = [indexPath, newIndexPath]
-                    default: break
-                    }
-                }
-            }
-
-        }
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: typedFetchedResultsController)
+        _ = dataProvider.observable.addObserver { changes.append($0) }
         
         let oldIndexPath = IndexPath(row: 0, section: 0)
         let newIndexPath = IndexPath(row: 1, section: 0)
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+        dataProvider.controller(fetchedResultsController, didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
         
         //When
-        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
         
         //Then
-        XCTAssertEqual(updateIndexPath, newIndexPath)
-        XCTAssertEqual(moveIndexPaths, [oldIndexPath, newIndexPath])
-    }
-    
-    func testProcessUpdatesOrderForMoveChange() {
-        var updatesNumber = 0
-        var isFirstMoveCall = false
-        var isSecondUpdateCall = false
-        
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
-        _ = dataProvider.observable.addObserver { change in
-            if case .changes(let updates) = change {
-                updatesNumber += 1
-
-                if case .move(_, _)? = updates.first {
-                    isFirstMoveCall = true
-                }
-
-                if case .update(_)? = updates.first, isFirstMoveCall {
-                    isSecondUpdateCall = true
-                }
-            }
-        }
-        
-        let oldIndexPath = IndexPath(row: 0, section: 0)
-        let newIndexPath = IndexPath(row: 1, section: 0)
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
-        
-        //When
-        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
-        
-        //Then
-        XCTAssertEqual(updatesNumber, 2)
-        XCTAssert(isFirstMoveCall)
-        XCTAssert(isSecondUpdateCall)
+        XCTAssertEqual(changes, [.changes([.move(oldIndexPath, newIndexPath)]), .changes([.update(newIndexPath)])])
     }
     
     func testProcessUpdatesForUpdateChange() {
         //Given
         var catpturedChange: DataProviderChange?
         
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
+        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: typedFetchedResultsController)
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         let indexPath = IndexPath(row: 1, section: 0)
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: indexPath, for: .update, newIndexPath: indexPath)
+        dataProvider.controller(fetchedResultsController, didChange: 1, at: indexPath, for: .update, newIndexPath: indexPath)
         
         //When
-        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
         
         //Then
         XCTAssertEqual(catpturedChange, .changes([.update(indexPath)]))
     }
     
-    func testWillChangeContent() {
+    func testMultipleUpdates() {
         //Given
-        let oldIndexPath = IndexPath(row: 0, section: 0)
-        let newIndexPath = IndexPath(row: 1, section: 0)
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
-        XCTAssert(!dataProvider.updates.isEmpty)
+        let firstUpdate = IndexPath(row: 0, section: 0)
+        let secondDelete = IndexPath(row: 1, section: 0)
+        var catpturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controllerWillChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
-        
+        dataProvider.controller(fetchedResultsController, didChange: 1, at: firstUpdate, for: .update, newIndexPath: nil)
+        dataProvider.controllerWillChangeContent(fetchedResultsController)
+
+        dataProvider.controller(fetchedResultsController, didChange: 1, at: secondDelete, for: .delete, newIndexPath: nil)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
+
         //Then
-         XCTAssert(dataProvider.updates.isEmpty)
+        XCTAssertEqual(catpturedChange, .changes([.delete(secondDelete)]))
     }
 
     func testHandleDelete() {
         //Given
         let deletedIndexPath = IndexPath(row: 0, section: 0)
+        var catpturedChange: DataProviderChange?
+        _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>,
-                                didChange: 1, at: deletedIndexPath, for: .delete, newIndexPath: nil)
+        dataProvider.controller(fetchedResultsController, didChange: 1, at: deletedIndexPath, for: .delete, newIndexPath: nil)
+        dataProvider.controllerDidChangeContent(fetchedResultsController)
         
         //Then
-        XCTAssertEqual(dataProvider.updates.count, 1)
-        XCTAssertEqual(dataProvider.updates.first, .delete(deletedIndexPath))
+        XCTAssertEqual(catpturedChange, .changes([.delete(deletedIndexPath)]))
     }
 }

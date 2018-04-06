@@ -36,7 +36,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     private let defaultObservable: DefaultDataProviderObservable
     
-    var updates: [DataProviderChange.Change] = []
+    private var updates: [DataProviderChange.Change] = []
     private var performsViewUnrelatedChange = false
     
     /// Creates an instance of `FetchedResultsDataProvider` backed by a `NSFetchedResultsController`. Performs a fetch to populate the data.
