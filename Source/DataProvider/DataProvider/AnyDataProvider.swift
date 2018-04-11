@@ -25,7 +25,7 @@ import Foundation
 /// Type erases a DataProvider.
 ///
 /// - SeeAlso: `DataProvider`
-public final class AnyDataProvider<Element>: DataProvider {
+open class AnyDataProvider<Element>: DataProvider {
     
     /// An observable where one can subscribe to changes of the data provider.
     public var observable: DataProviderObservable
@@ -54,7 +54,7 @@ public final class AnyDataProvider<Element>: DataProvider {
     ///
     /// - Parameter indexPath: the index path to get the object for.
     /// - Returns: the object at the given index path.
-    public func object(at indexPath: IndexPath) -> Element {
+    open func object(at indexPath: IndexPath) -> Element {
         return objectAtIndexPath(indexPath)
     }
     
@@ -62,14 +62,14 @@ public final class AnyDataProvider<Element>: DataProvider {
     ///
     /// - Parameter section: the section.
     /// - Returns: number of items in the given section.
-    public func numberOfItems(inSection section: Int) -> Int {
+    open func numberOfItems(inSection section: Int) -> Int {
         return numberOfItems(section)
     }
     
     /// Return the number of sections.
     ///
     /// - Returns: the number of sections.
-    public func numberOfSections() -> Int {
+    open func numberOfSections() -> Int {
         return numberOfSectionsCallback()
     }
 }

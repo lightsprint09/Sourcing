@@ -45,7 +45,7 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
     /**
      Creates an instance of `ArrayDataProvider` with a flat collection which results a single section.
      
-     - parameter rows: single section of data.
+     - parameter rows: single section of content.
      */
     public convenience init(rows: [Element]) {
         self.init(sections: [rows])
@@ -61,8 +61,10 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
         defaultObservable = DefaultDataProviderObservable()
     }
     
+    // MARK: Reconfiguration
+    
     /**
-     Reconfigures the dataSource with new data.
+     Reconfigures the data provider with new content.
      
      - parameter array: flat array.
      - parameter change: diff of the new data.
@@ -72,7 +74,7 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
     }
     
     /**
-     Reconfigures the dataSource with new data.
+     Reconfigures the data provider with new content.
      
      - parameter array: 2D array.
      - parameter change: diff of the new data.

@@ -24,61 +24,25 @@ import Foundation
 /// Type eraser for `CollectionDataProvider`. This can be helpful to build conecpts like filtering, sorting ontop of collection data provider.
 ///
 /// - SeeAlso: `CollectionDataProvider`
-public final class AnyCollectionDataProvider<ContentElement>: CollectionDataProvider {
+public final class AnyCollectionDataProvider<ContentElement>: AnyDataProvider<ContentElement>, CollectionDataProvider {
     public typealias Element = ContentElement
     
-    /// Returns an object for a given index path.
-    ///
-    /// - Parameter indexPath: the index path to get the object for.
-    /// - Returns: the object at the given index path.
-    public func object(at indexPath: IndexPath) -> Element {
-        return elementAtIndexPath(indexPath)
-    }
-    
-    /// Returns the number of items in a given section.
-    ///
-    /// - Parameter section: the section.
-    /// - Returns: number of items in the given section.
-    public func numberOfItems(inSection section: Int) -> Int {
-        return numberOfItemsInSection(section)
-    }
-    
-    /// Return the number of sections.
-    ///
-    /// - Returns: the number of sections.
-    public func numberOfSections() -> Int {
-        return numberOfSectionCaptured()
-    }
-    
     private let capturedContents: () -> AnyCollection<AnyCollection<Element>>
-    private let elementAtIndexPath: (IndexPath) -> Element
-    private let numberOfItemsInSection: (Int) -> Int
-    private let numberOfSectionCaptured: () -> Int
     
     /// The content which is provided by the data provider
     public var content: AnyCollection<AnyCollection<Element>> {
         return capturedContents()
     }
     
-    /// An observable where one can subscribe to changes of the data provider.
-    public let observable: DataProviderObservable
-    
     /// Type ereases a give `CollectionDataProvider`.
     ///
     /// - Parameter dataProvider: the data provider to type erase.
-    public init<C: CollectionDataProvider>(_ dataProvider: C) where C.Element == Element {
+    public override init<C: CollectionDataProvider>(_ dataProvider: C) where C.Element == Element {
         self.capturedContents = {
             let content = dataProvider.content
             let innerColections = content.lazy.map { AnyCollection($0) }
             return AnyCollection(innerColections)
         }
-        self.elementAtIndexPath = { indexPath in
-            return dataProvider.object(at: indexPath)
-        }
-        self.numberOfItemsInSection = { section in
-            return dataProvider.numberOfItems(inSection: section)
-        }
-        self.numberOfSectionCaptured = { dataProvider.numberOfSections() }
-        self.observable = dataProvider.observable
+        super.init(dataProvider)
     }
 }
