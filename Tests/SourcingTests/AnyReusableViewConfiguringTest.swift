@@ -34,7 +34,7 @@ final class AnyReusableViewConfiguringTest: XCTestCase {
         let anyCellConfiguration = AnyReusableViewConfiguring<UITableViewCellMock<Int>, Int>(cellConfiguration)
         
         //Then
-        XCTAssertEqual(anyCellConfiguration.reuseIdentifier(for: 0, ofType: .cell), reuseIdentifier)
+        XCTAssertEqual(anyCellConfiguration.reuseIdentifier(for: 0), reuseIdentifier)
         
     }
     

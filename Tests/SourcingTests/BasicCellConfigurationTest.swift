@@ -37,7 +37,7 @@ class ReusableViewConfigurationTest: XCTestCase {
         configuration = CellConfiguration(reuseIdentifier: identifier, additionalConfiguration: additionalConfiguration)
         
         //Then
-        XCTAssertEqual(identifier, configuration.reuseIdentifier(for: 0, ofType: .cell))
+        XCTAssertEqual(identifier, configuration.reuseIdentifier(for: 0))
     }
     
     func testCellConfigurationInitWithCellIdentifierProviding() {
@@ -48,7 +48,7 @@ class ReusableViewConfigurationTest: XCTestCase {
         configuration = CellConfiguration(additionalConfiguration: additionalConfiguration)
         
         //Then
-        XCTAssertEqual(UITableViewCellMock<Int>.reuseIdentifier, configuration.reuseIdentifier(for: 0, ofType: .cell))
+        XCTAssertEqual(UITableViewCellMock<Int>.reuseIdentifier, configuration.reuseIdentifier(for: 0))
     }
     
     func testConfigureCell() {
@@ -78,7 +78,7 @@ class ReusableViewConfigurationTest: XCTestCase {
         let configuration = ReusableViewConfiguration<BasicCell, String>(configuration: { _, _, _ in })
         
         //Then
-        XCTAssertEqual(configuration.reuseIdentifier(for: "", ofType: .cell), "reuseIdentifier")
+        XCTAssertEqual(configuration.reuseIdentifier(for: ""), "reuseIdentifier")
     }
 
 }
