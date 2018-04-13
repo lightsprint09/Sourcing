@@ -41,8 +41,8 @@ let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProviderO
 ## Requirements
 
 - iOS 9.3+
-- Xcode 9.0+
-- Swift 4.0
+- Xcode 9.3+
+- Swift 4.1
 
 ## Installation
 
@@ -50,10 +50,10 @@ let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProviderO
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
-Specify the following in your `Cartfile`:
+Specify the following in your `Cartfile`: `3.0 is currently work in progress. Last stabel release is `2.4.3`
 
 ```ogdl
-github "lightsprint09/sourcing" ~> 3.0
+github "lightsprint09/Sourcing" "master"
 ```
 ## Contributing
 See CONTRIBUTING for details.
