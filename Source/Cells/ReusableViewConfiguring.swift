@@ -39,6 +39,7 @@ public protocol ReusableViewConfiguring {
     /// which will be used deque the view.
     ///
     /// - Parameter object: the object
+    /// - Parameter type: the type of the cell to deque.
     /// - Returns: reuse identifier which fits to object
     func reuseIdentifier(for object: Object, ofType type: ReusableViewType) -> String
     

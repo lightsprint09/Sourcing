@@ -60,8 +60,9 @@ public struct ReusableViewConfiguration<View, Object>: ReusableViewConfiguring {
     
     /// The reuse identifier which will be used deque the view.
     ///
-    /// - Parameter object: the object
-    /// - Returns: reuse identifier which fits to object
+    /// - Parameter object: the object.
+    /// - Parameter type: the type of the cell to deque.
+    /// - Returns: reuse identifier which fits to object.
     public func reuseIdentifier(for object: Object, ofType type: ReusableViewType) -> String {
         return reuseIdentifier
     }
