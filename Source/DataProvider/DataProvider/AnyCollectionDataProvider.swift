@@ -21,28 +21,28 @@
 //
 
 import Foundation
-/// Type eraser for `ArrayDataProviding`. This can be helpful to build conecpts like filtering, sorting ontop of array data provider.
+/// Type eraser for `CollectionDataProvider`. This can be helpful to build conecpts like filtering, sorting ontop of collection data provider.
 ///
-/// - SeeAlso: `ArrayDataProviding`
-public final class AnyArrayDataProvider<ContentElement>: ArrayDataProviding {
+/// - SeeAlso: `CollectionDataProvider`
+public final class AnyCollectionDataProvider<ContentElement>: AnyDataProvider<ContentElement>, CollectionDataProvider {
     public typealias Element = ContentElement
-    private let capturedContents: () -> [[Element]]
+    
+    private let capturedContents: () -> AnyCollection<AnyCollection<Element>>
     
     /// The content which is provided by the data provider
-    public var content: [[Element]] {
+    public var content: AnyCollection<AnyCollection<Element>> {
         return capturedContents()
     }
     
-    /// An observable where one can subscribe to changes of the data provider.
-    public let observable: DataProviderObservable
-    
-    /// Type ereases a give `ArrayDataProviding`.
+    /// Type ereases a give `CollectionDataProvider`.
     ///
     /// - Parameter dataProvider: the data provider to type erase.
-    public init<DataProvider: ArrayDataProviding>(_ dataProvider: DataProvider) where DataProvider.Element == Element {
-        capturedContents = {
-            return dataProvider.content
+    public override init<C: CollectionDataProvider>(_ dataProvider: C) where C.Element == Element {
+        self.capturedContents = {
+            let content = dataProvider.content
+            let innerColections = content.lazy.map { AnyCollection($0) }
+            return AnyCollection(innerColections)
         }
-        self.observable = dataProvider.observable
+        super.init(dataProvider)
     }
 }

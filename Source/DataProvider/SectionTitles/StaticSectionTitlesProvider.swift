@@ -20,13 +20,8 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-
 /// Generates section header titles, footer titles and section index titles by using the given array of strings.
-public struct StaticSectionTitles: SectionIndexTitles, SectionHeaders {
-    /// All section index titles.
-    public let sectionIndexTitles: [String]?
-    
+public struct StaticSectionTitles: SectionHeaders {
     private let sectionHeaderTitles: [String?]?
     private let sectionFooterTitles: [String?]?
     
@@ -36,9 +31,8 @@ public struct StaticSectionTitles: SectionIndexTitles, SectionHeaders {
     ///   - sectionHeaderTitles: static list of section header titles.
     ///   - sectionFooterTitles: static list of section footer titles.
     ///   - sectionIndexTitles: static list of section index titles.
-    public init(sectionHeaderTitles: [String?]? = nil, sectionFooterTitles: [String?]? = nil, sectionIndexTitles: [String]? = nil) {
+    public init(sectionHeaderTitles: [String?]? = nil, sectionFooterTitles: [String?]? = nil) {
         self.sectionHeaderTitles = sectionHeaderTitles
-        self.sectionIndexTitles = sectionIndexTitles
         self.sectionFooterTitles = sectionFooterTitles
     }
     
@@ -57,15 +51,5 @@ public struct StaticSectionTitles: SectionIndexTitles, SectionHeaders {
     public func titleForFooter(inSection section: Int) -> String? {
         return sectionFooterTitles?[section]
     }
-    
-    /// Asks the data provider to return the index of the section having the given title and section title index.
-    ///
-    /// - Parameters:
-    ///   - sectionIndexTitle: The title as displayed in the section index
-    ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
-    /// - Returns: An index number identifying a section.
-    public func indexPath(forSectionIndexTitle sectionIndexTitle: String,
-                          at index: Int) -> IndexPath {
-        return IndexPath(item: 0, section: index)
-    }
+
 }

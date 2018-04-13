@@ -44,13 +44,8 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     
     func testMoveItemFromTo() {
         //Given
-        var didNotifyTableView = false
         var change: DataProviderChange?
-        _ = dataProvider.observable.addObserver(observer: { changes in
-            didNotifyTableView = true
-            change = changes
-            
-        })
+        _ = dataProvider.observable.addObserver(observer: { change = $0 })
         let sourceIndexPath = IndexPath(item: 0, section: 0)
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
@@ -60,23 +55,13 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         //Then
         let destinationObject = dataProvider.object(at: destinationIndexPath)
         XCTAssertEqual(destinationObject, 1)
-        XCTAssert(didNotifyTableView)
-        if case .changes? = change {
-            
-        } else {
-            XCTFail("Must be changes")
-        }
+        XCTAssertEqual(change, .changes([.move(sourceIndexPath, destinationIndexPath)]))
     }
     
     func testMoveItemFromToTriggeredByUserInteraction() {
         //Given
-        var didNotifyTableView = false
         var change: DataProviderChange?
-        _ = dataProvider.observable.addObserver(observer: { changes in
-            didNotifyTableView = true
-            change = changes
-            
-        })
+        _ = dataProvider.observable.addObserver(observer: { change = $0 })
         let sourceIndexPath = IndexPath(item: 0, section: 0)
         let destinationIndexPath = IndexPath(item: 1, section: 0)
         
@@ -86,12 +71,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         //Then
         let destinationObject = dataProvider.object(at: destinationIndexPath)
         XCTAssertEqual(destinationObject, 1)
-        XCTAssert(didNotifyTableView)
-        if case .viewUnrelatedChanges? = change {
-            
-        } else {
-            XCTFail("Must be triggeredByUserInteraction")
-        }
+        XCTAssertEqual(change, .viewUnrelatedChanges([.move(sourceIndexPath, destinationIndexPath)]))
     }
     
     func testCanDelteItems() {

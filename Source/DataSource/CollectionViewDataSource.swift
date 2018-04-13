@@ -43,7 +43,7 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
-        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `DataProvider`
         /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:
@@ -52,11 +52,11 @@ import UIKit
         ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionIndexTitles: provides section index titles. Defaults to `nil`.
-        public init<Cell: ReusableViewConfiguring, DataProvider: DataProviding, SupplementaryConfig: ReusableViewConfiguring>
-            (dataProvider: DataProvider, cellConfiguration: Cell,
+        public init<Cell: ReusableViewConfiguring, D: DataProvider, SupplementaryConfig: ReusableViewConfiguring>
+            (dataProvider: D, cellConfiguration: Cell,
              supplementaryViewConfiguration: SupplementaryConfig,
              dataModificator: DataModifying? = nil, sectionIndexTitles: SectionIndexTitles? = nil)
-            where DataProvider.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
+            where D.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator
@@ -68,7 +68,7 @@ import UIKit
         /// Creates an instance with a data provider and a cell configuration
         /// which will be displayed in the collection view.
         ///
-        /// - SeeAlso: `DataProviding`
+        /// - SeeAlso: `DataProvider`
         /// - SeeAlso: `ReusableViewConfiguring`
         ///
         /// - Parameters:
@@ -77,10 +77,10 @@ import UIKit
         ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionIndexTitles: provides section index titles. Defaults to `nil`.
-        public init<Cell: ReusableViewConfiguring, DataProvider: DataProviding>(dataProvider: DataProvider, cellConfiguration: Cell,
+        public init<Cell: ReusableViewConfiguring, D: DataProvider>(dataProvider: D, cellConfiguration: Cell,
                                                                     dataModificator: DataModifying? = nil,
                                                                     sectionIndexTitles: SectionIndexTitles? = nil)
-            where DataProvider.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
+            where D.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator

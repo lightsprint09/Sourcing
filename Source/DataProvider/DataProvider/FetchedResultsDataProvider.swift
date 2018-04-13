@@ -24,7 +24,7 @@ import Foundation
 import CoreData
 
 /// `FetchedResultsDataProvider` uses a `NSFetchedResultsController` as a backing store to transform it into a data provider.
-public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProviding {
+public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSObject, NSFetchedResultsControllerDelegate, DataProvider {
     
     /// The fetched results controller which backs the data provider.
     public let fetchedResultsController: NSFetchedResultsController<Object>
@@ -36,7 +36,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     
     private let defaultObservable: DefaultDataProviderObservable
     
-    var updates: [DataProviderChange.Change] = []
+    private var updates: [DataProviderChange.Change] = []
     private var performsViewUnrelatedChange = false
     
     /// Creates an instance of `FetchedResultsDataProvider` backed by a `NSFetchedResultsController`. Performs a fetch to populate the data.
@@ -141,21 +141,21 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        let updatesIndexPaths = updates.flatMap { update -> IndexPath? in
+        let updatesIndexPaths = updates.compactMap { update -> IndexPath? in
             switch update {
             case .update(let indexPath):
                 return indexPath
             default: return nil
             }
         }
-        updates = updates.flatMap { update -> DataProviderChange.Change? in
+        updates = updates.compactMap { update -> DataProviderChange.Change? in
             if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
                return nil
             }
             return update
         }
         dataProviderDidChangeContents(with: updates)
-        let updatesByMoves = updates.flatMap { operation -> DataProviderChange.Change? in
+        let updatesByMoves = updates.compactMap { operation -> DataProviderChange.Change? in
             if case .move(_, let newIndexPath) = operation {
                 return .update(newIndexPath)
             }
@@ -165,6 +165,9 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]) {
+        if updates.isEmpty {
+            return
+        }
         if performsViewUnrelatedChange {
             defaultObservable.send(updates: .viewUnrelatedChanges(updates))
         } else {

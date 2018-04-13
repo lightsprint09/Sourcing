@@ -22,13 +22,13 @@
 
 import Foundation
 
-/// `DataProviding` provides data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
+/// `DataProvider` provides data in a way which is related to `UITableViewDataSource` or `UICollectionViewDataSource`.
 /// It is generic over Object, which is the kind of data it provides.
 ///
 /// - SeeAlso: `AnyDataProvider`
-public protocol DataProviding: class {
+public protocol DataProvider: class {
     
-     /// Element is the kind of data `DataProviding` provides.
+     /// Element is the kind of data `DataProvider` provides.
     associatedtype Element
     
     /// An observable where one can subscribe to changes of data provider.

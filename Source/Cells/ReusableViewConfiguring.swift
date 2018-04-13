@@ -20,8 +20,6 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
-
 // The reusable view configuration can decide if it can configure a given view with an object or not.
 /// If matching, it is able to configure the view with the object.
 ///

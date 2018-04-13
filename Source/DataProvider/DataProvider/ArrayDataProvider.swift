@@ -23,11 +23,11 @@
 import Foundation
 
 /**
- `ArrayDataProvider` provides basic implementation to map arrays to a `DataProviding`.
+ `ArrayDataProvider` provides basic implementation to map arrays to a `DataProvider`.
  
- - seealso: `ArrayDataProviding`
+ - seealso: `CollectionDataProvider`
  */
-public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
+public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
     public typealias Element = ContentElement
     
     /// The content which is provided by the data provider
@@ -45,11 +45,10 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
     /**
      Creates an instance of `ArrayDataProvider` with a flat collection which results a single section.
      
-     - parameter rows: single section of data.
+     - parameter rows: single section of content.
      */
-    public convenience init<Rows: Collection>(rows: Rows)
-        where Rows.Iterator.Element == Element {
-        self.init(sections: [Array(rows)])
+    public convenience init(rows: [Element]) {
+        self.init(sections: [rows])
     }
     
     /**
@@ -62,19 +61,20 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
         defaultObservable = DefaultDataProviderObservable()
     }
     
+    // MARK: Reconfiguration
+    
     /**
-     Reconfigures the dataSource with new data.
+     Reconfigures the data provider with new content.
      
      - parameter array: flat array.
      - parameter change: diff of the new data.
     */
-    public func reconfigure<Rows: Collection>(with rows: Rows, change: DataProviderChange = .unknown)
-        where Rows.Iterator.Element == Element {
-        reconfigure(with: [Array(rows)], change: change)
+    public func reconfigure(with rows: [Element], change: DataProviderChange = .unknown) {
+        reconfigure(with: [rows], change: change)
     }
     
     /**
-     Reconfigures the dataSource with new data.
+     Reconfigures the data provider with new content.
      
      - parameter array: 2D array.
      - parameter change: diff of the new data.
@@ -84,8 +84,8 @@ public final class ArrayDataProvider<ContentElement>: ArrayDataProviding {
         dataProviderDidChangeContets(with: change)
     }
     
-    private func dataProviderDidChangeContets(with updates: DataProviderChange) {
-        defaultObservable.send(updates: updates)
+    private func dataProviderDidChangeContets(with change: DataProviderChange) {
+        defaultObservable.send(updates: change)
     }
     
 }
