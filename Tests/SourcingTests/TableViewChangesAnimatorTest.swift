@@ -34,14 +34,14 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         tableViewMock = UITableViewMock()
         let configuration = TableViewChangesAnimator.Configuration(insert: .none, update: .none, move: .none,
                                                                 delete: .none, insertSection: .none, deleteSection: .none)
-        tableViewChangesAnimator = TableViewChangesAnimator(tableView: tableViewMock, dataProviderObservable: observable, configuration: configuration)
+        tableViewChangesAnimator = TableViewChangesAnimator(tableView: tableViewMock, observable: observable, configuration: configuration)
     }
     
     func testInitDeinit() {
         //Given
         let observable = DataProviderObservableMock()
         var collectionViewChangesAnimator: TableViewChangesAnimator? = TableViewChangesAnimator(tableView: tableViewMock,
-                                                                                                           dataProviderObservable: observable)
+                                                                                                           observable: observable)
         XCTAssertNotNil(observable.observer)
         
         //When
@@ -157,7 +157,7 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
-        XCTAssertEqual(tableViewMock.executedRowAnimations.first, UITableViewRowAnimation.none)
+        XCTAssertEqual(tableViewMock.executedRowAnimations.first, .none)
     }
     
     func testProcessUpdatesMoveSection() {
@@ -170,6 +170,20 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         //Then
         XCTAssertEqual(tableViewMock.modifiedSections.moved?.from, 0)
         XCTAssertEqual(tableViewMock.modifiedSections.moved?.to, 1)
+        XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
+    }
+    
+    func testProcessUpdatesUpdateSection() {
+        //Given
+        let updateSection = DataProviderChange.Change.updateSection(0)
+        
+        //When
+        observable.observer?(.changes([updateSection]))
+        
+        //Then
+        XCTAssertEqual(tableViewMock.modifiedSections.updated, IndexSet([0]))
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 0)
@@ -201,5 +215,29 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         XCTAssertEqual(tableViewMock.executionCount.reloaded, 1)
         XCTAssertEqual(tableViewMock.executionCount.beginUpdates, 0)
         XCTAssertEqual(tableViewMock.executionCount.endUpdates, 0)
+    }
+    
+    func testProcessUpdatesWithReconfigurationFromDataSource() {
+        //Given
+        var cell: UITableViewCellMock<Int>?
+        var indexPath: IndexPath?
+        var object: Int?
+        let cellConfiguration = CellConfiguration<UITableViewCellMock<Int>>(reuseIdentifier: "reuseIdentifier") {
+            cell = $0
+            indexPath = $1
+            object = $2
+        }
+        tableViewMock = UITableViewMock(mockTableViewCells: ["reuseIdentifier": UITableViewCellMock<Int>()])
+        let dataProvider = ArrayDataProvider(rows: [1])
+        tableViewChangesAnimator = TableViewChangesAnimator(tableView: tableViewMock, dataProvider: dataProvider, cellConfiguration: cellConfiguration)
+        let change = DataProviderChange.changes([.update(IndexPath(row: 0, section: 0))])
+        
+        //When
+        dataProvider.reconfigure(with: [2], change: change)
+        
+        //Then
+        XCTAssertNotNil(cell)
+        XCTAssertEqual(indexPath, IndexPath(row: 0, section: 0))
+        XCTAssertEqual(object, 2)
     }
 }

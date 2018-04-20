@@ -93,6 +93,11 @@ class UITableViewMock: UITableView {
         executedRowAnimations.append(animation)
     }
     
+    override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+        modifiedSections.updated = sections
+        executedRowAnimations.append(animation)
+    }
+    
     override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
         modifiedSections.deleted = sections
         executedRowAnimations.append(animation)

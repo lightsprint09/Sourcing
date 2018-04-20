@@ -32,14 +32,14 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
     override func setUp() {
         super.setUp()
         collectionViewMock = UICollectionViewMock()
-        collectionViewChangesAnimator = CollectionViewChangesAnimator(collectionView: collectionViewMock, dataProviderObservable: observable)
+        collectionViewChangesAnimator = CollectionViewChangesAnimator(collectionView: collectionViewMock, observable: observable)
     }
     
     func testInitDeinit() {
         //Given
         let observable = DataProviderObservableMock()
         var collectionViewChangesAnimator: CollectionViewChangesAnimator? = CollectionViewChangesAnimator(collectionView: collectionViewMock,
-                                                                                                           dataProviderObservable: observable)
+                                                                                                          observable: observable)
         XCTAssertNotNil(observable.observer)
         
         //When
@@ -68,8 +68,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         observable.observer?(.changes([insertion]))
         
         //Then
-        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted?.count, 1)
-        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted?.first, insertionIndexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.inserted, [insertionIndexPath])
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
@@ -84,8 +83,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         observable.observer?(.changes([deletion]))
         
         //Then
-        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted?.count, 1)
-        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted?.first, deletetionIndexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.deleted, [deletetionIndexPath])
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
@@ -117,7 +115,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         observable.observer?(.changes([update]))
         
         //Then
-        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.reloaded?.first, indexPath)
+        XCTAssertEqual(collectionViewMock.modifiedIndexPaths.reloaded, [indexPath])
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
@@ -131,8 +129,7 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         observable.observer?(.changes([insertion]))
         
         //Then
-        XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.count, 1)
-        XCTAssertEqual(collectionViewMock.modifiedSections.inserted?.first, 0)
+        XCTAssertEqual(collectionViewMock.modifiedSections.inserted, IndexSet([0]))
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
@@ -146,8 +143,21 @@ final class CollectionViewChangesAnimatorTest: XCTestCase {
         observable.observer?(.changes([deleteSection]))
         
         //Then
-        XCTAssertEqual(collectionViewMock.modifiedSections.deleted?.count, 1)
-        XCTAssertEqual(collectionViewMock.modifiedSections.deleted?.first, 0)
+        XCTAssertEqual(collectionViewMock.modifiedSections.deleted, IndexSet([0]))
+        XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
+        XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)
+    }
+    
+    func testProcessUpdatesUpdateSection() {
+        //Given
+        let deleteSection = DataProviderChange.Change.updateSection(0)
+        
+        //When
+        observable.observer?(.changes([deleteSection]))
+        
+        //Then
+        XCTAssertEqual(collectionViewMock.modifiedSections.updated, IndexSet([0]))
         XCTAssertEqual(collectionViewMock.executionCount.beginUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.endUpdates, 1)
         XCTAssertEqual(collectionViewMock.executionCount.reloaded, 0)

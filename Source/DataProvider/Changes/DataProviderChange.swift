@@ -40,7 +40,9 @@ public enum DataProviderChange: Equatable {
         case delete(IndexPath)
         
         case insertSection(Int)
+        case updateSection(Int)
         case deleteSection(Int)
         case moveSection(Int, Int)
+        
     }
 }
