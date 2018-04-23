@@ -93,7 +93,7 @@ class UICollectionViewMock: UICollectionView {
     }
     
     override func reloadSections(_ sections: IndexSet) {
-    
+        modifiedSections.updated = sections
     }
     
     override func moveSection(_ section: Int, toSection newSection: Int) {

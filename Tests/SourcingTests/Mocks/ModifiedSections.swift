@@ -24,6 +24,8 @@ import Foundation
 
 struct ModifiedSections {
     var inserted: IndexSet?
+    var updated: IndexSet?
     var deleted: IndexSet?
     var moved: (from: Int, to: Int)?
+
 }

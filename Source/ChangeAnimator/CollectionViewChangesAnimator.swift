@@ -28,7 +28,7 @@
      ``UICollectionView`s APIs to animate cells.
      */
     public final class CollectionViewChangesAnimator {
-        private let dataProviderObservable: DataProviderObservable
+        private let observable: DataProviderObservable
         
         private var dataPrvoiderObserver: NSObjectProtocol!
         private let collectionView: UICollectionView
@@ -38,10 +38,10 @@
         /// - Parameters:
         ///   - collectionView: the collection view to be animated
         ///   - dataProviderObservable: observable for listening to changes of a data provider
-        public init(collectionView: UICollectionView, dataProviderObservable: DataProviderObservable) {
+        public init(collectionView: UICollectionView, observable: DataProviderObservable) {
             self.collectionView = collectionView
-            self.dataProviderObservable = dataProviderObservable
-            dataPrvoiderObserver = dataProviderObservable.addObserver(observer: { [weak self] update in
+            self.observable = observable
+            dataPrvoiderObserver = observable.addObserver(observer: { [weak self] update in
                 switch update {
                 case .viewUnrelatedChanges:
                     return // Do noting. CollectionView was already animated by user interaction.
@@ -54,7 +54,7 @@
         }
         
         deinit {
-            dataProviderObservable.removeObserver(observer: dataPrvoiderObserver)
+            observable.removeObserver(observer: dataPrvoiderObserver)
         }
         
         private func process(update: DataProviderChange.Change) {
@@ -69,6 +69,9 @@
                 collectionView.deleteItems(at: [indexPath])
             case .insertSection(let sectionIndex):
                 collectionView.insertSections(IndexSet(integer: sectionIndex))
+            case .updateSection(let sectionIndex):
+                collectionView.reloadSections(IndexSet([sectionIndex]))
+                return
             case .deleteSection(let sectionIndex):
                 collectionView.deleteSections(IndexSet(integer: sectionIndex))
             case .moveSection(let section, let newSection):
@@ -82,7 +85,7 @@
         private func process(updates: [DataProviderChange.Change]) {
             collectionView.performBatchUpdates({
                 updates.forEach(self.process)
-            }, completion: nil)
+            })
         }
     }
 #endif
