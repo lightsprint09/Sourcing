@@ -30,7 +30,7 @@
     public final class CollectionViewChangesAnimator {
         private let observable: DataProviderObservable
         
-        private var dataPrvoiderObserver: NSObjectProtocol!
+        private var dataProviderObserver: NSObjectProtocol!
         private let collectionView: UICollectionView
         
         /// Creates an instance and starts listening for changes to animate them into the collection view
@@ -41,7 +41,7 @@
         public init(collectionView: UICollectionView, observable: DataProviderObservable) {
             self.collectionView = collectionView
             self.observable = observable
-            dataPrvoiderObserver = observable.addObserver(observer: { [weak self] update in
+            dataProviderObserver = observable.addObserver(observer: { [weak self] update in
                 switch update {
                 case .viewUnrelatedChanges:
                     return // Do noting. CollectionView was already animated by user interaction.
@@ -54,7 +54,7 @@
         }
         
         deinit {
-            observable.removeObserver(observer: dataPrvoiderObserver)
+            observable.removeObserver(observer: dataProviderObserver)
         }
         
         private func process(update: DataProviderChange.Change) {

@@ -31,7 +31,7 @@ open class AnyDataProvider<Element>: DataProvider {
     public var observable: DataProviderObservable
 
     private let objectAtIndexPath: (_ atIndexPath: IndexPath) -> Element
-    private let numberOfItems: (_ inSextion: Int) -> Int
+    private let numberOfItems: (_ inSection: Int) -> Int
     private let numberOfSectionsCallback: () -> Int
     
     /// Type erases a DataProvider.

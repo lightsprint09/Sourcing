@@ -27,7 +27,7 @@
  **Example**
  ```swift
  //A data provider with multiple sections. Each section contains trains from a single type
- let dataProvider: ArrayDataPrvoider<Train> = //
+ let dataProvider: ArrayDataProvider<Train> = //
  
  //Use type name as a section header and shortname as a section index title.
  let sectionTitleProvider = DynamicSectionIndexTitles<Train>(dataProvider: dataProvider,

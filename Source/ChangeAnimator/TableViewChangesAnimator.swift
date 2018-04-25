@@ -32,7 +32,7 @@
         private let observable: DataProviderObservable
         private let cellReconfigurationAtIndexPath: ((IndexPath) -> Void)?
         
-        private var dataPrvoiderObserver: NSObjectProtocol!
+        private var dataProviderObserver: NSObjectProtocol!
         private let tableView: UITableView
         private let configuration: Configuration
         
@@ -100,13 +100,13 @@
             self.observable = observable
             self.configuration = configuration
             self.cellReconfigurationAtIndexPath = cellReconfigurationAtIndexPath
-            dataPrvoiderObserver = observable.addObserver(observer: { [weak self] update in
+            dataProviderObserver = observable.addObserver(observer: { [weak self] update in
                 self?.dataProviderDidChange(with: update)
             })
         }
         
         deinit {
-            observable.removeObserver(observer: dataPrvoiderObserver)
+            observable.removeObserver(observer: dataProviderObserver)
         }
         
         private func dataProviderDidChange(with change: DataProviderChange) {
