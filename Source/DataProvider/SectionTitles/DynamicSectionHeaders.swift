@@ -69,7 +69,7 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     ///   - generateSectionFooterTitle: a closure to transform a Element which is part of
     ///     the data provider into a single String, which is used as a section footer titles.
     ///     Defaults to a closure which generates `nil` values.
-    convenience public init<D: DataProvider>(dataProvider: D,
+    public convenience init<D: DataProvider>(dataProvider: D,
                                              generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil },
                                              generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil })
                                                 where D.Element == Element {
@@ -91,9 +91,6 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     /// - Returns: a section header title.
     public func titleForHeader(inSection section: Int) -> String? {
         return generateSectionHeaderTitle(section)
-//        let indexPath = IndexPath(item: 0, section: section)
-//        return dataProvider.safeAccessToObject(at: indexPath)
-//            .flatMap { generateSectionHeaderTitle($0, indexPath) }
     }
     
     /// Generates a optional section footer for a given section
@@ -102,9 +99,6 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     /// - Returns: a section footer title
     public func titleForFooter(inSection section: Int) -> String? {
         return generateSectionFooterTitle(section)
-//        let indexPath = IndexPath(item: 0, section: section)
-//        return dataProvider.safeAccessToObject(at: indexPath)
-//            .flatMap { generateSectionFooterTitle($0, indexPath) }
     }
     
 }
