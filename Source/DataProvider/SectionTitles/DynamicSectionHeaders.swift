@@ -38,9 +38,26 @@
  */
 public final class DynamicSectionHeaders<Element>: SectionHeaders {
     
-    private let dataProvider: AnyDataProvider<Element>
-    private let generateSectionHeaderTitle: (Element, IndexPath) -> String?
-    private let generateSectionFooterTitle: (Element, IndexPath) -> String?
+    private let generateSectionHeaderTitle: (Int) -> String?
+    private let generateSectionFooterTitle: (Int) -> String?
+    
+    /// Creates a `DynamicHeaderTitlesProvider`.
+    ///
+    /// - Parameters:
+    ///   - dataProvider: the data provider used as source for header titles.
+    ///   - generateSectionHeaderTitles: a closure to transform a data provider and a given section index into a `String`,
+    ///     which is used as a section header titles.
+    ///     Defaults to a closure which generates `nil` values.
+    ///   - generateSectionFooterTitle: a closure to transform a data provider and a given section index into a `String`,
+    ///     which is used as a section footer titles.
+    ///     Defaults to a closure which generates `nil` values.
+    public init<D: DataProvider>(dataProvider: D,
+                                 sectionHeaderTitleWithDataProvider: @escaping (D, Int) -> String? = { _, _ in nil },
+                                 sectionFooterTitleWithDataProvider: @escaping (D, Int) -> String? = { _, _ in nil })
+        where D.Element == Element {
+            self.generateSectionHeaderTitle = { sectionHeaderTitleWithDataProvider(dataProvider, $0) }
+            self.generateSectionFooterTitle = { sectionFooterTitleWithDataProvider(dataProvider, $0) }
+    }
     
     /// Creates a `DynamicHeaderTitlesProvider`.
     ///
@@ -52,13 +69,20 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     ///   - generateSectionFooterTitle: a closure to transform a Element which is part of
     ///     the data provider into a single String, which is used as a section footer titles.
     ///     Defaults to a closure which generates `nil` values.
-    public init<D: DataProvider>(dataProvider: D,
+    convenience public init<D: DataProvider>(dataProvider: D,
                                              generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil },
                                              generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil })
                                                 where D.Element == Element {
-        self.dataProvider = AnyDataProvider(dataProvider)
-        self.generateSectionHeaderTitle = generateSectionHeaderTitle
-        self.generateSectionFooterTitle = generateSectionFooterTitle
+                                                    self.init(dataProvider: dataProvider,
+                                                              sectionHeaderTitleWithDataProvider: { (provider, section) -> String? in
+                    let indexPath = IndexPath(item: 0, section: section)
+                    return provider.safeAccessToObject(at: indexPath)
+                        .flatMap { generateSectionHeaderTitle($0, indexPath) }
+        }, sectionFooterTitleWithDataProvider: { (provider, section) -> String? in
+            let indexPath = IndexPath(item: 0, section: section)
+            return provider.safeAccessToObject(at: indexPath)
+                .flatMap { generateSectionFooterTitle($0, indexPath) }
+        })
     }
     
     /// Generates a optional section title for a given section.
@@ -66,10 +90,10 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     /// - Parameter section: the section to generate the title for.
     /// - Returns: a section header title.
     public func titleForHeader(inSection section: Int) -> String? {
-        let indexPath = IndexPath(item: 0, section: section)
-        let firstObjectInSection = dataProvider.object(at: indexPath)
-        
-        return generateSectionHeaderTitle(firstObjectInSection, indexPath)
+        return generateSectionHeaderTitle(section)
+//        let indexPath = IndexPath(item: 0, section: section)
+//        return dataProvider.safeAccessToObject(at: indexPath)
+//            .flatMap { generateSectionHeaderTitle($0, indexPath) }
     }
     
     /// Generates a optional section footer for a given section
@@ -77,10 +101,21 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     /// - Parameter section: the section to generate the title for
     /// - Returns: a section footer title
     public func titleForFooter(inSection section: Int) -> String? {
-        let indexPath = IndexPath(item: 0, section: section)
-        let firstObjectInSection = dataProvider.object(at: indexPath)
-        
-        return generateSectionFooterTitle(firstObjectInSection, indexPath)
+        return generateSectionFooterTitle(section)
+//        let indexPath = IndexPath(item: 0, section: section)
+//        return dataProvider.safeAccessToObject(at: indexPath)
+//            .flatMap { generateSectionFooterTitle($0, indexPath) }
     }
+    
+}
 
+fileprivate extension DataProvider {
+    func safeAccessToObject(at indexPath: IndexPath) -> Element? {
+        let numberOfItemsInSection = numberOfItems(inSection: indexPath.section)
+        guard numberOfSections() > indexPath.section, numberOfItemsInSection > indexPath.row else {
+            return nil
+        }
+        
+        return object(at: indexPath)
+    }
 }
