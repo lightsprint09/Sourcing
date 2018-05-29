@@ -24,7 +24,7 @@ import XCTest
 import CoreData
 @testable import Sourcing
 
-// swiftlint:disable force_cast force_try force_unwrapping
+// swiftlint:disable force_try force_unwrapping
 class FetchedResultsDataProviderTests: XCTestCase {
     func managedObjectContextForTesting() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -60,7 +60,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
                                                               sectionNameKeyPath: nil, cacheName: nil)
         dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: typedFetchedResultsController)
         
-        self.fetchedResultsController = typedFetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>
+        self.fetchedResultsController = typedFetchedResultsController as? NSFetchedResultsController<NSFetchRequestResult>
     }
     
     private func train(id: String, name: String, sortIndex: Int) -> CDTrain {
