@@ -38,6 +38,23 @@
  */
 public final class DynamicSectionHeaders<Element>: SectionHeaders {
     
+    public enum GernatorElement {
+        case firstElementInSection
+        case lastElementInSection
+        case nthElementInSection(elementIndex: Int)
+        
+        func elementIndex<D: DataProvider>(with dataProvider: D, inSection section: Int) -> Int {
+            switch self {
+            case .firstElementInSection:
+                return 0
+            case .lastElementInSection:
+                return dataProvider.numberOfItems(inSection: section)
+            case .nthElementInSection(let elementIndex):
+                return elementIndex
+            }
+        }
+    }
+    
     private let generateSectionHeaderTitle: (Int) -> String?
     private let generateSectionFooterTitle: (Int) -> String?
     
@@ -71,15 +88,17 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     ///     Defaults to a closure which generates `nil` values.
     public convenience init<D: DataProvider>(dataProvider: D,
                                              generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil },
-                                             generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil })
+                                             generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil },
+                                             using element: GernatorElement)
                                                 where D.Element == Element {
+                                                    
                                                     self.init(dataProvider: dataProvider,
                                                               sectionHeaderTitleWithDataProvider: { (provider, section) -> String? in
-                    let indexPath = IndexPath(item: 0, section: section)
+                    let indexPath = IndexPath(item: element.elementIndex(with: dataProvider, inSection: section), section: section)
                     return provider.safeAccessToObject(at: indexPath)
                         .flatMap { generateSectionHeaderTitle($0, indexPath) }
         }, sectionFooterTitleWithDataProvider: { (provider, section) -> String? in
-            let indexPath = IndexPath(item: 0, section: section)
+            let indexPath = IndexPath(item: element.elementIndex(with: dataProvider, inSection: section), section: section)
             return provider.safeAccessToObject(at: indexPath)
                 .flatMap { generateSectionFooterTitle($0, indexPath) }
         })
