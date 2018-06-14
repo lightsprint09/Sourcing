@@ -22,6 +22,8 @@
 
 import Foundation
 
+public typealias StaticSectionIndexTitles = [String]
+
 extension Array: SectionIndexTitles where Element == String {
     public var sectionIndexTitles: [String]? {
         return self
