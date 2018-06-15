@@ -32,13 +32,14 @@
  //Use type name as a section header and shortname as a section index title.
  let sectionTitleProvider = DynamicSectionHeaders<Train>(dataProvider: dataProvider,
  generateSectionHeaderTitle: { train, _ in return train.type.name },
- generateSectionFooterTitle: { train, _ in return train.type.description })
+ generateSectionFooterTitle: { train, _ in return train.type.description },
+ using: .firstElementInSection)
  ```
  
  */
-public final class DynamicSectionHeaders<Element>: SectionHeaders {
+public final class DynamicSectionHeadersFooters<Element>: SectionHeadersFooters {
     
-    public enum GernatorElement {
+    public enum SectionHeaderFooterSource {
         case firstElementInSection
         case lastElementInSection
         case nthElementInSection(elementIndex: Int)
@@ -89,7 +90,7 @@ public final class DynamicSectionHeaders<Element>: SectionHeaders {
     public convenience init<D: DataProvider>(dataProvider: D,
                                              generateSectionHeaderTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil },
                                              generateSectionFooterTitle: @escaping (Element, IndexPath) -> String? = { _, _ in nil },
-                                             using element: GernatorElement)
+                                             using element: SectionHeaderFooterSource)
                                                 where D.Element == Element {
                                                     
                                                     self.init(dataProvider: dataProvider,

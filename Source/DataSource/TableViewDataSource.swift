@@ -31,7 +31,7 @@
         public let dataProvider: AnyDataProvider<Object>
         
         /// Provides section header titles.
-        public var sectionHeaders: SectionHeaders?
+        public var sectionHeaders: SectionHeadersFooters?
         
         /// Provides section index titles.
         public var sectionIndexTitles: SectionIndexTitles?
@@ -54,7 +54,7 @@
         ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
         public init<Cell: ReusableViewConfiguring, D: DataProvider>(dataProvider: D, cellConfiguration: Cell,
                                                                                 dataModificator: DataModifying? = nil,
-                                                                                sectionHeaders: SectionHeaders? = nil,
+                                                                                sectionHeaders: SectionHeadersFooters? = nil,
                                                                                 sectionIndexTitles: SectionIndexTitles? = nil)
             where D.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)

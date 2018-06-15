@@ -21,7 +21,7 @@
 //
 
 /// Providing section header titles.
-public protocol SectionHeaders {
+public protocol SectionHeadersFooters {
     
     /// Generates a optional section title for a given section
     ///

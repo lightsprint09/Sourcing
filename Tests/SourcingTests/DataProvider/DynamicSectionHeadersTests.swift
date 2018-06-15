@@ -28,7 +28,7 @@ class DynamicSectionHeadersTests: XCTestCase {
     func testGenerateHeaderTitleIfNoContent() {
         //Given
         let dataProvider = ArrayDataProvider<String>(rows: [])
-        let sectionTitelProvider = DynamicSectionHeaders(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
                                                          generateSectionHeaderTitle: { (element, _) in element },
                                                          generateSectionFooterTitle: { (element, _) in element },
                                                          using: .firstElementInSection)
@@ -45,7 +45,7 @@ class DynamicSectionHeadersTests: XCTestCase {
     func testGenerateHeaderTitleIfNoContentSections() {
         //Given
         let dataProvider = ArrayDataProvider<String>(sections: [[]])
-        let sectionTitelProvider = DynamicSectionHeaders(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
                                                          generateSectionHeaderTitle: { (element, _) in element },
                                                          generateSectionFooterTitle: { (element, _) in element },
                                                          using: .firstElementInSection)
@@ -62,7 +62,7 @@ class DynamicSectionHeadersTests: XCTestCase {
     func testGenerateHeaderTitle() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
-        let sectionTitelProvider = DynamicSectionHeaders(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
                                                          generateSectionHeaderTitle: { (element, _) in element },
                                                          using: .firstElementInSection)
         
@@ -78,7 +78,7 @@ class DynamicSectionHeadersTests: XCTestCase {
     func testGenerateHeaderTitleWithDataProvider() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
-        let sectionTitelProvider = DynamicSectionHeaders(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
                                                          sectionHeaderTitleWithDataProvider: { (provider, _) in provider.content.first?.first })
         
         //When
@@ -93,7 +93,7 @@ class DynamicSectionHeadersTests: XCTestCase {
     func testGenerateFooterTitle() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionFooter"])
-        let sectionTitelProvider = DynamicSectionHeaders(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
                                                          generateSectionFooterTitle: { (element, _) in element },
                                                          using: .firstElementInSection)
         
@@ -109,7 +109,7 @@ class DynamicSectionHeadersTests: XCTestCase {
     func testGenerateFooterTitleWithDataProvider() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionFooter"])
-        let sectionTitelProvider = DynamicSectionHeaders(dataProvider: dataProvider,
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
                                                          sectionFooterTitleWithDataProvider: { (provider, _) in provider.content.first?.first })
         
         //When
