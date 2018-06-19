@@ -61,8 +61,11 @@ extension DataProvider {
     /// - Parameter indexPath: the index path to get the object for.
     /// - Returns: the object at the given index path.
     public func safeAccessToObject(at indexPath: IndexPath) -> Element? {
+        guard numberOfSections() > indexPath.section else {
+            return nil
+        }
         let numberOfItemsInSection = numberOfItems(inSection: indexPath.section)
-        guard numberOfSections() > indexPath.section, numberOfItemsInSection > indexPath.row else {
+        guard numberOfItemsInSection > indexPath.row else {
             return nil
         }
         
