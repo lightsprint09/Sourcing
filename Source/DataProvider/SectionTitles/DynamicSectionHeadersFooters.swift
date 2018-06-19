@@ -49,7 +49,7 @@ public final class DynamicSectionHeadersFooters<Element>: SectionHeadersFooters 
             case .firstElementInSection:
                 return 0
             case .lastElementInSection:
-                return dataProvider.numberOfItems(inSection: section)
+                return dataProvider.numberOfItems(inSection: section) - 1
             case .nthElementInSection(let elementIndex):
                 return elementIndex
             }

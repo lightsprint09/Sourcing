@@ -23,7 +23,7 @@
 import XCTest
 import Sourcing
 
-class DynamicSectionHeadersTests: XCTestCase {
+class DynamicSectionHeadersFootersTests: XCTestCase {
     
     func testGenerateHeaderTitleIfNoContent() {
         //Given
@@ -59,7 +59,7 @@ class DynamicSectionHeadersTests: XCTestCase {
         XCTAssertNil(footer)
     }
     
-    func testGenerateHeaderTitle() {
+    func testGenerateHeaderTitleWithFirstElement() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
         let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
@@ -72,6 +72,38 @@ class DynamicSectionHeadersTests: XCTestCase {
         
         //Then
         XCTAssertEqual(title, "SectionTitle")
+        XCTAssertNil(footer)
+    }
+    
+    func testGenerateHeaderTitleWithLastElement() {
+        //Given
+        let dataProvider = ArrayDataProvider(rows: ["SectionTitle", "LastSectionTitle"])
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
+                                                                generateSectionHeaderTitle: { (element, _) in element },
+                                                                using: .lastElementInSection)
+        
+        //When
+        let title = sectionTitelProvider.titleForHeader(inSection: 0)
+        let footer = sectionTitelProvider.titleForFooter(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(title, "LastSectionTitle")
+        XCTAssertNil(footer)
+    }
+    
+    func testGenerateHeaderTitleNthLastElement() {
+        //Given
+        let dataProvider = ArrayDataProvider(rows: ["SectionTitle", "nthSectionTitle", "Last"])
+        let sectionTitelProvider = DynamicSectionHeadersFooters(dataProvider: dataProvider,
+                                                                generateSectionHeaderTitle: { (element, _) in element },
+                                                                using: .nthElementInSection(elementIndex: 1))
+        
+        //When
+        let title = sectionTitelProvider.titleForHeader(inSection: 0)
+        let footer = sectionTitelProvider.titleForFooter(inSection: 0)
+        
+        //Then
+        XCTAssertEqual(title, "nthSectionTitle")
         XCTAssertNil(footer)
     }
     
