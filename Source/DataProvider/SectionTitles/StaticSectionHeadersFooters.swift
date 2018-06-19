@@ -21,7 +21,7 @@
 //
 
 /// Generates section header titles, footer titles and section index titles by using the given array of strings.
-public struct StaticSectionHeadersFooter: SectionHeadersFooters {
+public struct StaticSectionHeadersFooters: SectionHeadersFooters {
     private let sectionHeaderTitles: [String?]?
     private let sectionFooterTitles: [String?]?
     

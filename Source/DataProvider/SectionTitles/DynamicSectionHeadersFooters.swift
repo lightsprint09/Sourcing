@@ -39,12 +39,17 @@
  */
 public final class DynamicSectionHeadersFooters<Element>: SectionHeadersFooters {
     
+    /// Determines which element of the given data provider will be used
+    /// to transform into section header & footer.
     public enum SectionHeaderFooterSource {
+        /// Uses the first element in the section
         case firstElementInSection
+        /// Uses the last element in the section
         case lastElementInSection
+        /// Uses the given nth element in the section.
         case nthElementInSection(elementIndex: Int)
         
-        func elementIndex<D: DataProvider>(with dataProvider: D, inSection section: Int) -> Int {
+        fileprivate func elementIndex<D: DataProvider>(with dataProvider: D, inSection section: Int) -> Int {
             switch self {
             case .firstElementInSection:
                 return 0
@@ -121,15 +126,4 @@ public final class DynamicSectionHeadersFooters<Element>: SectionHeadersFooters 
         return generateSectionFooterTitle(section)
     }
     
-}
-
-fileprivate extension DataProvider {
-    func safeAccessToObject(at indexPath: IndexPath) -> Element? {
-        let numberOfItemsInSection = numberOfItems(inSection: indexPath.section)
-        guard numberOfSections() > indexPath.section, numberOfItemsInSection > indexPath.row else {
-            return nil
-        }
-        
-        return object(at: indexPath)
-    }
 }

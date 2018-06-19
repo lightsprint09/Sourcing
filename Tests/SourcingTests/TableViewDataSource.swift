@@ -176,7 +176,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
-        let sectionTitleProvider = StaticSectionHeadersFooter(sectionHeaderTitles: ["foo", "bar"])
+        let sectionTitleProvider = StaticSectionHeadersFooters(sectionHeaderTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
                                          sectionHeaders: sectionTitleProvider)
@@ -190,7 +190,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForFooterInSection() {
         //Given
-        let sectionTitleProvider = StaticSectionHeadersFooter(sectionFooterTitles: ["foo", "bar"])
+        let sectionTitleProvider = StaticSectionHeadersFooters(sectionFooterTitles: ["foo", "bar"])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
                                              sectionHeaders: sectionTitleProvider)
