@@ -22,14 +22,15 @@
 
 import Foundation
 
-public typealias StaticSectionIndexTitles = [String]
-
 extension Array: SectionIndexTitles where Element == String {
+    
     public var sectionIndexTitles: [String]? {
         return self
     }
     
-    public func indexPath(forSectionIndexTitle sectionIndexTitle: String, at index: Int) -> IndexPath {
+    public func indexPath(forSectionIndexTitle sectionIndexTitle: String,
+                          at index: Int) -> IndexPath {
         return IndexPath(item: 0, section: index)
     }
+    
 }

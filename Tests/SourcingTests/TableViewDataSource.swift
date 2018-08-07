@@ -176,10 +176,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
-        let sectionTitleProvider = StaticSectionHeadersFooters(sectionHeaderTitles: ["foo", "bar"])
+        let sectionMetaData = SectionMetdaData(headerTexts: ["foo", "bar"] as [String?])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                         sectionHeaders: sectionTitleProvider)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider,
+                                             cellConfiguration: cell,
+                                             sectionMetaData: sectionMetaData)
         
         //When
         let sectionTitle = dataSource.tableView(tableViewMock, titleForHeaderInSection: 1)
@@ -190,10 +191,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForFooterInSection() {
         //Given
-        let sectionTitleProvider = StaticSectionHeadersFooters(sectionFooterTitles: ["foo", "bar"])
+        let sectionMetaData = SectionMetdaData(footerTexts: ["foo", "bar"] as [String?])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             sectionHeaders: sectionTitleProvider)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider,
+                                             cellConfiguration: cell,
+                                             sectionMetaData: sectionMetaData)
         
         //When
         let sectionTitle = dataSource.tableView(tableViewMock, titleForFooterInSection: 1)
@@ -205,9 +207,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testSectionIndexTitles() {
         //Given
         let sectionIndexTitles = ["foo", "bar"]
+        let sectionMetaData = SectionMetdaData(indexTitles: sectionIndexTitles)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             sectionIndexTitles: sectionIndexTitles)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider,
+                                             cellConfiguration: cell,
+                                             sectionMetaData: sectionMetaData)
         
         //When
         let computedSectionIndexes = dataSource.sectionIndexTitles(for: tableViewMock)
@@ -219,9 +223,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testSectionForSectionIndexTitle() {
         //Given
         let sectionIndexTitles = ["foo", "bar"]
+        let sectionMetaData = SectionMetdaData(indexTitles: sectionIndexTitles)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                             sectionIndexTitles: sectionIndexTitles)
+        let dataSource = TableViewDataSource(dataProvider: dataProvider,
+                                             cellConfiguration: cell,
+                                             sectionMetaData: sectionMetaData)
         
         //When
         let section = dataSource.tableView(tableViewMock, sectionForSectionIndexTitle: "bar", at: 1)

@@ -20,18 +20,10 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-/// Providing section header titles.
-public protocol SectionHeadersFooters {
+extension Array: SectionTexts where Element == String? {
     
-    /// Generates a optional section title for a given section
-    ///
-    /// - Parameter section: the section to generate the title for
-    /// - Returns: a section header title
-    func titleForHeader(inSection section: Int) -> String?
+    public func text(inSection section: Int) -> String? {
+        return self[section]
+    }
     
-    /// Generates a optional section footer for a given section
-    ///
-    /// - Parameter section: the section to generate the title for
-    /// - Returns: a section footer title
-    func titleForFooter(inSection section: Int) -> String?
 }

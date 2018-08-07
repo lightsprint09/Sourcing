@@ -30,7 +30,7 @@
  let dataProvider: ArrayDataProvider<Train> = //
  
  //Use type name as a section header and shortname as a section index title.
- let sectionTitleProvider = DynamicSectionIndexTitles<Train>(dataProvider: dataProvider,
+ let sectionTitleProvider = DynamicSectionIndexTitles(dataProvider: dataProvider,
                                 generateSectionIndexTitle: { train, _ in return train.type.shortName })
  ```
  
@@ -53,7 +53,8 @@ public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
     ///     data provider into a single String, which is used as a section index titles.
     public init<D: DataProvider>(dataProvider: D,
-                                             generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String)) where D.Element == Element {
+                                generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String))
+        where D.Element == Element {
         self.dataProvider = AnyDataProvider(dataProvider)
         self.generateSectionIndexTitle = generateSectionIndexTitle
     }

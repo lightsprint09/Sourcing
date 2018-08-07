@@ -23,7 +23,7 @@
 import XCTest
 import Sourcing
 
-class StaticSectionTitleProviderTest: XCTestCase {
+class ArraySectionIndexTitles: XCTestCase {
     
     func testStaticIndexTitles() {
         //Given
@@ -45,30 +45,6 @@ class StaticSectionTitleProviderTest: XCTestCase {
         
         //Then
         XCTAssertEqual(indexPath.section, 0)
-    }
-    
-    func testStaticTitleForHeader() {
-        //Given
-        let headerTiltes = ["SectionIndexTitle"]
-        let sectionTitelProvider = StaticSectionHeadersFooters(sectionHeaderTitles: headerTiltes)
-        
-        //When
-        let headerTitle = sectionTitelProvider.titleForHeader(inSection: 0)
-        
-        //Then
-        XCTAssertEqual(headerTitle, "SectionIndexTitle")
-    }
-    
-    func testStaticFooterForHeader() {
-        //Given
-        let headerTiltes = ["SectionFooterTitle"]
-        let sectionTitelProvider = StaticSectionHeadersFooters(sectionFooterTitles: headerTiltes)
-        
-        //When
-        let footerTitle = sectionTitelProvider.titleForFooter(inSection: 0)
-        
-        //Then
-        XCTAssertEqual(footerTitle, "SectionFooterTitle")
     }
 
 }

@@ -30,11 +30,8 @@
         /// The data provider which provides the data to the data source.
         public let dataProvider: AnyDataProvider<Object>
         
-        /// Provides section header titles.
-        public var sectionHeaders: SectionHeadersFooters?
-        
-        /// Provides section index titles.
-        public var sectionIndexTitles: SectionIndexTitles?
+        /// Contains all meta data about the section like headers, footers, sectionIndexTitles.
+        public var sectionMetaData: SectionMetdaData?
         
         /// Data modificator can be used to modify the data providers content.
         public let dataModificator: DataModifying?
@@ -52,16 +49,15 @@
         ///   - cellConfiguration: the cell configuration for the table view cell.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionTitleProvider: provides section header titles and section index titles. Defaults to `nil`.
-        public init<Cell: ReusableViewConfiguring, DataProviderType: DataProvider>(dataProvider: DataProviderType, cellConfiguration: Cell,
+        public init<Cell: ReusableViewConfiguring, DataProviderType: DataProvider>(dataProvider: DataProviderType,
+                                                                                cellConfiguration: Cell,
                                                                                 dataModificator: DataModifying? = nil,
-                                                                                sectionHeaders: SectionHeadersFooters? = nil,
-                                                                                sectionIndexTitles: SectionIndexTitles? = nil)
+                                                                                sectionMetaData: SectionMetdaData? = nil)
             where DataProviderType.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.dataModificator = dataModificator
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
-                self.sectionHeaders = sectionHeaders
-                self.sectionIndexTitles = sectionIndexTitles
+                self.sectionMetaData = sectionMetaData
                 super.init()
         }
         
@@ -90,12 +86,12 @@
         // MARK: Section Index Titles
         /// :nodoc:
         public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-            return sectionIndexTitles?.sectionIndexTitles
+            return sectionMetaData?.indexTitles?.sectionIndexTitles
         }
         
         /// :nodoc:
         public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-            guard let section = sectionIndexTitles?.indexPath(forSectionIndexTitle: title, at: index).section else {
+            guard let section = sectionMetaData?.indexTitles?.indexPath(forSectionIndexTitle: title, at: index).section else {
                 fatalError("Must not called when sectionIndexTitles is nil")
             }
             
@@ -105,12 +101,12 @@
         // MARK: SectionHeader & SectionFooter
         /// :nodoc:
         public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-            return sectionHeaders?.titleForHeader(inSection: section)
+            return sectionMetaData?.headerTexts?.text(inSection: section)
         }
         
         /// :nodoc:
         public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-            return sectionHeaders?.titleForFooter(inSection: section)
+            return sectionMetaData?.footerTexts?.text(inSection: section)
         }
         
         // MARK: Editing
