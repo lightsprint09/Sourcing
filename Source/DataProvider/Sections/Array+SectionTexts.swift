@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2017 Lukas Schmidt.
+//  Copyright (C) 2018 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -22,6 +22,10 @@
 
 extension Array: SectionTexts where Element == String? {
     
+    /// Generates a optional section title for a given section
+    ///
+    /// - Parameter section: the section to generate the title for
+    /// - Returns: a section header title
     public func text(inSection section: Int) -> String? {
         return self[section]
     }

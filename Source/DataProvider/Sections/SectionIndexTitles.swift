@@ -34,5 +34,5 @@ public protocol SectionIndexTitles {
     ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
     /// - Returns: An index number identifying a section.
     func indexPath(forSectionIndexTitle sectionIndexTitle: String,
-                 at index: Int) -> IndexPath
+                   at index: Int) -> IndexPath
 }

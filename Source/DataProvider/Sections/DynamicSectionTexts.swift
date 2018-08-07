@@ -30,35 +30,13 @@
  let dataProvider: ArrayDataProvider<Train> = //
  
  //Use type name as a section header and shortname as a section index title.
- let sectionTitleProvider = DynamicSectionHeaders(dataProvider: dataProvider,
+ let sectionTitleProvider = DynamicSectionTexts(dataProvider: dataProvider,
  sectionTextWithElement: { train, _ in return train.type.name },
  using: .firstElementInSection)
  ```
  
  */
-public final class DynamicSectionTexts<Element>: SectionTexts {
-    
-    /// Determines which element of the given data provider will be used
-    /// to transform into section header & footer.
-    public enum SectionHeaderFooterSource {
-        /// Uses the first element in the section
-        case firstElementInSection
-        /// Uses the last element in the section
-        case lastElementInSection
-        /// Uses the given nth element in the section.
-        case nthElementInSection(elementIndex: Int)
-        
-        fileprivate func elementIndex<D: DataProvider>(with dataProvider: D, inSection section: Int) -> Int {
-            switch self {
-            case .firstElementInSection:
-                return 0
-            case .lastElementInSection:
-                return dataProvider.numberOfItems(inSection: section) - 1
-            case .nthElementInSection(let elementIndex):
-                return elementIndex
-            }
-        }
-    }
+public final class DynamicSectionTexts: SectionTexts {
     
     private let generateSectionText: (Int) -> String?
     
@@ -69,8 +47,7 @@ public final class DynamicSectionTexts<Element>: SectionTexts {
     ///   - sectionTextWithDataProvider: a closure to transform a data provider and a given section index into an optional `String`,
     ///     which is used as a section text.
     public init<D: DataProvider>(dataProvider: D,
-                                 sectionTextWithDataProvider: @escaping (D, Int) -> String?)
-        where D.Element == Element {
+                                 sectionTextWithDataProvider: @escaping (D, Int) -> String?) {
             self.generateSectionText = { sectionTextWithDataProvider(dataProvider, $0) }
     }
     
@@ -81,18 +58,20 @@ public final class DynamicSectionTexts<Element>: SectionTexts {
     ///   - sectionTextWithElement: a closure to transform an Element which is part of
     ///     the data provider into a single `String`, which is used as a section text.
     public convenience init<D: DataProvider>(dataProvider: D,
-                                             sectionTextWithElement: @escaping (Element, IndexPath) -> String?,
-                                             using element: SectionHeaderFooterSource)
-                                                where D.Element == Element {
-                                                    
-                                                    self.init(dataProvider: dataProvider,
-                                                              sectionTextWithDataProvider: { (provider, section) -> String? in
-                    let indexPath = IndexPath(item: element.elementIndex(with: dataProvider, inSection: section), section: section)
-                    return provider.safeAccessToObject(at: indexPath)
-                        .flatMap { sectionTextWithElement($0, indexPath) }
-        })
+                                             sectionTextWithElement: @escaping (D.Element, IndexPath) -> String?,
+                                             using element: SectionMetdaData.SectionMetdaDataElement) {
+            self.init(dataProvider: dataProvider,
+                      sectionTextWithDataProvider: { (provider, section) -> String? in
+                        let indexPath = IndexPath(item: element.elementIndex(with: dataProvider, inSection: section), section: section)
+                        return provider.safeAccessToObject(at: indexPath)
+                            .flatMap { sectionTextWithElement($0, indexPath) }
+            })
     }
     
+    /// Generates a optional section title for a given section
+    ///
+    /// - Parameter section: the section to generate the title for
+    /// - Returns: a section header title
     public func text(inSection section: Int) -> String? {
         return generateSectionText(section)
     }

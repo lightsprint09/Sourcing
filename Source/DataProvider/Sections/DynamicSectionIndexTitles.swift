@@ -43,8 +43,9 @@ public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
         return indexSectionTitles()
     }
     
-    private let dataProvider: AnyDataProvider<Element>
-    private let generateSectionIndexTitle: ((Element, IndexPath) -> String)
+    private let generateSectionIndexTitle: (Int) -> String
+    private let getNumberOfSections: () -> Int
+    private let indexPathForSectionTitel: (_ section: Int) -> IndexPath
     
     /// Creates a `DynamicHeaderTitlesProvider`.
     ///
@@ -53,10 +54,15 @@ public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
     ///     data provider into a single String, which is used as a section index titles.
     public init<D: DataProvider>(dataProvider: D,
-                                generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String))
+                                 generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String),
+                                 using element: SectionMetdaData.SectionMetdaDataElement)
         where D.Element == Element {
-        self.dataProvider = AnyDataProvider(dataProvider)
-        self.generateSectionIndexTitle = generateSectionIndexTitle
+            self.generateSectionIndexTitle = { (section) -> String in
+                let indexPath = IndexPath(item: element.elementIndex(with: dataProvider, inSection: section), section: section)
+                return generateSectionIndexTitle(dataProvider.object(at: indexPath), indexPath)
+            }
+            self.getNumberOfSections = { dataProvider.numberOfSections() }
+            self.indexPathForSectionTitel = { IndexPath(item: element.elementIndex(with: dataProvider, inSection: $0), section: $0) }
     }
     
     /// Asks the data provider to return the index of the section having the given title and section title index.
@@ -67,17 +73,12 @@ public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
     /// - Returns: An index number identifying a section.
     public func indexPath(forSectionIndexTitle sectionIndexTitle: String,
                    at index: Int) -> IndexPath {
-        return IndexPath(item: 0, section: index)
+        return indexPathForSectionTitel(index)
     }
     
     private func indexSectionTitles() -> [String]? {
-        let allSections = 0..<dataProvider.numberOfSections()
+        let allSections = 0..<getNumberOfSections()
         
-        return allSections.map {
-            let indexPath = IndexPath(item: 0, section: $0)
-            let firstObjectInSection = dataProvider.object(at: indexPath)
-            
-            return generateSectionIndexTitle(firstObjectInSection, indexPath)
-        }
+        return allSections.map(generateSectionIndexTitle)
     }
 }

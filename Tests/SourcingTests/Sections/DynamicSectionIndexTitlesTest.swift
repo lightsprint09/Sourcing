@@ -29,7 +29,8 @@ class DynamicSectionIndexTitlesTest: XCTestCase {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionIndexTitle"])
         let sectionTitelProvider = DynamicSectionIndexTitles(dataProvider: dataProvider,
-                                                               generateSectionIndexTitle: { element, _ in element })
+                                                             generateSectionIndexTitle: { element, _ in element },
+                                                             using: .firstElementInSection)
         
         //When
         let sectionIndexTitles = sectionTitelProvider.sectionIndexTitles
@@ -43,12 +44,27 @@ class DynamicSectionIndexTitlesTest: XCTestCase {
         let indexTitel = "SectionIndexTitle"
         let dataProvider = ArrayDataProvider(rows: [indexTitel])
         let sectionTitelProvider = DynamicSectionIndexTitles(dataProvider: dataProvider,
-                                                             generateSectionIndexTitle: { element, _ in element })
+                                                             generateSectionIndexTitle: { element, _ in element },
+                                                             using: .firstElementInSection)
         
         //When
         let indexPath = sectionTitelProvider.indexPath(forSectionIndexTitle: indexTitel, at: 0)
         
         //Then
         XCTAssertEqual(indexPath, IndexPath(row: 0, section: 0))
+    }
+    
+    func testIndexPathForSectionIndexTitleUsingLastElementInSection() {
+        //Given
+        let dataProvider = ArrayDataProvider(rows: ["A", "B", "C"])
+        let sectionTitelProvider = DynamicSectionIndexTitles(dataProvider: dataProvider,
+                                                             generateSectionIndexTitle: { element, _ in element },
+                                                             using: .lastElementInSection)
+        
+        //When
+        let indexPath = sectionTitelProvider.indexPath(forSectionIndexTitle: "C", at: 0)
+        
+        //Then
+        XCTAssertEqual(indexPath, IndexPath(row: 2, section: 0))
     }
 }
