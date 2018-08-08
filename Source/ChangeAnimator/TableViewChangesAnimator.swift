@@ -94,8 +94,10 @@
                 })
         }
         
-        private init(tableView: UITableView, observable: DataProviderObservable,
-                     configuration: Configuration, cellReconfigurationAtIndexPath: ((IndexPath) -> Void)?) {
+        private init(tableView: UITableView,
+                     observable: DataProviderObservable,
+                     configuration: Configuration,
+                     cellReconfigurationAtIndexPath: ((IndexPath) -> Void)?) {
             self.tableView = tableView
             self.observable = observable
             self.configuration = configuration

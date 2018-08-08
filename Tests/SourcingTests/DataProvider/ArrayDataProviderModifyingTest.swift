@@ -76,10 +76,10 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     
     func testCanDelteItems() {
         //When
-        arrayDataModifier.canDeleteItems = true
+        arrayDataModifier.canEditItems = true
         
         //Then
-        XCTAssert(arrayDataModifier.canDeleteItem(at: IndexPath(item: 0, section: 0)))
+        XCTAssert(arrayDataModifier.canEditItem(at: IndexPath(item: 0, section: 0)))
     }
     
     func testDelteItemAtIndexPath() {

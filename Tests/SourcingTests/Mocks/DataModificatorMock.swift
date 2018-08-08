@@ -43,7 +43,7 @@ class DataModificatorMock: DataModifying {
         return canMoveItemAt
     }
     
-    func canDeleteItem(at indexPath: IndexPath) -> Bool {
+    func canEditItem(at indexPath: IndexPath) -> Bool {
         return canDeleteItemAt
     }
     

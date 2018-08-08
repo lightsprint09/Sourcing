@@ -35,8 +35,9 @@ public final class DefaultDataProviderObservable: DataProviderObservable {
     /// - Parameter observer: gets called when updates are available. If nil the DataProvider could
     /// not calculate the updates, but new data is available. Reload your view when this happens.
     
-    /// To unregister call ``
+    /// To unregister call `removeObserver`
     /// - Returns: An opaque object to act as the observer.
+    @discardableResult
     public func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
         let token = NSObject()
         observers[token] = observer
