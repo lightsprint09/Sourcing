@@ -150,6 +150,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertFalse(canDelete)
     }
     
+    #if os(iOS)
     func testCanEditCellWithDelegateRowAction() {
         //Given
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
@@ -162,6 +163,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         //Then
         XCTAssertTrue(canDelete)
     }
+    #endif
     
     func testDeleteCell() {
         //Given
