@@ -125,8 +125,12 @@
         /// :nodoc:
         public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
             guard let dataModificator = dataModificator else {
-                let editActions = tableView.delegate?.tableView?(tableView, editActionsForRowAt: indexPath) ?? []
-                return !editActions.isEmpty
+                #if os(iOS)
+                    let editActions = tableView.delegate?.tableView?(tableView, editActionsForRowAt: indexPath) ?? []
+                    return !editActions.isEmpty
+                #else
+                    return false
+                #endif
             }
             
             return dataModificator.canEditItem(at: indexPath)

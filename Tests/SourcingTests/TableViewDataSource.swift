@@ -136,7 +136,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
         
         //Then
-        XCTAssert(canDelete)
+        XCTAssertTrue(canDelete)
     }
     
     func testCanDeleteCellWithOutDataModificator() {
@@ -148,6 +148,19 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         
         //Then
         XCTAssertFalse(canDelete)
+    }
+    
+    func testCanEditCellWithDelegateRowAction() {
+        //Given
+        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
+        let delegate = UITableViewMockDelegateMock()
+        delegate.rowActions = [UITableViewRowAction(style: .default, title: "", handler: { _, _ in })]
+        tableViewMock.delegate = delegate
+        //When
+        let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
+        
+        //Then
+        XCTAssertTrue(canDelete)
     }
     
     func testDeleteCell() {

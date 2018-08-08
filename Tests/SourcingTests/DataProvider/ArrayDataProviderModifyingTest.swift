@@ -39,7 +39,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         arrayDataModifier.canMoveItems = true
         
         //Then
-        XCTAssert(arrayDataModifier.canMoveItem(at: IndexPath(item: 0, section: 0)))
+        XCTAssertTrue(arrayDataModifier.canMoveItem(at: IndexPath(item: 0, section: 0)))
     }
     
     func testMoveItemFromTo() {
@@ -79,7 +79,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         arrayDataModifier.canEditItems = true
         
         //Then
-        XCTAssert(arrayDataModifier.canEditItem(at: IndexPath(item: 0, section: 0)))
+        XCTAssertTrue(arrayDataModifier.canEditItem(at: IndexPath(item: 0, section: 0)))
     }
     
     func testDelteItemAtIndexPath() {
@@ -94,7 +94,7 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         //Then
         let destinationObject = dataProvider.object(at: deleteIndexPath)
         XCTAssertEqual(destinationObject, 2)
-        XCTAssert(didNotifyTableView)
+        XCTAssertTrue(didNotifyTableView)
     }
     func testInsertItemAtIndexPath() {
         //Given
@@ -109,6 +109,6 @@ class ArrayDataProviderModifyingTest: XCTestCase {
         //Then
         let destinationObject = dataProvider.object(at: insertedIndexPath)
         XCTAssertEqual(destinationObject, 7)
-        XCTAssert(didNotifyTableView)
+        XCTAssertTrue(didNotifyTableView)
     }
 }
