@@ -91,11 +91,11 @@
         
         /// :nodoc:
         public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-            guard let section = sectionMetaData?.indexTitles?.indexPath(forSectionIndexTitle: title, at: index).section else {
+            guard let indexTitles = sectionMetaData?.indexTitles else {
                 fatalError("Must not called when sectionIndexTitles is nil")
             }
             
-            return section
+            return indexTitles.indexPath(forSectionIndexTitle: title, at: index).section
         }
         
         // MARK: SectionHeader & SectionFooter
@@ -126,7 +126,8 @@
         }
         
         /// :nodoc:
-        public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+                              forRowAt indexPath: IndexPath) {
             guard let dataModificator = dataModificator else {
                 return
             }
