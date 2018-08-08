@@ -22,14 +22,6 @@
 
 import UIKit
 
-class UITableViewMockDelegateMock: NSObject, UITableViewDelegate {
-    var rowActions: [UITableViewRowAction]?
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        return rowActions
-    }
-}
-
 class UITableViewMock: UITableView {
     private var strongDataSource: UITableViewDataSource?
     override var dataSource: UITableViewDataSource? {
