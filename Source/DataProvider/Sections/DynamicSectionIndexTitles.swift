@@ -35,7 +35,7 @@
  ```
  
  */
-public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
+public final class DynamicSectionIndexTitles: SectionIndexTitles {
     /**
      Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`
      */
@@ -54,11 +54,12 @@ public final class DynamicSectionIndexTitles<Element>: SectionIndexTitles {
     ///   - generateSectionIndexTitle: a closure to transform a Element which is part of the
     ///     data provider into a single String, which is used as a section index titles.
     public init<D: DataProvider>(dataProvider: D,
-                                 generateSectionIndexTitle: @escaping ((Element, IndexPath) -> String),
-                                 using element: SectionMetdaData.SectionMetdaDataElement)
-        where D.Element == Element {
-            self.generateSectionIndexTitle = { (section) -> String in
-                let indexPath = IndexPath(item: element.elementIndex(with: dataProvider, inSection: section), section: section)
+                                 generateSectionIndexTitle: @escaping (D.Element, IndexPath) -> String,
+                                 using element: SectionMetdaData.SectionMetdaDataElement) {
+            self.generateSectionIndexTitle = { section -> String in
+                let item = element.elementIndex(with: dataProvider, inSection: section)
+                let indexPath = IndexPath(item: item, section: section)
+                
                 return generateSectionIndexTitle(dataProvider.object(at: indexPath), indexPath)
             }
             self.getNumberOfSections = { dataProvider.numberOfSections() }

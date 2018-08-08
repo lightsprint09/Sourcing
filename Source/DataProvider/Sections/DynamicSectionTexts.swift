@@ -62,7 +62,8 @@ public final class DynamicSectionTexts: SectionTexts {
                                              using element: SectionMetdaData.SectionMetdaDataElement) {
             self.init(dataProvider: dataProvider,
                       sectionTextWithDataProvider: { (provider, section) -> String? in
-                        let indexPath = IndexPath(item: element.elementIndex(with: dataProvider, inSection: section), section: section)
+                        let item = element.elementIndex(with: dataProvider, inSection: section)
+                        let indexPath = IndexPath(item: item, section: section)
                         return provider.safeAccessToObject(at: indexPath)
                             .flatMap { sectionTextWithElement($0, indexPath) }
             })
