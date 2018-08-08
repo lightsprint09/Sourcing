@@ -54,7 +54,7 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
         }
     }
     
-    func reuseIdentifier(for item: JourneyItem, ofType type: ReusableViewType) -> String {
+    func reuseIdentifier(for item: JourneyItem) -> String {
         switch item {
         case .station:
             return "StationCell"
@@ -67,7 +67,8 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
 class PlainArrayViewController: UITableViewController {
 
     var dataProvider = ArrayDataProvider<JourneyItem>(rows: [.station(Station(name: "Frankfurt", distance: 200)),
-                                                        .train(Train(name: "ICE 4")), .station(Station(name: "Frankfurt", distance: 200))])
+                                                        .train(Train(name: "ICE 4")),
+                                                        .station(Station(name: "Frankfurt", distance: 200))])
     var dataModificator: ArrayDataProviderModifier<JourneyItem>!
     var dataSource: TableViewDataSource<JourneyItem>!
     var dataSourceChangeAnimator: TableViewChangesAnimator!
@@ -78,11 +79,15 @@ class PlainArrayViewController: UITableViewController {
         
         let cellConfig = JourneyCellConfiguration(nib: nil)
         dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true, canDeleteItems: true)
-        dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cellConfig, dataModificator: dataModificator)
+        let sectionHeaderTitles: [String?] = ["Section 1"]
+        dataSource = TableViewDataSource(dataProvider: dataProvider,
+                                         cellConfiguration: cellConfig,
+                                         dataModificator: dataModificator,
+                                         sectionMetaData: SectionMetdaData(headerTexts: sectionHeaderTitles))
         tableView.dataSource = dataSource
         tableView.setEditing(true, animated: true)
         
-        dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
+        dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, observable: dataProvider.observable)
         
     }
 
