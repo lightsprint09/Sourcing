@@ -35,7 +35,7 @@ let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfigurati
 tableView.dataSource = dataSource
 
 //Add this to sync data changes to the table view.
-let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
+let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProvider: dataProvider)
 ```
 
 ## Requirements
