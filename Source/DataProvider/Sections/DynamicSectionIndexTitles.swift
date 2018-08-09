@@ -55,7 +55,7 @@ public final class DynamicSectionIndexTitles: SectionIndexTitles {
     ///     data provider into a single String, which is used as a section index titles.
     public init<D: DataProvider>(dataProvider: D,
                                  generateSectionIndexTitle: @escaping (D.Element, IndexPath) -> String,
-                                 using element: SectionMetdaData.SectionMetdaDataElement) {
+                                 using element: SectionMetaData.SectionMetaDataElement) {
             self.generateSectionIndexTitle = { section -> String in
                 let item = element.elementIndex(with: dataProvider, inSection: section)
                 let indexPath = IndexPath(item: item, section: section)

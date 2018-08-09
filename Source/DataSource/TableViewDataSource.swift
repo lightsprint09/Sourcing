@@ -31,7 +31,7 @@
         public let dataProvider: AnyDataProvider<Object>
         
         /// Contains all meta data about the section like headers, footers and sectionIndexTitles.
-        public var sectionMetaData: SectionMetdaData?
+        public var sectionMetaData: SectionMetaData?
         
         /// Data modificator can be used to modify the data providers content.
         public let dataModificator: DataModifying?
@@ -52,7 +52,7 @@
         public init<Cell: ReusableViewConfiguring, DataProviderType: DataProvider>(dataProvider: DataProviderType,
                                                                                 cellConfiguration: Cell,
                                                                                 dataModificator: DataModifying? = nil,
-                                                                                sectionMetaData: SectionMetdaData? = nil)
+                                                                                sectionMetaData: SectionMetaData? = nil)
             where DataProviderType.Element == Object, Cell.Object == Object, Cell.View: UITableViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.dataModificator = dataModificator

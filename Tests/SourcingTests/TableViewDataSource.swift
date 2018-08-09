@@ -176,7 +176,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
-        let sectionMetaData = SectionMetdaData(headerTexts: ["foo", "bar"] as [String?])
+        let sectionMetaData = SectionMetaData(headerTexts: ["foo", "bar"] as [String?])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,
@@ -191,7 +191,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForFooterInSection() {
         //Given
-        let sectionMetaData = SectionMetdaData(footerTexts: ["foo", "bar"] as [String?])
+        let sectionMetaData = SectionMetaData(footerTexts: ["foo", "bar"] as [String?])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,
@@ -207,7 +207,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testSectionIndexTitles() {
         //Given
         let sectionIndexTitles = ["foo", "bar"]
-        let sectionMetaData = SectionMetdaData(indexTitles: sectionIndexTitles)
+        let sectionMetaData = SectionMetaData(indexTitles: sectionIndexTitles)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,
@@ -223,7 +223,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     func testSectionForSectionIndexTitle() {
         //Given
         let sectionIndexTitles = ["foo", "bar"]
-        let sectionMetaData = SectionMetdaData(indexTitles: sectionIndexTitles)
+        let sectionMetaData = SectionMetaData(indexTitles: sectionIndexTitles)
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,

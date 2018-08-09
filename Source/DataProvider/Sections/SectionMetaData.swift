@@ -21,7 +21,7 @@
 //
 
 /// Encapsulates all informaton and meta data one can provide related to sections.
-public struct SectionMetdaData {
+public struct SectionMetaData {
     
     /// The section index titles.
     public let indexTitles: SectionIndexTitles?
@@ -32,7 +32,7 @@ public struct SectionMetdaData {
      /// The section footers.
     public let footerTexts: SectionTexts?
     
-    /// Creates an instace of `SectionMetdaData`
+    /// Creates an instace of `SectionMetaData`
     ///
     /// - Parameters:
     ///   - indexTitles: The section index titles. Defaults to `nil`.
@@ -46,7 +46,7 @@ public struct SectionMetdaData {
     
     /// Determines which element of the given data provider will be used
     /// to transform into section meta data.
-    public enum SectionMetdaDataElement {
+    public enum SectionMetaDataElement {
         /// Uses the first element in the section
         case firstElementInSection
         /// Uses the last element in the section

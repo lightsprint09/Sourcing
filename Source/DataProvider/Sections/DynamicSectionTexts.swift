@@ -59,7 +59,7 @@ public final class DynamicSectionTexts: SectionTexts {
     ///     the data provider into a single `String`, which is used as a section text.
     public convenience init<D: DataProvider>(dataProvider: D,
                                              sectionTextWithElement: @escaping (D.Element, IndexPath) -> String?,
-                                             using element: SectionMetdaData.SectionMetdaDataElement) {
+                                             using element: SectionMetaData.SectionMetaDataElement) {
             self.init(dataProvider: dataProvider,
                       sectionTextWithDataProvider: { (provider, section) -> String? in
                         let item = element.elementIndex(with: dataProvider, inSection: section)

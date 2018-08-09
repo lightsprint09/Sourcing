@@ -83,7 +83,7 @@ class PlainArrayViewController: UITableViewController {
         dataSource = TableViewDataSource(dataProvider: dataProvider,
                                          cellConfiguration: cellConfig,
                                          dataModificator: dataModificator,
-                                         sectionMetaData: SectionMetdaData(headerTexts: sectionHeaderTitles))
+                                         sectionMetaData: SectionMetaData(headerTexts: sectionHeaderTitles))
         tableView.dataSource = dataSource
         tableView.setEditing(true, animated: true)
         
