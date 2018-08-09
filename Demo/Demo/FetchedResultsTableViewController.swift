@@ -80,7 +80,7 @@ class FetchedResultsTableViewController: UITableViewController {
         tableView.dataSource = dataSource
         tableView.setEditing(true, animated: true)
         
-        dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
+        dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, observable: dataProvider.observable)
         
     }
     

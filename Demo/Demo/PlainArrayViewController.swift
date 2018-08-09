@@ -54,7 +54,7 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
         }
     }
     
-    func reuseIdentifier(for item: JourneyItem, ofType type: ReusableViewType) -> String {
+    func reuseIdentifier(for item: JourneyItem) -> String {
         switch item {
         case .station:
             return "StationCell"
@@ -77,13 +77,19 @@ class PlainArrayViewController: UITableViewController {
         tableView.register(StationCell.self, forCellReuseIdentifier: "StationCell")
         
         let cellConfig = JourneyCellConfiguration(nib: nil)
-        dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true, canDeleteItems: true)
-        dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cellConfig, dataModificator: dataModificator)
+        dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true, canEditItems: true)
+        dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cellConfig)
         tableView.dataSource = dataSource
-        tableView.setEditing(true, animated: true)
         
-        dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, dataProviderObservable: dataProvider.observable)
+        dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, observable: dataProvider.observable)
         
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let action = UITableViewRowAction(style: .destructive, title: "Hallo", handler: { [unowned self] _, indexPath in
+            self.dataModificator.deleteItem(at: indexPath)
+        })
+        return [action]
     }
 
 }

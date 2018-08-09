@@ -41,7 +41,7 @@ final class TableViewChangesAnimatorTest: XCTestCase {
         //Given
         let observable = DataProviderObservableMock()
         var collectionViewChangesAnimator: TableViewChangesAnimator? = TableViewChangesAnimator(tableView: tableViewMock,
-                                                                                                           observable: observable)
+                                                                                            observable: observable)
         XCTAssertNotNil(observable.observer)
         
         //When

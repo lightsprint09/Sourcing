@@ -31,8 +31,8 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     /// Flag if items can be moved by the data source.
     public var canMoveItems: Bool = false
     
-    /// Flag if items can be deleted by the data source.
-    public var canDeleteItems: Bool = false
+    /// Flag if items can be edited by the data source.
+    public var canEditItems: Bool = false
     
     private let dataProvider: ArrayDataProvider<Element>
     
@@ -43,11 +43,11 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     /// - Parameters:
     ///   - dataProvider: the data provider which should be modifiable
     ///   - canMoveItems: Flag if items can be moved by the data source.
-    ///   - canDeleteItems: Flag if items can be deleted by the data source.
-    public init(dataProvider: ArrayDataProvider<Element>, canMoveItems: Bool = false, canDeleteItems: Bool = false, createElement: (() -> Element)? = nil) {
+    ///   - canEditItems: Flag if items can be edited by the data source.
+    public init(dataProvider: ArrayDataProvider<Element>, canMoveItems: Bool = false, canEditItems: Bool = false, createElement: (() -> Element)? = nil) {
         self.dataProvider = dataProvider
         self.canMoveItems = canMoveItems
-        self.canDeleteItems = canDeleteItems
+        self.canEditItems = canEditItems
         self.createElement = createElement
     }
     
@@ -76,12 +76,12 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
         dataProvider.reconfigure(with: content, change: changes)
     }
     
-    /// Checks wethere item at an indexPath can be deleted
+    /// Checks wethere item at an indexPath can be edited
     ///
-    /// - Parameter indexPath: the indexPath to check for if it can be deleted
-    /// - Returns: if the item can be deleted
-    public func canDeleteItem(at indexPath: IndexPath) -> Bool {
-        return canDeleteItems
+    /// - Parameter indexPath: the indexPath to check for if it can be edited
+    /// - Returns: if the item can be edited
+    public func canEditItem(at indexPath: IndexPath) -> Bool {
+        return canEditItems
     }
     
     /// Deleted item at a given indexPath

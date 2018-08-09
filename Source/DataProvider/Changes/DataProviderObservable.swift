@@ -25,15 +25,16 @@ import Foundation
 /// A observable which notifies about data provider changes.
 public protocol DataProviderObservable: class {
     
-    /// Observe the changes of the data provider.
+    /// Observe the changes of an data provider.
     ///
     /// Can be use to animate changes in a TableView or in any other view hirachy.
     ///
     /// - Parameter observer: gets called when updates are available. If nil the DataProvider could
     /// not calculate the updates, but new data is available. Reload your view when this happens.
     
-    /// To unregister call ``
+    /// To unregister call `removeObserver`
     /// - Returns: An opaque object to act as the observer.
+    @discardableResult
     func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol
     
     /// Removes given observer from the receiver’s dispatch table.

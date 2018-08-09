@@ -124,7 +124,16 @@
         
         /// :nodoc:
         public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            return dataModificator?.canDeleteItem(at: indexPath) ?? false
+            guard let dataModificator = dataModificator else {
+                #if os(iOS)
+                    let editActions = tableView.delegate?.tableView?(tableView, editActionsForRowAt: indexPath) ?? []
+                    return !editActions.isEmpty
+                #else
+                    return false
+                #endif
+            }
+            
+            return dataModificator.canEditItem(at: indexPath)
         }
         
         /// :nodoc:

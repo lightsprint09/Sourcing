@@ -92,7 +92,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         arrayDataProvider.reconfigure(with: [[]])
 
         //Then
-        XCTAssert(calledWhenChanges)
+        XCTAssertTrue(calledWhenChanges)
     }
     
     func testPerformanceOfObjectAtIndex() {

@@ -28,15 +28,16 @@ public final class DefaultDataProviderObservable: DataProviderObservable {
     /// Creates a instance of the obsavable.
     public init() {}
     
-    /// Observe the changes of the DataProvider.
+    /// Observe the changes of an data provider.
     ///
     /// Can be use to animate changes in a TableView or in any other view hirachy.
     ///
     /// - Parameter observer: gets called when updates are available. If nil the DataProvider could
     /// not calculate the updates, but new data is available. Reload your view when this happens.
     
-    /// To unregister call ``
+    /// To unregister call `removeObserver`
     /// - Returns: An opaque object to act as the observer.
+    @discardableResult
     public func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
         let token = NSObject()
         observers[token] = observer
