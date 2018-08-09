@@ -52,11 +52,11 @@ import UIKit
         ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionIndexTitles: provides section index titles. Defaults to `nil`.
-        public init<Cell: ReusableViewConfiguring, D: DataProvider, SupplementaryConfig: ReusableViewConfiguring>
-            (dataProvider: D, cellConfiguration: Cell,
+        public init<Cell: ReusableViewConfiguring, DataProviderType: DataProvider, SupplementaryConfig: ReusableViewConfiguring>
+            (dataProvider: DataProviderType, cellConfiguration: Cell,
              supplementaryViewConfiguration: SupplementaryConfig,
              dataModificator: DataModifying? = nil, sectionIndexTitles: SectionIndexTitles? = nil)
-            where D.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
+            where DataProviderType.Element == Object, Cell.Object == Object, SupplementaryConfig.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator
@@ -77,10 +77,10 @@ import UIKit
         ///   - supplementaryViewConfigurations: the reusable view configurations for the collection view supplementary views.
         ///   - dataModificator: data modifier to modify the data. Defaults to `nil`.
         ///   - sectionIndexTitles: provides section index titles. Defaults to `nil`.
-        public init<Cell: ReusableViewConfiguring, D: DataProvider>(dataProvider: D, cellConfiguration: Cell,
+        public init<Cell: ReusableViewConfiguring, DataProviderType: DataProvider>(dataProvider: DataProviderType, cellConfiguration: Cell,
                                                                     dataModificator: DataModifying? = nil,
                                                                     sectionIndexTitles: SectionIndexTitles? = nil)
-            where D.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
+            where DataProviderType.Element == Object, Cell.Object == Object, Cell.View: UICollectionViewCell {
                 self.dataProvider = AnyDataProvider(dataProvider)
                 self.cellConfiguration = AnyReusableViewConfiguring(cellConfiguration)
                 self.dataModificator = dataModificator
@@ -144,9 +144,11 @@ import UIKit
         
         /// :nodoc:
         public func collectionView(_ collectionView: UICollectionView, indexPathForIndexTitle title: String, at index: Int) -> IndexPath {
-            precondition(self.sectionIndexTitles != nil, "Must not called when sectionIndexTitles is nil")
-            let sectionIndexTitles: SectionIndexTitles! = self.sectionIndexTitles
-            return sectionIndexTitles.indexPath(forSectionIndexTitle: title, at: index)
+            guard let indexPath = sectionIndexTitles?.indexPath(forSectionIndexTitle: title, at: index) else {
+                fatalError("Must not called when sectionIndexTitles is nil")
+            }
+            
+            return indexPath
         }
     }
 #endif

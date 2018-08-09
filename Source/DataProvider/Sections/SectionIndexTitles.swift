@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2017 Lukas Schmidt.
+//  Copyright (C) DB Systel GmbH.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a 
 //  copy of this software and associated documentation files (the "Software"), 
@@ -19,19 +19,20 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 //  DEALINGS IN THE SOFTWARE.
 //
+import Foundation
 
-/// Providing section header titles.
-public protocol SectionHeaders {
+/// Providing section index titles.
+public protocol SectionIndexTitles {
     
-    /// Generates a optional section title for a given section
-    ///
-    /// - Parameter section: the section to generate the title for
-    /// - Returns: a section header title
-    func titleForHeader(inSection section: Int) -> String?
+    /// Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`.
+    var sectionIndexTitles: [String]? { get }
     
-    /// Generates a optional section footer for a given section
+    /// Asks the data provider to return the index of the section having the given title and section title index.
     ///
-    /// - Parameter section: the section to generate the title for
-    /// - Returns: a section footer title
-    func titleForFooter(inSection section: Int) -> String?
+    /// - Parameters:
+    ///   - sectionIndexTitle: The title as displayed in the section index
+    ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
+    /// - Returns: An index number identifying a section.
+    func indexPath(forSectionIndexTitle sectionIndexTitle: String,
+                   at index: Int) -> IndexPath
 }

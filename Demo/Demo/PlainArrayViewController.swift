@@ -67,7 +67,8 @@ struct JourneyCellConfiguration: ReusableViewConfiguring {
 class PlainArrayViewController: UITableViewController {
 
     var dataProvider = ArrayDataProvider<JourneyItem>(rows: [.station(Station(name: "Frankfurt", distance: 200)),
-                                                        .train(Train(name: "ICE 4")), .station(Station(name: "Frankfurt", distance: 200))])
+                                                        .train(Train(name: "ICE 4")),
+                                                        .station(Station(name: "Frankfurt", distance: 200))])
     var dataModificator: ArrayDataProviderModifier<JourneyItem>!
     var dataSource: TableViewDataSource<JourneyItem>!
     var dataSourceChangeAnimator: TableViewChangesAnimator!
@@ -77,8 +78,12 @@ class PlainArrayViewController: UITableViewController {
         tableView.register(StationCell.self, forCellReuseIdentifier: "StationCell")
         
         let cellConfig = JourneyCellConfiguration(nib: nil)
-        dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true, canEditItems: true)
-        dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cellConfig)
+        dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true,
+                                                    canEditItems: true)
+        let sectionHeaderTitles: [String?] = ["Section 1"]
+        dataSource = TableViewDataSource(dataProvider: dataProvider,
+                                         cellConfiguration: cellConfig,
+                                         sectionMetaData: SectionMetaData(headerTexts: sectionHeaderTitles))
         tableView.dataSource = dataSource
         
         dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, observable: dataProvider.observable)

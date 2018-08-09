@@ -20,36 +20,12 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-/// Generates section header titles, footer titles and section index titles by using the given array of strings.
-public struct StaticSectionTitles: SectionHeaders {
-    private let sectionHeaderTitles: [String?]?
-    private let sectionFooterTitles: [String?]?
-    
-    /// Creates an instance.
-    ///
-    /// - Parameters:
-    ///   - sectionHeaderTitles: static list of section header titles.
-    ///   - sectionFooterTitles: static list of section footer titles.
-    ///   - sectionIndexTitles: static list of section index titles.
-    public init(sectionHeaderTitles: [String?]? = nil, sectionFooterTitles: [String?]? = nil) {
-        self.sectionHeaderTitles = sectionHeaderTitles
-        self.sectionFooterTitles = sectionFooterTitles
-    }
+/// Generates text which can be used as section header titles or footer titles.
+public protocol SectionTexts {
     
     /// Generates a optional section title for a given section
     ///
     /// - Parameter section: the section to generate the title for
     /// - Returns: a section header title
-    public func titleForHeader(inSection section: Int) -> String? {
-        return sectionHeaderTitles?[section]
-    }
-    
-    /// Generates a optional section footer for a given section
-    ///
-    /// - Parameter section: the section to generate the title for
-    /// - Returns: a section footer title
-    public func titleForFooter(inSection section: Int) -> String? {
-        return sectionFooterTitles?[section]
-    }
-
+    func text(inSection section: Int) -> String?
 }

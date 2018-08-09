@@ -52,3 +52,23 @@ public protocol DataProvider: class {
     func numberOfSections() -> Int
     
 }
+
+extension DataProvider {
+    
+    /// Returns an object for a given index path.
+    /// If the index path is out of range, `nil` gets returned.
+    ///
+    /// - Parameter indexPath: the index path to get the object for.
+    /// - Returns: the object at the given index path.
+    public func safeAccessToObject(at indexPath: IndexPath) -> Element? {
+        guard numberOfSections() > indexPath.section else {
+            return nil
+        }
+        let numberOfItemsInSection = numberOfItems(inSection: indexPath.section)
+        guard numberOfItemsInSection > indexPath.row else {
+            return nil
+        }
+        
+        return object(at: indexPath)
+    }
+}

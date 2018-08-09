@@ -61,6 +61,30 @@ class ArrayDataProviderTest: XCTestCase {
         XCTAssertEqual(object, 1)
     }
     
+    func testSafeAccesToObjectAtIndexPath() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = IndexPath(item: 0, section: 0)
+        let object = dataProvider.safeAccessToObject(at: indexPath)
+        
+        //Then
+        XCTAssertEqual(object, 1)
+    }
+    
+    func testSafeAccesToObjectAtIndexPathWithInvalidIndexPath() {
+        //Given
+        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        
+        //When
+        let indexPath = IndexPath(item: 5, section: 5)
+        let object = dataProvider.safeAccessToObject(at: indexPath)
+        
+        //Then
+        XCTAssertNil(object)
+    }
+    
     func testIndexPathForContainingObject() {
         //Given
         dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])

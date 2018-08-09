@@ -23,11 +23,21 @@
 import Foundation
 
 extension Array: SectionIndexTitles where Element == String {
+    
+    /// Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`.
     public var sectionIndexTitles: [String]? {
         return self
     }
     
-    public func indexPath(forSectionIndexTitle sectionIndexTitle: String, at index: Int) -> IndexPath {
+    /// Asks the data provider to return the index of the section having the given title and section title index.
+    ///
+    /// - Parameters:
+    ///   - sectionIndexTitle: The title as displayed in the section index
+    ///   - index: An index number identifying a section title in the array returned by `sectionIndexTitles`
+    /// - Returns: An index number identifying a section.
+    public func indexPath(forSectionIndexTitle sectionIndexTitle: String,
+                          at index: Int) -> IndexPath {
         return IndexPath(item: 0, section: index)
     }
+    
 }

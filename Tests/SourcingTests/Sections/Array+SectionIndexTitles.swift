@@ -23,32 +23,28 @@
 import XCTest
 import Sourcing
 
-class DynamicSectionIndexTitlesTest: XCTestCase {
+class ArraySectionIndexTitles: XCTestCase {
     
-    func testGenerateSectionIndexTitles() {
+    func testStaticIndexTitles() {
         //Given
-        let dataProvider = ArrayDataProvider(rows: ["SectionIndexTitle"])
-        let sectionTitelProvider = DynamicSectionIndexTitles(dataProvider: dataProvider,
-                                                               generateSectionIndexTitle: { element, _ in element })
+        let sectionIndexTitles = ["SectionIndexTitle"]
         
         //When
-        let sectionIndexTitles = sectionTitelProvider.sectionIndexTitles
-    
+        let resultingSectionIndexTitles = sectionIndexTitles.sectionIndexTitles
+        
         //Then
-        XCTAssertEqual(sectionIndexTitles?.first, "SectionIndexTitle")
+        XCTAssertEqual(resultingSectionIndexTitles, sectionIndexTitles)
     }
     
-    func testIndexPathForSectionIndexTitle() {
+    func testSectionForSectionIndexTitle() {
         //Given
-        let indexTitel = "SectionIndexTitle"
-        let dataProvider = ArrayDataProvider(rows: [indexTitel])
-        let sectionTitelProvider = DynamicSectionIndexTitles(dataProvider: dataProvider,
-                                                             generateSectionIndexTitle: { element, _ in element })
+        let sectionIndexTitles = ["SectionFooterTitle"]
         
         //When
-        let indexPath = sectionTitelProvider.indexPath(forSectionIndexTitle: indexTitel, at: 0)
+        let indexPath = sectionIndexTitles.indexPath(forSectionIndexTitle: "SectionFooterTitle", at: 0)
         
         //Then
-        XCTAssertEqual(indexPath, IndexPath(row: 0, section: 0))
+        XCTAssertEqual(indexPath.section, 0)
     }
+
 }
