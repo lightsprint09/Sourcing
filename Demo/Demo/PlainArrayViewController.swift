@@ -78,17 +78,23 @@ class PlainArrayViewController: UITableViewController {
         tableView.register(StationCell.self, forCellReuseIdentifier: "StationCell")
         
         let cellConfig = JourneyCellConfiguration(nib: nil)
-        dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true, canDeleteItems: true)
+        dataModificator = ArrayDataProviderModifier(dataProvider: dataProvider, canMoveItems: true,
+                                                    canEditItems: true)
         let sectionHeaderTitles: [String?] = ["Section 1"]
         dataSource = TableViewDataSource(dataProvider: dataProvider,
                                          cellConfiguration: cellConfig,
-                                         dataModificator: dataModificator,
                                          sectionMetaData: SectionMetaData(headerTexts: sectionHeaderTitles))
         tableView.dataSource = dataSource
-        tableView.setEditing(true, animated: true)
         
         dataSourceChangeAnimator = TableViewChangesAnimator(tableView: tableView, observable: dataProvider.observable)
         
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let action = UITableViewRowAction(style: .destructive, title: "Hallo", handler: { [unowned self] _, indexPath in
+            self.dataModificator.deleteItem(at: indexPath)
+        })
+        return [action]
     }
 
 }

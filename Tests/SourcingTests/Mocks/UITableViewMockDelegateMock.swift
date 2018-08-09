@@ -1,5 +1,5 @@
 //
-//  Copyright (C) 2017 Lukas Schmidt.
+//  Copyright (C) 2018 Lukas Schmidt.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a
 //  copy of this software and associated documentation files (the "Software"),
@@ -20,38 +20,15 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-import Sourcing
+import UIKit
 
-class DataModificatorMock: DataModifying {
-    var canMoveItemAt: Bool = false
-    var canDeleteItemAt: Bool = false
+class UITableViewMockDelegateMock: NSObject, UITableViewDelegate {
     
-    var sourceIndexPath: IndexPath?
-    var destinationIndexPath: IndexPath?
-    var deletedIndexPath: IndexPath?
-    var insertedIndexPath: IndexPath?
-    var updateView: Bool?
+    #if os(iOS)
+    var rowActions: [UITableViewRowAction]?
     
-    func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool) {
-        self.sourceIndexPath = sourceIndexPath
-        self.destinationIndexPath = destinationIndexPath
-        self.updateView = updateView
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        return rowActions
     }
-    
-    func canMoveItem(at indexPath: IndexPath) -> Bool {
-        return canMoveItemAt
-    }
-    
-    func canEditItem(at indexPath: IndexPath) -> Bool {
-        return canDeleteItemAt
-    }
-    
-    func deleteItem(at indexPath: IndexPath) {
-        deletedIndexPath = indexPath
-    }
-    
-    func insertItem(at indexPath: IndexPath) {
-        insertedIndexPath = indexPath
-    }
+    #endif
 }

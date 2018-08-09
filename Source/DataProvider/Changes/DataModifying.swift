@@ -48,9 +48,9 @@ public protocol DataModifying {
     /// - Parameter: indexPath: the indexPath to insert
     func insertItem(at indexPath: IndexPath)
     
-    /// Checks wethere item at an indexPath can be deleted
+    /// Checks wethere item at an indexPath can be edited
     ///
-    /// - Parameter indexPath: the indexPath to check for if it can be deleted
-    /// - Returns: if the item can be deleted
-    func canDeleteItem(at indexPath: IndexPath) -> Bool
+    /// - Parameter indexPath: the indexPath to check for if it can be edited
+    /// - Returns: if the item can be edited
+    func canEditItem(at indexPath: IndexPath) -> Bool
 }
