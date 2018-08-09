@@ -30,7 +30,7 @@
         /// The data provider which provides the data to the data source.
         public let dataProvider: AnyDataProvider<Object>
         
-        /// Contains all meta data about the section like headers, footers, sectionIndexTitles.
+        /// Contains all meta data about the section like headers, footers and sectionIndexTitles.
         public var sectionMetaData: SectionMetdaData?
         
         /// Data modificator can be used to modify the data providers content.

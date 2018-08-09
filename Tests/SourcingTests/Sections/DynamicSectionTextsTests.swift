@@ -76,7 +76,7 @@ class DynamicSectionTextsTests: XCTestCase {
                                                        using: .nthElementInSection(elementIndex: 1))
         
         //When
-       let title = sectionTitelProvider.text(inSection: 0)
+        let title = sectionTitelProvider.text(inSection: 0)
         
         //Then
         XCTAssertEqual(title, "nthSectionTitle")

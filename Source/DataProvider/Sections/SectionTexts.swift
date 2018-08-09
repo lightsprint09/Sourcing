@@ -20,7 +20,7 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-/// Generates text which can be used section header titles or footer titles.
+/// Generates text which can be used as section header titles or footer titles.
 public protocol SectionTexts {
     
     /// Generates a optional section title for a given section
