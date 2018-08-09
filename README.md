@@ -50,10 +50,8 @@ let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProviderO
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
-Specify the following in your `Cartfile`: `3.0 is currently work in progress. Last stabel release is `2.4.3`
-
 ```ogdl
-github "lightsprint09/Sourcing" "master"
+github "lightsprint09/Sourcing" ~> 3.0
 ```
 ## Contributing
 See CONTRIBUTING for details.
