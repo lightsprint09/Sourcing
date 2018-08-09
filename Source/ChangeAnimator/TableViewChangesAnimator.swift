@@ -65,10 +65,27 @@
         ///   - tableView: the table view which should be animated
         ///   - dataProviderObservable: observable for listing to changes of a data provider
         ///   - configuration: configure animations for table view change actions.
-        public convenience init(tableView: UITableView, observable: DataProviderObservable,
-                    configuration: Configuration = Configuration()) {
-            self.init(tableView: tableView, observable: observable,
-                      configuration: configuration, cellReconfigurationAtIndexPath: nil)
+        public convenience init(tableView: UITableView,
+                                observable: DataProviderObservable,
+                                configuration: Configuration = Configuration()) {
+            self.init(tableView: tableView,
+                      observable: observable,
+                      configuration: configuration,
+                      cellReconfigurationAtIndexPath: nil)
+        }
+        
+        /// Creates an instance and starts listening for changes to animate them into the table view.
+        ///
+        /// - Parameters:
+        ///   - tableView: the table view which should be animated
+        ///   - dataProvider: data provider which should be observed for changes.
+        ///   - configuration: configure animations for table view change actions.
+        public convenience init<D: DataProvider>(tableView: UITableView,
+                                dataProvider: D,
+                                configuration: Configuration = Configuration()) {
+            self.init(tableView: tableView,
+                       observable: dataProvider.observable,
+                       configuration: configuration)
         }
         
         /// Creates an instance and starts listening for changes to animate them into the table view.
@@ -84,14 +101,16 @@
                                                                                             cellConfiguration: ReusableViewConfig,
                                                                                             configuration: Configuration = Configuration())
             where DataProvide.Element == ReusableViewConfig.Object {
-                self.init(tableView: tableView, observable: dataProvider.observable,
-                          configuration: configuration, cellReconfigurationAtIndexPath: { indexPath in
-                    guard let cell = tableView.cellForRow(at: indexPath) as? ReusableViewConfig.View else {
-                        return
-                    }
-                    let object = dataProvider.object(at: indexPath)
-                    cellConfiguration.configure(cell, at: indexPath, with: object)
-                })
+                self.init(tableView: tableView,
+                          observable: dataProvider.observable,
+                          configuration: configuration,
+                          cellReconfigurationAtIndexPath: { indexPath in
+                                guard let cell = tableView.cellForRow(at: indexPath) as? ReusableViewConfig.View else {
+                                    return
+                                }
+                                let object = dataProvider.object(at: indexPath)
+                                cellConfiguration.configure(cell, at: indexPath, with: object)
+                            })
         }
         
         private init(tableView: UITableView,

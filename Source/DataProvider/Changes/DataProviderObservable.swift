@@ -25,7 +25,7 @@ import Foundation
 /// A observable which notifies about data provider changes.
 public protocol DataProviderObservable: class {
     
-    /// Observe the changes of the DataProvider.
+    /// Observe the changes of an data provider.
     ///
     /// Can be use to animate changes in a TableView or in any other view hirachy.
     ///
