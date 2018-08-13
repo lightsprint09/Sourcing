@@ -64,7 +64,7 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(rowCount, 3)
     }
 
-    func testDequeCells() {
+    func testDequeueCells() {
         //Given
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let indexPath = IndexPath(row: 2, section: 1)
@@ -80,19 +80,19 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
     }
     
-    func testDequeSupplementaryView() {
+    func testDequeueSupplementaryView() {
         //Given
         let elementKind = "elementKind"
         var configuredObject: Int?
         var configurationCount = 0
         
-        let supplemenaryViewConfiguration = ReusableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
+        let supplementaryViewConfiguration = ReusableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
                                                         type: .supplementaryView(kind: elementKind), configuration: { (_, _, object) in
             configuredObject = object
             configurationCount += 1
         })
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell,
-                                                  supplementaryViewConfiguration: supplemenaryViewConfiguration)
+                                                  supplementaryViewConfiguration: supplementaryViewConfiguration)
         let indexPath = IndexPath(row: 2, section: 1)
         
         //When

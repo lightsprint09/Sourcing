@@ -63,7 +63,7 @@
         ///
         /// - Parameters:
         ///   - tableView: the table view which should be animated
-        ///   - dataProviderObservable: observable for listing to changes of a data provider
+        ///   - observable: observable for listing to changes of a data provider
         ///   - configuration: configure animations for table view change actions.
         public convenience init(tableView: UITableView,
                                 observable: DataProviderObservable,

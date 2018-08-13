@@ -65,7 +65,7 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertEqual(rowCount, 3)
     }
     
-    func testDequeCells() {
+    func testDequeueCells() {
         //Given
         let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         
