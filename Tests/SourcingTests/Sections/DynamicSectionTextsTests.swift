@@ -29,12 +29,12 @@ class DynamicSectionTextsTests: XCTestCase {
         //Given
         let dataProvider = ArrayDataProvider<String>(rows: [])
         
-        let sectionTitelProvider = DynamicSectionTexts(dataProvider: dataProvider,
+        let sectionTitleProvider = DynamicSectionTexts(dataProvider: dataProvider,
                                                        sectionTextWithElement: { string, _ in return  string },
                                                        using: .firstElementInSection)
         
         //When
-        let title = sectionTitelProvider.text(inSection: 0)
+        let title = sectionTitleProvider.text(inSection: 0)
         
         //Then
         XCTAssertNil(title)
@@ -43,12 +43,12 @@ class DynamicSectionTextsTests: XCTestCase {
     func testGenerateHeaderTitleWithFirstElement() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
-        let sectionTitelProvider = DynamicSectionTexts(dataProvider: dataProvider,
+        let sectionTitleProvider = DynamicSectionTexts(dataProvider: dataProvider,
                                                        sectionTextWithElement: { string, _ in return  string },
                                                        using: .firstElementInSection)
         
         //When
-        let title = sectionTitelProvider.text(inSection: 0)
+        let title = sectionTitleProvider.text(inSection: 0)
         
         //Then
         XCTAssertEqual(title, "SectionTitle")
@@ -57,12 +57,12 @@ class DynamicSectionTextsTests: XCTestCase {
     func testGenerateTextWithLastElement() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle", "LastSectionTitle"])
-        let sectionTitelProvider = DynamicSectionTexts(dataProvider: dataProvider,
+        let sectionTitleProvider = DynamicSectionTexts(dataProvider: dataProvider,
                                                        sectionTextWithElement: { string, _ in return  string },
                                                        using: .lastElementInSection)
         
         //When
-        let title = sectionTitelProvider.text(inSection: 0)
+        let title = sectionTitleProvider.text(inSection: 0)
         
         //Then
         XCTAssertEqual(title, "LastSectionTitle")
@@ -71,12 +71,12 @@ class DynamicSectionTextsTests: XCTestCase {
     func testGenerateHeaderTitleNthLastElement() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle", "nthSectionTitle", "Last"])
-        let sectionTitelProvider = DynamicSectionTexts(dataProvider: dataProvider,
+        let sectionTitleProvider = DynamicSectionTexts(dataProvider: dataProvider,
                                                        sectionTextWithElement: { string, _ in return  string },
                                                        using: .nthElementInSection(elementIndex: 1))
         
         //When
-        let title = sectionTitelProvider.text(inSection: 0)
+        let title = sectionTitleProvider.text(inSection: 0)
         
         //Then
         XCTAssertEqual(title, "nthSectionTitle")
@@ -85,11 +85,11 @@ class DynamicSectionTextsTests: XCTestCase {
     func testGenerateHeaderTitleWithDataProvider() {
         //Given
         let dataProvider = ArrayDataProvider(rows: ["SectionTitle"])
-        let sectionTitelProvider = DynamicSectionTexts(dataProvider: dataProvider,
+        let sectionTitleProvider = DynamicSectionTexts(dataProvider: dataProvider,
                                                          sectionTextWithDataProvider: { (provider, _) in provider.content.first?.first })
         
         //When
-        let title = sectionTitelProvider.text(inSection: 0)
+        let title = sectionTitleProvider.text(inSection: 0)
         
         //Then
         XCTAssertEqual(title, "SectionTitle")

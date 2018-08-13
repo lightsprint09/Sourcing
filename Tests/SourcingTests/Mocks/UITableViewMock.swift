@@ -42,7 +42,7 @@ class UITableViewMock: UITableView {
     
     var modifiedIndexPaths: ModifiedIndexPaths = ModifiedIndexPaths()
     var modifiedSections = ModifiedSections()
-    var executedRowAnimations = [UITableViewRowAnimation]()
+    var executedRowAnimations = [UITableView.RowAnimation]()
 
     init(mockTableViewCells: [String: UITableViewCell] = ["reuseIdentifier": UITableViewCellMock<Int>()]) {
         cellDequeueMock = CellDequeueMock(cells: mockTableViewCells, dequeueCellReuseIdentifiers: [])
@@ -73,32 +73,32 @@ class UITableViewMock: UITableView {
         executionCount.endUpdates += 1
     }
     
-    override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func insertRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         modifiedIndexPaths.inserted = indexPaths
         executedRowAnimations.append(animation)
     }
     
-    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         modifiedIndexPaths.deleted = indexPaths
         executedRowAnimations.append(animation)
     }
     
-    override public func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override public func reloadRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         modifiedIndexPaths.reloaded = indexPaths
         executedRowAnimations.append(animation)
     }
     
-    override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func insertSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         modifiedSections.inserted = sections
         executedRowAnimations.append(animation)
     }
     
-    override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func reloadSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         modifiedSections.updated = sections
         executedRowAnimations.append(animation)
     }
     
-    override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func deleteSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         modifiedSections.deleted = sections
         executedRowAnimations.append(animation)
     }

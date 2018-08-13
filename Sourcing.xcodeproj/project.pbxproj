@@ -42,9 +42,9 @@
 		C657EA8D1D6B18CE0048B8E7 /* UICollectionViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */; };
 		C67162E921187F01006C29E4 /* SectionMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67162E821187F01006C29E4 /* SectionMetaData.swift */; };
 		C67162EE21188508006C29E4 /* Array+SectionTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67162EC211884DA006C29E4 /* Array+SectionTexts.swift */; };
+		C67162F9211B23EF006C29E4 /* UITableViewMockDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67162F7211B21C5006C29E4 /* UITableViewMockDelegateMock.swift */; };
 		C67AADE320330FD00018497E /* DynamicSectionTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67AADE220330FD00018497E /* DynamicSectionTexts.swift */; };
 		C67AADE620333D030018497E /* DynamicSectionTextsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67AADE420333CF80018497E /* DynamicSectionTextsTests.swift */; };
-		C67162F9211B23EF006C29E4 /* UITableViewMockDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67162F7211B21C5006C29E4 /* UITableViewMockDelegateMock.swift */; };
 		C6817BA61F8E6F09008B45F6 /* TableViewChangesAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6817BA51F8E6F09008B45F6 /* TableViewChangesAnimator.swift */; };
 		C687C1B71E378D5C0089F561 /* ReuseIdentifierProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B61E378D5C0089F561 /* ReuseIdentifierProviding.swift */; };
 		C687C1B91E378E490089F561 /* UITableViewCellMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C687C1B81E378E490089F561 /* UITableViewCellMock.swift */; };
@@ -122,9 +122,9 @@
 		C657EA8C1D6B18CE0048B8E7 /* UICollectionViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewMock.swift; sourceTree = "<group>"; };
 		C67162E821187F01006C29E4 /* SectionMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionMetaData.swift; sourceTree = "<group>"; };
 		C67162EC211884DA006C29E4 /* Array+SectionTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+SectionTexts.swift"; sourceTree = "<group>"; };
+		C67162F7211B21C5006C29E4 /* UITableViewMockDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewMockDelegateMock.swift; sourceTree = "<group>"; };
 		C67AADE220330FD00018497E /* DynamicSectionTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSectionTexts.swift; sourceTree = "<group>"; };
 		C67AADE420333CF80018497E /* DynamicSectionTextsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSectionTextsTests.swift; sourceTree = "<group>"; };
-		C67162F7211B21C5006C29E4 /* UITableViewMockDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewMockDelegateMock.swift; sourceTree = "<group>"; };
 		C6817BA51F8E6F09008B45F6 /* TableViewChangesAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewChangesAnimator.swift; sourceTree = "<group>"; };
 		C687C1B61E378D5C0089F561 /* ReuseIdentifierProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReuseIdentifierProviding.swift; sourceTree = "<group>"; };
 		C687C1B81E378E490089F561 /* UITableViewCellMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCellMock.swift; sourceTree = "<group>"; };
@@ -485,7 +485,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		C647ADD01F4D5013001DBB36 /* 🚧 Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -495,7 +495,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -726,7 +726,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -748,7 +748,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = 2UNP9S73JZ;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
