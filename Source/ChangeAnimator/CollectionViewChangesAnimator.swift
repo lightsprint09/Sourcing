@@ -37,7 +37,7 @@
         ///
         /// - Parameters:
         ///   - collectionView: the collection view to be animated
-        ///   - dataProviderObservable: observable for listening to changes of a data provider
+        ///   - observable: observable for listening to changes of a data provider
         public init(collectionView: UICollectionView, observable: DataProviderObservable) {
             self.collectionView = collectionView
             self.observable = observable
