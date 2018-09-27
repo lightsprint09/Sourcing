@@ -25,6 +25,16 @@ import Foundation
 /// Takes multiple data provider and aggregates them into a single on.
 public final class JoinedDataProvider<Element>: DataProvider {
     
+    /// Creates an instance of `JoinedDataProvider` by aggregating all given data providers
+    ///
+    /// - Parameter dataProviders: the data providers to aggregate.
+    public init<D: DataProvider>(dataProviders: [D]) where D.Element == Element {
+        self.dataProviders = dataProviders.map { AnyDataProvider($0) }
+        self.observers = dataProviders.enumerated().map { [unowned self] section, dataProvider in
+            dataProvider.observable.addObserver(observer: { self.translate(change: $0, section: section) })
+        }
+    }
+    
     /// An observable where one can subscribe to changes of data provider.
     public var observable: DataProviderObservable { return innerObaseravle }
     
@@ -67,16 +77,6 @@ public final class JoinedDataProvider<Element>: DataProvider {
         }
         
         fatalError("Invalid index")
-    }
-
-    /// Creates an instance of `JoinedDataProvider` by aggregating all given data providers
-    ///
-    /// - Parameter dataProviders: the data providers to aggregate.
-    public init<D: DataProvider>(dataProviders: [D]) where D.Element == Element {
-        self.dataProviders = dataProviders.map { AnyDataProvider($0) }
-        self.observers = dataProviders.enumerated().map { [unowned self] section, dataProvider in
-            dataProvider.observable.addObserver(observer: { self.translate(change: $0, section: section) })
-        }
     }
     
     private func translate(change: DataProviderChange, section: Int) {

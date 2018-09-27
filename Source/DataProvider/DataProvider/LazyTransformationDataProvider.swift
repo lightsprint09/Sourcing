@@ -63,17 +63,17 @@ public final class LazyTransformationDataProvider<TargetType>: DataProvider {
     public func numberOfSections() -> Int {
         return numberOfSection()
     }
-    
+
     // MARK: - Private
-    
+
     private let objectAtIndexPath: (_ indexPath: IndexPath) -> TargetType
     private let numberOfSection: () -> Int
     private let numberOfElements: (_ inSection: Int) -> Int
-    
+
 }
 
 extension DataProvider {
-    
+
     /// Lazy transforms the content witha given closure into a new data provider
     ///
     /// - Parameter transform: the closure which transforms the element into the target value

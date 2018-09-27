@@ -123,7 +123,8 @@ class DataProviderAgrregatorTest: XCTestCase {
         
         // When
         aggregator.observable.addObserver(observer: { changes = $0 })
-        providerTwo.reconfigure(with: [[1, 2, 5, 6], [3, 4, 7, 8]], change: .changes([.move(IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0))]))
+        providerTwo.reconfigure(with: [[1, 2, 5, 6], [3, 4, 7, 8]],
+                                change: .changes([.move(IndexPath(row: 0, section: 0), IndexPath(row: 3, section: 0))]))
         
         // Then
         XCTAssertEqual(changes, .changes([.move(IndexPath(row: 0, section: 2), IndexPath(row: 3, section: 2))]))
@@ -138,7 +139,8 @@ class DataProviderAgrregatorTest: XCTestCase {
         
         // When
         aggregator.observable.addObserver(observer: { changes = $0 })
-        providerTwo.reconfigure(with: [[1, 2, 5], [3, 4, 7, 8]], change: .changes([.delete(IndexPath(row: 3, section: 0))]))
+        providerTwo.reconfigure(with: [[1, 2, 5], [3, 4, 7, 8]],
+                                change: .changes([.delete(IndexPath(row: 3, section: 0))]))
         
         // Then
         XCTAssertEqual(changes, .changes([.delete(IndexPath(row: 3, section: 2))]))
@@ -225,7 +227,7 @@ class DataProviderAgrregatorTest: XCTestCase {
         let providerTwo = ArrayDataProvider(sections: [[1, 2, 5, 6], [3, 4, 7, 8]])
         let aggregator = JoinedDataProvider(dataProviders: [providerOne, providerTwo])
         var changes: DataProviderChange?
-        
+
         // When
         aggregator.observable.addObserver(observer: { changes = $0 })
         providerTwo.reconfigure(with: [[1, 2, 5, 6], [3, 4, 7, 8]],
