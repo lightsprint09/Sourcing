@@ -65,7 +65,7 @@ extension DataProvider {
             return nil
         }
         let numberOfItemsInSection = numberOfItems(inSection: indexPath.section)
-        guard numberOfItemsInSection > indexPath.row else {
+        guard numberOfItemsInSection > indexPath.item else {
             return nil
         }
         

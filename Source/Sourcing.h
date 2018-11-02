@@ -20,7 +20,11 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#else
+#import <Cocoa/Cocoa.h>
+#endif
 
 //! Project version number for Sourcing.
 FOUNDATION_EXPORT double SourcingVersionNumber;
