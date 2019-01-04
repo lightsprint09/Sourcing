@@ -16,33 +16,32 @@ Setting up your Cell by implementing `ConfigurableCell` & `ReuseIdentifierProvid
 ```swift
 import Sourcing
 
-class TrainCell: UITableViewCell, ConfigurableCell {
-   @IBOutlet var nameLabel: UILabel!
-   
-   func configure(with train: Train) {
-      nameLabel.text = train.name
+class LabelCell: UITableViewCell, ConfigurableCell {
+
+   func configure(with label: String) {
+      textLabel?.text = label
    }
+   
 }
 
 //If the reuse identifier is the same as the class name.
-extension TrainCell: ReuseIdentifierProviding {}
+extension LabelCell: ReuseIdentifierProviding {}
 
-let trainCellConfiguration = CellConfiguration<TrainCell>()
-let fetchResultsController: NSFetchedResultsController<Train> = //
-let dataProvider = FetchedResultsDataProvider(fetchedResultsController: fetchResultsController)
-let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: trainCellConfiguration)
+let labelCellConfiguration = CellConfiguration<LabelCell>()
+let labelsToDispay = ArrayDataProvider(sections: [["Row 1", "Row 2"], ["Row 1", "Row 2"]])
+let dataSource = TableViewDataSource(dataProvider: labelsToDispay, cellConfiguration: labelCellConfiguration)
 
 tableView.dataSource = dataSource
 
 //Add this to sync data changes to the table view.
-let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProvider: dataProvider)
+let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProvider: labelsToDispay)
 ```
 
 ## Requirements
 
 - iOS 9.3+
-- Xcode 9.3+
-- Swift 4.1
+- Xcode 10.1+
+- Swift 4.2
 
 ## Installation
 
