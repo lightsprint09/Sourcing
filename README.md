@@ -19,13 +19,13 @@ import Sourcing
 class LabelCell: UITableViewCell, ConfigurableCell {
 
    func configure(with label: String) {
-      textLabel?.text = train.name
+      textLabel?.text = label
    }
    
 }
 
 //If the reuse identifier is the same as the class name.
-extension TrainCell: ReuseIdentifierProviding {}
+extension LabelCell: ReuseIdentifierProviding {}
 
 let labelCellConfiguration = CellConfiguration<LabelCell>()
 let labelsToDispay = ArrayDataProvider(sections: [["Row 1", "Row 2"], ["Row 1", "Row 2"]])
