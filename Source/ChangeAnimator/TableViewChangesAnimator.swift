@@ -37,18 +37,18 @@
         private let configuration: Configuration
         
         public struct Configuration {
-            let insert: UITableViewRowAnimation
-            let update: UITableViewRowAnimation
-            let move: UITableViewRowAnimation
-            let delete: UITableViewRowAnimation
-            let insertSection: UITableViewRowAnimation
-            let updateSection: UITableViewRowAnimation
-            let deleteSection: UITableViewRowAnimation
+            let insert: UITableView.RowAnimation
+            let update: UITableView.RowAnimation
+            let move: UITableView.RowAnimation
+            let delete: UITableView.RowAnimation
+            let insertSection: UITableView.RowAnimation
+            let updateSection: UITableView.RowAnimation
+            let deleteSection: UITableView.RowAnimation
             
-            public init(insert: UITableViewRowAnimation = .automatic, update: UITableViewRowAnimation = .automatic,
-                        move: UITableViewRowAnimation = .automatic, delete: UITableViewRowAnimation = .automatic,
-                        insertSection: UITableViewRowAnimation = .automatic, updateSection: UITableViewRowAnimation = .automatic,
-                        deleteSection: UITableViewRowAnimation = .automatic) {
+            public init(insert: UITableView.RowAnimation = .automatic, update: UITableView.RowAnimation = .automatic,
+                        move: UITableView.RowAnimation = .automatic, delete: UITableView.RowAnimation = .automatic,
+                        insertSection: UITableView.RowAnimation = .automatic, updateSection: UITableView.RowAnimation = .automatic,
+                        deleteSection: UITableView.RowAnimation = .automatic) {
                 self.insert = insert
                 self.update = update
                 self.move = move
