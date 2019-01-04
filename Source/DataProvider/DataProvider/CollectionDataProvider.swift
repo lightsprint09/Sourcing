@@ -37,7 +37,7 @@ public extension CollectionDataProvider {
     /// Return the number of sections.
     ///
     /// - Returns: the number of sections.
-    public func numberOfSections() -> Int {
+    func numberOfSections() -> Int {
         return content.count
     }
 }
@@ -49,7 +49,7 @@ public extension CollectionDataProvider where Container.Index == Int,
     ///
     /// - Parameter indexPath: the index path to get the object for.
     /// - Returns: the object at the given index path.
-    public func object(at indexPath: IndexPath) -> Element {
+    func object(at indexPath: IndexPath) -> Element {
         return content[indexPath.section][indexPath.item]
     }
 
@@ -57,12 +57,12 @@ public extension CollectionDataProvider where Container.Index == Int,
     ///
     /// - Parameter section: the section.
     /// - Returns: number of items in the given section.
-    public func numberOfItems(inSection section: Int) -> Int {
+    func numberOfItems(inSection section: Int) -> Int {
         return content[section].count
     }
 }
 
-extension CollectionDataProvider where Element: Equatable {
+public extension CollectionDataProvider where Element: Equatable {
     
     /**
      Returns the indexPath for a given object.
@@ -70,7 +70,7 @@ extension CollectionDataProvider where Element: Equatable {
      - parameter object: the object to find the indexPath for.
      - return: the indexPath of the object, if available.
      */
-    public func indexPath(for object: Element) -> IndexPath? {
+    func indexPath(for object: Element) -> IndexPath? {
         for section in  0..<numberOfSections() {
             for item in 0..<numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)

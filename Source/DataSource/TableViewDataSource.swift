@@ -135,7 +135,7 @@
         }
         
         /// :nodoc:
-        public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+        public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
                               forRowAt indexPath: IndexPath) {
             guard let dataModificator = dataModificator else {
                 return
