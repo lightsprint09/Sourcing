@@ -23,7 +23,7 @@
 /// Defines of what type a Reusable view is
 ///
 /// - SeeAlso: `ReusableViewConfiguring`
-public enum ReusableViewType {
+public enum ReusableViewType: Equatable {
     /// For example a table view or collection view cell
     case cell
     /// A supplementaryView in a collection view
