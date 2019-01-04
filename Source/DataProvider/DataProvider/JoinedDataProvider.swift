@@ -35,6 +35,12 @@ public final class JoinedDataProvider<Element>: DataProvider {
         }
     }
     
+    deinit {
+        dataProviders.enumerated().forEach { index, dataProvider in
+            dataProvider.observable.removeObserver(observer: observers[index])
+        }
+    }
+    
     /// An observable where one can subscribe to changes of data provider.
     public var observable: DataProviderObservable { return innerObaseravle }
     
@@ -113,12 +119,6 @@ public final class JoinedDataProvider<Element>: DataProvider {
             case .moveSection(let sourceSection, let destinationSource):
                 return .moveSection(sectionOffset + sourceSection, sectionOffset + destinationSource)
             }
-        }
-    }
-    
-    deinit {
-        dataProviders.enumerated().forEach { ( index, dataProvider) in
-            dataProvider.observable.removeObserver(observer: observers[index])
         }
     }
     

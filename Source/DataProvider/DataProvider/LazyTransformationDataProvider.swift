@@ -73,11 +73,11 @@ public final class LazyTransformationDataProvider<TargetType>: DataProvider {
 }
 
 extension DataProvider {
-
-    /// Lazy transforms the content witha given closure into a new data provider
+    
+    /// Lazy transforms the content with a given closure into a new data provider.
     ///
     /// - Parameter transform: the closure which transforms the element into the target value
-    /// - Returns: a `LazyTransformationDataProvider` which provides the newly transformed objects.
+    /// - Returns: a `LazyTransformationDataProvider` which provides newly transformed objects.
     ///
     /// - SeeAlso: `LazyTransformationDataProvider`
     public func lazyTransform<TargetType>(_ transform: @escaping (Element) -> TargetType) ->
