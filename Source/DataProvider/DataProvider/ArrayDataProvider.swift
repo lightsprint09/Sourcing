@@ -51,6 +51,11 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
         self.init(sections: [rows])
     }
     
+    /// Creates an empty `ArrayDataProvider`.
+    public convenience init() {
+        self.init(sections: [])
+    }
+    
     /**
      Creates an instance of`ArrayDataProvider` with an 2D array which results in a multiple sections.
      

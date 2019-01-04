@@ -133,4 +133,16 @@ class ArrayDataProviderTest: XCTestCase {
         XCTAssertEqual(dataProvider.content.first!, [8, 9, 10])
     }
     
+    func testEmptyInit() {
+        //Given
+        let emptyDataProvider = ArrayDataProvider<Int>()
+        
+        //When
+        let numberOfSections = emptyDataProvider.numberOfSections()
+        
+        //Then
+        XCTAssertEqual(numberOfSections, 0)
+        XCTAssertEqual(emptyDataProvider.content, [])
+    }
+    
 }
