@@ -32,7 +32,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         let arrayDataProvider = ArrayDataProvider(rows: contents)
 
         //When
-        let anyArrayDataProvider = AnyCollectionDataProvider(arrayDataProvider)
+        let anyArrayDataProvider = AnyCollectionDataProvider(dataProvider: arrayDataProvider)
 
         //Then
         guard let section = anyArrayDataProvider.content.first else {
@@ -48,7 +48,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         let arrayDataProvider = ArrayDataProvider(rows: contents)
         
         //When
-        let numberItems = AnyCollectionDataProvider(arrayDataProvider).numberOfItems(inSection: 0)
+        let numberItems = AnyCollectionDataProvider(dataProvider: arrayDataProvider).numberOfItems(inSection: 0)
         
         //Then
         XCTAssertEqual(numberItems, 2)
@@ -60,7 +60,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         let arrayDataProvider = ArrayDataProvider(rows: contents)
         
         //When
-        let numberOfSections = AnyCollectionDataProvider(arrayDataProvider).numberOfSections()
+        let numberOfSections = AnyCollectionDataProvider(dataProvider: arrayDataProvider).numberOfSections()
         
         //Then
         XCTAssertEqual(numberOfSections, 1)
@@ -72,7 +72,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         let arrayDataProvider = ArrayDataProvider(rows: contents)
         
         //When
-        let object = AnyCollectionDataProvider(arrayDataProvider).object(at: IndexPath(item: 0, section: 0))
+        let object = AnyCollectionDataProvider(dataProvider: arrayDataProvider).object(at: IndexPath(item: 0, section: 0))
         
         //Then
         XCTAssertEqual(object, "ICE")
@@ -82,7 +82,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         //Given
         let contents = ["ICE", "TGV"]
         let arrayDataProvider = ArrayDataProvider(rows: contents)
-        let anyArrayDataProvider = AnyCollectionDataProvider(arrayDataProvider)
+        let anyArrayDataProvider = AnyCollectionDataProvider(dataProvider: arrayDataProvider)
 
         //When
         var calledWhenChanges = false
@@ -99,7 +99,7 @@ class AnyArrayDataProviderTest: XCTestCase {
         //Given
         let contents = repeatElement("ICE", count: 1000000)
         let arrayDataProvider = ArrayDataProvider(rows: Array(contents))
-        let anyArrayDataProvider = AnyCollectionDataProvider(arrayDataProvider)
+        let anyArrayDataProvider = AnyCollectionDataProvider(dataProvider: arrayDataProvider)
         
         //When
         measure {
