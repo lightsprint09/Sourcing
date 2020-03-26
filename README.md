@@ -45,12 +45,22 @@ let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProvider:
 
 ## Installation
 
+### Swift Package Manager
+
+[SPM](https://swift.org/package-manager/) is integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
+
+Specify the following in your `Package.swift`:
+
+```swift
+.package(url: "https://github.com/lightsprint09/Sourcing", from: "4.0.0"),
+```
+
 ### Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
 ```ogdl
-github "lightsprint09/Sourcing" ~> 3.0
+github "lightsprint09/Sourcing" ~> 4.0
 ```
 ## Contributing
 See CONTRIBUTING for details.
