@@ -20,6 +20,8 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+import Foundation
+
 /// A default implementation for a observable which notifies about data provider changes.
 /// - SeeAlso: `DataProviderObservable`
 public final class DefaultDataProviderObservable: DataProviderObservable {

@@ -20,6 +20,8 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+import Foundation
+
 /// Encapsulates all informaton and meta data one can provide related to sections.
 public struct SectionMetaData {
     

@@ -20,6 +20,8 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+import Foundation
+
 /**
  Generates section texts by fetching the first element of a section and
  transforms it with a given closure into section texts.

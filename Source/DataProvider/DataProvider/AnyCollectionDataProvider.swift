@@ -37,7 +37,7 @@ public final class AnyCollectionDataProvider<ContentElement>: AnyDataProvider<Co
     /// Type ereases a give `CollectionDataProvider`.
     ///
     /// - Parameter dataProvider: the data provider to type erase.
-    public override init<C: CollectionDataProvider>(_ dataProvider: C) where C.Element == Element {
+    public init<C: CollectionDataProvider>(dataProvider: C) where C.Element == Element {
         self.capturedContents = {
             let content = dataProvider.content
             let innerColections = content.lazy.map { AnyCollection($0) }

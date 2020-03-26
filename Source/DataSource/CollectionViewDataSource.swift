@@ -20,9 +20,8 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
-
 #if os(iOS) || os(tvOS)
+    import UIKit
     /// `CollectionViewDataSource` uses data provider and provides the data as a `UICollectionViewDataSource`.
     ///
     /// - SeeAlso: `UICollectionViewDataSource`

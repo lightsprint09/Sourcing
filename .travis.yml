@@ -1,7 +1,7 @@
 matrix:
   include:
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.3
       language: objective-c
       skip-cleanup: true
       env: "macOS"
