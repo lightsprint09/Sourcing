@@ -1,0 +1,166 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/Cells/ConfigurableCell.swift",
+      "line": 25,
+      "symbol": "ConfigurableCell.ObjectToConfigure",
+      "symbol_kind": "source.lang.swift.decl.associatedtype",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/Cells/ReusableViewConfiguration.swift",
+      "line": 78,
+      "symbol": "ReusableViewConfiguration.init(type:configuration:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/Cells/ReusableViewConfiguration.swift",
+      "line": 93,
+      "symbol": "ReusableViewConfiguration.init(reuseIdentifier:type:additionalConfiguration:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/Cells/ReusableViewConfiguration.swift",
+      "line": 113,
+      "symbol": "ReusableViewConfiguration.init(type:additionalConfiguration:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/ChangeAnimator/TableViewChangesAnimator.swift",
+      "line": 39,
+      "symbol": "TableViewChangesAnimator.Configuration",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/ChangeAnimator/TableViewChangesAnimator.swift",
+      "line": 48,
+      "symbol": "TableViewChangesAnimator.Configuration.init(insert:update:move:delete:insertSection:updateSection:deleteSection:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataModifying.swift",
+      "line": 25,
+      "symbol": "DataModifying",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 38,
+      "symbol": "DataProviderChange.Change",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 39,
+      "symbol": "DataProviderChange.Change.insert(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 40,
+      "symbol": "DataProviderChange.Change.update(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 41,
+      "symbol": "DataProviderChange.Change.move(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 42,
+      "symbol": "DataProviderChange.Change.delete(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 44,
+      "symbol": "DataProviderChange.Change.insertSection(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 45,
+      "symbol": "DataProviderChange.Change.updateSection(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 46,
+      "symbol": "DataProviderChange.Change.deleteSection(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/Changes/DataProviderChange.swift",
+      "line": 47,
+      "symbol": "DataProviderChange.Change.moveSection(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/DataProvider/AnyCollectionDataProvider.swift",
+      "line": 28,
+      "symbol": "AnyCollectionDataProvider.Element",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/DataProvider/CollectionDataProvider.swift",
+      "line": 30,
+      "symbol": "CollectionDataProvider.Container",
+      "symbol_kind": "source.lang.swift.decl.associatedtype",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/DataProvider/FetchedResultsDataProvider.swift",
+      "line": 108,
+      "symbol": "FetchedResultsDataProvider.controllerWillChangeContent(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/DataProvider/FetchedResultsDataProvider.swift",
+      "line": 112,
+      "symbol": "FetchedResultsDataProvider.controller(_:didChange:at:for:newIndexPath:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/DataProvider/FetchedResultsDataProvider.swift",
+      "line": 133,
+      "symbol": "FetchedResultsDataProvider.controller(_:didChange:atSectionIndex:for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/DataProvider/FetchedResultsDataProvider.swift",
+      "line": 145,
+      "symbol": "FetchedResultsDataProvider.controllerDidChangeContent(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/lightsprint09/Sourcing/Source/DataProvider/DataProvider/LazyTransformationDataProvider.swift",
+      "line": 32,
+      "symbol": "LazyTransformationDataProvider.init(dataProvider:transform:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/travis/build/lightsprint09/Sourcing"
+}

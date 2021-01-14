@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>FetchedResultsDataProvider Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/FetchedResultsDataProvider" class="dashAnchor"></a>
+    <a title="FetchedResultsDataProvider Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sourcing Docs</a> (87% documented)</p>
+        <p class="header-right"><a href="https://github.com/lightsprint09/Sourcing"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sourcing Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        FetchedResultsDataProvider Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnyCollectionDataProvider.html">AnyCollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AnyDataProvider.html">AnyDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProviderModifier.html">ArrayDataProviderModifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewChangesAnimator.html">CollectionViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewDataSource.html">CollectionViewDataSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDataProviderObservable.html">DefaultDataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionIndexTitles.html">DynamicSectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionTexts.html">DynamicSectionTexts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FetchedResultsDataProvider.html">FetchedResultsDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/JoinedDataProvider.html">JoinedDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LazyTransformationDataProvider.html">LazyTransformationDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator.html">TableViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator/Configuration.html">– Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewDataSource.html">TableViewDataSource</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange.html">DataProviderChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange/Change.html">– Change</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ReusableViewType.html">ReusableViewType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CollectionDataProvider.html">CollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurableCell.html">ConfigurableCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataModifying.html">DataModifying</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProvider.html">DataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReuseIdentifierProviding.html">ReuseIdentifierProviding</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionIndexTitles.html">SectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionTexts.html">SectionTexts</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ReusableViewConfiguration.html">ReusableViewConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData.html">SectionMetaData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData/SectionMetaDataElement.html">– SectionMetaDataElement</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Sourcing17CellConfigurationa">CellConfiguration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>FetchedResultsDataProvider</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">FetchedResultsDataProvider</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSFetchedResultsControllerDelegate</span><span class="p">,</span> <span class="kt"><a href="../Protocols/DataProvider.html">DataProvider</a></span> <span class="k">where</span> <span class="kt">Object</span> <span class="p">:</span> <span class="kt">NSFetchRequestResult</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>FetchedResultsDataProvider</code> uses a <code>NSFetchedResultsController</code> as a backing store to transform it into a data provider.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC07fetchedC10ControllerSo09NSFetchedcG0CyxGvp"></a>
+                    <a name="//apple_ref/swift/Property/fetchedResultsController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC07fetchedC10ControllerSo09NSFetchedcG0CyxGvp">fetchedResultsController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The fetched results controller which backs the data provider.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">fetchedResultsController</span><span class="p">:</span> <span class="kt">NSFetchedResultsController</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC10observableAA0dE10Observable_pvp"></a>
+                    <a name="//apple_ref/swift/Property/observable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC10observableAA0dE10Observable_pvp">observable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An observable where one can subscribe to changes of data provider.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">observable</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC07fetchedC10ControllerACyxGSo09NSFetchedcG0CyxG_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(fetchedResultsController:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC07fetchedC10ControllerACyxGSo09NSFetchedcG0CyxG_tKcfc">init(fetchedResultsController:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance of <code>FetchedResultsDataProvider</code> backed by a <code>NSFetchedResultsController</code>. Performs a fetch to populate the data.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    if fetching fails.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">fetchedResultsController</span><span class="p">:</span> <span class="kt">NSFetchedResultsController</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>fetchedResultsController</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the fetched results controller backing the data provider.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC11reconfigure4withyySo09NSFetchedC10ControllerCyxGXE_tKF"></a>
+                    <a name="//apple_ref/swift/Method/reconfigure(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC11reconfigure4withyySo09NSFetchedC10ControllerCyxGXE_tKF">reconfigure(with:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reconfigure the <code>NSFetchedResultsController</code> with a new fetch request. This will refetch all objects.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    if fetching fails
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reconfigure</span><span class="p">(</span><span class="n">with</span> <span class="nv">configure</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSFetchedResultsController</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>a block to perform the reconfiguration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC27performNonUIRelevantChangesyyyyXEF"></a>
+                    <a name="//apple_ref/swift/Method/performNonUIRelevantChanges(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC27performNonUIRelevantChangesyyyyXEF">performNonUIRelevantChanges(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Perform changes to your model object, which won`t result in an updated view.
+This can be helpful when performing a move operation amnd if the view is already in the correct state.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">performNonUIRelevantChanges</span><span class="p">(</span><span class="n">_</span> <span class="nv">execute</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>execute</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>block to perform the changes in.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC6object2atx10Foundation9IndexPathV_tF"></a>
+                    <a name="//apple_ref/swift/Method/object(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC6object2atx10Foundation9IndexPathV_tF">object(at:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an object for a given index path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">object</span><span class="p">(</span><span class="n">at</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Object</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>indexPath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the index path to get the object for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the object at the given index path.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC13numberOfItems9inSectionS2i_tF"></a>
+                    <a name="//apple_ref/swift/Method/numberOfItems(inSection:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC13numberOfItems9inSectionS2i_tF">numberOfItems(inSection:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the number of items in a given section.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">numberOfItems</span><span class="p">(</span><span class="n">inSection</span> <span class="nv">section</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>section</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the section.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>number of items in the given section.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC16numberOfSectionsSiyF"></a>
+                    <a name="//apple_ref/swift/Method/numberOfSections()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC16numberOfSectionsSiyF">numberOfSections()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the number of sections.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">numberOfSections</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the number of sections.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC9indexPath3for10Foundation05IndexG0VSgx_tF"></a>
+                    <a name="//apple_ref/swift/Method/indexPath(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC9indexPath3for10Foundation05IndexG0VSgx_tF">indexPath(for:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the index path of an object if it is contains in the data provider.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">indexPath</span><span class="p">(</span><span class="k">for</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">IndexPath</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the object to get the index path for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the index path for the given object.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/NSFetchedResultsControllerDelegate"></a>
+                <a name="//apple_ref/swift/Section/NSFetchedResultsControllerDelegate" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/NSFetchedResultsControllerDelegate"></a>
+                  <h3 class="section-name"><p>NSFetchedResultsControllerDelegate</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC27controllerWillChangeContentyySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pGF"></a>
+                    <a name="//apple_ref/swift/Method/controllerWillChangeContent(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC27controllerWillChangeContentyySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pGF">controllerWillChangeContent(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">controllerWillChangeContent</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt">NSFetchedResultsController</span><span class="o">&lt;</span><span class="kt">NSFetchRequestResult</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC10controller_9didChange2at3for12newIndexPathySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pG_yp10Foundation0lM0VSgSo0ncH4TypeVAPtF"></a>
+                    <a name="//apple_ref/swift/Method/controller(_:didChange:at:for:newIndexPath:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC10controller_9didChange2at3for12newIndexPathySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pG_yp10Foundation0lM0VSgSo0ncH4TypeVAPtF">controller(_:<wbr>didChange:<wbr>at:<wbr>for:<wbr>newIndexPath:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">controller</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt">NSFetchedResultsController</span><span class="o">&lt;</span><span class="kt">NSFetchRequestResult</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">didChange</span> <span class="nv">anObject</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span>
+                       <span class="n">at</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">?,</span> <span class="k">for</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">NSFetchedResultsChangeType</span><span class="p">,</span> <span class="nv">newIndexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC10controller_9didChange14atSectionIndex3forySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pG_So0mcJ4Info_pSiSo0mcH4TypeVtF"></a>
+                    <a name="//apple_ref/swift/Method/controller(_:didChange:atSectionIndex:for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC10controller_9didChange14atSectionIndex3forySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pG_So0mcJ4Info_pSiSo0mcH4TypeVtF">controller(_:<wbr>didChange:<wbr>atSectionIndex:<wbr>for:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">controller</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt">NSFetchedResultsController</span><span class="o">&lt;</span><span class="kt">NSFetchRequestResult</span><span class="o">&gt;</span><span class="p">,</span>
+                       <span class="n">didChange</span> <span class="nv">sectionInfo</span><span class="p">:</span> <span class="kt">NSFetchedResultsSectionInfo</span><span class="p">,</span>
+                       <span class="n">atSectionIndex</span> <span class="nv">sectionIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="k">for</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">NSFetchedResultsChangeType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing26FetchedResultsDataProviderC26controllerDidChangeContentyySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pGF"></a>
+                    <a name="//apple_ref/swift/Method/controllerDidChangeContent(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing26FetchedResultsDataProviderC26controllerDidChangeContentyySo09NSFetchedC10ControllerCySo20NSFetchRequestResult_pGF">controllerDidChangeContent(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">controllerDidChangeContent</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt">NSFetchedResultsController</span><span class="o">&lt;</span><span class="kt">NSFetchRequestResult</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Lukas Schmidt</a>. All rights reserved. (Last updated: 2021-01-14)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

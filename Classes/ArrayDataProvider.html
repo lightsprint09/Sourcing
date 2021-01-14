@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ArrayDataProvider Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/ArrayDataProvider" class="dashAnchor"></a>
+    <a title="ArrayDataProvider Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sourcing Docs</a> (87% documented)</p>
+        <p class="header-right"><a href="https://github.com/lightsprint09/Sourcing"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sourcing Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ArrayDataProvider Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnyCollectionDataProvider.html">AnyCollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AnyDataProvider.html">AnyDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProviderModifier.html">ArrayDataProviderModifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewChangesAnimator.html">CollectionViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewDataSource.html">CollectionViewDataSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDataProviderObservable.html">DefaultDataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionIndexTitles.html">DynamicSectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionTexts.html">DynamicSectionTexts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FetchedResultsDataProvider.html">FetchedResultsDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/JoinedDataProvider.html">JoinedDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LazyTransformationDataProvider.html">LazyTransformationDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator.html">TableViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator/Configuration.html">– Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewDataSource.html">TableViewDataSource</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange.html">DataProviderChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange/Change.html">– Change</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ReusableViewType.html">ReusableViewType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CollectionDataProvider.html">CollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurableCell.html">ConfigurableCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataModifying.html">DataModifying</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProvider.html">DataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReuseIdentifierProviding.html">ReuseIdentifierProviding</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionIndexTitles.html">SectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionTexts.html">SectionTexts</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ReusableViewConfiguration.html">ReusableViewConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData.html">SectionMetaData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData/SectionMetaDataElement.html">– SectionMetaDataElement</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Sourcing17CellConfigurationa">CellConfiguration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ArrayDataProvider</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">ArrayDataProvider</span><span class="o">&lt;</span><span class="kt">ContentElement</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/CollectionDataProvider.html">CollectionDataProvider</a></span></code></pre>
+
+                </div>
+              </div>
+            <p><code>ArrayDataProvider</code> provides basic implementation to map arrays to a <code><a href="../Protocols/DataProvider.html">DataProvider</a></code>.</p>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <code><a href="../Protocols/CollectionDataProvider.html">CollectionDataProvider</a></code>
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing12DataProviderP7ElementQa"></a>
+                    <a name="//apple_ref/swift/Alias/Element" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing12DataProviderP7ElementQa">Element</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Element</span> <span class="o">=</span> <span class="kt">ContentElement</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing17ArrayDataProviderC7contentSaySayxGGvp"></a>
+                    <a name="//apple_ref/swift/Property/content" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing17ArrayDataProviderC7contentSaySayxGGvp">content</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The content which is provided by the data provider</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">content</span><span class="p">:</span> <span class="p">[[</span><span class="kt"><a href="../Classes/ArrayDataProvider.html#/s:8Sourcing12DataProviderP7ElementQa">Element</a></span><span class="p">]]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing17ArrayDataProviderC10observableAA0cD10Observable_pvp"></a>
+                    <a name="//apple_ref/swift/Property/observable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing17ArrayDataProviderC10observableAA0cD10Observable_pvp">observable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An observable where one can subscribe to changes of data provider.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">observable</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initializers"></a>
+                <a name="//apple_ref/swift/Section/Initializers" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Initializers"></a>
+                  <h3 class="section-name"><p>Initializers</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing17ArrayDataProviderC4rowsACyxGSayxG_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(rows:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing17ArrayDataProviderC4rowsACyxGSayxG_tcfc">init(rows:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance of <code>ArrayDataProvider</code> with a flat collection which results a single section.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">rows</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/ArrayDataProvider.html#/s:8Sourcing12DataProviderP7ElementQa">Element</a></span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>rows</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>single section of content.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing17ArrayDataProviderCACyxGycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing17ArrayDataProviderCACyxGycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an empty <code>ArrayDataProvider</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing17ArrayDataProviderC8sectionsACyxGSaySayxGG_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(sections:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing17ArrayDataProviderC8sectionsACyxGSaySayxGG_tcfc">init(sections:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance of<code>ArrayDataProvider</code> with an 2D array which results in a multiple sections.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">sections</span><span class="p">:</span> <span class="p">[[</span><span class="kt"><a href="../Classes/ArrayDataProvider.html#/s:8Sourcing12DataProviderP7ElementQa">Element</a></span><span class="p">]])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sections</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>2D array.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Reconfiguration"></a>
+                <a name="//apple_ref/swift/Section/Reconfiguration" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Reconfiguration"></a>
+                  <h3 class="section-name"><p>Reconfiguration</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing17ArrayDataProviderC11reconfigure4with6changeySayxG_AA0cD6ChangeOtF"></a>
+                    <a name="//apple_ref/swift/Method/reconfigure(with:change:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing17ArrayDataProviderC11reconfigure4with6changeySayxG_AA0cD6ChangeOtF">reconfigure(with:<wbr>change:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reconfigures the data provider with new content.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reconfigure</span><span class="p">(</span><span class="n">with</span> <span class="nv">rows</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/ArrayDataProvider.html#/s:8Sourcing12DataProviderP7ElementQa">Element</a></span><span class="p">],</span> <span class="nv">change</span><span class="p">:</span> <span class="kt"><a href="../Enums/DataProviderChange.html">DataProviderChange</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">unknown</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>flat array.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>change</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>diff of the new data.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing17ArrayDataProviderC11reconfigure4with6changeySaySayxGG_AA0cD6ChangeOtF"></a>
+                    <a name="//apple_ref/swift/Method/reconfigure(with:change:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing17ArrayDataProviderC11reconfigure4with6changeySaySayxGG_AA0cD6ChangeOtF">reconfigure(with:<wbr>change:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reconfigures the data provider with new content.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reconfigure</span><span class="p">(</span><span class="n">with</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[[</span><span class="kt"><a href="../Classes/ArrayDataProvider.html#/s:8Sourcing12DataProviderP7ElementQa">Element</a></span><span class="p">]],</span> <span class="nv">change</span><span class="p">:</span> <span class="kt"><a href="../Enums/DataProviderChange.html">DataProviderChange</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">unknown</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>2D array.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>change</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>diff of the new data.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Lukas Schmidt</a>. All rights reserved. (Last updated: 2021-01-14)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

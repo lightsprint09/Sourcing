@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TableViewChangesAnimator Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/TableViewChangesAnimator" class="dashAnchor"></a>
+    <a title="TableViewChangesAnimator Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sourcing Docs</a> (87% documented)</p>
+        <p class="header-right"><a href="https://github.com/lightsprint09/Sourcing"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sourcing Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        TableViewChangesAnimator Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnyCollectionDataProvider.html">AnyCollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AnyDataProvider.html">AnyDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProviderModifier.html">ArrayDataProviderModifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewChangesAnimator.html">CollectionViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewDataSource.html">CollectionViewDataSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDataProviderObservable.html">DefaultDataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionIndexTitles.html">DynamicSectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionTexts.html">DynamicSectionTexts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FetchedResultsDataProvider.html">FetchedResultsDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/JoinedDataProvider.html">JoinedDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LazyTransformationDataProvider.html">LazyTransformationDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator.html">TableViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator/Configuration.html">– Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewDataSource.html">TableViewDataSource</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange.html">DataProviderChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange/Change.html">– Change</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ReusableViewType.html">ReusableViewType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CollectionDataProvider.html">CollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurableCell.html">ConfigurableCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataModifying.html">DataModifying</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProvider.html">DataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReuseIdentifierProviding.html">ReuseIdentifierProviding</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionIndexTitles.html">SectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionTexts.html">SectionTexts</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ReusableViewConfiguration.html">ReusableViewConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData.html">SectionMetaData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData/SectionMetaDataElement.html">– SectionMetaDataElement</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Sourcing17CellConfigurationa">CellConfiguration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TableViewChangesAnimator</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">TableViewChangesAnimator</span></code></pre>
+
+                </div>
+              </div>
+            <p>A listener that observes changes of a data provider. It creates animations to make changes visible in the view by using
+<code>UITableView</code>s APIs to animate cells. You can configure your animations as needed for each change.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing24TableViewChangesAnimatorC13ConfigurationV"></a>
+                    <a name="//apple_ref/swift/Struct/Configuration" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing24TableViewChangesAnimatorC13ConfigurationV">Configuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="../Classes/TableViewChangesAnimator/Configuration.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Configuration</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing24TableViewChangesAnimatorC05tableC010observable13configurationACSo07UITableC0C_AA22DataProviderObservable_pAC13ConfigurationVtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(tableView:observable:configuration:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing24TableViewChangesAnimatorC05tableC010observable13configurationACSo07UITableC0C_AA22DataProviderObservable_pAC13ConfigurationVtcfc">init(tableView:<wbr>observable:<wbr>configuration:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance and starts listening for changes to animate them into the table view.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span>
+                        <span class="nv">observable</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a></span><span class="p">,</span>
+                        <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/TableViewChangesAnimator/Configuration.html">Configuration</a></span> <span class="o">=</span> <span class="kt"><a href="../Classes/TableViewChangesAnimator/Configuration.html">Configuration</a></span><span class="p">())</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tableView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the table view which should be animated</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>observable</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>observable for listing to changes of a data provider</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>configure animations for table view change actions.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing24TableViewChangesAnimatorC05tableC012dataProvider13configurationACSo07UITableC0C_xAC13ConfigurationVtcAA04DataH0Rzlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(tableView:dataProvider:configuration:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing24TableViewChangesAnimatorC05tableC012dataProvider13configurationACSo07UITableC0C_xAC13ConfigurationVtcAA04DataH0Rzlufc">init(tableView:<wbr>dataProvider:<wbr>configuration:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance and starts listening for changes to animate them into the table view.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">D</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataProvider.html">DataProvider</a></span><span class="o">&gt;</span><span class="p">(</span><span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span>
+                        <span class="nv">dataProvider</span><span class="p">:</span> <span class="kt">D</span><span class="p">,</span>
+                        <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/TableViewChangesAnimator/Configuration.html">Configuration</a></span> <span class="o">=</span> <span class="kt"><a href="../Classes/TableViewChangesAnimator/Configuration.html">Configuration</a></span><span class="p">())</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tableView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the table view which should be animated</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>data provider which should be observed for changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>configure animations for table view change actions.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing24TableViewChangesAnimatorC05tableC012dataProvider17cellConfiguration13configurationACSo07UITableC0C_xq_AC0J0VtcAA04DataH0RzAA08ReusableC11ConfiguringR_6ObjectQy_7ElementRtzr0_lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(tableView:dataProvider:cellConfiguration:configuration:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing24TableViewChangesAnimatorC05tableC012dataProvider17cellConfiguration13configurationACSo07UITableC0C_xq_AC0J0VtcAA04DataH0RzAA08ReusableC11ConfiguringR_6ObjectQy_7ElementRtzr0_lufc">init(tableView:<wbr>dataProvider:<wbr>cellConfiguration:<wbr>configuration:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance and starts listening for changes to animate them into the table view.
+Use this initializer if you want to reconfigure cells on update instead of reload the cell.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">DataProvide</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataProvider.html">DataProvider</a></span><span class="p">,</span> <span class="kt">ReusableViewConfig</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a></span><span class="o">&gt;</span><span class="p">(</span><span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span>
+                                                                                    <span class="nv">dataProvider</span><span class="p">:</span> <span class="kt">DataProvide</span><span class="p">,</span>
+                                                                                    <span class="nv">cellConfiguration</span><span class="p">:</span> <span class="kt">ReusableViewConfig</span><span class="p">,</span>
+                                                                                    <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/TableViewChangesAnimator/Configuration.html">Configuration</a></span> <span class="o">=</span> <span class="kt"><a href="../Classes/TableViewChangesAnimator/Configuration.html">Configuration</a></span><span class="p">())</span>
+    <span class="k">where</span> <span class="kt">DataProvide</span><span class="o">.</span><span class="kt">Element</span> <span class="o">==</span> <span class="kt">ReusableViewConfig</span><span class="o">.</span><span class="kt">Object</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tableView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the table view which should be animated</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>data provider for listing to changes &amp; reconfiguring cells</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cellConfiguration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>reusable view onfiguration to reconfigure views on update.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>configure animations for table view change actions.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Lukas Schmidt</a>. All rights reserved. (Last updated: 2021-01-14)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

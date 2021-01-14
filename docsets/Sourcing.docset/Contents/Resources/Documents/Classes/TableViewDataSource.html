@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TableViewDataSource Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/TableViewDataSource" class="dashAnchor"></a>
+    <a title="TableViewDataSource Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sourcing Docs</a> (87% documented)</p>
+        <p class="header-right"><a href="https://github.com/lightsprint09/Sourcing"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sourcing Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        TableViewDataSource Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnyCollectionDataProvider.html">AnyCollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AnyDataProvider.html">AnyDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProviderModifier.html">ArrayDataProviderModifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewChangesAnimator.html">CollectionViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewDataSource.html">CollectionViewDataSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDataProviderObservable.html">DefaultDataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionIndexTitles.html">DynamicSectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionTexts.html">DynamicSectionTexts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FetchedResultsDataProvider.html">FetchedResultsDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/JoinedDataProvider.html">JoinedDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LazyTransformationDataProvider.html">LazyTransformationDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator.html">TableViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator/Configuration.html">– Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewDataSource.html">TableViewDataSource</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange.html">DataProviderChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange/Change.html">– Change</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ReusableViewType.html">ReusableViewType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CollectionDataProvider.html">CollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurableCell.html">ConfigurableCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataModifying.html">DataModifying</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProvider.html">DataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReuseIdentifierProviding.html">ReuseIdentifierProviding</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionIndexTitles.html">SectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionTexts.html">SectionTexts</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ReusableViewConfiguration.html">ReusableViewConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData.html">SectionMetaData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData/SectionMetaDataElement.html">– SectionMetaDataElement</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Sourcing17CellConfigurationa">CellConfiguration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TableViewDataSource</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">TableViewDataSource</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">UITableViewDataSource</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>TableViewDataSource</code> uses data provider and provides the data as a <code>UITableViewDataSource</code>.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code>UITableViewDataSource</code>
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing19TableViewDataSourceC12dataProviderAA03AnydG0CyxGvp"></a>
+                    <a name="//apple_ref/swift/Property/dataProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing19TableViewDataSourceC12dataProviderAA03AnydG0CyxGvp">dataProvider</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The data provider which provides the data to the data source.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">dataProvider</span><span class="p">:</span> <span class="kt"><a href="../Classes/AnyDataProvider.html">AnyDataProvider</a></span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing19TableViewDataSourceC011sectionMetaD0AA07SectiongD0VSgvp"></a>
+                    <a name="//apple_ref/swift/Property/sectionMetaData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing19TableViewDataSourceC011sectionMetaD0AA07SectiongD0VSgvp">sectionMetaData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Contains all meta data about the section like headers, footers and sectionIndexTitles.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">sectionMetaData</span><span class="p">:</span> <span class="kt"><a href="../Structs/SectionMetaData.html">SectionMetaData</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing19TableViewDataSourceC15dataModificatorAA0D9Modifying_pSgvp"></a>
+                    <a name="//apple_ref/swift/Property/dataModificator" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing19TableViewDataSourceC15dataModificatorAA0D9Modifying_pSgvp">dataModificator</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Data modificator can be used to modify the data providers content.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">dataModificator</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataModifying.html">DataModifying</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing19TableViewDataSourceC12dataProvider17cellConfiguration0F11Modificator011sectionMetaD0ACyxGqd_0__qd__AA0D9Modifying_pSgAA07SectionlD0VSgtc6ObjectQyd__RszAA08ReusableC11ConfiguringRd__AA0dG0Rd_0_7ElementQyd_0_AORSSo07UITableC4CellC0C0Rcd__r0_lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(dataProvider:cellConfiguration:dataModificator:sectionMetaData:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing19TableViewDataSourceC12dataProvider17cellConfiguration0F11Modificator011sectionMetaD0ACyxGqd_0__qd__AA0D9Modifying_pSgAA07SectionlD0VSgtc6ObjectQyd__RszAA08ReusableC11ConfiguringRd__AA0dG0Rd_0_7ElementQyd_0_AORSSo07UITableC4CellC0C0Rcd__r0_lufc">init(dataProvider:<wbr>cellConfiguration:<wbr>dataModificator:<wbr>sectionMetaData:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance with a data provider and cell configuration
+which will be displayed in the table view.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/DataProvider.html">DataProvider</a></code>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code><a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">Cell</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a></span><span class="p">,</span> <span class="kt">DataProviderType</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataProvider.html">DataProvider</a></span><span class="o">&gt;</span><span class="p">(</span><span class="nv">dataProvider</span><span class="p">:</span> <span class="kt">DataProviderType</span><span class="p">,</span>
+                                                                        <span class="nv">cellConfiguration</span><span class="p">:</span> <span class="kt">Cell</span><span class="p">,</span>
+                                                                        <span class="nv">dataModificator</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DataModifying.html">DataModifying</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                                                                        <span class="nv">sectionMetaData</span><span class="p">:</span> <span class="kt"><a href="../Structs/SectionMetaData.html">SectionMetaData</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="k">where</span> <span class="kt">DataProviderType</span><span class="o">.</span><span class="kt">Element</span> <span class="o">==</span> <span class="kt">Object</span><span class="p">,</span> <span class="kt">Cell</span><span class="o">.</span><span class="kt">Object</span> <span class="o">==</span> <span class="kt">Object</span><span class="p">,</span> <span class="kt">Cell</span><span class="o">.</span><span class="kt">View</span><span class="p">:</span> <span class="kt">UITableViewCell</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the data provider which provides data to the data source.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cellConfiguration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the cell configuration for the table view cell.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataModificator</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>data modifier to modify the data. Defaults to <code>nil</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sectionTitleProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>provides section header titles and section index titles. Defaults to <code>nil</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Lukas Schmidt</a>. All rights reserved. (Last updated: 2021-01-14)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

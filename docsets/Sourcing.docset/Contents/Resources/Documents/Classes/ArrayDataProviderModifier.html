@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ArrayDataProviderModifier Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/ArrayDataProviderModifier" class="dashAnchor"></a>
+    <a title="ArrayDataProviderModifier Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sourcing Docs</a> (87% documented)</p>
+        <p class="header-right"><a href="https://github.com/lightsprint09/Sourcing"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sourcing Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ArrayDataProviderModifier Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnyCollectionDataProvider.html">AnyCollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AnyDataProvider.html">AnyDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArrayDataProviderModifier.html">ArrayDataProviderModifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewChangesAnimator.html">CollectionViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CollectionViewDataSource.html">CollectionViewDataSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDataProviderObservable.html">DefaultDataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionIndexTitles.html">DynamicSectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DynamicSectionTexts.html">DynamicSectionTexts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FetchedResultsDataProvider.html">FetchedResultsDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/JoinedDataProvider.html">JoinedDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LazyTransformationDataProvider.html">LazyTransformationDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator.html">TableViewChangesAnimator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewChangesAnimator/Configuration.html">– Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TableViewDataSource.html">TableViewDataSource</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange.html">DataProviderChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DataProviderChange/Change.html">– Change</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ReusableViewType.html">ReusableViewType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CollectionDataProvider.html">CollectionDataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurableCell.html">ConfigurableCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataModifying.html">DataModifying</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProvider.html">DataProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataProviderObservable.html">DataProviderObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReusableViewConfiguring.html">ReusableViewConfiguring</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ReuseIdentifierProviding.html">ReuseIdentifierProviding</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionIndexTitles.html">SectionIndexTitles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SectionTexts.html">SectionTexts</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ReusableViewConfiguration.html">ReusableViewConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData.html">SectionMetaData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SectionMetaData/SectionMetaDataElement.html">– SectionMetaDataElement</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:8Sourcing17CellConfigurationa">CellConfiguration</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ArrayDataProviderModifier</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">ArrayDataProviderModifier</span><span class="o">&lt;</span><span class="kt">Element</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/DataModifying.html">DataModifying</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>Wrapps an <code><a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a></code> and handles changes to manipulate the content of the provider.</p>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <code><a href="../Protocols/DataModifying.html">DataModifying</a></code>
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC12canMoveItemsSbvp"></a>
+                    <a name="//apple_ref/swift/Property/canMoveItems" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC12canMoveItemsSbvp">canMoveItems</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Flag if items can be moved by the data source.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">canMoveItems</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC12canEditItemsSbvp"></a>
+                    <a name="//apple_ref/swift/Property/canEditItems" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC12canEditItemsSbvp">canEditItems</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Flag if items can be edited by the data source.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">canEditItems</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC04dataD012canMoveItems0g4EditI013createElementACyxGAA0bcD0CyxG_S2bxycSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(dataProvider:canMoveItems:canEditItems:createElement:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC04dataD012canMoveItems0g4EditI013createElementACyxGAA0bcD0CyxG_S2bxycSgtcfc">init(dataProvider:<wbr>canMoveItems:<wbr>canEditItems:<wbr>createElement:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an <code><a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a></code> instance.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">dataProvider</span><span class="p">:</span> <span class="kt"><a href="../Classes/ArrayDataProvider.html">ArrayDataProvider</a></span><span class="o">&lt;</span><span class="kt">Element</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">canMoveItems</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">canEditItems</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">createElement</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="kt">Element</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the data provider which should be modifiable</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>canMoveItems</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag if items can be moved by the data source.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>canEditItems</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag if items can be edited by the data source.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC11canMoveItem2atSb10Foundation9IndexPathV_tF"></a>
+                    <a name="//apple_ref/swift/Method/canMoveItem(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC11canMoveItem2atSb10Foundation9IndexPathV_tF">canMoveItem(at:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Checks whether item at an indexPath can be moved</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">canMoveItem</span><span class="p">(</span><span class="n">at</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>indexPath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the indexPath to check for if it can be moved</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>if the item can be moved</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC10moveItemAt15sourceIndexPath2to10updateViewy10Foundation0jK0V_AJSbtF"></a>
+                    <a name="//apple_ref/swift/Method/moveItemAt(sourceIndexPath:to:updateView:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC10moveItemAt15sourceIndexPath2to10updateViewy10Foundation0jK0V_AJSbtF">moveItemAt(sourceIndexPath:<wbr>to:<wbr>updateView:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Moves item from sourceIndexPath to destinationIndexPath</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveItemAt</span><span class="p">(</span><span class="nv">sourceIndexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">,</span> <span class="n">to</span> <span class="nv">destinationIndexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">,</span> <span class="nv">updateView</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sourceIndexPath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Source&rsquo;s IndexPath</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>destinationIndexPath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Destination&rsquo;s IndexPath</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>updateView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>determines if the view should be updated.
+        Pass <code>false</code> if someone else take care of updating the change into the view</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC11canEditItem2atSb10Foundation9IndexPathV_tF"></a>
+                    <a name="//apple_ref/swift/Method/canEditItem(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC11canEditItem2atSb10Foundation9IndexPathV_tF">canEditItem(at:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Checks wethere item at an indexPath can be edited</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">canEditItem</span><span class="p">(</span><span class="n">at</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>indexPath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the indexPath to check for if it can be edited</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>if the item can be edited</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC10deleteItem2aty10Foundation9IndexPathV_tF"></a>
+                    <a name="//apple_ref/swift/Method/deleteItem(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC10deleteItem2aty10Foundation9IndexPathV_tF">deleteItem(at:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deleted item at a given indexPath</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteItem</span><span class="p">(</span><span class="n">at</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>indexPath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the indexPath to delete</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:8Sourcing25ArrayDataProviderModifierC10insertItem2aty10Foundation9IndexPathV_tF"></a>
+                    <a name="//apple_ref/swift/Method/insertItem(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Sourcing25ArrayDataProviderModifierC10insertItem2aty10Foundation9IndexPathV_tF">insertItem(at:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Inserts an element at given indexPath</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">insertItem</span><span class="p">(</span><span class="n">at</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Lukas Schmidt</a>. All rights reserved. (Last updated: 2021-01-14)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
