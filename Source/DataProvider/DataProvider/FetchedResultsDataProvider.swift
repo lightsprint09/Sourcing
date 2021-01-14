@@ -125,6 +125,8 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         case .delete:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
             updates.append(.delete(indexPath))
+        @unknown default:
+            print("Sourcing: Unknown Event at: controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?)")
         }
     }
     
