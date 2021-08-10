@@ -29,7 +29,7 @@ class FetchedResultsDataProviderTests: XCTestCase {
     func managedObjectContextForTesting() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         
-        let model = NSManagedObjectModel.mergedModel(from: Bundle.allBundles)
+        let model = NSManagedObjectModel.mergedModel(from: [Bundle.module])
         context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model!)
         try! context.persistentStoreCoordinator?.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
         
