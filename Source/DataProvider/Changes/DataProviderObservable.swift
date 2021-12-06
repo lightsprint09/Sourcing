@@ -23,7 +23,7 @@
 import Foundation
 
 /// A observable which notifies about data provider changes.
-public protocol DataProviderObservable: class {
+public protocol DataProviderObservable: AnyObject {
     
     /// Observe the changes of a data provider.
     ///
