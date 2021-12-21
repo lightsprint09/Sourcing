@@ -86,16 +86,18 @@ public final class JoinedDataProvider<Element>: DataProvider {
     }
     
     private func translate(change: DataProviderChange, section: Int) {
+        let translatedChange: DataProviderChange
         switch change {
         case .unknown:
-            innerObaseravle.send(updates: change)
+            translatedChange = change
         case .changes(let changes):
             let sectionOffset = dataProviders[0..<section].map { $0.numberOfSections() }.reduce(0, +)
-            innerObaseravle.send(updates: .changes(translate(changes: changes, sectionOffset: sectionOffset)))
+            translatedChange = .changes(translate(changes: changes, sectionOffset: sectionOffset))
         case .viewUnrelatedChanges(let changes):
             let sectionOffset = dataProviders[0..<section].map { $0.numberOfSections() }.reduce(0, +)
-            innerObaseravle.send(updates: .viewUnrelatedChanges(translate(changes: changes, sectionOffset: sectionOffset)))
+            translatedChange = .viewUnrelatedChanges(translate(changes: changes, sectionOffset: sectionOffset))
         }
+        Task { await innerObaseravle.send(updates: translatedChange) }
     }
     
     private func translate(changes: [DataProviderChange.Change], sectionOffset: Int) -> [DataProviderChange.Change] {
@@ -123,7 +125,7 @@ public final class JoinedDataProvider<Element>: DataProvider {
     }
     
     private let dataProviders: [AnyDataProvider<Element>]
-    private let innerObaseravle = DefaultDataProviderObservable()
+    private let innerObaseravle = DataProviderObservable()
     private var observers: [NSObjectProtocol]!
     
 }

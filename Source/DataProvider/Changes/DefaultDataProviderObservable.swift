@@ -24,7 +24,7 @@ import Foundation
 
 /// A default implementation for a observable which notifies about data provider changes.
 /// - SeeAlso: `DataProviderObservable`
-public final class DefaultDataProviderObservable: DataProviderObservable {
+public final class DataProviderObservable {
     private var observers: [NSObject: (DataProviderChange) -> Void] = [:]
     
     /// Creates a instance of the obsavable.
@@ -59,6 +59,7 @@ public final class DefaultDataProviderObservable: DataProviderObservable {
     /// Send updates from a data provider to all observers.
     ///
     /// - Parameter updates: the updates to distribute.
+    @MainActor
     public func send(updates: DataProviderChange) {
         observers.forEach { $0.value(updates) }
     }

@@ -34,12 +34,9 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
     public var content: [[Element]]
     
     /// An observable where one can subscribe to changes of data provider.
-    public var observable: DataProviderObservable {
-        return defaultObservable
-    }
+    public let observable: DataProviderObservable
     
-    private let defaultObservable: DefaultDataProviderObservable
-    
+
     // MARK: Initializers
     
     /**
@@ -63,7 +60,7 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
      */
     public init(sections: [[Element]]) {
         self.content = sections
-        defaultObservable = DefaultDataProviderObservable()
+        observable = DataProviderObservable()
     }
     
     // MARK: Reconfiguration
@@ -90,7 +87,7 @@ public final class ArrayDataProvider<ContentElement>: CollectionDataProvider {
     }
     
     private func dataProviderDidChangeContets(with change: DataProviderChange) {
-        defaultObservable.send(updates: change)
+        Task { await observable.send(updates: change) }
     }
     
 }

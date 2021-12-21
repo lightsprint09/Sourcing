@@ -34,7 +34,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         return defaultObservable
     }
     
-    private let defaultObservable: DefaultDataProviderObservable
+    private let defaultObservable: DataProviderObservable
     
     private var updates: [DataProviderChange.Change] = []
     private var performsViewUnrelatedChange = false
@@ -45,7 +45,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     /// - Throws: if fetching fails.
     public init(fetchedResultsController: NSFetchedResultsController<Object>) throws {
         self.fetchedResultsController = fetchedResultsController
-        self.defaultObservable = DefaultDataProviderObservable()
+        self.defaultObservable = DataProviderObservable()
         super.init()
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
@@ -60,7 +60,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
         configure(fetchedResultsController)
         
         try fetchedResultsController.performFetch()
-        defaultObservable.send(updates: .unknown)
+        Task { await defaultObservable.send(updates: .unknown) }
     }
 
     /// Perform changes to your model object, which won`t result in an updated view.
@@ -171,9 +171,9 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
             return
         }
         if performsViewUnrelatedChange {
-            defaultObservable.send(updates: .viewUnrelatedChanges(updates))
+            Task { await defaultObservable.send(updates: .viewUnrelatedChanges(updates)) }
         } else {
-            defaultObservable.send(updates: .changes(updates))
+            Task { await defaultObservable.send(updates: .changes(updates)) }
         }
     }
 

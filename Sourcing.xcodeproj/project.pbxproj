@@ -70,7 +70,6 @@
 		C6D12DC11F9612C00015A3C3 /* CollectionViewChangesAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D12DC01F9612C00015A3C3 /* CollectionViewChangesAnimator.swift */; };
 		C6D12DC31F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D12DC21F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift */; };
 		C6D12DC51F961D440015A3C3 /* TableViewChangesAnimatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D12DC41F961D440015A3C3 /* TableViewChangesAnimatorTest.swift */; };
-		C6E163771F8F764500ED9F1D /* DataProviderObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E163761F8F764500ED9F1D /* DataProviderObservable.swift */; };
 		C6F3A0711F95CDEA00F43FA4 /* DynamicSectionIndexTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3A06E1F95CDE900F43FA4 /* DynamicSectionIndexTitles.swift */; };
 		C6F3A0721F95CDEA00F43FA4 /* SectionTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3A06F1F95CDEA00F43FA4 /* SectionTexts.swift */; };
 		C6F3A0731F95CDEA00F43FA4 /* Array+SectionTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3A0701F95CDEA00F43FA4 /* Array+SectionTexts.swift */; };
@@ -154,7 +153,6 @@
 		C6D12DC01F9612C00015A3C3 /* CollectionViewChangesAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChangesAnimator.swift; sourceTree = "<group>"; };
 		C6D12DC21F9614EE0015A3C3 /* CollectionViewChangesAnimatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChangesAnimatorTest.swift; sourceTree = "<group>"; };
 		C6D12DC41F961D440015A3C3 /* TableViewChangesAnimatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewChangesAnimatorTest.swift; sourceTree = "<group>"; };
-		C6E163761F8F764500ED9F1D /* DataProviderObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderObservable.swift; sourceTree = "<group>"; };
 		C6F3A06E1F95CDE900F43FA4 /* DynamicSectionIndexTitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSectionIndexTitles.swift; sourceTree = "<group>"; };
 		C6F3A06F1F95CDEA00F43FA4 /* SectionTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTexts.swift; sourceTree = "<group>"; };
 		C6F3A0701F95CDEA00F43FA4 /* Array+SectionTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+SectionTexts.swift"; sourceTree = "<group>"; };
@@ -272,7 +270,6 @@
 			isa = PBXGroup;
 			children = (
 				C6F913171D506BC800B0535C /* DataProviderChange.swift */,
-				C6E163761F8F764500ED9F1D /* DataProviderObservable.swift */,
 				C61699B01FE011640061EA11 /* DefaultDataProviderObservable.swift */,
 				C63610A41E40714C00417B45 /* DataModifying.swift */,
 				C696D4CA1F9E0FD5005FD3B6 /* ArrayDataProviderModifier.swift */,
@@ -519,7 +516,6 @@
 			files = (
 				C644903921356F95002E9876 /* JoinedDataProvider.swift in Sources */,
 				C6F913181D506BC800B0535C /* DataProviderChange.swift in Sources */,
-				C6E163771F8F764500ED9F1D /* DataProviderObservable.swift in Sources */,
 				945ABE841E0D678E001B42CE /* TableViewDataSource.swift in Sources */,
 				9432D26C1CF5ACC800B72986 /* ConfigurableCell.swift in Sources */,
 				94EBCFCC1E1A481500184FD5 /* AnyDataProvider.swift in Sources */,
@@ -742,6 +738,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.Sourcing;
@@ -765,6 +762,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.freiraum.Sourcing;
