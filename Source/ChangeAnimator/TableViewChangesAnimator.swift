@@ -170,9 +170,9 @@
         ///
         /// - Parameter updates: list of updates to execute
         private func process(updates: [DataProviderChange.Change]) {
-            tableView.beginUpdates()
-            updates.forEach(process)
-            tableView.endUpdates()
+            tableView.performBatchUpdates({
+                updates.forEach(process)
+            })
         }
     }
 #endif
