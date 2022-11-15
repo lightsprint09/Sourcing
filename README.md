@@ -37,12 +37,6 @@ tableView.dataSource = dataSource
 let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProvider: labelsToDispay)
 ```
 
-## Requirements
-
-- iOS 9.3+
-- Xcode 10.1+
-- Swift 4.2
-
 ## Installation
 
 ### Swift Package Manager
@@ -52,16 +46,9 @@ let changeAnimator = TableViewChangeAnimator(tableView: tableView, dataProvider:
 Specify the following in your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/lightsprint09/Sourcing", from: "4.0.0"),
+.package(url: "https://github.com/lightsprint09/Sourcing", from: "4.1.0"),
 ```
 
-### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
-
-```ogdl
-github "lightsprint09/Sourcing" ~> 4.0
-```
 ## Contributing
 See CONTRIBUTING for details.
 
