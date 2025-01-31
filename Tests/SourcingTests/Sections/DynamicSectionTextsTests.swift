@@ -23,6 +23,7 @@
 import XCTest
 import Sourcing
 
+@MainActor
 class DynamicSectionTextsTests: XCTestCase {
     
     func testGenerateHeaderTitleIfNoContent() {

@@ -24,6 +24,7 @@ import Foundation
 import XCTest
 import Sourcing
 
+@MainActor
 class AnyArrayDataProviderTest: XCTestCase {
 
     func testContents() {

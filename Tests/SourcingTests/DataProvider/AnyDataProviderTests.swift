@@ -23,6 +23,7 @@
 import XCTest
 import Sourcing
 
+@MainActor
 class AnyDataProviderTests: XCTestCase {
     var dataProvider: AnyDataProvider<Int>!
     

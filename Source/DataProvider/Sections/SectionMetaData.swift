@@ -23,6 +23,7 @@
 import Foundation
 
 /// Encapsulates all informaton and meta data one can provide related to sections.
+@MainActor
 public struct SectionMetaData {
     
     /// The section index titles.
@@ -56,6 +57,7 @@ public struct SectionMetaData {
         /// Uses the given nth element in the section.
         case nthElementInSection(elementIndex: Int)
         
+        @MainActor
         func elementIndex<D: DataProvider>(with dataProvider: D, inSection section: Int) -> Int {
             switch self {
             case .firstElementInSection:

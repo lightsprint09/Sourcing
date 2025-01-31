@@ -39,7 +39,7 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     private var updates: [DataProviderChange.Change] = []
     private var performsViewUnrelatedChange = false
     
-    /// Creates an instance of `FetchedResultsDataProvider` backed by a `NSFetchedResultsController`. Performs a fetch to populate the data.
+    /// Creates an instance of `FetchedResultsDataProvider` backed by a `NSFetchedResultsController`. Performs a fetch to populate the data. Make sure to only use mainContext bound fetchedResultsController.
     ///
     /// - Parameter fetchedResultsController: the fetched results controller backing the data provider.
     /// - Throws: if fetching fails.
@@ -105,68 +105,76 @@ public final class FetchedResultsDataProvider<Object: NSFetchRequestResult>: NSO
     }
     
     // MARK: NSFetchedResultsControllerDelegate
-    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        updates = []
-    }
-    
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any,
-                           at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            guard let indexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            updates.append(.insert(indexPath))
-        case .update:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.update(indexPath))
-        case .move:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
-            updates.append(.move(indexPath, newIndexPath))
-        case .delete:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.delete(indexPath))
-        @unknown default:
-            print("Sourcing: Unknown Event at: controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?)")
+    nonisolated public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        MainActor.assumeIsolated {
+            updates = []
         }
     }
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+    nonisolated public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any,
+                           at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        MainActor.assumeIsolated {
+            switch type {
+            case .insert:
+                guard let indexPath = newIndexPath else { fatalError("Index path should be not nil") }
+                updates.append(.insert(indexPath))
+            case .update:
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                updates.append(.update(indexPath))
+            case .move:
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
+                updates.append(.move(indexPath, newIndexPath))
+            case .delete:
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                updates.append(.delete(indexPath))
+            @unknown default:
+                print("Sourcing: Unknown Event at: controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?)")
+            }
+        }
+    }
+    
+    nonisolated public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                            didChange sectionInfo: NSFetchedResultsSectionInfo,
                            atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            updates.append(.insertSection(sectionIndex))
-        case .delete:
-            updates.append(.deleteSection(sectionIndex))
-        default: break
+        MainActor.assumeIsolated {
+            switch type {
+            case .insert:
+                updates.append(.insertSection(sectionIndex))
+            case .delete:
+                updates.append(.deleteSection(sectionIndex))
+            default: break
+            }
         }
     }
     
-    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        let updatesIndexPaths = updates.compactMap { update -> IndexPath? in
-            switch update {
-            case .update(let indexPath):
-                return indexPath
-            default: return nil
+    nonisolated public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        MainActor.assumeIsolated {
+            let updatesIndexPaths = updates.compactMap { update -> IndexPath? in
+                switch update {
+                case .update(let indexPath):
+                    return indexPath
+                default: return nil
+                }
             }
-        }
-        updates = updates.compactMap { update -> DataProviderChange.Change? in
-            if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
-               return nil
+            updates = updates.compactMap { update -> DataProviderChange.Change? in
+                if case .move(_, let newIndexPath) = update, updatesIndexPaths.contains(newIndexPath) {
+                    return nil
+                }
+                return update
             }
-            return update
-        }
-        dataProviderDidChangeContents(with: updates)
-        let updatesByMoves = updates.compactMap { operation -> DataProviderChange.Change? in
-            if case .move(_, let newIndexPath) = operation {
-                return .update(newIndexPath)
+            dataProviderDidChangeContents(with: updates)
+            let updatesByMoves = updates.compactMap { operation -> DataProviderChange.Change? in
+                if case .move(_, let newIndexPath) = operation {
+                    return .update(newIndexPath)
+                }
+                return nil
             }
-            return nil
+            dataProviderDidChangeContents(with: updatesByMoves)
         }
-        dataProviderDidChangeContents(with: updatesByMoves)
     }
     
-    func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]) {
+    private func dataProviderDidChangeContents(with updates: [DataProviderChange.Change]) {
         if updates.isEmpty {
             return
         }

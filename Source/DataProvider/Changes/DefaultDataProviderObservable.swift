@@ -24,6 +24,7 @@ import Foundation
 
 /// A default implementation for a observable which notifies about data provider changes.
 /// - SeeAlso: `DataProviderObservable`
+@MainActor
 public final class DefaultDataProviderObservable: DataProviderObservable {
     private var observers: [NSObject: (DataProviderChange) -> Void] = [:]
     
@@ -40,7 +41,7 @@ public final class DefaultDataProviderObservable: DataProviderObservable {
     /// To unregister call `removeObserver`
     /// - Returns: An opaque object to act as the observer.
     @discardableResult
-    public func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
+    public func addObserver(observer: @escaping @MainActor (DataProviderChange) -> Void) -> NSObjectProtocol {
         let token = NSObject()
         observers[token] = observer
         

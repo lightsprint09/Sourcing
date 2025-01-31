@@ -27,11 +27,12 @@
      A listener that observes changes of a data provider. It creates animations to make changes visible in the view by using
      `UITableView`s APIs to animate cells. You can configure your animations as needed for each change.
      */
+    @MainActor
     public final class TableViewChangesAnimator {
         
         private let observable: DataProviderObservable
-        private let cellReconfigurationAtIndexPath: ((IndexPath) -> Void)?
-        
+        private let cellReconfigurationAtIndexPath: (@MainActor (IndexPath) -> Void)?
+
         private var dataProviderObserver: NSObjectProtocol!
         private let tableView: UITableView
         private let configuration: Configuration
@@ -112,11 +113,11 @@
                                 cellConfiguration.configure(cell, at: indexPath, with: object)
                             })
         }
-        
+
         private init(tableView: UITableView,
                      observable: DataProviderObservable,
                      configuration: Configuration,
-                     cellReconfigurationAtIndexPath: ((IndexPath) -> Void)?) {
+                     cellReconfigurationAtIndexPath: (@MainActor (IndexPath) -> Void)?) {
             self.tableView = tableView
             self.observable = observable
             self.configuration = configuration
@@ -127,9 +128,11 @@
         }
         
         deinit {
-            observable.removeObserver(observer: dataProviderObserver)
+            MainActor.assumeIsolated {
+                observable.removeObserver(observer: dataProviderObserver)
+            }
         }
-        
+
         private func dataProviderDidChange(with change: DataProviderChange) {
             switch change {
             case .viewUnrelatedChanges:
@@ -140,7 +143,7 @@
                 process(updates: updates)
             }
         }
-        
+
         private func process(update: DataProviderChange.Change) {
             switch update {
             case .insert(let indexPath):
@@ -171,7 +174,9 @@
         /// - Parameter updates: list of updates to execute
         private func process(updates: [DataProviderChange.Change]) {
             tableView.performBatchUpdates({
-                updates.forEach(process)
+                for update in updates {
+                    self.process(update: update)
+                }
             })
         }
     }

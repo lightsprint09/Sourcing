@@ -22,6 +22,7 @@
 import Foundation
 
 /// Providing section index titles.
+@MainActor
 public protocol SectionIndexTitles {
     
     /// Section Index Titles for `UITableView`. Related to `UITableViewDataSource` method `sectionIndexTitlesForTableView`.

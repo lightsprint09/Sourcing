@@ -22,6 +22,7 @@
 
 import UIKit
 
+@MainActor
 class UITableViewMock: UITableView {
     private var strongDataSource: UITableViewDataSource?
     override var dataSource: UITableViewDataSource? {
@@ -60,7 +61,14 @@ class UITableViewMock: UITableView {
     override func reloadData() {
         executionCount.reloaded += 1
     }
-    
+
+    override func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
+        executionCount.beginUpdates += 1
+        updates?()
+        completion?(true)
+        executionCount.endUpdates += 1
+    }
+
     override func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell {
         return cellDequeueMock.dequeueWithIdentifier(identifier, forIndexPath: indexPath)
     }

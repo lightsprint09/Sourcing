@@ -21,6 +21,7 @@
 //
 
  /// By implementing `ConfigurableCell` the cell provides the functionality to display the specified object.
+@MainActor
 public protocol ConfigurableCell {
     associatedtype ObjectToConfigure
     

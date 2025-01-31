@@ -21,6 +21,7 @@
 //
 
 /// Generates text which can be used as section header titles or footer titles.
+@MainActor
 public protocol SectionTexts {
     
     /// Generates a optional section title for a given section

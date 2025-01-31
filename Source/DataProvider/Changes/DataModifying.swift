@@ -22,6 +22,7 @@
 
 import Foundation
 
+@MainActor
 public protocol DataModifying {
     /// Moves item from sourceIndexPath to destinationIndexPath
     ///

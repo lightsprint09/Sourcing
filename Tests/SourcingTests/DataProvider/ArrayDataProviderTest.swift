@@ -24,6 +24,7 @@ import XCTest
 import Sourcing
 
 // swiftlint:disable force_unwrapping
+@MainActor
 class ArrayDataProviderTest: XCTestCase {
     var dataProvider: ArrayDataProvider<Int>!
     

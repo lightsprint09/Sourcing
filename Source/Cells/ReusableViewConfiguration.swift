@@ -34,15 +34,15 @@ public struct ReusableViewConfiguration<View, Object>: ReusableViewConfiguring {
     public var type: ReusableViewType
     
     /// A block to configure the view with given object at the given index path.
-    public let configuration: ((View, IndexPath, Object) -> Void)?
-    
+    public let configuration: (@MainActor (View, IndexPath, Object) -> Void)?
+
     /// Creates an instance of `ReusableViewConfiguration`.
     ///
     /// - Parameters:
     ///   - reuseIdentifier: the reuse identifier for registering & dequeuing views
     ///   - type: the type of the Reusable view
     ///   - configuration: a block to configure the view with given object at the given index path.
-    public init(reuseIdentifier: String, type: ReusableViewType = .cell, configuration: ((View, IndexPath, Object) -> Void)?) {
+    public init(reuseIdentifier: String, type: ReusableViewType = .cell, configuration: (@MainActor (View, IndexPath, Object) -> Void)?) {
         self.reuseIdentifier = reuseIdentifier
         self.type = type
         self.configuration = configuration
@@ -75,7 +75,7 @@ public struct ReusableViewConfiguration<View, Object>: ReusableViewConfiguring {
 ///   - type: the type of the Reusable view. Defaults to `.cell`.
 ///   - configuration: a block to configure the view with given object at the given index path.
 extension ReusableViewConfiguration where View: ReuseIdentifierProviding {
-    public init(type: ReusableViewType = .cell, configuration: @escaping ((View, IndexPath, Object) -> Void)) {
+    public init(type: ReusableViewType = .cell, configuration: @escaping (@MainActor (View, IndexPath, Object) -> Void)) {
         self.reuseIdentifier = View.reuseIdentifier
         self.type = type
         self.configuration = configuration
@@ -91,7 +91,7 @@ extension ReusableViewConfiguration where View: ReuseIdentifierProviding {
 ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
 extension ReusableViewConfiguration where View: ConfigurableCell, View.ObjectToConfigure == Object {
     public init(reuseIdentifier: String, type: ReusableViewType = .cell,
-                additionalConfiguration: ((View, IndexPath, Object) -> Void)? = nil) {
+                additionalConfiguration: (@MainActor (View, IndexPath, Object) -> Void)? = nil) {
         self.reuseIdentifier = reuseIdentifier
         self.type = type
         self.configuration = { view, indexPath, object in
@@ -110,7 +110,7 @@ extension ReusableViewConfiguration where View: ConfigurableCell, View.ObjectToC
 ///   - type: the type of the Reusable view. Defaults to `.cell`
 ///   - additionalConfiguration: a block to additionally configure the cell with the given object. Defaults to `nil`.
 extension ReusableViewConfiguration where View: ConfigurableCell & ReuseIdentifierProviding, View.ObjectToConfigure == Object {
-    public init(type: ReusableViewType = .cell, additionalConfiguration: ((View, IndexPath, Object) -> Void)? = nil) {
+    public init(type: ReusableViewType = .cell, additionalConfiguration: (@MainActor (View, IndexPath, Object) -> Void)? = nil) {
         self.init(reuseIdentifier: View.reuseIdentifier, type: type, configuration: { (view, indexPath, object) in
             view.configure(with: object)
             additionalConfiguration?(view, indexPath, object)

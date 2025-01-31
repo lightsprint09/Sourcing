@@ -23,6 +23,7 @@
 import XCTest
 import Sourcing
 
+@MainActor
 class JoinedDataProviderTest: XCTestCase {
     
     func testNumberOfSection() {

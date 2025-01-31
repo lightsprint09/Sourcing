@@ -23,6 +23,7 @@
 import XCTest
 @testable import Sourcing
 
+@MainActor
 final class AnyReusableViewConfiguringTest: XCTestCase {
     
     func testReusieIdentifier() {

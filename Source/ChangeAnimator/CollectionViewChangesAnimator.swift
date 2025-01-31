@@ -27,6 +27,7 @@
      A listener that observers changes of a data provider. It create animations to make changes visible in the view by using
      ``UICollectionView`s APIs to animate cells.
      */
+    @MainActor
     public final class CollectionViewChangesAnimator {
         private let observable: DataProviderObservable
         
@@ -54,9 +55,12 @@
         }
         
         deinit {
-            observable.removeObserver(observer: dataProviderObserver)
+            MainActor.assumeIsolated {
+                observable.removeObserver(observer: dataProviderObserver)
+            }
         }
-        
+
+        @MainActor
         private func process(update: DataProviderChange.Change) {
             switch update {
             case .insert(let indexPath):
@@ -82,9 +86,12 @@
         /// Animates multiple insert, delete, reload, and move operations as a group.
         ///
         /// - Parameter updates: All updates to execute. Pass `nil` to reload all content.
+        @MainActor
         private func process(updates: [DataProviderChange.Change]) {
             collectionView.performBatchUpdates({
-                updates.forEach(self.process)
+                for update in updates {
+                    self.process(update: update)
+                }
             })
         }
     }

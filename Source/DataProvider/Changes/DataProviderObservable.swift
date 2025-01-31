@@ -23,6 +23,7 @@
 import Foundation
 
 /// A observable which notifies about data provider changes.
+@MainActor
 public protocol DataProviderObservable: AnyObject {
     
     /// Observe the changes of a data provider.
@@ -35,8 +36,8 @@ public protocol DataProviderObservable: AnyObject {
     /// To unregister call `removeObserver`
     /// - Returns: An opaque object to act as the observer.
     @discardableResult
-    func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol
-    
+    func addObserver(observer: @escaping @MainActor (DataProviderChange) -> Void) -> NSObjectProtocol
+
     /// Removes given observer from the receiver’s dispatch table.
     ///
     /// - Parameter observer: The observer to remove

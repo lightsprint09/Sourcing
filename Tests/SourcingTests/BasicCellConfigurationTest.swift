@@ -24,15 +24,17 @@ import XCTest
 import UIKit
 import Sourcing
 
+@MainActor
 class ReusableViewConfigurationTest: XCTestCase {
     
-    var configuration: CellConfiguration<UITableViewCellMock<Int>>!
-    let identifier = "reuseIdentifier"
+
     
     func testCellConfigurationInit() {
         //Given
-        let additionalConfiguration = { (view: UITableViewCellMock<Int>, indexPath: IndexPath, object: Int) in }
-        
+        var configuration: CellConfiguration<UITableViewCellMock<Int>>!
+        let identifier = "reuseIdentifier"
+        let additionalConfiguration: @MainActor (UITableViewCellMock<Int>, IndexPath, Int) -> Void = { view, indexPath, object in }
+
         //When
         configuration = CellConfiguration(reuseIdentifier: identifier, additionalConfiguration: additionalConfiguration)
         
@@ -42,8 +44,10 @@ class ReusableViewConfigurationTest: XCTestCase {
     
     func testCellConfigurationInitWithCellIdentifierProviding() {
         //Given
-        let additionalConfiguration = { (view: UITableViewCellMock<Int>, indexPath: IndexPath, object: Int) in }
-        
+        var configuration: CellConfiguration<UITableViewCellMock<Int>>!
+        let identifier = "reuseIdentifier"
+        let additionalConfiguration: @MainActor (UITableViewCellMock<Int>, IndexPath, Int) -> Void = { view, indexPath, object in }
+
         //When
         configuration = CellConfiguration(additionalConfiguration: additionalConfiguration)
         
@@ -53,8 +57,10 @@ class ReusableViewConfigurationTest: XCTestCase {
     
     func testConfigureCell() {
         //Given
+        var configuration: CellConfiguration<UITableViewCellMock<Int>>!
+        let identifier = "reuseIdentifier"
         var didCallAdditionalConfigurtion = false
-        let additionalConfiguration = { (view: UITableViewCellMock<Int>, indexPath: IndexPath, object: Int) in
+        let additionalConfiguration: @MainActor (UITableViewCellMock<Int>, IndexPath, Int) -> Void = { view, indexPath, object in
             didCallAdditionalConfigurtion = true
         }
         configuration = CellConfiguration(additionalConfiguration: additionalConfiguration)
@@ -70,7 +76,7 @@ class ReusableViewConfigurationTest: XCTestCase {
     }
     
     class BasicCell: ReuseIdentifierProviding {
-        static var reuseIdentifier = "reuseIdentifier"
+        static let reuseIdentifier = "reuseIdentifier"
     }
     
     func testBasicCanConfigureInit() {

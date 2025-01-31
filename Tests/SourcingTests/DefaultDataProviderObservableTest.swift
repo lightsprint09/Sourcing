@@ -23,18 +23,15 @@
 import XCTest
 import Sourcing
 
+@MainActor
 final class DefaultDataProviderObservableTest: XCTestCase {
-    var observable: DefaultDataProviderObservable!
-    
-    override func setUp() {
-        super.setUp()
-        observable = DefaultDataProviderObservable()
-    }
-    
+
+
     func testRegister() {
         //Given
+        let observable = DefaultDataProviderObservable()
         var observerWasCalled = false
-        let action = { (_: DataProviderChange) in
+        let action: @MainActor (DataProviderChange) -> Void = { _ in
             observerWasCalled = true
         }
         
@@ -47,8 +44,9 @@ final class DefaultDataProviderObservableTest: XCTestCase {
     }
     
     func testUnregister() {
+        let observable = DefaultDataProviderObservable()
         var observerWasCalled = false
-        let action = { (_: DataProviderChange) in
+        let action: @MainActor (DataProviderChange) -> Void = { _ in
             observerWasCalled = true
         }
         let observer = observable.addObserver(observer: action)
