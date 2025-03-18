@@ -10,13 +10,19 @@ import XCTest
 import Foundation
 import Sourcing
 
-func testStaticTitleForHeader() {
-    //Given
-    let sectionTexts = ["sectionText"] as [String?]
-    
-    //When
-    let sectionText = sectionTexts.text(inSection: 0)
-    
-    //Then
-    XCTAssertEqual(sectionText, "sectionText")
+
+class ArraySectionTexts: XCTestCase {
+
+    @MainActor
+    func testStaticTitleForHeader() {
+        //Given
+        let sectionTexts = ["sectionText"] as [String?]
+
+        //When
+        let sectionText = sectionTexts.text(inSection: 0)
+
+        //Then
+        XCTAssertEqual(sectionText, "sectionText")
+    }
+
 }

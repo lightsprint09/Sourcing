@@ -24,7 +24,8 @@ import XCTest
 import Sourcing
 
 class ArraySectionIndexTitles: XCTestCase {
-    
+
+    @MainActor
     func testStaticIndexTitles() {
         //Given
         let sectionIndexTitles = ["SectionIndexTitle"]
@@ -35,7 +36,8 @@ class ArraySectionIndexTitles: XCTestCase {
         //Then
         XCTAssertEqual(resultingSectionIndexTitles, sectionIndexTitles)
     }
-    
+
+    @MainActor
     func testSectionForSectionIndexTitle() {
         //Given
         let sectionIndexTitles = ["SectionFooterTitle"]

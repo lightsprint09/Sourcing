@@ -6,6 +6,7 @@ let package = Package(
     name: "Sourcing",
     platforms: [
         .iOS(.v13),
+        .tvOS(.v13),
         .visionOS(.v1)
     ],
     products: [
