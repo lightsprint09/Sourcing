@@ -25,46 +25,20 @@ import CoreData
 @testable import Sourcing
 
 // swiftlint:disable force_try force_unwrapping
+@MainActor
 class FetchedResultsDataProviderTests: XCTestCase {
     func managedObjectContextForTesting() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         
-        let model = NSManagedObjectModel.mergedModel(from: Bundle.allBundles)
+        let model = NSManagedObjectModel.mergedModel(from: Bundle.allBundles + [.module])
         context.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model!)
         try! context.persistentStoreCoordinator?.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
         
         return context
     }
     
-    var managedObjectContext: NSManagedObjectContext!
-    var train1: CDTrain!
-    var train2: CDTrain!
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
-    var typedFetchedResultsController: NSFetchedResultsController<CDTrain>!
-    var dataProvider: FetchedResultsDataProvider<CDTrain>!
-    
-    override func setUp() {
-        super.setUp()
-        managedObjectContext = managedObjectContextForTesting()
-        
-        train1 = self.train(id: "1", name: "TVG", sortIndex: 0)
-        managedObjectContext.insert(train1)
-        
-        train2 = self.train(id: "2", name: "ICE", sortIndex: 1)
-        managedObjectContext.insert(train2)
-        
-        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
-        fetchReuqest.sortDescriptors = [sortDescriptor]
-        typedFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
-                                                              sectionNameKeyPath: nil, cacheName: nil)
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: typedFetchedResultsController)
-        
-        self.fetchedResultsController = typedFetchedResultsController as? NSFetchedResultsController<NSFetchRequestResult>
-    }
-    
-    private func train(id: String, name: String, sortIndex: Int) -> CDTrain {
-        let train = CDTrain.newObject(in: managedObjectContext)
+    private func train(id: String, name: String, sortIndex: Int, inContext context: NSManagedObjectContext) -> CDTrain {
+        let train = CDTrain.newObject(in: context)
         train.id = id
         train.name = name
         train.sortIndex = NSNumber(value: sortIndex)
@@ -72,16 +46,58 @@ class FetchedResultsDataProviderTests: XCTestCase {
     }
     
     func testNumberOfSections() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Then
         XCTAssertEqual(dataProvider.numberOfSections(), 1)
     }
 
     func testNumberOfItems() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Then
         XCTAssertEqual(dataProvider.numberOfItems(inSection: 0), 2)
     }
 
     func testObjectAtIndexPath() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Then
         var indexPath = IndexPath(item: 0, section: 0)
         XCTAssertEqual(dataProvider.object(at: indexPath), train1)
@@ -91,6 +107,20 @@ class FetchedResultsDataProviderTests: XCTestCase {
     }
 
     func testIndexPathForObject() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Then
         var indexPath = IndexPath(item: 0, section: 0)
         XCTAssertEqual(dataProvider.indexPath(for: train1), indexPath)
@@ -100,6 +130,20 @@ class FetchedResultsDataProviderTests: XCTestCase {
     }
     
     func testReconfigureFetchRequest() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         var catpturedChange: DataProviderChange?
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
@@ -114,62 +158,132 @@ class FetchedResultsDataProviderTests: XCTestCase {
     }
     
     func testHandleInsert() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         let indexPath = IndexPath(row: 0, section: 0)
         var catpturedChange: DataProviderChange?
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController, didChange: 1, at: nil, for: .insert, newIndexPath: indexPath)
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
-        
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: nil, for: .insert, newIndexPath: indexPath)
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+
         //Then
         XCTAssertEqual(catpturedChange, .changes([.insert(indexPath)]))
     }
     
     func testHandleUpdate() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         let indexPath = IndexPath(row: 0, section: 0)
         var catpturedChange: DataProviderChange?
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController, didChange: 1, at: indexPath, for: .update, newIndexPath: nil)
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
-        
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: indexPath, for: .update, newIndexPath: nil)
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+
         //Then
         XCTAssertEqual(catpturedChange, .changes([.update(indexPath)]))
     }
     
     func testHandleInsertSection() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         let section = 0
         var catpturedChange: DataProviderChange?
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController, didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .insert)
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
-        
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .insert)
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+
         //Then
         XCTAssertEqual(catpturedChange, .changes([.insertSection(section)]))
     }
     
     func testHandleDeleteSection() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         let section = 0
         var catpturedChange: DataProviderChange?
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController, didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .delete)
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
-        
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: NSFetchedResultsSectionInfoMock(), atSectionIndex: section, for: .delete)
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+
         //Then
         XCTAssertEqual(catpturedChange, .changes([.deleteSection(section)]))
     }
     
     func testHandleMoveByUser() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         let oldIndexPath = IndexPath(row: 0, section: 0)
         let newIndexPath = IndexPath(row: 1, section: 0)
@@ -178,8 +292,8 @@ class FetchedResultsDataProviderTests: XCTestCase {
         
         //When
         dataProvider.performNonUIRelevantChanges {
-            dataProvider.controller(fetchedResultsController, didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
-            dataProvider.controllerDidChangeContent(fetchedResultsController)
+            dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+            dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
         }
         
         //Then
@@ -187,41 +301,81 @@ class FetchedResultsDataProviderTests: XCTestCase {
     }
     
     func testProcessUpdatesForMoveChange() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         var changes = [DataProviderChange]()
         
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: typedFetchedResultsController)
         _ = dataProvider.observable.addObserver { changes.append($0) }
         
         let oldIndexPath = IndexPath(row: 0, section: 0)
         let newIndexPath = IndexPath(row: 1, section: 0)
-        dataProvider.controller(fetchedResultsController, didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
-        
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: oldIndexPath, for: .move, newIndexPath: newIndexPath)
+
         //When
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
-        
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+
         //Then
         XCTAssertEqual(changes, [.changes([.move(oldIndexPath, newIndexPath)]), .changes([.update(newIndexPath)])])
     }
     
     func testProcessUpdatesForUpdateChange() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         var catpturedChange: DataProviderChange?
         
-        dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: typedFetchedResultsController)
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         let indexPath = IndexPath(row: 1, section: 0)
-        dataProvider.controller(fetchedResultsController, didChange: 1, at: indexPath, for: .update, newIndexPath: indexPath)
-        
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: indexPath, for: .update, newIndexPath: indexPath)
+
         //When
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
-        
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+
         //Then
         XCTAssertEqual(catpturedChange, .changes([.update(indexPath)]))
     }
     
     func testMultipleUpdates() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         let firstUpdate = IndexPath(row: 0, section: 0)
         let secondDelete = IndexPath(row: 1, section: 0)
@@ -229,26 +383,40 @@ class FetchedResultsDataProviderTests: XCTestCase {
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController, didChange: 1, at: firstUpdate, for: .update, newIndexPath: nil)
-        dataProvider.controllerWillChangeContent(fetchedResultsController)
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: firstUpdate, for: .update, newIndexPath: nil)
+        dataProvider.controllerWillChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
 
-        dataProvider.controller(fetchedResultsController, didChange: 1, at: secondDelete, for: .delete, newIndexPath: nil)
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: secondDelete, for: .delete, newIndexPath: nil)
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
 
         //Then
         XCTAssertEqual(catpturedChange, .changes([.delete(secondDelete)]))
     }
 
     func testHandleDelete() {
+        let managedObjectContext = managedObjectContextForTesting()
+
+        let train1 = self.train(id: "1", name: "TVG", sortIndex: 0, inContext: managedObjectContext)
+        managedObjectContext.insert(train1)
+
+        let train2 = self.train(id: "2", name: "ICE", sortIndex: 1, inContext: managedObjectContext)
+        managedObjectContext.insert(train2)
+
+        let fetchReuqest: NSFetchRequest<CDTrain> = CDTrain.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CDTrain.sortIndex), ascending: true)
+        fetchReuqest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReuqest, managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
+        let dataProvider = try! FetchedResultsDataProvider(fetchedResultsController: fetchedResultsController)
         //Given
         let deletedIndexPath = IndexPath(row: 0, section: 0)
         var catpturedChange: DataProviderChange?
         _ = dataProvider.observable.addObserver { catpturedChange = $0 }
         
         //When
-        dataProvider.controller(fetchedResultsController, didChange: 1, at: deletedIndexPath, for: .delete, newIndexPath: nil)
-        dataProvider.controllerDidChangeContent(fetchedResultsController)
-        
+        dataProvider.controller(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, didChange: 1, at: deletedIndexPath, for: .delete, newIndexPath: nil)
+        dataProvider.controllerDidChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+
         //Then
         XCTAssertEqual(catpturedChange, .changes([.delete(deletedIndexPath)]))
     }

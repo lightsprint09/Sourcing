@@ -23,6 +23,7 @@
 import XCTest
 import Sourcing
 
+@MainActor
 class LazyTranformationDataProviderTest: XCTestCase {
    
     func testGIVEN_TransformedDataProvider_WHEN_getNumberOfSections_THEN_SameAsWrappedDataProvider() {

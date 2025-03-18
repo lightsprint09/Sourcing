@@ -27,6 +27,7 @@ Wrapps an `ArrayDataProvider` and handles changes to manipulate the content of t
  
 - seealso: `DataModifying`
 */
+@MainActor
 public final class ArrayDataProviderModifier<Element>: DataModifying {
     /// Flag if items can be moved by the data source.
     public var canMoveItems: Bool = false
@@ -66,7 +67,7 @@ public final class ArrayDataProviderModifier<Element>: DataModifying {
     ///   - destinationIndexPath: Destination's IndexPath
     ///   - updateView: determines if the view should be updated.
     ///                 Pass `false` if someone else take care of updating the change into the view
-    public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = true) {
+   public func moveItemAt(sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath, updateView: Bool = true) {
         let soureElement = dataProvider.object(at: sourceIndexPath)
         var content = dataProvider.content
         content[sourceIndexPath.section].remove(at: sourceIndexPath.item)

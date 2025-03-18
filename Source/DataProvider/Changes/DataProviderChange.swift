@@ -23,8 +23,8 @@
 import Foundation
 
 /// Discribes a change inse a DataProvider
-public enum DataProviderChange: Equatable {
-    
+public enum DataProviderChange: Equatable, Sendable {
+
     /// Some contents change, but the change cant be described.
     /// It is recommended to do a whole reload here.
     case unknown
@@ -35,7 +35,7 @@ public enum DataProviderChange: Equatable {
     /// Changes which are not related to a view or which should not be updated in a view because somebody else has taken care of updating them.
     case viewUnrelatedChanges([Change])
     
-    public enum Change: Equatable {
+    public enum Change: Equatable, Sendable {
         case insert(IndexPath)
         case update(IndexPath)
         case move(IndexPath, IndexPath)

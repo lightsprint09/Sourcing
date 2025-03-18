@@ -36,8 +36,10 @@ public final class JoinedDataProvider<Element>: DataProvider {
     }
     
     deinit {
-        dataProviders.enumerated().forEach { index, dataProvider in
-            dataProvider.observable.removeObserver(observer: observers[index])
+        MainActor.assumeIsolated {
+            dataProviders.enumerated().forEach { index, dataProvider in
+                dataProvider.observable.removeObserver(observer: observers[index])
+            }
         }
     }
     

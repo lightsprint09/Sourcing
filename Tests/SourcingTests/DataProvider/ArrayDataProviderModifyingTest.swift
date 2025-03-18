@@ -23,19 +23,14 @@
 import XCTest
 import Sourcing
 
+@MainActor
 class ArrayDataProviderModifyingTest: XCTestCase {
-    
-    var arrayDataModifier: ArrayDataProviderModifier<Int>!
-    var dataProvider: ArrayDataProvider<Int>!
-    
-    override func setUp() {
-        super.setUp()
-        dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
-        arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider)
-    }
+
     
     func testCanMoveItemFromTo() {
         //When
+        let dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider)
         arrayDataModifier.canMoveItems = true
         
         //Then
@@ -44,6 +39,8 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     
     func testMoveItemFromTo() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider)
         var change: DataProviderChange?
         _ = dataProvider.observable.addObserver(observer: { change = $0 })
         let sourceIndexPath = IndexPath(item: 0, section: 0)
@@ -60,6 +57,8 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     
     func testMoveItemFromToTriggeredByUserInteraction() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider)
         var change: DataProviderChange?
         _ = dataProvider.observable.addObserver(observer: { change = $0 })
         let sourceIndexPath = IndexPath(item: 0, section: 0)
@@ -76,6 +75,8 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     
     func testCanDelteItems() {
         //When
+        let dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider)
         arrayDataModifier.canEditItems = true
         
         //Then
@@ -84,6 +85,8 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     
     func testDelteItemAtIndexPath() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider)
         var didNotifyTableView = false
         _ = dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
         let deleteIndexPath = IndexPath(item: 0, section: 0)
@@ -98,7 +101,8 @@ class ArrayDataProviderModifyingTest: XCTestCase {
     }
     func testInsertItemAtIndexPath() {
         //Given
-        arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider, createElement: { 7 })
+        let dataProvider = ArrayDataProvider(sections: [[1, 2], [3, 4]])
+        let arrayDataModifier = ArrayDataProviderModifier(dataProvider: dataProvider, createElement: { 7 })
         var didNotifyTableView = false
         _ = dataProvider.observable.addObserver(observer: { _ in didNotifyTableView = true })
         let insertedIndexPath = IndexPath(item: 0, section: 0)

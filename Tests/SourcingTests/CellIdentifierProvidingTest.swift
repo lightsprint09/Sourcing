@@ -25,8 +25,8 @@ import UIKit
 import Sourcing
 
 class CellIdentifierProvidingTest: XCTestCase {
+    @MainActor
     func testIdentifier() {
-        
         XCTAssertEqual(UITableViewCellMock<Int>.reuseIdentifier, "UITableViewCellMock<Int>")
     }
 }

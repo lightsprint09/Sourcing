@@ -25,25 +25,15 @@ import UIKit
 import Sourcing
 
 // swiftlint:disable force_cast
+@MainActor
 class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
-    let reuseIdentifier = "reuseIdentifier"
-    
-    var dataProvider: ArrayDataProvider<Int>!
-    var dataModificator: DataModificatorMock!
-    var collectionViewMock: UICollectionViewMock!
-    var cell: ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>!
-    
-    override func setUp() {
-        super.setUp()
-        dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        collectionViewMock = UICollectionViewMock()
-        cell = ReusableViewConfiguration(reuseIdentifier: reuseIdentifier)
-        dataModificator = DataModificatorMock()
-    }
 
     func testNumberOfSections() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
@@ -55,6 +45,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testNumberOfRowsInSections() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
@@ -66,6 +59,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
 
     func testDequeueCells() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let indexPath = IndexPath(row: 2, section: 1)
         
@@ -73,20 +69,23 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
         let cellAtIdexPath = dataSource.collectionView(collectionViewMock, cellForItemAt: indexPath)
         
         //Then
-        let mockCell = (collectionViewMock.cellDequeueMock.cells[reuseIdentifier] as! UICollectionViewCellMock<Int>)
+        let mockCell = (collectionViewMock.cellDequeueMock.cells["reuseIdentifier"] as! UICollectionViewCellMock<Int>)
         XCTAssertEqual(mockCell.configurationCount, 1)
         XCTAssertEqual(mockCell.configuredObject, 10)
-        XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, reuseIdentifier)
+        XCTAssertEqual(collectionViewMock.cellDequeueMock.dequeueCellReuseIdentifiers.first, "reuseIdentifier")
         XCTAssertTrue(cellAtIdexPath is UICollectionViewCellMock<Int>)
     }
     
     func testDequeueSupplementaryView() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
         let elementKind = "elementKind"
         var configuredObject: Int?
         var configurationCount = 0
         
-        let supplementaryViewConfiguration = ReusableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: reuseIdentifier,
+        let supplementaryViewConfiguration = ReusableViewConfiguration<SupplementaryViewMock, Int>(reuseIdentifier: "reuseIdentifier",
                                                         type: .supplementaryView(kind: elementKind), configuration: { (_, _, object) in
             configuredObject = object
             configurationCount += 1
@@ -104,6 +103,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     }
     
     func testIndexTitles() {
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
         //Given
         let sectionIndexTitles = ["First"]
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: sectionIndexTitles)
@@ -115,8 +117,10 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testSectionForSectionIndexTitle() {
         //Given
-        let sectionIndexTitles = ["foo", "bar"]
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
+        let sectionIndexTitles = ["foo", "bar"]
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, sectionIndexTitles: sectionIndexTitles)
         
         //When
@@ -128,7 +132,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testMoveIndexPaths() {
         //Given
-        let cellConfig = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let collectionViewMock = UICollectionViewMock()
+        let dataModificator = DataModificatorMock()
+        let cellConfig = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
         let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         
         //When
@@ -145,6 +151,10 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     }
     
     func testCanMoveCellAtIndexPath() {
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
+        let dataModificator = DataModificatorMock()
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider,
                                                   cellConfiguration: cell, dataModificator: dataModificator)
         //When
@@ -158,6 +168,9 @@ class CollectionViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanMoveCellAtIndexPathWithOutDataModificator() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let collectionViewMock = UICollectionViewMock()
+        let cell = ReusableViewConfiguration<UICollectionViewCellMock<Int>, Int>(reuseIdentifier: "reuseIdentifier")
         let dataSource = CollectionViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When

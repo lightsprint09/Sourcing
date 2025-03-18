@@ -23,6 +23,7 @@
 import XCTest
 import Sourcing
 
+@MainActor
 class DynamicSectionIndexTitlesTest: XCTestCase {
     
     func testGenerateSectionIndexTitles() {

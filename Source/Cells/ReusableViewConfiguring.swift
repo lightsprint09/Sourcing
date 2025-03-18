@@ -27,7 +27,8 @@ import Foundation
 ///
 /// - Note: Dequeuing a view is not part of configuration.
 /// - SeeAlso: `ReusableViewConfiguration`
-public protocol ReusableViewConfiguring {
+@MainActor
+public protocol ReusableViewConfiguring: Sendable {
     
     /// The reusable view type which should be configured.
     associatedtype View

@@ -21,6 +21,7 @@
 //
 
 /// By implementing this the cell provides its reuse identifiere.
+@MainActor
 public protocol ReuseIdentifierProviding {
     /// Reuse indentifier of the view.
     static var reuseIdentifier: String { get }

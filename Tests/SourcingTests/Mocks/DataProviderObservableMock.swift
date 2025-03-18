@@ -23,14 +23,16 @@
 import Foundation
 import Sourcing
 
+@MainActor
 final class DataProviderObservableMock: DataProviderObservable {
+    
     func send(updates: DataProviderChange) {
         observer?(updates)
     }
     
     var observer: ((DataProviderChange) -> Void)?
     
-    func addObserver(observer: @escaping (DataProviderChange) -> Void) -> NSObjectProtocol {
+    func addObserver(observer: @escaping @MainActor (DataProviderChange) -> Void) -> NSObjectProtocol {
         self.observer = observer
         return NSObject()
     }

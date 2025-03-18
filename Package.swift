@@ -1,11 +1,12 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 
 import PackageDescription
 
 let package = Package(
     name: "Sourcing",
     platforms: [
-        .iOS(.v12),
+        .iOS(.v13),
+        .tvOS(.v13),
         .visionOS(.v1)
     ],
     products: [

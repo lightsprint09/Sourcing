@@ -24,25 +24,15 @@ import XCTest
 import UIKit
 import Sourcing
 
+@MainActor
 class TableViewDataSourceSingleCellTest: XCTestCase {
     
     let reuseIdentifier = "reuseIdentifier"
     
-    var dataProvider: ArrayDataProvider<Int>!
-    var dataModificator: DataModificatorMock!
-    var tableViewMock: UITableViewMock!
-    var cell: ReusableViewConfiguration<UITableViewCellMock<Int>, Int>!
-    
-    override func setUp() {
-        super.setUp()
-        dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        tableViewMock = UITableViewMock()
-        cell = ReusableViewConfiguration(reuseIdentifier: reuseIdentifier)
-        dataModificator = DataModificatorMock()
-    }
-    
     func testNumberOfSections() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let realTableView = UITableView()
         
         //When
@@ -55,8 +45,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testNumberOfRowsInSections() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let realTableView = UITableView()
-        
+
         //When
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let rowCount = dataSource.tableView(realTableView, numberOfRowsInSection: 1)
@@ -67,8 +59,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDequeueCells() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
         let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
-        
+
         //When
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let cellForGivenRow = dataSource.tableView(tableViewMock, cellForRowAt: IndexPath(row: 2, section: 1))
@@ -88,6 +82,8 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testMoveIndexPaths() {
         //Given
+        let tableViewMock = UITableViewMock()
+        let dataModificator = DataModificatorMock()
         let cellConfig = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataProviderMock = ArrayDataProvider<Int>(sections: [[]])
         let dataSource = TableViewDataSource(dataProvider: dataProviderMock,
@@ -106,6 +102,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanMoveCellAtIndexPath() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let dataModificator = DataModificatorMock()
         dataModificator.canMoveItemAt = true
         
         //When
@@ -118,6 +118,9 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanMoveCellAtIndexPathWithOutDataModificator() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
@@ -129,6 +132,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanDeleteCell() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let dataModificator = DataModificatorMock()
         dataModificator.canDeleteItemAt = true
          let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, dataModificator: dataModificator)
         
@@ -141,6 +148,9 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testCanDeleteCellWithOutDataModificator() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         
         //When
@@ -153,6 +163,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     #if os(iOS)
     func testCanEditCellWithDelegateRowAction() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let dataModificator = DataModificatorMock()
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
         let delegate = UITableViewMockDelegateMock()
         delegate.rowActions = [UITableViewRowAction(style: .default, title: "", handler: { _, _ in })]
@@ -167,6 +181,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testDeleteCell() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let dataModificator = DataModificatorMock()
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, dataModificator: dataModificator)
         let deletedIndexPath = IndexPath(row: 0, section: 0)
         
@@ -179,6 +197,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testInsertCell() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let dataModificator = DataModificatorMock()
         let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell, dataModificator: dataModificator)
         let insertedIndexPath = IndexPath(row: 0, section: 0)
         
@@ -191,8 +213,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForHeaderInSection() {
         //Given
-        let sectionMetaData = SectionMetaData(headerTexts: ["foo", "bar"] as [String?])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let sectionMetaData = SectionMetaData(headerTexts: ["foo", "bar"] as [String?])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,
                                              sectionMetaData: sectionMetaData)
@@ -206,8 +230,10 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testTitleForFooterInSection() {
         //Given
-        let sectionMetaData = SectionMetaData(footerTexts: ["foo", "bar"] as [String?])
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
+        let sectionMetaData = SectionMetaData(footerTexts: ["foo", "bar"] as [String?])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,
                                              sectionMetaData: sectionMetaData)
@@ -221,9 +247,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testSectionIndexTitles() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let sectionIndexTitles = ["foo", "bar"]
         let sectionMetaData = SectionMetaData(indexTitles: sectionIndexTitles)
-        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,
                                              sectionMetaData: sectionMetaData)
@@ -237,9 +265,11 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
     
     func testSectionForSectionIndexTitle() {
         //Given
+        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
+        let tableViewMock = UITableViewMock()
+        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
         let sectionIndexTitles = ["foo", "bar"]
         let sectionMetaData = SectionMetaData(indexTitles: sectionIndexTitles)
-        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
         let dataSource = TableViewDataSource(dataProvider: dataProvider,
                                              cellConfiguration: cell,
                                              sectionMetaData: sectionMetaData)
