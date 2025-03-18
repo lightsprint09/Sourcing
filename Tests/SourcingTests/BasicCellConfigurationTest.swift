@@ -45,7 +45,6 @@ class ReusableViewConfigurationTest: XCTestCase {
     func testCellConfigurationInitWithCellIdentifierProviding() {
         //Given
         var configuration: CellConfiguration<UITableViewCellMock<Int>>!
-        let identifier = "reuseIdentifier"
         let additionalConfiguration: @MainActor (UITableViewCellMock<Int>, IndexPath, Int) -> Void = { view, indexPath, object in }
 
         //When
@@ -58,7 +57,6 @@ class ReusableViewConfigurationTest: XCTestCase {
     func testConfigureCell() {
         //Given
         var configuration: CellConfiguration<UITableViewCellMock<Int>>!
-        let identifier = "reuseIdentifier"
         var didCallAdditionalConfigurtion = false
         let additionalConfiguration: @MainActor (UITableViewCellMock<Int>, IndexPath, Int) -> Void = { view, indexPath, object in
             didCallAdditionalConfigurtion = true
