@@ -1,12 +1,12 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.4
 
 import PackageDescription
 
 let package = Package(
     name: "Sourcing",
     platforms: [
-        .iOS(.v13),
-        .tvOS(.v13),
+        .iOS(.v15),
+        .tvOS(.v15),
         .visionOS(.v1)
     ],
     products: [
@@ -17,7 +17,10 @@ let package = Package(
     targets: [
         .target(
             name: "Sourcing",
-            path: "Source"),
+            path: "Source",
+            swiftSettings: [
+                .defaultIsolation(MainActor.self)
+            ]),
         .testTarget(
             name: "SourcingTests",
             dependencies: ["Sourcing"],
