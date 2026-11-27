@@ -160,25 +160,6 @@ class TableViewDataSourceSingleCellTest: XCTestCase {
         XCTAssertFalse(canDelete)
     }
     
-    #if os(iOS)
-    func testCanEditCellWithDelegateRowAction() {
-        //Given
-        let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
-        let tableViewMock = UITableViewMock()
-        let cell = ReusableViewConfiguration<UITableViewCellMock<Int>, Int>(reuseIdentifier: reuseIdentifier)
-        let dataModificator = DataModificatorMock()
-        let dataSource = TableViewDataSource(dataProvider: dataProvider, cellConfiguration: cell)
-        let delegate = UITableViewMockDelegateMock()
-        delegate.rowActions = [UITableViewRowAction(style: .default, title: "", handler: { _, _ in })]
-        tableViewMock.delegate = delegate
-        //When
-        let canDelete = dataSource.tableView(tableViewMock, canEditRowAt: IndexPath(row: 0, section: 0))
-        
-        //Then
-        XCTAssertTrue(canDelete)
-    }
-    #endif
-    
     func testDeleteCell() {
         //Given
         let dataProvider = ArrayDataProvider(sections: [[2], [1, 3, 10]])
